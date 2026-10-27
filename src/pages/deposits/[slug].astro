@@ -1,0 +1,198 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Icon from '../../components/Icon.astro';
+import Calculator from '../../components/Calculator.astro';
+import EnquiryForm from '../../components/EnquiryForm.astro';
+import SchemeCard from '../../components/SchemeCard.astro';
+import { schemes, kindLabels, depositDocuments, fdSlabs, specialCategories, fmtRate, type Scheme } from '../../data/deposits';
+import { site } from '../../data/site';
+
+export function getStaticPaths() {
+  return schemes.map((s) => ({ params: { slug: s.slug }, props: { scheme: s } }));
+}
+const { scheme: s } = Astro.props as { scheme: Scheme };
+const others = schemes.filter((o) => o.slug !== s.slug);
+const related = others.filter((o) => o.kind === s.kind).concat(others.filter((o) => o.kind !== s.kind)).slice(0, 3);
+const rateText = s.rate !== null ? `${fmtRate(s.rate)}%` : '2×';
+const productLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FinancialProduct',
+  name: s.name,
+  description: s.pitch,
+  provider: { '@type': 'FinancialService', name: site.legalName },
+  ...(s.rate !== null ? { interestRate: s.rate } : {}),
+};
+---
+
+<Base title={s.name} description={`${s.name} — ${s.pitch} ${kindLabels[s.kind]} from Lokmangal Multistate Co-operative Society.`} image={s.image} jsonLd={productLd}>
+  <PageHero
+    title={s.name}
+    eyebrow={kindLabels[s.kind]}
+    subtitle={s.pitch}
+    crumbs={[{ label: 'Deposits', href: '/deposits/' }, { label: s.name }]}
+  >
+    <a href={`/apply-for-deposits/?scheme=${encodeURIComponent(s.name)}`} class="btn btn--primary">Book now <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+    <a href="#calculator" class="btn btn--outline-light"><Icon name="calculator" size={18} /> Calculate returns</a>
+    <div slot="aside" class="scheme-hero">
+      <p class="scheme-hero__mr" lang="mr">{s.nameMr}</p>
+      <div transition:name={`rate-${s.slug}`}>
+        <p class="scheme-hero__rate">{rateText}</p>
+        <p class="scheme-hero__note">{s.rateNote}</p>
+      </div>
+      <div class="scheme-hero__facts">
+        {s.highlight.map((h) => <div><span>{h.label}</span><strong>{h.value}</strong></div>)}
+      </div>
+    </div>
+  </PageHero>
+
+  <section class="section">
+    <div class="container detail">
+      <div class="detail__main">
+        <div class="stack" style="--stack:1.2rem" data-reveal>
+          <p class="eyebrow">Overview</p>
+          <h2 class="h2">Why choose <em>{s.name}</em>?</h2>
+          <p class="lead">{s.intro}</p>
+        </div>
+
+        <div class="mt-5" data-reveal>
+          <h2 class="h3">Key information</h2>
+          <div class="table-wrap mt-3">
+            <table class="table table--kv">
+              <tbody>{s.facts.map((f) => <tr><th scope="row">{f.label}</th><td>{f.value}</td></tr>)}</tbody>
+            </table>
+          </div>
+          {s.slug === 'vishwamangal-fixed-deposit-scheme' && (
+            <>
+              <h3 class="h4 mt-4">Rates for special categories</h3>
+              <div class="table-wrap mt-2">
+                <table class="table">
+                  <thead><tr><th>Tenure</th><th>Regular</th><th>Special*</th></tr></thead>
+                  <tbody>{fdSlabs.map((r) => <tr><td>{r.tenure}</td><td class="rate">{fmtRate(r.regular)}%</td><td class="rate rate--special">{fmtRate(r.special)}%</td></tr>)}</tbody>
+                </table>
+              </div>
+              <p class="muted mt-2" style="font-size:.88rem">* {specialCategories}</p>
+            </>
+          )}
+        </div>
+
+        <div class="mt-5">
+          <h2 class="h3" data-reveal>Features &amp; benefits</h2>
+          <div class="features mt-3" data-stagger>
+            {s.features.map((f, i) => (
+              <div class="feat">
+                <span class="feat__num">{String(i + 1).padStart(2, '0')}</span>
+                <span>{f}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div class="split mt-5 two-col">
+          <div class="card" data-reveal>
+            <span class="icon-badge"><Icon name="users" size={22} /></span>
+            <h2 class="h4 mt-2">Who can invest?</h2>
+            <p class="muted mt-2">{s.eligibility}</p>
+          </div>
+          <div class="card" data-reveal style="--d:100ms">
+            <span class="icon-badge icon-badge--orange"><Icon name="file-text" size={22} /></span>
+            <h2 class="h4 mt-2">Documents required</h2>
+            <ul class="check-list mt-2">{depositDocuments.map((d) => <li>{d}</li>)}</ul>
+          </div>
+        </div>
+
+        <div class="mt-5" id="calculator" data-reveal>
+          <h2 class="h3">Estimate your returns</h2>
+          <div class="mt-3">
+            <Calculator mode={s.calc.mode} amount={s.calc.amount} rate={s.calc.rate} months={s.calc.months} only={[s.calc.mode]} />
+          </div>
+        </div>
+      </div>
+
+      <aside class="detail__side">
+        <a href={s.image} class="poster" data-zoom="poster" data-caption={`${s.name} — scheme leaflet`} data-reveal="zoom">
+          <img src={s.image} alt={`${s.name} leaflet`} width="1000" height="1250" loading="lazy" />
+          <span class="poster__hint"><Icon name="search" size={16} /> View leaflet</span>
+        </a>
+        <div data-reveal>
+          <EnquiryForm variant="callback" title="Book this deposit" subtitle="Share your details and we will call you back." submitLabel="Request a callback" preset={s.name} />
+        </div>
+        <div class="card side-list" data-reveal>
+          <h2 class="h4">Other deposit plans</h2>
+          <ul>
+            {others.map((o) => (
+              <li><a href={`/deposits/${o.slug}/`}><span>{o.name}</span><em>{o.rate !== null ? `${fmtRate(o.rate)}%` : '2×'}</em></a></li>
+            ))}
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section section--white">
+    <div class="container">
+      <div class="section-head section-head--row" data-reveal>
+        <div class="section-head__text">
+          <p class="eyebrow">You may also like</p>
+          <h2 class="h2">More ways to <em>save</em></h2>
+        </div>
+        <a href="/deposits/" class="btn btn--ghost">All schemes <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+      </div>
+      <div class="grid grid-3" data-stagger>{related.map((r, i) => <SchemeCard scheme={r} index={i} />)}</div>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="container">
+      <div class="duo" data-stagger>
+        <a href="/open-an-account/" class="duo__card">
+          <span class="icon-badge icon-badge--dark"><Icon name="user-plus" size={24} /></span>
+          <div><h2 class="h4">Open an account</h2><p>Accessing your money is easy with our wide branch network and simple net banking.</p></div>
+          <Icon name="arrow-up-right" size={22} class="duo__go" />
+        </a>
+        <a href="/apply-loan/" class="duo__card duo__card--orange">
+          <span class="icon-badge icon-badge--dark"><Icon name="hand-coins" size={24} /></span>
+          <div><h2 class="h4">Get a loan</h2><p>Take control of your finances with a hassle-free loan and quick approval.</p></div>
+          <Icon name="arrow-up-right" size={22} class="duo__go" />
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .scheme-hero { padding: clamp(24px, 3vw, 36px); border-radius: var(--r-xl); background: rgb(255 255 255 / 0.06); border: 1px solid rgb(255 255 255 / 0.14); backdrop-filter: blur(10px); }
+  .scheme-hero__mr { font-weight: 700; color: var(--o-300); font-size: 1.1rem; }
+  .scheme-hero__rate { font-size: clamp(4.5rem, 9vw, 7rem); font-weight: 800; line-height: 0.95; letter-spacing: -0.05em; color: #fff; margin-top: 6px; }
+  .scheme-hero__note { font-weight: 600; }
+  .scheme-hero__facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 18px; }
+  .scheme-hero__facts div { padding: 12px; border-radius: 14px; background: rgb(0 0 0 / 0.22); }
+  .scheme-hero__facts span { display: block; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .scheme-hero__facts strong { color: #fff; font-size: 0.98rem; }
+
+  .detail { display: grid; gap: clamp(40px, 5vw, 64px); align-items: start; }
+  @media (min-width: 1060px) { .detail { grid-template-columns: minmax(0, 1fr) 380px; } .detail__side { position: sticky; top: calc(var(--header-h) + 20px); } }
+  .detail__side { display: grid; gap: 22px; }
+  .two-col { gap: 20px; align-items: stretch; }
+  .features { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 12px; }
+  .feat { display: flex; align-items: center; gap: 14px; padding: 16px 18px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line-2); font-weight: 700; color: var(--ink); transition: transform 0.4s var(--ease-out), border-color 0.3s; }
+  .feat:hover { transform: translateY(-3px); border-color: var(--o-300); }
+  .feat__num { font-size: 0.8rem; font-weight: 800; color: var(--o-700); padding: 6px 9px; border-radius: 10px; background: var(--o-50); }
+  .poster { position: relative; display: block; border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow); cursor: zoom-in; }
+  .poster img { width: 100%; height: auto; transition: transform 0.9s var(--ease-out); }
+  .poster:hover img { transform: scale(1.04); }
+  .poster__hint { position: absolute; left: 14px; bottom: 14px; display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: rgb(255 255 255 / 0.94); font-weight: 700; font-size: 0.84rem; color: var(--g-800); }
+  .side-list ul { list-style: none; display: grid; gap: 2px; margin-top: 12px; }
+  .side-list a { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; font-weight: 600; font-size: 0.92rem; transition: background 0.2s, padding 0.3s var(--ease-out); }
+  .side-list a:hover { background: var(--g-50); padding-left: 16px; color: var(--g-700); }
+  .side-list em { font-style: normal; font-weight: 800; font-size: 0.8rem; color: var(--o-700); background: var(--o-50); padding: 2px 9px; border-radius: 999px; }
+
+  .duo { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
+  .duo__card { position: relative; display: flex; align-items: center; gap: 20px; padding: clamp(24px, 3vw, 36px); border-radius: var(--r-xl); color: rgb(255 255 255 / 0.78); background: linear-gradient(140deg, var(--g-700), var(--g-950)); overflow: hidden; transition: transform 0.5s var(--ease-out), box-shadow 0.5s; }
+  .duo__card--orange { background: linear-gradient(140deg, #b84c0c, #9f3f0a); color: #fff; }
+  .duo__card h2 { color: #fff; }
+  .duo__card p { font-size: 0.94rem; margin-top: 4px; }
+  .duo__card :global(.duo__go) { margin-left: auto; flex: none; color: #fff; transition: transform 0.4s var(--ease-out); }
+  .duo__card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+  .duo__card:hover :global(.duo__go) { transform: translate(4px, -4px); }
+</style>

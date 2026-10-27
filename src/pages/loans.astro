@@ -1,0 +1,137 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import Calculator from '../components/Calculator.astro';
+import EnquiryForm from '../components/EnquiryForm.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { loans, loanBenefits } from '../data/loans';
+---
+
+<Base title="Loans" description="Agriculture, housing, vehicle, personal, warehouse, cash credit, hypothecation, mortgage, microfinance and bachat gat loans from Lokmangal Multistate — quick approval, minimal documentation.">
+  <PageHero
+    title="Fast &"
+    accent="hassle-free loans"
+    eyebrow="Don’t hold back your dreams"
+    subtitle="Lokmangal aims to be the first choice for families seeking financial support in semi-urban and rural areas — with quick processing, minimal paperwork and easy repayment."
+    crumbs={[{ label: 'Loans' }]}
+  >
+    <a href="/apply-loan/" class="btn btn--primary">Apply now <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+    <a href="#emi" class="btn btn--outline-light"><Icon name="calculator" size={18} /> EMI calculator</a>
+  </PageHero>
+
+  <section class="section">
+    <div class="container split">
+      <div class="stack" style="--stack:1.2rem">
+        <p class="eyebrow" data-reveal>Take control of your finances</p>
+        <h2 class="h2" data-reveal>Loans for every <em>purpose</em></h2>
+        <div class="prose lead" data-reveal>
+          <p>Our loans are quick, convenient and easy to get — whether you want to buy a car or a home, meet personal, educational or agricultural needs, or finance your business through hypothecation or cash credit.</p>
+          <p>Our team guides you towards the right loan with competitive rates and comfortable repayment. Check the eligibility for each product below and apply online in minutes.</p>
+        </div>
+      </div>
+      <div class="benefits" data-stagger>
+        {loanBenefits.map((b) => (
+          <div class="card card--hover benefit">
+            <span class="icon-badge icon-badge--orange"><Icon name={b.icon} size={22} /></span>
+            <h3 class="h4">{b.title}</h3>
+            <p class="muted">{b.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--white">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <p class="eyebrow">Our loan products</p>
+        <h2 class="h2">Find the loan that <em>fits you</em></h2>
+      </div>
+      <div class="loans">
+        {loans.map((l, i) => (
+          <details class="loan" id={l.slug} data-reveal style={`--d:${(i % 2) * 80}ms`}>
+            <summary class="loan__head">
+              <div class="loan__img"><img src={l.image} alt="" loading="lazy" width="360" height="400" /></div>
+              <div class="loan__info">
+                <span class="loan__icon"><Icon name={l.icon} size={20} /></span>
+                <h3 class="h3">{l.name}</h3>
+                <p class="muted">{l.summary}</p>
+                <div class="loan__meta">
+                  <span><small>Interest</small><strong>{l.rate}</strong></span>
+                  <span><small>Amount</small><strong>{l.amount}</strong></span>
+                </div>
+              </div>
+              <span class="loan__toggle" aria-hidden="true"><Icon name="chevron-down" size={20} /></span>
+            </summary>
+            <div class="loan__body">
+              <table class="table table--kv">
+                <tbody>{l.details.map(([k, v]) => <tr><th scope="row">{k}</th><td>{v}</td></tr>)}</tbody>
+              </table>
+              <a href={`/apply-loan/?type=${encodeURIComponent(l.name)}`} class="btn btn--primary btn--sm">Apply for {l.name} <Icon name="arrow-right" size={16} class="icon--arrow" /></a>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="emi">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <p class="eyebrow">EMI calculator</p>
+        <h2 class="h2">Plan your <em>repayments</em></h2>
+      </div>
+      <div data-reveal="zoom"><Calculator mode="emi" only={['emi']} /></div>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="container split">
+      <div class="stack" style="--stack:1.2rem" data-reveal>
+        <p class="eyebrow">Talk to us</p>
+        <h2 class="h2">Not sure which loan is <em>right for you?</em></h2>
+        <p class="lead">Tell us what you need and a loan officer from your nearest branch will call you with options, eligibility and the documents you’ll need.</p>
+        <ul class="check-list">
+          <li>Personal guidance from a local branch team</li>
+          <li>Transparent rates with no hidden surprises</li>
+          <li>Quick processing and disbursal</li>
+        </ul>
+      </div>
+      <div data-reveal="right"><EnquiryForm variant="loan" title="Contact us" subtitle="Get a callback about any loan." /></div>
+    </div>
+  </section>
+
+  <CtaBand title="Turn your plans into" accent="reality" text="Apply online in minutes or visit any of our 60 branches — our team will help you every step of the way." />
+</Base>
+
+<style>
+  .benefits { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  @media (max-width: 520px) { .benefits { grid-template-columns: 1fr; } }
+  .benefit { display: grid; gap: 12px; align-content: start; }
+
+  .loans { display: grid; gap: 18px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 540px), 1fr)); align-items: start; }
+  .loan { border-radius: var(--r-lg); background: var(--bg); border: 1px solid var(--line-2); overflow: hidden; transition: box-shadow 0.4s var(--ease-out), border-color 0.3s; scroll-margin-top: calc(var(--header-h) + 30px); }
+  .loan:hover, .loan[open] { box-shadow: var(--shadow); border-color: transparent; background: #fff; }
+  .loan:target { box-shadow: 0 0 0 3px var(--o-300), var(--shadow); }
+  .loan__head { display: grid; grid-template-columns: 140px 1fr auto; gap: 20px; align-items: center; padding: 16px; cursor: pointer; list-style: none; }
+  .loan__head::-webkit-details-marker { display: none; }
+  @media (max-width: 560px) { .loan__head { grid-template-columns: 1fr auto; } .loan__img { grid-column: 1 / -1; } }
+  .loan__img { aspect-ratio: 1; border-radius: 16px; overflow: hidden; background: var(--g-50); }
+  @media (max-width: 560px) { .loan__img { aspect-ratio: 16 / 9; } }
+  .loan__img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease-out); }
+  .loan:hover .loan__img img { transform: scale(1.07); }
+  .loan__info { display: grid; gap: 6px; }
+  .loan__icon { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; background: var(--o-500); color: #fff; }
+  .loan__info p { font-size: 0.92rem; }
+  .loan__meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+  .loan__meta span { padding: 6px 12px; border-radius: 10px; background: #fff; border: 1px solid var(--line-2); }
+  .loan__meta small { display: block; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted-2); }
+  .loan__meta strong { font-size: 0.9rem; color: var(--g-800); }
+  .loan__toggle { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--g-100); color: var(--g-700); transition: transform 0.45s var(--ease-out), background 0.3s, color 0.3s; align-self: start; }
+  .loan[open] .loan__toggle { transform: rotate(180deg); background: var(--o-500); color: #fff; }
+  .loan__body { padding: 0 20px 22px; display: grid; gap: 16px; justify-items: start; }
+  .loan__body .table { min-width: 0; }
+  .loan::details-content { block-size: 0; overflow: hidden; transition: block-size 0.45s var(--ease-out), content-visibility 0.45s allow-discrete; }
+  .loan[open]::details-content { block-size: auto; }
+</style>

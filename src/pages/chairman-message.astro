@@ -1,0 +1,62 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import CtaBand from '../components/CtaBand.astro';
+import AboutNav from '../components/AboutNav.astro';
+import { chairman } from '../data/people';
+---
+
+<Base title="Chairman's Message" description="A message from Hon. Mr. Rohan Subhash Deshmukh, Chairman of Lokmangal Multistate Co-operative Society Ltd.">
+  <PageHero title="From the" accent="Chairman’s desk" eyebrow="Leadership" crumbs={[{ label: 'About Us', href: '/about-us/' }, { label: "Chairman's Message" }]} compact />
+
+  <section class="section">
+    <div class="container chairman">
+      <figure class="chairman__photo" data-reveal="left">
+        <div class="chairman__frame"><img src={chairman.photo} alt={chairman.name} width="321" height="476" /></div>
+        <figcaption>
+          <strong>{chairman.name}</strong>
+          <span>{chairman.role}</span>
+        </figcaption>
+      </figure>
+
+      <article class="chairman__msg" data-reveal="right">
+        <Icon name="quote" size={56} class="chairman__quote" />
+        <div class="prose">
+          <p class="chairman__lead">At Lokmangal Multistate, we believe in <em>‘Success through Total Dedication’</em>. It is what sets us apart in Maharashtra’s co-operative sector, and it is why inclusive development has always been a priority for us — socially and as a business.</p>
+          <p>Our journey has taught us never to give up on something simply because it seems difficult. We work every day to build an inclusive economy that empowers people to prosper, and we seek to engage, partner with and uplift people from every walk of life.</p>
+          <p>Today Lokmangal is one of the leading multi-state co-operative societies in Maharashtra, with an exceptional track record and a network that continues to grow. These milestones belong to our members, employees, stakeholders and well-wishers — I thank each of you for your trust and support.</p>
+          <p>We understand the strength of the co-operative movement, and I believe equal access to opportunity should reach every section of society. Lokmangal will remain committed to inclusive growth — providing services, skills and access to credit that transform the face and fate of rural India.</p>
+        </div>
+        <div class="chairman__sign">
+          <span class="chairman__line" aria-hidden="true"></span>
+          <div><strong>{chairman.name}</strong><span>{chairman.role}</span></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <AboutNav current="/chairman-message/" />
+  <CtaBand />
+</Base>
+
+<style>
+  .chairman { display: grid; gap: clamp(40px, 6vw, 80px); align-items: start; }
+  @media (min-width: 960px) { .chairman { grid-template-columns: 380px 1fr; } }
+  .chairman__photo { margin: 0; position: sticky; top: calc(var(--header-h) + 30px); }
+  .chairman__frame { position: relative; border-radius: var(--r-xl); overflow: hidden; background: linear-gradient(160deg, var(--g-100), var(--o-100)); box-shadow: var(--shadow-lg); }
+  .chairman__frame::after { content: ''; position: absolute; inset: 12px; border-radius: calc(var(--r-xl) - 8px); border: 1.5px solid rgb(255 255 255 / 0.6); pointer-events: none; }
+  .chairman__frame img { width: 100%; height: auto; }
+  .chairman__photo figcaption { margin-top: 18px; text-align: center; }
+  .chairman__photo strong { display: block; color: var(--ink); font-size: 1.1rem; }
+  .chairman__photo span { color: var(--muted); font-size: 0.92rem; }
+  .chairman__msg { position: relative; padding: clamp(28px, 4vw, 52px); border-radius: var(--r-xl); background: var(--surface); border: 1px solid var(--line-2); box-shadow: var(--shadow); }
+  .chairman__msg :global(.chairman__quote) { color: var(--o-200); margin-bottom: 10px; }
+  .chairman__msg .prose { font-size: 1.08rem; line-height: 1.8; }
+  .chairman__lead { font-size: clamp(1.2rem, 2vw, 1.45rem); line-height: 1.55; color: var(--ink); font-weight: 600; letter-spacing: -0.01em; }
+  .chairman__lead em { font-family: var(--font-serif); color: var(--o-600); }
+  .chairman__sign { display: flex; align-items: center; gap: 18px; margin-top: 36px; }
+  .chairman__line { width: 60px; height: 3px; border-radius: 3px; background: linear-gradient(90deg, var(--o-500), var(--gold)); }
+  .chairman__sign strong { display: block; color: var(--g-800); font-size: 1.1rem; }
+  .chairman__sign span { color: var(--muted); font-size: 0.92rem; }
+</style>

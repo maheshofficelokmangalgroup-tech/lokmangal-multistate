@@ -1,0 +1,123 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Icon from '../../components/Icon.astro';
+import SchemeCard from '../../components/SchemeCard.astro';
+import Calculator from '../../components/Calculator.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { schemes, kindLabels, fdSlabs, specialCategories, depositDocuments, depositBenefits, fmtRate } from '../../data/deposits';
+import { site } from '../../data/site';
+
+const kinds = ['all', 'fd', 'rd', 'monthly', 'double'] as const;
+---
+
+<Base title="Deposit Schemes" description="Fixed deposits up to 10% p.a., recurring deposits at 9.50%, Lakshadish RD, monthly income at 9.75% and Daam Duppat doubling scheme — Lokmangal Multistate deposit schemes 2026-27.">
+  <PageHero
+    title="Save for the"
+    accent="future"
+    eyebrow="Deposit schemes 2026–27"
+    subtitle={`Fixed, recurring, monthly-income and doubling deposits — with rates of up to 10% p.a. Schemes valid from ${site.ratesValidity}.`}
+    crumbs={[{ label: 'Deposits' }]}
+  >
+    <a href="/apply-for-deposits/" class="btn btn--primary">Apply for a deposit <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+    <a href="/interest-rates/" class="btn btn--outline-light">Interest rate chart</a>
+    <div slot="aside" class="rate-hero">
+      <span class="chip chip--dark">Highest rate</span>
+      <p class="rate-hero__num">10<span>%</span></p>
+      <p>p.a. on Vishwamangal Fixed Deposit of 365 days &amp; above</p>
+      <div class="rate-hero__row">
+        <div><strong>9.75%</strong><span>Monthly income</span></div>
+        <div><strong>9.50%</strong><span>Recurring deposit</span></div>
+        <div><strong>9.25%</strong><span>Lakshadish RD</span></div>
+      </div>
+    </div>
+  </PageHero>
+
+  <section class="section">
+    <div class="container">
+      <div class="benefits" data-stagger>
+        {depositBenefits.map((b) => (
+          <div class="feature card">
+            <span class="icon-badge"><Icon name={b.icon} size={22} /></span>
+            <div><h3>{b.title}</h3><p>{b.text}</p></div>
+          </div>
+        ))}
+      </div>
+
+      <div class="section-head section-head--row mt-5" data-reveal>
+        <div class="section-head__text">
+          <p class="eyebrow">All schemes</p>
+          <h2 class="h2">Choose the plan that <em>fits your goal</em></h2>
+        </div>
+        <div class="filters" data-filter-group="#scheme-grid" role="group" aria-label="Filter schemes">
+          {kinds.map((k) => (
+            <button class="filter" data-filter={k} aria-pressed={k === 'all' ? 'true' : 'false'}>{k === 'all' ? 'All schemes' : kindLabels[k]}</button>
+          ))}
+        </div>
+      </div>
+      <div class="grid grid-3" id="scheme-grid" data-stagger>
+        {schemes.map((s, i) => <SchemeCard scheme={s} index={i} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--white">
+    <div class="container split split--wide-left">
+      <div>
+        <div class="section-head" data-reveal>
+          <p class="eyebrow">Vishwamangal Fixed Deposit 2026</p>
+          <h2 class="h2">Fixed deposit <em>interest rates</em></h2>
+          <p class="lead">Rates valid from {site.ratesValidity}.</p>
+        </div>
+        <div class="table-wrap" data-reveal>
+          <table class="table">
+            <thead><tr><th>Tenure</th><th>Regular</th><th>Special categories*</th></tr></thead>
+            <tbody>
+              {fdSlabs.map((r) => (
+                <tr><td>{r.tenure}</td><td class="rate">{fmtRate(r.regular)}%</td><td class="rate rate--special">{fmtRate(r.special)}%</td></tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p class="muted mt-2" style="font-size:.88rem" data-reveal>* {specialCategories} TDS is applicable on interest earned, except for society members.</p>
+      </div>
+      <aside class="docs card" data-reveal="right">
+        <span class="icon-badge icon-badge--orange"><Icon name="file-text" size={24} /></span>
+        <h2 class="h3">Documents required</h2>
+        <p class="muted">Opening a deposit with us is hassle-free. Bring these to your nearest branch:</p>
+        <ul class="check-list">{depositDocuments.map((d) => <li>{d}</li>)}</ul>
+        <h3 class="h4 mt-3">Who can invest?</h3>
+        <p class="muted">Any resident Indian individual or entity — including senior citizens, HUFs, minors through guardians, associations, trusts and institutions.</p>
+        <a href="/branches/" class="link-arrow mt-2">Find your nearest branch <Icon name="arrow-right" size={16} /></a>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <p class="eyebrow">Deposit calculator</p>
+        <h2 class="h2">Watch your money <em>grow</em></h2>
+      </div>
+      <div data-reveal="zoom"><Calculator only={['fd', 'rd', 'monthly']} /></div>
+    </div>
+  </section>
+
+  <CtaBand title="Ready to start" accent="saving?" text="Visit any of our branches with your KYC documents, or apply online and our team will help you open your deposit." />
+</Base>
+
+<style>
+  .rate-hero { padding: clamp(24px, 3vw, 36px); border-radius: var(--r-xl); background: rgb(255 255 255 / 0.06); border: 1px solid rgb(255 255 255 / 0.14); backdrop-filter: blur(10px); display: grid; gap: 10px; justify-items: start; }
+  .rate-hero__num { font-size: clamp(5rem, 10vw, 7.5rem); font-weight: 800; line-height: 0.9; letter-spacing: -0.05em; color: #fff; }
+  .rate-hero__num span { font-size: 0.45em; color: var(--o-400); }
+  .rate-hero__row { width: 100%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+  .rate-hero__row div { padding: 12px; border-radius: 14px; background: rgb(0 0 0 / 0.2); }
+  .rate-hero__row strong { display: block; color: #fff; font-size: 1.15rem; }
+  .rate-hero__row span { font-size: 0.74rem; }
+  .benefits { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+  .filter { padding: 10px 16px; border-radius: 999px; border: 1.5px solid var(--line); background: #fff; font-weight: 700; font-size: 0.88rem; color: var(--ink-2); transition: all 0.25s; }
+  .filter:hover { border-color: var(--g-400); }
+  .filter[aria-pressed='true'] { background: var(--g-800); border-color: var(--g-800); color: #fff; }
+  .docs { display: grid; gap: 14px; align-content: start; justify-items: start; }
+</style>

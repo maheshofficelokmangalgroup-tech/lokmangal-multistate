@@ -1,0 +1,176 @@
+---
+import '@fontsource-variable/plus-jakarta-sans';
+import '@fontsource-variable/fraunces/wght-italic.css';
+import '@fontsource/mukta/400.css';
+import '@fontsource/mukta/600.css';
+import '@fontsource/mukta/700.css';
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import jakartaWoff2 from '@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2?url';
+import Header from '../components/Header.astro';
+import SearchDialog from '../components/SearchDialog.astro';
+import Footer from '../components/Footer.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
+}
+const { title, description = site.description, image = '/images/brand/og-icon.png', jsonLd, noindex = false } = Astro.props;
+const fullTitle = title ? `${title} | ${site.name}` : `${site.name} — Co-operative Society in Solapur | Deposits up to 10% & Loans`;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const ogImage = new URL(image, site.url).href;
+
+const orgLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FinancialService',
+  name: site.legalName,
+  alternateName: site.name,
+  url: site.url,
+  logo: `${site.url}/images/brand/logo-full.png`,
+  image: ogImage,
+  telephone: site.phone,
+  email: site.email,
+  slogan: site.tagline,
+  foundingDate: String(site.founded),
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: `${site.address.line1}, ${site.address.line2}`,
+    addressLocality: site.address.city,
+    postalCode: site.address.pin,
+    addressRegion: site.address.state,
+    addressCountry: 'IN',
+  },
+  areaServed: ['Maharashtra', 'Karnataka'],
+  sameAs: site.social.map((s) => s.href),
+};
+const ld = [orgLd, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [])];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#083822" />
+    <link rel="preload" href={jakartaWoff2} as="font" type="font/woff2" crossorigin />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="en_IN" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@LMCSOfficial" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+    <ClientRouter />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <div class="scroll-progress" data-progress aria-hidden="true"></div>
+
+    <Header />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+
+    <div class="fab" data-fab>
+      <a href={site.phoneHref} class="fab__btn fab__call" aria-label={`Call ${site.phone}`}>
+        <Icon name="phone" size={20} />
+      </a>
+      <button class="fab__btn fab__top" data-to-top aria-label="Back to top">
+        <svg viewBox="0 0 48 48" class="fab__ring" aria-hidden="true"><circle cx="24" cy="24" r="22" pathLength="100" data-top-ring></circle></svg>
+        <Icon name="arrow-up" size={20} />
+      </button>
+    </div>
+
+    <dialog class="lightbox" data-lightbox aria-label="Image viewer">
+      <button class="lightbox__close" data-lightbox-close aria-label="Close"><Icon name="x" size={24} /></button>
+      <button class="lightbox__nav lightbox__prev" data-lightbox-prev aria-label="Previous image"><Icon name="chevron-left" size={26} /></button>
+      <figure class="lightbox__figure">
+        <img src="" alt="" data-lightbox-img />
+        <figcaption data-lightbox-caption></figcaption>
+      </figure>
+      <button class="lightbox__nav lightbox__next" data-lightbox-next aria-label="Next image"><Icon name="chevron-right" size={26} /></button>
+    </dialog>
+
+    <SearchDialog />
+
+    <script>
+      import '../scripts/main.ts';
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  main:focus { outline: none; }
+  .skip-link {
+    position: fixed; left: 16px; top: -60px; z-index: var(--z-skip);
+    padding: 12px 18px; border-radius: 12px; background: var(--g-800); color: #fff; font-weight: 700;
+    transition: top 0.2s;
+  }
+  .skip-link:focus { top: 16px; }
+
+  .scroll-progress {
+    position: fixed; inset: 0 0 auto; height: 3px; z-index: var(--z-progress);
+    background: linear-gradient(90deg, var(--g-500), var(--gold), var(--o-500));
+    transform-origin: 0 50%;
+    transform: scaleX(var(--progress, 0));
+    pointer-events: none;
+  }
+
+  .fab { position: fixed; right: max(18px, env(safe-area-inset-right)); bottom: max(18px, env(safe-area-inset-bottom)); z-index: var(--z-fab); display: grid; gap: 10px; }
+  .fab__btn {
+    position: relative; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%;
+    box-shadow: var(--shadow); transition: transform 0.45s var(--ease-spring), opacity 0.3s, background 0.25s;
+  }
+  .fab__call { background: var(--o-500); color: #fff; animation: fab-ring 3s ease-in-out infinite; }
+  .fab__call:hover { background: var(--o-600); transform: scale(1.08) rotate(-12deg); }
+  @keyframes fab-ring { 0%, 100% { box-shadow: var(--shadow), 0 0 0 0 rgb(236 106 30 / 0.45); } 50% { box-shadow: var(--shadow), 0 0 0 12px rgb(236 106 30 / 0); } }
+  .fab__top { background: #fff; color: var(--g-800); opacity: 0; transform: translateY(16px) scale(0.8); pointer-events: none; }
+  .fab__top.is-visible { opacity: 1; transform: none; pointer-events: auto; }
+  .fab__top:hover { transform: translateY(-3px); }
+  .fab__ring { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+  .fab__ring circle { fill: none; stroke: var(--o-500); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: var(--ring, 100); }
+  @media (min-width: 900px) { .fab__call { display: none; } }
+
+  .lightbox {
+    width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0;
+    background: transparent; color: #fff; overflow: hidden;
+  }
+  .lightbox::backdrop { background: rgb(3 22 14 / 0.9); backdrop-filter: blur(10px); }
+  .lightbox[open] { display: grid; place-items: center; animation: lb-in var(--dur-m) var(--ease-out); }
+  .lightbox.is-closing { animation: lb-out var(--dur-m-exit) var(--ease-in) forwards; }
+  .lightbox.is-closing::backdrop { animation: lb-out var(--dur-m-exit) var(--ease-in) forwards; }
+  @keyframes lb-in { from { opacity: 0; } }
+  @keyframes lb-out { to { opacity: 0; } }
+  .lightbox__figure { margin: 0; max-width: min(92vw, 1100px); display: grid; gap: 14px; justify-items: center; }
+  .lightbox__figure img { max-height: 80dvh; width: auto; border-radius: 16px; box-shadow: 0 30px 80px rgb(0 0 0 / 0.5); transform-origin: center; }
+  .lightbox__figure figcaption { font-weight: 600; color: rgb(255 255 255 / 0.85); text-align: center; }
+  .lightbox__close, .lightbox__nav {
+    position: fixed; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%;
+    background: rgb(255 255 255 / 0.1); color: #fff; border: 1px solid rgb(255 255 255 / 0.2); transition: background 0.2s, transform 0.3s var(--ease-out);
+  }
+  .lightbox__close:hover, .lightbox__nav:hover { background: var(--o-500); }
+  .lightbox__close { top: 18px; right: 18px; }
+  .lightbox__prev { left: 18px; top: 50%; transform: translateY(-50%); }
+  .lightbox__next { right: 18px; top: 50%; transform: translateY(-50%); }
+  .lightbox.is-single .lightbox__nav { display: none; }
+  @media (max-width: 640px) { .lightbox__nav { top: auto; bottom: 20px; transform: none; } }
+</style>

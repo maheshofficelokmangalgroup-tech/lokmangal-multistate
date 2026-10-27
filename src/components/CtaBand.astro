@@ -1,0 +1,63 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  accent?: string;
+  text?: string;
+}
+const {
+  title = 'Become part of the',
+  accent = 'Lokmangal family',
+  text = 'Open an account in minutes at any of our 60 branches, or let our team call you back with the right plan for your savings and goals.',
+} = Astro.props;
+---
+
+<section class="section--tight cta-wrap">
+  <div class="container">
+    <div class="cta" data-reveal="zoom">
+      <div class="cta__glow" aria-hidden="true"></div>
+      <img src="/images/brand/emblem.png" alt="" class="cta__emblem" width="210" height="253" aria-hidden="true" />
+      <div class="cta__text">
+        <h2 class="h2">{title} <em>{accent}</em></h2>
+        <p>{text}</p>
+      </div>
+      <div class="cta__actions">
+        <a href="/open-an-account/" class="btn btn--primary btn--lg" data-magnetic>Open an Account <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+        <a href={site.phoneHref} class="btn btn--outline-light btn--lg"><Icon name="phone" size={18} /> {site.phone}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-wrap { padding-top: 0; }
+  .cta {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    display: grid;
+    gap: 28px;
+    align-items: center;
+    padding: clamp(32px, 5vw, 64px);
+    border-radius: var(--r-xl);
+    color: rgb(255 255 255 / 0.78);
+    background: linear-gradient(135deg, var(--g-800), var(--g-950));
+    box-shadow: var(--shadow-lg);
+  }
+  @media (min-width: 960px) { .cta { grid-template-columns: 1.3fr auto; } }
+  .cta h2 { color: #fff; }
+  .cta h2 em { color: var(--o-400); }
+  .cta p { margin-top: 14px; max-width: 560px; }
+  .cta__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .cta__glow {
+    position: absolute; z-index: -1; width: 620px; height: 620px; right: -200px; top: -320px; border-radius: 50%;
+    background: radial-gradient(circle, rgb(236 106 30 / 0.55), transparent 65%);
+    animation: blob-float 14s ease-in-out infinite alternate;
+  }
+  .cta__emblem {
+    position: absolute; z-index: -1; left: -40px; bottom: -70px; width: 240px; height: auto;
+    filter: brightness(0) invert(1); opacity: 0.06; rotate: -14deg;
+  }
+</style>

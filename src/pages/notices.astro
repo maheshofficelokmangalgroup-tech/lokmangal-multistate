@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { notices } from '../data/site';
+
+const label = { pdf: 'PDF', drive: 'Google Drive', page: 'District-wise list' } as const;
+---
+
+<Base title="Notices" description="Official notices of Lokmangal Multistate Co-operative Society — Board of Directors & Office Bearers Election 2025 documents and voter lists.">
+  <PageHero
+    title="Notices &"
+    accent="announcements"
+    eyebrow="Official"
+    subtitle={notices.title}
+    crumbs={[{ label: 'Notices' }]}
+    compact
+  />
+
+  <section class="section">
+    <div class="container container--narrow">
+      <ol class="notices" data-stagger>
+        {notices.items.map((n, i) => (
+          <li>
+            <a href={n.href} target={n.kind === 'page' ? undefined : '_blank'} rel={n.kind === 'page' ? undefined : 'noopener'} class="notice">
+              <span class="notice__n">{String(i + 1).padStart(2, '0')}</span>
+              <span class="notice__icon"><Icon name={n.kind === 'pdf' ? 'file-text' : n.kind === 'drive' ? 'external-link' : 'users'} size={22} /></span>
+              <span class="notice__text"><strong>{n.label}</strong><small>{label[n.kind as keyof typeof label]}</small></span>
+              <Icon name={n.kind === 'pdf' ? 'download' : 'arrow-up-right'} size={20} class="notice__go" />
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .notices { list-style: none; display: grid; gap: 12px; }
+  .notice { display: flex; align-items: center; gap: 16px; padding: 18px 22px; border-radius: var(--r-lg); background: var(--surface); border: 1px solid var(--line-2); transition: transform 0.4s var(--ease-out), box-shadow 0.4s, border-color 0.3s; }
+  .notice:hover { transform: translateX(6px); box-shadow: var(--shadow); border-color: transparent; }
+  .notice__n { font-weight: 800; font-size: 0.85rem; color: var(--muted-2); }
+  .notice__icon { display: grid; place-items: center; width: 46px; height: 46px; flex: none; border-radius: 14px; background: var(--o-50); color: var(--o-600); }
+  .notice__text { flex: 1; display: grid; }
+  .notice__text strong { color: var(--ink); line-height: 1.4; }
+  .notice__text small { color: var(--muted); font-weight: 600; }
+  .notice :global(.notice__go) { flex: none; color: var(--muted-2); transition: color 0.3s, transform 0.3s; }
+  .notice:hover :global(.notice__go) { color: var(--o-600); transform: translateY(-2px); }
+</style>

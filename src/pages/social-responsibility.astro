@@ -1,0 +1,116 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import BlogCard from '../components/BlogCard.astro';
+import AboutNav from '../components/AboutNav.astro';
+import { csrPillars, initiatives } from '../data/csr';
+import { site } from '../data/site';
+import posts from '../data/posts.json';
+---
+
+<Base title="Social Responsibility" description="Lokmangal Foundation's social initiatives — Annapoorna Yojana, community weddings, water conservation, health camps, tree plantation, cleaning drives and youth festivals.">
+  <PageHero
+    title="Changing the face of the"
+    accent="rural economy"
+    eyebrow="Being socially responsible"
+    subtitle="Building a better world and a more inclusive economy — together with our members, stakeholders and the wider community."
+    crumbs={[{ label: 'About Us', href: '/about-us/' }, { label: 'Social Responsibility' }]}
+  />
+
+  <section class="section">
+    <div class="container split">
+      <div class="stack" style="--stack:1.25rem">
+        <p class="eyebrow" data-reveal>An enduring commitment</p>
+        <h2 class="h2" data-reveal>Social good is part of <em>who we are</em></h2>
+        <div class="prose lead" data-reveal>
+          <p>Social responsibility is an integral part of everything Lokmangal Multistate does. The Lokmangal Group’s contribution to social development includes many innovative interventions, carried out with the participation of people across the group and the broader community.</p>
+          <p>Our objective is to proactively support meaningful socio-economic growth in rural India — and to help more people take part in, and benefit from, economic progress.</p>
+        </div>
+      </div>
+      <div class="pillars" data-stagger>
+        {csrPillars.map((p) => (
+          <div class="pillar">
+            <span class="icon-badge icon-badge--orange"><Icon name={p.icon} size={24} /></span>
+            <h3 class="h4">{p.title}</h3>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark grain">
+    <div class="container on-dark" style="position:relative;z-index:1">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Lokmangal Foundation</p>
+        <h2 class="h2">Initiatives that <em>change lives</em></h2>
+        <p class="lead">We established the Lokmangal Foundation to expand our work for social change — through development partnerships, advocacy, public awareness and thought leadership. Rather than only funding others, the foundation builds the capability to run projects directly.</p>
+      </div>
+      <div class="initiatives">
+        {initiatives.map((it, i) => (
+          <article class:list={['initiative', { 'initiative--img': it.image }]} data-reveal style={`--d:${(i % 3) * 90}ms`}>
+            {it.image && <div class="initiative__img zoom"><img src={it.image} alt={it.title} loading="lazy" width="400" height="265" /></div>}
+            <div class="initiative__body">
+              <span class="icon-badge icon-badge--dark"><Icon name={it.icon} size={22} /></span>
+              <span class="initiative__stat">{it.stat}</span>
+              <h3 class="h3">{it.title}</h3>
+              <p>{it.text}</p>
+              {it.link && <a href={it.link} target="_blank" rel="noopener" class="initiative__link">Visit Lokmangal Foundation <Icon name="arrow-up-right" size={16} /></a>}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="change" data-reveal="zoom">
+        <div>
+          <p class="eyebrow">Be the change</p>
+          <h2 class="h2">Get involved in <em>our activities</em></h2>
+          <p class="lead">Together we can make the world a better place. Support us in uplifting the nation’s future.</p>
+        </div>
+        <div class="btn-row">
+          <a href="/contact-us/" class="btn btn--primary btn--lg">Get in touch <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+          <a href={site.foundationUrl} target="_blank" rel="noopener" class="btn btn--ghost btn--lg">Lokmangal Foundation <Icon name="external-link" size={16} /></a>
+        </div>
+      </div>
+
+      <div class="section-head section-head--row mt-5" data-reveal>
+        <div class="section-head__text">
+          <p class="eyebrow">Read latest stories</p>
+          <h2 class="h2">From our <em>branches</em></h2>
+        </div>
+        <a href="/blog/" class="btn btn--ghost">All stories <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+      </div>
+      <div class="grid grid-3" data-stagger>
+        {posts.slice(0, 3).map((p) => <BlogCard post={p} />)}
+      </div>
+    </div>
+  </section>
+
+  <AboutNav current="/social-responsibility/" />
+</Base>
+
+<style>
+  .pillars { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .pillar { display: grid; gap: 14px; padding: 26px; border-radius: var(--r-lg); background: var(--surface); border: 1px solid var(--line-2); transition: transform 0.5s var(--ease-out), box-shadow 0.5s; }
+  .pillar:nth-child(2), .pillar:nth-child(4) { translate: 0 28px; }
+  .pillar:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+  @media (max-width: 520px) { .pillars { grid-template-columns: 1fr; } .pillar:nth-child(n) { translate: none; } }
+
+  .initiatives { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); }
+  .initiative { border-radius: var(--r-lg); overflow: hidden; background: rgb(255 255 255 / 0.04); border: 1px solid rgb(255 255 255 / 0.1); transition: background 0.3s, transform 0.5s var(--ease-out), border-color 0.3s; }
+  .initiative:hover { background: rgb(255 255 255 / 0.07); border-color: rgb(255 255 255 / 0.22); transform: translateY(-6px); }
+  .initiative__img { aspect-ratio: 16 / 9; }
+  .initiative__img img { width: 100%; height: 100%; object-fit: cover; }
+  .initiative__body { padding: 26px; display: grid; gap: 12px; justify-items: start; }
+  .initiative__stat { font-size: 0.78rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--o-400); }
+  .initiative p { color: rgb(255 255 255 / 0.72); font-size: 0.97rem; }
+  .initiative__link { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: #fff; border-bottom: 1px solid var(--o-400); }
+
+  .change { display: grid; gap: 28px; align-items: center; padding: clamp(28px, 5vw, 56px); border-radius: var(--r-xl); background: linear-gradient(135deg, var(--o-50), var(--g-50)); border: 1px solid var(--line-2); }
+  .change > div:first-child > * + * { margin-top: 14px; }
+  @media (min-width: 960px) { .change { grid-template-columns: 1.2fr auto; } }
+</style>

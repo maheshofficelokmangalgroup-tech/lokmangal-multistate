@@ -1,0 +1,110 @@
+---
+import Icon from './Icon.astro';
+
+const quick = [
+  { label: 'Open an account', href: '/open-an-account/', icon: 'user-plus' },
+  { label: 'Book a fixed deposit', href: '/apply-for-deposits/', icon: 'piggy-bank' },
+  { label: 'Interest rates', href: '/interest-rates/', icon: 'percent' },
+  { label: 'Apply for a loan', href: '/apply-loan/', icon: 'hand-coins' },
+  { label: 'Find a branch', href: '/branches/', icon: 'map-pin' },
+  { label: 'Calculators', href: '/calculators/', icon: 'calculator' },
+];
+---
+
+<dialog class="search" data-search aria-label="Search the website">
+  <div class="search__panel">
+    <div class="search__bar">
+      <Icon name="search" size={20} />
+      <input
+        type="search"
+        class="search__input"
+        placeholder="Search schemes, loans, branches, FAQs…"
+        autocomplete="off"
+        spellcheck="false"
+        role="combobox"
+        aria-expanded="false"
+        aria-controls="search-results"
+        aria-autocomplete="list"
+        aria-label="Search"
+        data-search-input
+      />
+      <button class="search__close" data-search-close aria-label="Close search"><kbd>Esc</kbd></button>
+    </div>
+
+    <div class="search__body">
+      <div class="search__quick" data-search-quick>
+        <p class="search__label">Quick links</p>
+        <div class="search__quick-grid">
+          {quick.map((q) => (
+            <a href={q.href} class="search__quick-link"><Icon name={q.icon} size={18} /> {q.label}</a>
+          ))}
+        </div>
+      </div>
+      <ul class="search__results" id="search-results" role="listbox" aria-label="Search results" data-search-results hidden></ul>
+      <p class="search__empty" data-search-empty hidden>
+        No results. Try a town name, a scheme like “Lakshadish”, or call <a href="tel:+919923203322">+91 99232 03322</a>.
+      </p>
+    </div>
+
+    <div class="search__foot" aria-hidden="true">
+      <span><kbd>↑</kbd><kbd>↓</kbd> to move</span>
+      <span><kbd>Enter</kbd> to open</span>
+      <span><kbd>Esc</kbd> to close</span>
+    </div>
+    <p class="sr-only" role="status" aria-live="polite" data-search-status></p>
+  </div>
+</dialog>
+
+<style>
+  .search {
+    width: min(680px, calc(100vw - 24px));
+    max-height: min(640px, calc(100dvh - 48px));
+    margin: clamp(12px, 10vh, 96px) auto auto;
+    padding: 0;
+    border: 0;
+    border-radius: 24px;
+    background: transparent;
+    overflow: visible;
+  }
+  .search::backdrop { background: rgb(5 42 26 / 0.45); backdrop-filter: blur(6px); }
+  .search[open] { animation: search-in var(--dur-m) var(--ease-out); }
+  .search[open]::backdrop { animation: fade-in var(--dur-m) var(--ease-out); }
+  .search.is-closing { animation: search-out var(--dur-m-exit) var(--ease-in) forwards; }
+  @keyframes search-in { from { opacity: 0; transform: translateY(-12px) scale(0.98); } }
+  @keyframes search-out { to { opacity: 0; transform: translateY(-8px) scale(0.98); } }
+  @keyframes fade-in { from { opacity: 0; } }
+
+  .search__panel { display: flex; flex-direction: column; max-height: inherit; border-radius: 24px; background: #fff; box-shadow: var(--shadow-lg); overflow: hidden; }
+  .search__bar { display: flex; align-items: center; gap: 12px; padding: 0 14px 0 20px; border-bottom: 1px solid var(--line-2); color: var(--muted); }
+  .search__input { flex: 1; min-height: 64px; border: 0; outline: 0; background: transparent; font-size: 1.08rem; color: var(--ink); }
+  .search__input::-webkit-search-cancel-button { display: none; }
+  .search__close kbd, .search__foot kbd {
+    display: inline-block; min-width: 26px; padding: 4px 7px; border-radius: 8px; border: 1px solid var(--line);
+    background: var(--bg); font: 700 0.72rem/1 var(--font-sans); color: var(--muted); text-align: center;
+  }
+  .search__close { padding: 6px; }
+  .search__body { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: 14px; }
+  .search__label { padding: 6px 8px 10px; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted-2); }
+  .search__quick-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr)); gap: 8px; }
+  .search__quick-link { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 10px 14px; border-radius: 14px; background: var(--bg); font-weight: 700; font-size: 0.92rem; color: var(--ink-2); transition: background var(--dur-s), color var(--dur-s); }
+  .search__quick-link :global(.icon) { color: var(--o-600); }
+  .search__quick-link:hover { background: var(--g-50); color: var(--g-700); }
+  .search__results { list-style: none; display: grid; gap: 2px; }
+  .search__results :global(.search__group) { padding: 12px 8px 6px; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted-2); }
+  .search__results :global(.search__opt) { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 8px 12px; border-radius: 12px; cursor: pointer; transition: background var(--dur-xs); }
+  .search__results :global(.search__opt-icon) { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: var(--g-50); color: var(--g-600); }
+  .search__results :global(.search__opt-text) { min-width: 0; display: grid; }
+  .search__results :global(.search__opt-text strong) { font-weight: 700; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .search__results :global(.search__opt-text small) { color: var(--muted); font-size: 0.82rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .search__results :global(mark) { background: var(--o-100); color: inherit; border-radius: 3px; padding: 0 1px; }
+  .search__results :global(.search__opt[aria-selected='true']) { background: var(--g-800); }
+  .search__results :global(.search__opt[aria-selected='true'] strong) { color: #fff; }
+  .search__results :global(.search__opt[aria-selected='true'] small) { color: rgb(255 255 255 / 0.85); }
+  .search__results :global(.search__opt[aria-selected='true'] .search__opt-icon) { background: rgb(255 255 255 / 0.14); color: var(--o-300); }
+  .search__results :global(.search__opt[aria-selected='true'] mark) { background: rgb(255 255 255 / 0.2); }
+  .search__empty { padding: 28px 12px; text-align: center; color: var(--muted); }
+  .search__empty a { color: var(--g-700); font-weight: 700; }
+  .search__foot { display: flex; gap: 18px; padding: 12px 20px; border-top: 1px solid var(--line-2); font-size: 0.8rem; color: var(--muted); }
+  .search__foot kbd { margin-right: 2px; }
+  @media (max-width: 640px) { .search__foot { display: none; } .search { margin-top: 12px; } }
+</style>

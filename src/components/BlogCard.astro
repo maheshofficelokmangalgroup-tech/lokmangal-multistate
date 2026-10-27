@@ -1,0 +1,55 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  post: { id: number; slug: string; title: string; date: string; image: string | null; excerpt: string };
+}
+const { post } = Astro.props;
+const href = `/blog/${post.slug}/`;
+const date = new Date(post.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+const isMarathi = /[ऀ-ॿ]/.test(post.title);
+---
+
+<article class="post">
+  <a href={href} class="post__media zoom" tabindex="-1" aria-hidden="true">
+    {post.image ? <img src={post.image} alt="" loading="lazy" width="400" height="295" transition:name={`post-${post.id}`} /> : <span class="post__ph"><Icon name="image" size={32} /></span>}
+    <span class="post__date"><Icon name="calendar" size={14} /> {date}</span>
+  </a>
+  <div class="post__body">
+    <h3 class="post__title" lang={isMarathi ? 'mr' : undefined}><a href={href}>{post.title}</a></h3>
+    <p class="post__excerpt" lang={isMarathi ? 'mr' : undefined}>{post.excerpt}</p>
+    <span class="link-arrow">Read story <Icon name="arrow-right" size={16} /></span>
+  </div>
+</article>
+
+<style>
+  .post {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--line-2);
+    transition: transform 0.55s var(--ease-out), box-shadow 0.55s var(--ease-out);
+  }
+  .post:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+  .post__media { position: relative; display: block; aspect-ratio: 4 / 2.9; background: var(--g-50); }
+  .post__media img { width: 100%; height: 100%; object-fit: cover; }
+  .post__ph { display: grid; place-items: center; height: 100%; color: var(--g-300); }
+  .post__date {
+    position: absolute; left: 14px; bottom: 14px;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px; border-radius: 999px;
+    background: rgb(255 255 255 / 0.92); backdrop-filter: blur(6px);
+    font-size: 0.78rem; font-weight: 700; color: var(--g-800);
+  }
+  .post__body { display: flex; flex-direction: column; gap: 10px; padding: 22px 24px 24px; flex: 1; }
+  .post__title { font-size: 1.12rem; line-height: 1.35; letter-spacing: -0.01em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .post__title[lang='mr'] { font-size: 1.2rem; line-height: 1.4; font-weight: 700; }
+  .post__title a::after { content: ''; position: absolute; inset: 0; }
+  .post__title a:hover { color: var(--g-700); }
+  .post__excerpt { font-size: 0.93rem; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .post .link-arrow { margin-top: auto; padding-top: 6px; }
+  .post:hover .link-arrow { gap: 12px; color: var(--o-600); }
+</style>

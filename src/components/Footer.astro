@@ -1,0 +1,154 @@
+---
+import Icon from './Icon.astro';
+import { site, footerLinks } from '../data/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="footer grain">
+  <div class="blobs" aria-hidden="true">
+    <span class="blob blob--o" style="width:520px;height:520px;right:-160px;top:-200px;opacity:.28"></span>
+    <span class="blob blob--g" style="width:460px;height:460px;left:-180px;bottom:-120px;opacity:.3;animation-delay:-6s"></span>
+  </div>
+
+  <div class="container footer__inner">
+    <div class="footer__top" data-reveal>
+      <div class="footer__brand">
+        <a href="/" class="footer__logo" aria-label="Lokmangal Multistate — home">
+          <span class="footer__emblem"><img src="/images/brand/emblem.png" alt="" width="42" height="51" /></span>
+          <span class="footer__name">Lokmangal<small>Multistate Co-op. Society Ltd.</small></span>
+        </a>
+        <p class="footer__about">
+          A multi-state co-operative society registered under the {site.act}, Registration No. <strong>{site.registration}</strong>.
+          Serving farmers, families and entrepreneurs since {site.founded}.
+        </p>
+        <p class="footer__tagline"><span>{site.tagline}</span> · <span lang="mr">{site.taglineMr}</span></p>
+        <div class="footer__social">
+          {site.social.map((s) => (
+            <a href={s.href} target="_blank" rel="noopener" aria-label={s.label}><Icon name={s.icon} size={18} /></a>
+          ))}
+        </div>
+      </div>
+
+      <div class="footer__col">
+        <h3>Quick links</h3>
+        <ul>{footerLinks.quick.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+      </div>
+
+      <div class="footer__col">
+        <h3>Other links</h3>
+        <ul>{footerLinks.other.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+      </div>
+
+      <div class="footer__col footer__contact">
+        <h3>Head office</h3>
+        <ul>
+          <li>
+            <Icon name="map-pin" size={18} />
+            <a href={site.mapLink} target="_blank" rel="noopener">{site.address.line1}, {site.address.line2}, {site.address.city} – {site.address.pin}</a>
+          </li>
+          <li><Icon name="phone" size={18} /><a href={site.phoneHref}>{site.phone}</a></li>
+          <li>
+            <Icon name="mail" size={18} />
+            <span><a href={`mailto:${site.email}`}>{site.email}</a><br /><a href={`mailto:${site.hrEmail}`}>{site.hrEmail}</a></span>
+          </li>
+          <li><Icon name="landmark" size={18} /><span>IFSC: <strong>{site.ifsc}</strong></span></li>
+        </ul>
+        <a href={site.appUrl} target="_blank" rel="noopener" class="store-badge">
+          <Icon name="play" size={22} />
+          <span><small>Get our app on</small>Google Play</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer__wordmark" aria-hidden="true">Lokmangal</div>
+
+    <div class="footer__bottom">
+      <p>© {year} {site.legalName} All rights reserved.</p>
+      <p class="footer__legal">
+        <a href="/terms-of-use/">Terms of Use</a>
+        <a href="/privacy-policy/">Privacy Policy</a>
+        <a href="/sitemap/">Sitemap</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    position: relative;
+    overflow: hidden;
+    background: var(--g-950);
+    color: rgb(255 255 255 / 0.68);
+    padding-top: clamp(64px, 8vw, 104px);
+    font-size: 0.95rem;
+  }
+  .footer__inner { position: relative; z-index: 1; }
+  .footer__top { display: grid; gap: 44px 32px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .footer__top { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1080px) { .footer__top { grid-template-columns: 1.5fr 0.8fr 0.8fr 1.3fr; } }
+
+  .footer__logo { display: inline-flex; align-items: center; gap: 14px; }
+  .footer__emblem { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 20px; background: #fff; box-shadow: 0 10px 30px -10px rgb(0 0 0 / 0.5); transition: transform 0.6s var(--ease-spring); }
+  .footer__logo:hover .footer__emblem { transform: rotate(-10deg) scale(1.05); }
+  .footer__emblem img { width: 40px; height: auto; }
+  .footer__name { color: #fff; font-weight: 800; font-size: 1.5rem; line-height: 1.05; letter-spacing: -0.02em; }
+  .footer__name small { display: block; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; color: var(--o-400); margin-top: 4px; }
+  .footer__about { margin-top: 22px; max-width: 420px; line-height: 1.7; }
+  .footer__about strong { color: #fff; }
+  .footer__tagline { margin-top: 14px; font-weight: 700; color: var(--o-300); font-size: 0.9rem; }
+  .footer__social { display: flex; gap: 10px; margin-top: 24px; }
+  .footer__social a {
+    display: grid; place-items: center; width: 44px; height: 44px; border-radius: 14px;
+    border: 1px solid rgb(255 255 255 / 0.14); color: #fff;
+    transition: background 0.3s, transform 0.4s var(--ease-spring), border-color 0.3s;
+  }
+  .footer__social a:hover { background: var(--o-500); border-color: var(--o-500); transform: translateY(-4px) rotate(-6deg); }
+
+  .footer__col h3 { color: #fff; font-size: 1.02rem; margin-bottom: 18px; letter-spacing: -0.01em; }
+  .footer__col ul { list-style: none; display: grid; gap: 10px; }
+  .footer__col:not(.footer__contact) a { position: relative; display: inline-block; transition: color 0.2s, transform 0.3s var(--ease-out); }
+  .footer__col:not(.footer__contact) a::before { content: ''; position: absolute; left: -14px; top: 50%; width: 6px; height: 6px; border-radius: 50%; background: var(--o-500); transform: translateY(-50%) scale(0); transition: transform 0.3s var(--ease-spring); }
+  .footer__col a:hover { color: #fff; }
+  .footer__col:not(.footer__contact) a:hover { transform: translateX(10px); }
+  .footer__col:not(.footer__contact) a:hover::before { transform: translateY(-50%) scale(1); }
+  .footer__contact li { display: flex; gap: 12px; align-items: flex-start; line-height: 1.55; }
+  .footer__contact li :global(.icon) { flex: none; margin-top: 2px; color: var(--o-400); }
+  .footer__contact strong { color: #fff; letter-spacing: 0.04em; }
+
+  .store-badge {
+    display: inline-flex; align-items: center; gap: 12px; margin-top: 22px;
+    padding: 10px 20px 10px 16px; border-radius: 14px;
+    background: #000; color: #fff; border: 1px solid rgb(255 255 255 / 0.2);
+    transition: transform 0.35s var(--ease-out), border-color 0.3s;
+  }
+  .store-badge :global(.icon) { color: var(--g-300); fill: currentColor; }
+  .store-badge span { font-weight: 700; font-size: 1.05rem; line-height: 1.1; }
+  .store-badge small { display: block; font-size: 0.7rem; font-weight: 500; opacity: 0.75; text-transform: uppercase; letter-spacing: 0.06em; }
+  .store-badge:hover { transform: translateY(-3px); border-color: rgb(255 255 255 / 0.5); }
+
+  .footer__wordmark {
+    margin-top: clamp(48px, 7vw, 90px);
+    font-weight: 800;
+    font-size: clamp(4.5rem, 19vw, 16rem);
+    line-height: 0.8;
+    letter-spacing: -0.06em;
+    text-align: center;
+    color: transparent;
+    -webkit-text-stroke: 1px rgb(255 255 255 / 0.12);
+    background: linear-gradient(180deg, rgb(255 255 255 / 0.1), transparent 85%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    user-select: none;
+    transform: translateY(12%);
+  }
+  .footer__bottom {
+    position: relative;
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px;
+    padding-block: 24px 28px;
+    border-top: 1px solid rgb(255 255 255 / 0.1);
+    font-size: 0.86rem;
+    background: var(--g-950);
+  }
+  .footer__legal { display: flex; gap: 20px; flex-wrap: wrap; }
+  .footer__legal a:hover { color: #fff; }
+</style>

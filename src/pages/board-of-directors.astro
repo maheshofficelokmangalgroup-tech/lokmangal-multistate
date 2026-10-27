@@ -1,0 +1,84 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import EnquiryForm from '../components/EnquiryForm.astro';
+import AboutNav from '../components/AboutNav.astro';
+import { board } from '../data/people';
+const [chair, ...directors] = board;
+---
+
+<Base title="Board of Directors" description="Meet the Board of Directors of Lokmangal Multistate Co-operative Society Ltd., led by Chairman Mr. Rohan Subhash Deshmukh.">
+  <PageHero
+    title="Our"
+    accent="leadership"
+    eyebrow="Board of Directors"
+    subtitle="Our leadership guides and motivates the Lokmangal group — leading with principle, passion and respect, and setting the strategic direction that keeps Lokmangal a dynamic force in the co-operative space."
+    crumbs={[{ label: 'About Us', href: '/about-us/' }, { label: 'Board of Directors' }]}
+  />
+
+  <section class="section">
+    <div class="container">
+      <article class="lead-card" data-reveal="zoom">
+        <div class="lead-card__img"><img src={chair.photo} alt={chair.name} width="520" height="564" /></div>
+        <div class="lead-card__body">
+          <span class="chip chip--orange">{chair.role}</span>
+          <h2 class="h2">{chair.name}</h2>
+          <p class="lead">Chairman of Lokmangal Multistate Co-operative Society Ltd., whose leadership has taken the society beyond financial services into dairy and fertilisers, and across two states.</p>
+          <a href="/chairman-message/" class="btn btn--green">Read the chairman's message</a>
+        </div>
+      </article>
+
+      <div class="section-head center mt-5" data-reveal>
+        <p class="eyebrow">Directors</p>
+        <h2 class="h2">The people who <em>guide us</em></h2>
+      </div>
+
+      <div class="people" data-stagger>
+        {directors.map((p) => (
+          <article class="person">
+            <div class="person__img"><img src={p.photo} alt={p.name} loading="lazy" width="395" height="429" /></div>
+            <div class="person__body">
+              <h3>{p.name}</h3>
+              <span>{p.role}</span>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="container" style="max-width:760px">
+      <div data-reveal>
+        <EnquiryForm variant="callback" title="Request a callback" subtitle="Leave your details and our team will call you." />
+      </div>
+    </div>
+  </section>
+
+  <AboutNav current="/board-of-directors/" />
+</Base>
+
+<style>
+  .lead-card {
+    display: grid; gap: clamp(24px, 4vw, 56px); align-items: center;
+    padding: clamp(20px, 3vw, 32px); border-radius: var(--r-xl);
+    background: radial-gradient(70% 100% at 100% 0%, var(--o-50), transparent 60%), var(--surface);
+    border: 1px solid var(--line-2); box-shadow: var(--shadow);
+  }
+  @media (min-width: 860px) { .lead-card { grid-template-columns: 340px 1fr; } }
+  .lead-card__img { border-radius: var(--r-lg); overflow: hidden; background: linear-gradient(160deg, var(--g-100), var(--o-100)); }
+  .lead-card__img img { width: 100%; height: auto; }
+  .lead-card__body { display: grid; gap: 16px; justify-items: start; }
+
+  .people { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); }
+  .person { position: relative; border-radius: var(--r-lg); overflow: hidden; background: var(--surface); border: 1px solid var(--line-2); transition: transform 0.55s var(--ease-out), box-shadow 0.55s; }
+  .person:hover { transform: translateY(-8px); box-shadow: var(--shadow); }
+  .person__img { aspect-ratio: 395 / 429; overflow: hidden; background: linear-gradient(160deg, var(--g-50), var(--o-50)); }
+  .person__img img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 0.9s var(--ease-out); }
+  .person:hover .person__img img { transform: scale(1.06); }
+  .person__body { position: relative; padding: 18px 20px 20px; }
+  .person__body::before { content: ''; position: absolute; left: 20px; top: 0; width: 40px; height: 3px; border-radius: 3px; background: var(--o-500); transition: width 0.5s var(--ease-out); }
+  .person:hover .person__body::before { width: 80px; }
+  .person h3 { font-size: 1.02rem; letter-spacing: -0.01em; line-height: 1.35; }
+  .person span { font-size: 0.86rem; font-weight: 700; color: var(--g-600); }
+</style>

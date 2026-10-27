@@ -1,0 +1,37 @@
+---
+import Icon from './Icon.astro';
+import { nav } from '../data/site';
+
+interface Props { current: string }
+const { current } = Astro.props;
+const links = nav.find((n) => n.label === 'About Us')!.children!;
+---
+
+<section class="section--tight">
+  <div class="container">
+    <div class="about-nav" data-reveal>
+      <p class="eyebrow">Explore more about Lokmangal</p>
+      <div class="about-nav__links">
+        {links.map((l) => (
+          <a href={l.href} class:list={{ 'is-current': l.href === current }} aria-current={l.href === current ? 'page' : undefined}>
+            <Icon name={l.icon ?? 'arrow-right'} size={18} /> {l.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-nav { padding: clamp(22px, 3vw, 32px); border-radius: var(--r-xl); background: var(--cream); display: grid; gap: 18px; }
+  .about-nav__links { display: flex; flex-wrap: wrap; gap: 10px; }
+  .about-nav__links a {
+    display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border-radius: 999px;
+    background: #fff; border: 1px solid var(--line); font-weight: 700; font-size: 0.92rem; color: var(--ink-2);
+    transition: background 0.25s, color 0.25s, border-color 0.25s, transform 0.35s var(--ease-out);
+  }
+  .about-nav__links a :global(.icon) { color: var(--o-500); transition: color 0.25s; }
+  .about-nav__links a:hover { transform: translateY(-2px); border-color: var(--g-300); }
+  .about-nav__links a.is-current { background: var(--g-800); border-color: var(--g-800); color: #fff; }
+  .about-nav__links a.is-current :global(.icon) { color: var(--o-300); }
+</style>

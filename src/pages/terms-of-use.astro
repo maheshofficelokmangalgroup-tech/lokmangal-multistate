@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { site } from '../data/site';
+---
+
+<Base title="Terms of Use" description="Terms of use for the Lokmangal Multistate Co-operative Society website.">
+  <PageHero title="Terms of" accent="use" eyebrow="Legal" crumbs={[{ label: 'Terms of Use' }]} compact />
+  <section class="section">
+    <div class="container container--narrow prose legal" data-reveal>
+      <p>Welcome to the website of {site.legalName} (“Lokmangal”, “we”, “us”). By using this website you agree to these terms. If you do not agree, please do not use the site.</p>
+      <h2>Information on this website</h2>
+      <p>The information on this website — including interest rates, scheme details and loan terms — is provided for general information only. Rates and terms may change without prior notice. Please confirm current details at your branch before making any financial decision. The final terms of any product are those set out in the account-opening or loan documents you sign.</p>
+      <h2>Calculators</h2>
+      <p>Calculators are provided for illustration. Results are indicative and do not constitute an offer. Actual returns or repayments may differ because of exact tenure, compounding, taxes (including TDS) and scheme rules.</p>
+      <h2>Membership</h2>
+      <p>Lokmangal is a multi-state co-operative society registered under the {site.act} (Registration No. {site.registration}). Its financial services are offered to members in accordance with the Act, its rules and the society’s bye-laws.</p>
+      <h2>Enquiries submitted online</h2>
+      <p>Submitting a form on this website does not open an account, deposit or loan. Our team will contact you to complete the process at a branch, including KYC verification.</p>
+      <h2>Intellectual property</h2>
+      <p>The Lokmangal name, logo and content on this website belong to Lokmangal and may not be used without permission.</p>
+      <h2>Links to other websites</h2>
+      <p>This website may link to external sites, such as app stores or social media. We are not responsible for the content or privacy practices of those sites.</p>
+      <h2>Contact</h2>
+      <p>Questions about these terms? Email <a href={`mailto:${site.email}`}>{site.email}</a> or call <a href={site.phoneHref}>{site.phone}</a>.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .legal h2 { font-size: 1.35rem; margin-top: 2em; }
+  .legal p { color: var(--muted); }
+</style>

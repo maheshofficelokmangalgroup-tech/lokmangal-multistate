@@ -1,0 +1,138 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { divisions, headOffice, branchCount } from '../data/branches';
+import { site } from '../data/site';
+
+const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+const maps = (q: string) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+---
+
+<Base title="Branches" description={`Find a Lokmangal Multistate branch near you — ${branchCount} branches across Pune, Solapur, Dharashiv, Latur, Kolhapur, Parbhani, Belgaum and more in Maharashtra & Karnataka.`}>
+  <PageHero
+    title="Find a branch"
+    accent="near you"
+    eyebrow="Our network"
+    subtitle="Branches across the rural–urban divide of Maharashtra and Karnataka — search by town, address or division."
+    crumbs={[{ label: 'Branches' }]}
+  >
+    <div slot="aside" class="br-stats">
+      <div><strong data-count={branchCount}>{branchCount}</strong><span>Branches listed</span></div>
+      <div><strong data-count={divisions.length}>{divisions.length}</strong><span>Divisions</span></div>
+      <div><strong>2</strong><span>States</span></div>
+    </div>
+  </PageHero>
+
+  <section class="section">
+    <div class="container">
+      <div class="ho" data-reveal>
+        <div class="ho__info">
+          <span class="chip chip--orange"><Icon name="building" size={14} /> Head office</span>
+          <h2 class="h3">{site.legalName}, Shelgi</h2>
+          <ul class="ho__list">
+            <li><Icon name="map-pin" size={20} /><span>{headOffice.address}</span></li>
+            <li><Icon name="phone" size={20} /><a href={site.phoneHref}>{site.phone}</a></li>
+            <li><Icon name="mail" size={20} /><span><a href={`mailto:${site.email}`}>{site.email}</a> · <a href={`mailto:${site.hrEmail}`}>{site.hrEmail}</a></span></li>
+            <li><Icon name="landmark" size={20} /><span>IFSC: <strong>{site.ifsc}</strong></span></li>
+          </ul>
+          <a href={site.mapLink} target="_blank" rel="noopener" class="btn btn--green btn--sm"><Icon name="navigation" size={16} /> Get directions</a>
+        </div>
+        <div class="ho__map">
+          <iframe src={site.mapEmbed} title="Lokmangal Multistate head office on Google Maps" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        </div>
+      </div>
+
+      <div class="finder" data-reveal>
+        <label class="finder__search">
+          <Icon name="search" size={20} />
+          <input type="search" placeholder="Search by branch, town or address…" data-branch-search aria-label="Search branches" />
+        </label>
+        <p class="finder__count"><strong data-branch-count>{branchCount}</strong> branches</p>
+      </div>
+      <div class="chips-row" role="group" aria-label="Filter by division" data-reveal>
+        <button class="filter" data-division-filter="all" aria-pressed="true">All divisions</button>
+        {divisions.map((d) => <button class="filter" data-division-filter={slug(d.name)} aria-pressed="false">{d.name}</button>)}
+      </div>
+
+      <div class="divisions">
+        {divisions.map((d) => (
+          <section class="division" data-division={slug(d.name)}>
+            <header class="division__head" data-reveal>
+              <h2 class="h3">{d.name}</h2>
+              <span class="chip">{d.branches.length} branches</span>
+            </header>
+            <div class="branch-grid" data-stagger>
+              {d.branches.map((b) => (
+                <article class="branch" data-branch={`${b.name} ${b.address} ${d.name}`.toLowerCase()}>
+                  <h3><Icon name="map-pin" size={18} /> {b.name}</h3>
+                  <p>{b.address}</p>
+                  <div class="branch__actions">
+                    {b.phones.map((p) => <a href={`tel:${p.replace(/\s/g, '')}`} class="branch__phone"><Icon name="phone" size={15} /> {p}</a>)}
+                    <a href={maps(`Lokmangal Multistate ${b.name} ${b.address}`)} target="_blank" rel="noopener" class="branch__dir" aria-label={`Directions to ${b.name} branch`}><Icon name="navigation" size={15} /> Directions</a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        ))}
+        <div class="empty" data-branch-empty hidden>
+          <Icon name="search" size={34} />
+          <p><strong>No branches match your search.</strong><br />Try another town name, or call us on <a href={site.phoneHref}>{site.phone}</a>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Visit us at a branch" accent="near you" text="Open an account, book a deposit or apply for a loan at any Lokmangal branch — our team will be happy to help." />
+</Base>
+
+<style>
+  .br-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .br-stats div { padding: 22px 16px; border-radius: var(--r-lg); background: rgb(255 255 255 / 0.06); border: 1px solid rgb(255 255 255 / 0.14); text-align: center; backdrop-filter: blur(8px); }
+  .br-stats strong { display: block; font-size: clamp(2rem, 4vw, 3rem); color: #fff; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+  .br-stats span { font-size: 0.8rem; font-weight: 600; }
+
+  .ho { display: grid; gap: 24px; padding: 16px; border-radius: var(--r-xl); background: var(--surface); border: 1px solid var(--line-2); box-shadow: var(--shadow); }
+  @media (min-width: 900px) { .ho { grid-template-columns: 1fr 1.2fr; } }
+  .ho__info { padding: clamp(14px, 2.5vw, 28px); display: grid; gap: 16px; justify-items: start; align-content: center; }
+  .ho__list { list-style: none; display: grid; gap: 12px; }
+  .ho__list li { display: flex; gap: 12px; align-items: flex-start; }
+  .ho__list :global(.icon) { flex: none; color: var(--o-500); margin-top: 2px; }
+  .ho__list a { font-weight: 600; color: var(--g-700); }
+  .ho__map { min-height: 320px; border-radius: var(--r-lg); overflow: hidden; background: var(--g-50); }
+  .ho__map iframe { width: 100%; height: 100%; min-height: 320px; border: 0; }
+
+  .finder { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; margin-top: clamp(48px, 6vw, 72px); }
+  .finder__search { flex: 1; min-width: min(100%, 300px); display: flex; align-items: center; gap: 12px; padding: 0 20px; border-radius: 999px; background: #fff; border: 1.5px solid var(--line); transition: border-color 0.2s, box-shadow 0.2s; }
+  .finder__search:focus-within { border-color: var(--g-500); box-shadow: 0 0 0 4px rgb(35 146 82 / 0.14); }
+  .finder__search :global(.icon) { color: var(--muted); }
+  .finder__search input { flex: 1; min-height: 58px; border: 0; outline: 0; background: transparent; font-size: 1.02rem; }
+  .finder__count { color: var(--muted); }
+  .finder__count strong { color: var(--g-700); font-size: 1.3rem; }
+  .chips-row { display: flex; gap: 8px; margin-top: 18px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; }
+  .filter { flex: none; padding: 9px 15px; border-radius: 999px; border: 1.5px solid var(--line); background: #fff; font-weight: 700; font-size: 0.86rem; color: var(--ink-2); transition: all 0.25s; }
+  .filter:hover { border-color: var(--g-400); }
+  .filter[aria-pressed='true'] { background: var(--g-800); border-color: var(--g-800); color: #fff; }
+
+  .divisions { display: grid; gap: 44px; margin-top: 36px; }
+  .division[hidden] { display: none; }
+  .division__head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 2px solid var(--line-2); }
+  .branch-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr)); }
+  .branch { display: flex; flex-direction: column; gap: 10px; padding: 20px; border-radius: var(--r); background: var(--surface); border: 1px solid var(--line-2); transition: transform 0.4s var(--ease-out), box-shadow 0.4s, border-color 0.3s; }
+  .branch[hidden] { display: none; }
+  .branch:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: transparent; }
+  .branch h3 { display: flex; align-items: center; gap: 8px; font-size: 1.08rem; }
+  .branch h3 :global(.icon) { color: var(--o-500); }
+  .branch p { font-size: 0.92rem; color: var(--muted); line-height: 1.55; }
+  .branch__actions { margin-top: auto; display: flex; flex-wrap: wrap; gap: 8px; padding-top: 4px; }
+  .branch__phone, .branch__dir { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px; font-size: 0.82rem; font-weight: 700; transition: background 0.2s, color 0.2s; }
+  .branch__phone { background: var(--g-50); color: var(--g-700); }
+  .branch__phone:hover { background: var(--g-700); color: #fff; }
+  .branch__dir { background: var(--o-50); color: var(--o-700); }
+  .branch__dir:hover { background: var(--o-strong); color: #fff; }
+  .empty { display: grid; justify-items: center; gap: 12px; padding: 48px 20px; text-align: center; color: var(--muted); border-radius: var(--r-xl); border: 2px dashed var(--line); }
+  .empty[hidden] { display: none; }
+  .empty a { color: var(--g-700); font-weight: 700; }
+</style>

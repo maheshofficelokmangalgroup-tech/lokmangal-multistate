@@ -1,0 +1,188 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site, stats } from '../data/site';
+import { chairman, mentor } from '../data/people';
+
+const values = [
+  { icon: 'shield-check', title: 'Complete trust & transparency', text: 'Every decision is taken collectively by an elected board, and our books are audited every year.' },
+  { icon: 'award', title: 'Highly trained staff', text: 'Branch teams who know their communities and guide members at every step.' },
+  { icon: 'map-pin', title: 'Trusted network', text: 'Branches and ATMs across the rural–urban divide of Maharashtra and Karnataka.' },
+  { icon: 'smartphone', title: 'Robust technology', text: 'Net banking, mobile banking, UPI, IMPS, NEFT/RTGS and SMS banking.' },
+  { icon: 'users', title: 'Financial inclusion', text: 'Bringing people from all walks of life into the formal financial system.' },
+];
+
+const journey = [
+  { year: '2004', title: 'A society is born', text: `Lokmangal Multistate Co-operative Society Ltd. was registered under the ${site.act} (Registration No. ${site.registration}), inspired by the vision of our mentor ${mentor.name}.` },
+  { year: '2008', title: 'Full-fledged operations', text: 'Operations began in earnest in Solapur district, where most of our first members came from agricultural backgrounds. Our first step was simple: give financial support to aspiring people who believed in following their dreams.' },
+  { year: 'Growth', title: 'Beyond financial services', text: `Under the leadership of ${chairman.name}, Lokmangal diversified into dairy — with chilling plants at Mangalvedha, Karmala and Sangola — and fertilisers, producing biotic and chemical fertilisers and distributing IFFCO products.` },
+  { year: 'Today', title: 'Touching lakhs of lives', text: 'With 60 branches across Maharashtra and Karnataka, a growing ATM network and digital channels, Lokmangal continues to shape the lives of lakhs of members — and is working to reach millions more.' },
+];
+---
+
+<Base title="About Us" description="Lokmangal Multistate Co-operative Society Ltd. was founded in 2004 to empower farmers, small entrepreneurs and weaker sections of society. Learn about our journey, vision and values.">
+  <PageHero
+    title="Socio-economic transformation through"
+    accent="co-operation"
+    eyebrow="Welcome to Lokmangal"
+    subtitle="Since 2004 we have worked to empower educated unemployed youth, small entrepreneurs, agricultural professionals and the weaker sections of society."
+    crumbs={[{ label: 'About Us' }]}
+  >
+    <a href="/branches/" class="btn btn--primary">Find a branch <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+    <a href="/chairman-message/" class="btn btn--outline-light">Chairman's message</a>
+  </PageHero>
+
+  <section class="section">
+    <div class="container split">
+      <div class="about-media" data-reveal="left">
+        <div class="video" data-video>
+          <img src="https://i.ytimg.com/vi/M0NGS7ZUNYY/hqdefault.jpg" alt="Watch: Lokmangal Multistate introduction video" loading="lazy" width="480" height="360" />
+          <button class="video__play" data-video-play aria-label="Play video"><Icon name="play" size={30} /></button>
+        </div>
+        <div class="about-media__badge">
+          <img src="/images/brand/emblem.png" alt="" width="42" height="51" />
+          <div><strong>{site.tagline}</strong><span lang="mr">{site.taglineMr}</span></div>
+        </div>
+      </div>
+      <div class="stack" style="--stack:1.25rem">
+        <p class="eyebrow" data-reveal>Who we are</p>
+        <h2 class="h2" data-reveal>One of India’s leading <em>multi-state co-operatives</em></h2>
+        <div class="prose lead" data-reveal>
+          <p>The idea of empowering people was driven by the vision of our mentor, {mentor.name}, and supported by a group of like-minded individuals. Today Lokmangal Multistate serves members through branches and ATMs that span the rural–urban divide of Maharashtra and Karnataka.</p>
+          <p>We believe in <strong>success through total dedication</strong>. For more than a decade we have contributed to the socio-economic transformation of rural India by bringing people from all walks of life into the financial mainstream — through our ethics, transparent and efficient service, trained staff, supportive stakeholders and the visionary leadership of our chairman, {chairman.name}.</p>
+        </div>
+        <div class="btn-row" data-reveal>
+          <a href="/contact-us/" class="btn btn--green">Get in touch <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+          <a href="/board-of-directors/" class="btn btn--ghost">Our leadership</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="container">
+      <div class="about-stats" data-stagger>
+        {stats.map((s) => (
+          <div><strong data-count={s.value} data-prefix={s.prefix} data-suffix={s.suffix}>{s.prefix}{s.value}{s.suffix}</strong><span>{s.label}</span></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="vm" data-stagger>
+        <article class="vm__card vm__card--vision">
+          <span class="icon-badge icon-badge--dark"><Icon name="eye" size={26} /></span>
+          <h2 class="h3">Our vision</h2>
+          <p>To be a forward-looking, technology-driven and customer-centric co-operative society that serves every section of society — creating value for members and employees through co-operative wealth, as we move towards a pan-India presence.</p>
+        </article>
+        <article class="vm__card">
+          <span class="icon-badge icon-badge--orange"><Icon name="target" size={26} /></span>
+          <h2 class="h3">Our promise</h2>
+          <p>We expect more of ourselves than anyone else expects of us — delivering a delightful, rewarding experience to our members every single day through the principles below.</p>
+        </article>
+      </div>
+
+      <div class="values" data-stagger>
+        {values.map((v) => (
+          <article class="card card--hover value">
+            <span class="icon-badge"><Icon name={v.icon} size={24} /></span>
+            <h3 class="h4">{v.title}</h3>
+            <p class="muted">{v.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--white">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <p class="eyebrow">Our journey so far</p>
+        <h2 class="h2">From Solapur to <em>two states</em></h2>
+        <p class="lead">Lokmangal understands the strength of the co-operative movement — and puts its principles into practice through every part of our business.</p>
+      </div>
+      <ol class="journey" data-stagger>
+        {journey.map((j, i) => (
+          <li class:list={['journey__item', { 'journey__item--right': i % 2 === 1 }]}>
+            <div class="journey__card">
+              <span class="journey__year">{j.year}</span>
+              <h3 class="h4">{j.title}</h3>
+              <p>{j.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <p class="center mt-5 lead" data-reveal>We welcome you to the <strong>Lokmangal family</strong> — together, let’s transform our communities by following co-operative principles.</p>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const wrap = document.querySelector<HTMLElement>('[data-video]');
+    wrap?.querySelector('[data-video-play]')?.addEventListener('click', () => {
+      wrap.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/M0NGS7ZUNYY?autoplay=1&rel=0" title="Lokmangal Multistate" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
+    });
+  });
+</script>
+
+<style>
+  .about-media { position: relative; padding-bottom: 40px; }
+  .video { position: relative; aspect-ratio: 16 / 11; border-radius: var(--r-xl); overflow: hidden; box-shadow: var(--shadow-lg); background: var(--g-900); }
+  .video img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: transform 1s var(--ease-out), opacity 0.4s; }
+  .video:hover img { transform: scale(1.05); opacity: 1; }
+  .video :global(iframe) { width: 100%; height: 100%; border: 0; }
+  .video__play {
+    position: absolute; left: 50%; top: 50%; translate: -50% -50%;
+    display: grid; place-items: center; width: 92px; height: 92px; border-radius: 50%;
+    background: var(--o-500); color: #fff; box-shadow: 0 0 0 14px rgb(236 106 30 / 0.25);
+    animation: play-pulse 2.4s ease-in-out infinite; transition: transform 0.4s var(--ease-spring);
+  }
+  .video__play :global(.icon) { fill: currentColor; margin-left: 4px; }
+  .video__play:hover { transform: scale(1.08); }
+  @keyframes play-pulse { 50% { box-shadow: 0 0 0 26px rgb(236 106 30 / 0); } }
+  .about-media__badge {
+    position: absolute; right: 24px; bottom: 0; display: flex; align-items: center; gap: 14px;
+    padding: 16px 22px; border-radius: 20px; background: #fff; box-shadow: var(--shadow-lg); max-width: 330px;
+  }
+  .about-media__badge img { width: 40px; height: auto; }
+  .about-media__badge strong { display: block; color: var(--g-800); font-size: 0.95rem; line-height: 1.25; }
+  .about-media__badge span { display: block; color: var(--o-600); font-weight: 600; font-size: 0.92rem; }
+
+  .about-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 16px; }
+  .about-stats > div { padding: 26px; border-radius: var(--r-lg); background: var(--surface); border: 1px solid var(--line-2); text-align: center; }
+  .about-stats strong { display: block; font-size: clamp(2rem, 3.4vw, 2.7rem); font-weight: 800; letter-spacing: -0.04em; color: var(--g-700); font-variant-numeric: tabular-nums; }
+  .about-stats > div:nth-child(even) strong { color: var(--o-600); }
+  .about-stats span { font-weight: 700; color: var(--muted); }
+
+  .vm { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); margin-bottom: 24px; }
+  .vm__card { padding: clamp(28px, 4vw, 44px); border-radius: var(--r-xl); background: var(--cream); display: grid; gap: 14px; align-content: start; }
+  .vm__card p { color: var(--muted); font-size: 1.05rem; }
+  .vm__card--vision { color: rgb(255 255 255 / 0.78); background: radial-gradient(90% 100% at 100% 0%, rgb(236 106 30 / 0.35), transparent 60%), linear-gradient(150deg, var(--g-800), var(--g-950)); }
+  .vm__card--vision h2 { color: #fff; }
+  .vm__card--vision p { color: rgb(255 255 255 / 0.78); }
+  .values { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); }
+  .value { display: grid; gap: 12px; align-content: start; }
+
+  .journey { list-style: none; position: relative; display: grid; gap: 28px; max-width: 1000px; margin-inline: auto; }
+  .journey::before { content: ''; position: absolute; left: 22px; top: 0; bottom: 0; width: 2px; background: linear-gradient(var(--o-400), var(--g-400)); }
+  .journey__item { position: relative; padding-left: 64px; }
+  .journey__item::before { content: ''; position: absolute; left: 12px; top: 28px; width: 22px; height: 22px; border-radius: 50%; background: #fff; border: 5px solid var(--o-500); box-shadow: 0 0 0 6px rgb(236 106 30 / 0.15); }
+  .journey__card { padding: 26px 28px; border-radius: var(--r-lg); background: var(--bg); border: 1px solid var(--line-2); transition: transform 0.5s var(--ease-out), box-shadow 0.5s; }
+  .journey__card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .journey__card p { color: var(--muted); margin-top: 8px; }
+  .journey__year { display: inline-block; margin-bottom: 8px; padding: 4px 12px; border-radius: 999px; background: var(--o-100); color: var(--o-700); font-weight: 800; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  @media (min-width: 900px) {
+    .journey::before { left: 50%; translate: -1px 0; }
+    .journey__item { padding-left: 0; width: calc(50% - 40px); }
+    .journey__item--right { margin-left: auto; }
+    .journey__item::before { left: auto; right: -51px; }
+    .journey__item--right::before { right: auto; left: -51px; }
+  }
+</style>

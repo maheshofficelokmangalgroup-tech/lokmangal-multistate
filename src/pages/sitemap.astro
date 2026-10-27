@@ -1,0 +1,41 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { schemes } from '../data/deposits';
+import { loans } from '../data/loans';
+
+const groups = [
+  { title: 'About', icon: 'landmark', links: [['Home', '/'], ['About Us', '/about-us/'], ["Chairman's Message", '/chairman-message/'], ['Board of Directors', '/board-of-directors/'], ['Social Responsibility', '/social-responsibility/'], ['Annual Reports', '/annual-reports/'], ['Photo Gallery', '/gallery/']] },
+  { title: 'Deposits', icon: 'piggy-bank', links: [['All deposit schemes', '/deposits/'], ...schemes.map((s) => [s.name, `/deposits/${s.slug}/`]), ['Interest Rates', '/interest-rates/'], ['Apply for a Deposit', '/apply-for-deposits/']] },
+  { title: 'Loans', icon: 'hand-coins', links: [['All loans', '/loans/'], ...loans.map((l) => [l.name, `/loans/#${l.slug}`]), ['Apply for a Loan', '/apply-loan/']] },
+  { title: 'Services & help', icon: 'help-circle', links: [['Open an Account', '/open-an-account/'], ['Other Services', '/other-services/'], ['Rural Wealth Manager', '/rural-wealth-manager/'], ['Calculators', '/calculators/'], ['FAQ', '/faq/'], ['Branches', '/branches/'], ['Contact Us', '/contact-us/']] },
+  { title: 'More', icon: 'file-text', links: [['Blog & News', '/blog/'], ['Careers', '/careers/'], ['Notices', '/notices/'], ['List of Members', '/list-of-members/'], ['Terms of Use', '/terms-of-use/'], ['Privacy Policy', '/privacy-policy/']] },
+];
+---
+
+<Base title="Sitemap" description="All pages on the Lokmangal Multistate website.">
+  <PageHero title="Site" accent="map" eyebrow="All pages" crumbs={[{ label: 'Sitemap' }]} compact />
+  <section class="section">
+    <div class="container">
+      <div class="smap" data-stagger>
+        {groups.map((g) => (
+          <div class="card">
+            <h2 class="h4 smap__title"><span class="icon-badge"><Icon name={g.icon} size={20} /></span>{g.title}</h2>
+            <ul>{g.links.map(([label, href]) => <li><a href={href}><Icon name="chevron-right" size={14} /> {label}</a></li>)}</ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .smap { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); align-items: start; }
+  .smap__title { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .smap__title .icon-badge { width: 42px; height: 42px; border-radius: 12px; }
+  .smap ul { list-style: none; display: grid; gap: 4px; }
+  .smap a { display: flex; align-items: center; gap: 6px; padding: 6px 8px; border-radius: 8px; color: var(--ink-2); font-weight: 600; font-size: 0.94rem; transition: background 0.2s, color 0.2s, padding 0.3s var(--ease-out); }
+  .smap a :global(.icon) { color: var(--o-500); }
+  .smap a:hover { background: var(--g-50); color: var(--g-700); padding-left: 12px; }
+</style>
