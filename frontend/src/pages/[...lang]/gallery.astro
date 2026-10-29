@@ -1,0 +1,259 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import AboutNav from '../../components/AboutNav.astro';
+import { siteData } from '../../data/site';
+import { getLang, langPaths, localePath } from '../../i18n';
+import { pageCopy, useT } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+
+const lang = getLang(Astro);
+const t = useT(lang);
+const l = (p: string) => localePath(p, lang);
+const { site, gallery } = siteData(lang);
+
+const c = pageCopy(
+  lang,
+  'gallery',
+  {
+    metaTitle: 'Photo Gallery',
+    metaDescription: 'Moments from Lokmangal Multistate: celebrations, community programmes and social initiatives.',
+    eyebrow: 'Photo gallery',
+    title: 'Moments from',
+    accent: 'our journey',
+    lead: 'Celebrations, community programmes and social work from across the Lokmangal family.',
+    factPhotos: 'Photos',
+    factYears: 'Years',
+    gridEyebrow: 'All photos',
+    gridTitle: 'Life at',
+    gridAccent: 'Lokmangal',
+    gridHint: 'Tap a photo to see it larger.',
+    open: 'Open photo: {caption}',
+    followTitle: 'More photos on',
+    followAccent: 'our social pages',
+    followText: 'Branch events, programmes and news are shared on our social media pages.',
+    csr: 'See our social work',
+  },
+  {
+    metaTitle: 'छायाचित्रे',
+    metaDescription: 'लोकमंगल मल्टीस्टेटमधील क्षणचित्रे: उत्सव, सामाजिक कार्यक्रम आणि उपक्रम.',
+    eyebrow: 'छायाचित्र दालन',
+    title: 'आमच्या वाटचालीतील',
+    accent: 'क्षणचित्रे',
+    lead: 'लोकमंगल परिवारातील उत्सव, सामाजिक कार्यक्रम आणि उपक्रमांचे क्षण.',
+    factPhotos: 'छायाचित्रे',
+    factYears: 'वर्षे',
+    gridEyebrow: 'सर्व छायाचित्रे',
+    gridTitle: 'लोकमंगलमधील',
+    gridAccent: 'काही क्षण',
+    gridHint: 'मोठे पाहण्यासाठी छायाचित्रावर टॅप करा.',
+    open: 'छायाचित्र उघडा: {caption}',
+    followTitle: 'अधिक छायाचित्रे',
+    followAccent: 'आमच्या सोशल मीडियावर',
+    followText: 'शाखांमधील कार्यक्रम, उपक्रम आणि बातम्या आमच्या सोशल मीडिया पानांवर प्रसिद्ध केल्या जातात.',
+    csr: 'आमचे सामाजिक काम पहा',
+  },
+);
+
+// Photos are managed in the admin panel (Gallery albums).
+const thumb = (src: string) => src.replace('/images/gallery/', '/images/gallery/thumb/');
+// Tile shapes repeat every twelve photos and add up to whole rows of four (and of two on phones).
+const shapes = ['big', '', '', '', '', 'tall', 'wide', '', 'wide', '', 'big', 'big'];
+// Years named in the captions ("2016", "2017–18").
+const years = [...new Set(gallery.flatMap((g) => [...g.caption.matchAll(/\b((?:19|20)\d{2})(?:[–-](\d{2}))?\b/g)].flatMap((m) => (m[2] ? [Number(m[1]), Number(m[1].slice(0, 2) + m[2])] : [Number(m[1])]))))].sort();
+// Keeps "2017–18" on one line.
+const keepTogether = (s: string) => s.replace(/(\d)–(\d)/g, '$1\u2060–\u2060$2');
+const yearSpan = years.length > 1 ? `${years[0]}–${years[years.length - 1]}` : null;
+const rowA = gallery.slice(0, Math.ceil(gallery.length / 2));
+const rowB = gallery.slice(Math.ceil(gallery.length / 2));
+---
+
+<Base title={c('metaTitle')} description={c('metaDescription')}>
+  <!-- BANNER: two rows of photos drifting in opposite directions behind the title -->
+  <section class="gl-hero">
+    <div class="gl-hero__rows" aria-hidden="true">
+      {[rowA, rowB].map((row, r) => (
+        <div class:list={['gl-row', { 'gl-row--back': r === 1 }]}>
+          <div class="gl-row__track">
+            {[...row, ...row].map((g) => <img src={thumb(g.src)} alt="" width="640" height="425" loading="eager" />)}
+          </div>
+        </div>
+      ))}
+    </div>
+    <div class="container gl-hero__inner">
+      <nav class="gl-crumbs" aria-label={t('breadcrumb')}>
+        <a href={l('/')}>{t('home')}</a>
+        <Icon name="chevron-right" size={14} />
+        <a href={l('/about-us/')}>{t('nav.about')}</a>
+        <Icon name="chevron-right" size={14} />
+        <span aria-current="page">{c('eyebrow')}</span>
+      </nav>
+      <div class="gl-hero__copy">
+        <p class="gl-hero__eyebrow">{c('eyebrow')}</p>
+        <h1 class="h1 gl-hero__title" data-reveal>{c('title')} <em>{c('accent')}</em></h1>
+        <p class="lead gl-hero__lead" data-reveal style="--d:150ms">{c('lead')}</p>
+        <dl class="gl-facts" data-stagger>
+          <div><dt>{c('factPhotos')}</dt><dd><span data-count={gallery.length}>{gallery.length}</span></dd></div>
+          {yearSpan && <div><dt>{c('factYears')}</dt><dd>{yearSpan}</dd></div>}
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHOTOS -->
+  <section class="section gl-grid-sec">
+    <div class="container">
+      <div class="section-head section-head--row" data-reveal>
+        <div class="section-head__text">
+          <p class="eyebrow">{c('gridEyebrow')}</p>
+          <h2 class="h2">{c('gridTitle')} <em>{c('gridAccent')}</em></h2>
+        </div>
+        <p class="gl-hint">{c('gridHint')}</p>
+      </div>
+      <ul class="gl-grid" data-stagger>
+        {gallery.map((g, i) => {
+          const shape = shapes[i % shapes.length];
+          return (
+            <li class:list={['gl-tile', shape && `gl-tile--${shape}`]}>
+              <a href={g.src} data-zoom="gallery" data-caption={g.caption} aria-label={c('open', { caption: g.caption })}>
+                <img
+                  src={shape === 'big' || shape === 'wide' ? g.src : thumb(g.src)}
+                  srcset={`${thumb(g.src)} 640w, ${g.src} 1400w`}
+                  sizes={shape === 'big' || shape === 'wide' ? '(max-width: 700px) 100vw, 640px' : '(max-width: 700px) 50vw, 320px'}
+                  alt={g.caption}
+                  width="640"
+                  height="480"
+                  loading={i < 4 ? 'eager' : 'lazy'}
+                  decoding="async"
+                />
+                <span class="gl-tile__cap">{keepTogether(g.caption)}</span>
+                <span class="gl-tile__zoom" aria-hidden="true"><Icon name="search" size={18} /></span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </section>
+
+  <!-- FOLLOW -->
+  <section class="section--tight gl-follow-wrap">
+    <div class="container">
+      <div class="gl-follow" data-reveal="zoom">
+        <div>
+          <h2 class="h2">{c('followTitle')} <em>{c('followAccent')}</em></h2>
+          <p>{c('followText')}</p>
+        </div>
+        <div class="gl-follow__links">
+          {site.social.map((s) => (
+            <a href={s.href} target="_blank" rel="noopener" class="gl-social"><Icon name={s.icon} size={18} /> {s.label}</a>
+          ))}
+          <a href={l('/social-responsibility/')} class="gl-social gl-social--csr">{c('csr')} <Icon name="arrow-right" size={16} /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <AboutNav current="/gallery/" />
+  <CtaBand />
+</Base>
+
+<style>
+  /* ---------- Banner ---------- */
+  .gl-hero {
+    position: relative; isolation: isolate; overflow: hidden; color: #fff;
+    min-height: clamp(480px, 64vh, 620px); display: flex; background: var(--g-950);
+  }
+  .gl-hero__rows { position: absolute; inset: 0; z-index: -2; display: grid; align-content: center; gap: 14px; rotate: -4deg; scale: 1.15; }
+  .gl-row { overflow: hidden; }
+  .gl-row__track { display: flex; gap: 14px; width: max-content; animation: gl-drift 70s linear infinite; }
+  .gl-row--back .gl-row__track { animation-direction: reverse; animation-duration: 85s; }
+  .gl-row img { width: clamp(220px, 22vw, 320px); aspect-ratio: 4 / 3; object-fit: cover; border-radius: 14px; }
+  @keyframes gl-drift { to { transform: translateX(calc(-50% - 7px)); } }
+  .gl-hero::after {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background:
+      linear-gradient(90deg, rgb(4 36 23 / 0.96) 0%, rgb(4 36 23 / 0.86) 42%, rgb(4 36 23 / 0.55) 75%, rgb(4 36 23 / 0.4) 100%),
+      linear-gradient(0deg, rgb(4 36 23 / 0.75), transparent 40%);
+  }
+  .gl-hero__inner { display: flex; flex-direction: column; padding-block: clamp(40px, 6vw, 72px) clamp(48px, 6vw, 80px); }
+  .gl-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.86rem; font-weight: 600; color: rgb(255 255 255 / 0.6); }
+  .gl-crumbs a { color: rgb(255 255 255 / 0.78); }
+  .gl-crumbs a:hover { color: #fff; }
+  .gl-crumbs span { color: var(--gold); }
+  .gl-hero__copy { margin-block: auto; padding-top: clamp(28px, 5vw, 48px); max-width: 600px; display: grid; gap: 18px; }
+  .gl-hero__eyebrow { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g-300); }
+  :global(html[lang='mr']) .gl-hero__eyebrow { letter-spacing: 0; text-transform: none; font-size: 0.95rem; }
+  .gl-hero__title { color: #fff; }
+  .gl-hero__title em { display: block; color: var(--gold); }
+  .gl-hero__lead { color: rgb(255 255 255 / 0.86); }
+  .gl-facts { margin: 6px 0 0; display: flex; gap: 0; padding-top: 18px; border-top: 1px solid rgb(255 255 255 / 0.18); }
+  .gl-facts > div { padding: 0 24px; border-left: 1px solid rgb(255 255 255 / 0.18); }
+  .gl-facts > div:first-child { padding-left: 0; border-left: 0; }
+  .gl-facts dt { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+  :global(html[lang='mr']) .gl-facts dt { letter-spacing: 0; text-transform: none; font-size: 0.82rem; }
+  .gl-facts dd { margin: 4px 0 0; font-size: 1.5rem; font-weight: 800; color: #fff; font-variant-numeric: tabular-nums; }
+  @media (max-width: 699px) {
+    .gl-hero { min-height: 0; }
+    .gl-hero__rows { align-content: start; padding-top: 70px; rotate: -3deg; }
+    .gl-row img { width: 170px; border-radius: 10px; }
+    .gl-hero::after { background: linear-gradient(180deg, rgb(4 36 23 / 0.45) 0, rgb(4 36 23 / 0.55) 120px, rgb(4 36 23 / 0.95) 260px, var(--g-950) 100%); }
+    .gl-hero__copy { padding-top: 160px; }
+  }
+
+  /* ---------- Photos: a mosaic of big, wide and tall tiles ---------- */
+  .gl-grid-sec { background: var(--bg); }
+  .gl-hint { color: var(--muted); font-size: 0.92rem; }
+  .gl-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: clamp(150px, 15vw, 210px); grid-auto-flow: dense; gap: clamp(8px, 1.2vw, 14px); }
+  .gl-tile--big { grid-column: span 2; grid-row: span 2; }
+  .gl-tile--wide { grid-column: span 2; }
+  .gl-tile--tall { grid-row: span 2; }
+  .gl-tile a { position: relative; display: block; height: 100%; overflow: hidden; border-radius: var(--r); background: var(--cream); cursor: zoom-in; }
+  .gl-tile img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 35%; transition: transform 1s var(--ease-out), filter 0.5s; }
+  .gl-tile a::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 50%, rgb(4 36 23 / 0.78)); opacity: 0.85; transition: opacity 0.4s; }
+  .gl-tile__cap {
+    position: absolute; z-index: 1; left: 14px; right: 14px; bottom: 12px;
+    color: #fff; font-weight: 700; font-size: 0.88rem; line-height: 1.35;
+    transform: translateY(4px); transition: transform 0.45s var(--ease-out);
+  }
+  .gl-tile__zoom {
+    position: absolute; z-index: 1; top: 12px; right: 12px; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%;
+    background: rgb(255 255 255 / 0.95); color: var(--g-800);
+    opacity: 0; scale: 0.6; transition: opacity 0.3s, scale 0.4s var(--ease-spring);
+  }
+  .gl-tile a:hover img, .gl-tile a:focus-visible img { transform: scale(1.07); filter: saturate(1.08); }
+  .gl-tile a:hover::after { opacity: 1; }
+  .gl-tile a:hover .gl-tile__cap { transform: none; }
+  .gl-tile a:hover .gl-tile__zoom, .gl-tile a:focus-visible .gl-tile__zoom { opacity: 1; scale: 1; }
+  @media (max-width: 699px) {
+    .gl-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 130px; }
+    .gl-tile__cap { left: 10px; right: 10px; bottom: 8px; font-size: 0.76rem; }
+    .gl-tile--tall { grid-row: span 2; }
+  }
+
+  /* ---------- Follow ---------- */
+  .gl-follow-wrap { background: var(--bg); padding-top: 0; }
+  .gl-follow {
+    display: grid; gap: 22px; align-items: center; padding: clamp(28px, 5vw, 48px); border-radius: var(--r-lg); color: rgb(255 255 255 / 0.86);
+    background: radial-gradient(80% 120% at 100% 0%, rgb(243 179 61 / 0.25), transparent 60%), linear-gradient(140deg, var(--g-700), var(--g-950));
+  }
+  @media (min-width: 960px) { .gl-follow { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  .gl-follow .h2 { color: #fff; }
+  .gl-follow .h2 em { color: var(--gold); }
+  .gl-follow p { margin-top: 10px; max-width: 520px; }
+  .gl-follow__links { display: flex; flex-wrap: wrap; gap: 10px; }
+  .gl-social {
+    display: inline-flex; align-items: center; gap: 8px; padding: 11px 16px; border-radius: 10px;
+    background: rgb(255 255 255 / 0.08); border: 1px solid rgb(255 255 255 / 0.25); color: #fff; font-weight: 600; font-size: 0.92rem;
+    transition: background 0.25s, color 0.25s, border-color 0.25s, transform 0.35s var(--ease-out);
+  }
+  .gl-social:hover { background: #fff; color: var(--g-800); border-color: #fff; transform: translateY(-2px); }
+  .gl-social--csr { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+  .gl-social--csr:hover { background: #fff; }
+
+  @media (prefers-reduced-motion: reduce) { .gl-row__track { animation: none; } }
+</style>

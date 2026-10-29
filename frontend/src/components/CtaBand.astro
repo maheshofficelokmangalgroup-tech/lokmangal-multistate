@@ -1,17 +1,18 @@
 ---
 import Icon from './Icon.astro';
-import { site } from '../data/site';
+import { siteData } from '../data/site';
+import { getLang, localePath } from '../i18n';
+import { useT } from '../i18n/ui';
 
 interface Props {
   title?: string;
   accent?: string;
   text?: string;
 }
-const {
-  title = 'Become part of the',
-  accent = 'Lokmangal family',
-  text = 'Open an account in minutes at any of our 60 branches, or let our team call you back with the right plan for your savings and goals.',
-} = Astro.props;
+const lang = getLang(Astro);
+const t = useT(lang);
+const { site } = siteData(lang);
+const { title = t('cta.title'), accent = t('cta.accent'), text = t('cta.text') } = Astro.props;
 ---
 
 <section class="section--tight cta-wrap">
@@ -24,7 +25,7 @@ const {
         <p>{text}</p>
       </div>
       <div class="cta__actions">
-        <a href="/open-an-account/" class="btn btn--primary btn--lg" data-magnetic>Open an Account <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+        <a href={localePath('/open-an-account/', lang)} class="btn btn--primary btn--lg" data-magnetic>{t('cta.openAnAccount')} <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
         <a href={site.phoneHref} class="btn btn--outline-light btn--lg"><Icon name="phone" size={18} /> {site.phone}</a>
       </div>
     </div>
@@ -51,10 +52,10 @@ const {
   .cta h2 em { color: var(--o-400); }
   .cta p { margin-top: 14px; max-width: 560px; }
   .cta__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .cta__glow, .cta__emblem { display: none; }
   .cta__glow {
     position: absolute; z-index: -1; width: 620px; height: 620px; right: -200px; top: -320px; border-radius: 50%;
     background: radial-gradient(circle, rgb(236 106 30 / 0.55), transparent 65%);
-    animation: blob-float 14s ease-in-out infinite alternate;
   }
   .cta__emblem {
     position: absolute; z-index: -1; left: -40px; bottom: -70px; width: 240px; height: auto;

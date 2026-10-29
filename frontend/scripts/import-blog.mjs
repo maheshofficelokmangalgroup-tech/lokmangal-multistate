@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+// LEGACY: written for the previous layout. It writes src/data/posts.json, which the site no longer reads
+// (posts now live in the admin Blog module and in seed/snapshot.json). Kept only as a reference for pulling
+// post text from the old WordPress site; adapt its output before relying on it.
+//
 // Imports news posts from the old WordPress site into src/data/posts.json
 // and downloads each post's featured image into public/images/blog/.
 //

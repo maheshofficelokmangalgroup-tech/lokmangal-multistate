@@ -1,27 +1,27 @@
 ---
 import Icon from './Icon.astro';
-import { site, footerLinks } from '../data/site';
+import { siteData } from '../data/site';
+import { getLang, localePath } from '../i18n';
+import { useT } from '../i18n/ui';
+
+const lang = getLang(Astro);
+const t = useT(lang);
+const l = (p: string) => localePath(p, lang);
+const { site, footerLinks } = siteData(lang);
 const year = new Date().getFullYear();
 ---
 
-<footer class="footer grain">
-  <div class="blobs" aria-hidden="true">
-    <span class="blob blob--o" style="width:520px;height:520px;right:-160px;top:-200px;opacity:.28"></span>
-    <span class="blob blob--g" style="width:460px;height:460px;left:-180px;bottom:-120px;opacity:.3;animation-delay:-6s"></span>
-  </div>
+<footer class="footer">
 
   <div class="container footer__inner">
     <div class="footer__top" data-reveal>
       <div class="footer__brand">
-        <a href="/" class="footer__logo" aria-label="Lokmangal Multistate — home">
+        <a href={l('/')} class="footer__logo" aria-label={t('brand.home')}>
           <span class="footer__emblem"><img src="/images/brand/emblem.png" alt="" width="42" height="51" /></span>
-          <span class="footer__name">Lokmangal<small>Multistate Co-op. Society Ltd.</small></span>
+          <span class="footer__name">{lang === 'mr' ? 'लोकमंगल' : 'Lokmangal'}<small>{t('footer.nameSub')}</small></span>
         </a>
-        <p class="footer__about">
-          A multi-state co-operative society registered under the {site.act}, Registration No. <strong>{site.registration}</strong>.
-          Serving farmers, families and entrepreneurs since {site.founded}.
-        </p>
-        <p class="footer__tagline"><span>{site.tagline}</span> · <span lang="mr">{site.taglineMr}</span></p>
+        <p class="footer__about" set:html={t('footer.about', { act: site.act, reg: `<strong>${site.registration}</strong>`, year: site.founded })} />
+        <p class="footer__tagline">{lang === 'mr' ? <span>{site.taglineMr}</span> : <><span>{site.tagline}</span> · <span lang="mr">{site.taglineMr}</span></>}</p>
         <div class="footer__social">
           {site.social.map((s) => (
             <a href={s.href} target="_blank" rel="noopener" aria-label={s.label}><Icon name={s.icon} size={18} /></a>
@@ -30,17 +30,17 @@ const year = new Date().getFullYear();
       </div>
 
       <div class="footer__col">
-        <h3>Quick links</h3>
-        <ul>{footerLinks.quick.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+        <h3>{t('footer.quick')}</h3>
+        <ul>{footerLinks.quick.map((x) => <li><a href={l(x.href)}>{x.label}</a></li>)}</ul>
       </div>
 
       <div class="footer__col">
-        <h3>Other links</h3>
-        <ul>{footerLinks.other.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+        <h3>{t('footer.other')}</h3>
+        <ul>{footerLinks.other.map((x) => <li><a href={l(x.href)}>{x.label}</a></li>)}</ul>
       </div>
 
       <div class="footer__col footer__contact">
-        <h3>Head office</h3>
+        <h3>{t('footer.head')}</h3>
         <ul>
           <li>
             <Icon name="map-pin" size={18} />
@@ -51,11 +51,11 @@ const year = new Date().getFullYear();
             <Icon name="mail" size={18} />
             <span><a href={`mailto:${site.email}`}>{site.email}</a><br /><a href={`mailto:${site.hrEmail}`}>{site.hrEmail}</a></span>
           </li>
-          <li><Icon name="landmark" size={18} /><span>IFSC: <strong>{site.ifsc}</strong></span></li>
+          <li><Icon name="landmark" size={18} /><span>{t('footer.ifsc')}: <strong>{site.ifsc}</strong></span></li>
         </ul>
         <a href={site.appUrl} target="_blank" rel="noopener" class="store-badge">
           <Icon name="play" size={22} />
-          <span><small>Get our app on</small>Google Play</span>
+          <span><small>{t('footer.getApp')}</small>{lang === 'mr' ? 'गुगल प्ले' : 'Google Play'}</span>
         </a>
       </div>
     </div>
@@ -63,11 +63,11 @@ const year = new Date().getFullYear();
     <div class="footer__wordmark" aria-hidden="true">Lokmangal</div>
 
     <div class="footer__bottom">
-      <p>© {year} {site.legalName} All rights reserved.</p>
+      <p>{t('footer.rights', { year, name: site.legalName })}</p>
       <p class="footer__legal">
-        <a href="/terms-of-use/">Terms of Use</a>
-        <a href="/privacy-policy/">Privacy Policy</a>
-        <a href="/sitemap/">Sitemap</a>
+        <a href={l('/terms-of-use/')}>{t('footer.terms')}</a>
+        <a href={l('/privacy-policy/')}>{t('footer.privacy')}</a>
+        <a href={l('/sitemap/')}>{t('footer.sitemap')}</a>
       </p>
     </div>
   </div>

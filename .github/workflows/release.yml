@@ -1,0 +1,54 @@
+name: Release
+
+# Builds and publishes the three images to GHCR when a version tag is pushed (e.g. v2027.04.1), then waits
+# for a person to approve the "production" environment before deploying to the server over SSH.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  images:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - { name: lokmangal-api, file: backend/Dockerfile }
+          - { name: lokmangal-site-builder, file: frontend/Dockerfile }
+          - { name: lokmangal-admin, file: admin/Dockerfile }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ${{ matrix.file }}
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/${{ matrix.name }}:${{ github.ref_name }}
+          cache-from: type=gha,scope=${{ matrix.name }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.name }}
+
+  deploy:
+    needs: images
+    runs-on: ubuntu-latest
+    # Configure this environment in GitHub with required reviewers, so nothing deploys without a person approving.
+    environment: production
+    steps:
+      - uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          script: |
+            cd /opt/lokmangal/deploy
+            git fetch --tags && git checkout ${{ github.ref_name }}
+            ./scripts/deploy.sh ${{ github.ref_name }}

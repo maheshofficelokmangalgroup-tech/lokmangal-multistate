@@ -18,6 +18,7 @@
     "build:site:seed": "npm run build:seed -w @lokmangal/frontend",
     "build:admin": "npm run build -w @lokmangal/admin",
     "test:finance": "npm test -w @lokmangal/finance",
-    "test": "npm test -w @lokmangal/finance && npm test -w @lokmangal/admin --if-present"
+    "test": "npm test -w @lokmangal/finance && npm test -w @lokmangal/admin --if-present",
+    "local": "node tools/local-dev/start.mjs"
   }
 }

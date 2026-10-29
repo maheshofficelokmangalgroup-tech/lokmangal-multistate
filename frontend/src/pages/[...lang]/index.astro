@@ -1,0 +1,1110 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Calculator from '../../components/Calculator.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { siteData } from '../../data/site';
+import { depositsData, fmtRate } from '../../data/deposits';
+import { loansData } from '../../data/loans';
+import { csrData } from '../../data/csr';
+import { servicesFor } from '../../data/services';
+import { postsFor } from '../../data/posts';
+import { getLang, langPaths, localePath } from '../../i18n';
+import { compute } from '@lokmangal/finance';
+import { useT } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+
+const lang = getLang(Astro);
+const t = useT(lang);
+const l = (p: string) => localePath(p, lang);
+const { site, stats, notices } = siteData(lang);
+const { schemes, fdSlabs } = depositsData(lang);
+const schemesEn = depositsData('en');
+const { loans } = loansData(lang);
+const { initiatives } = csrData(lang);
+const { services } = servicesFor(lang);
+const posts = postsFor(lang);
+
+const slides = [
+  {
+    eyebrow: t('home.slide1.eyebrow'),
+    title: t('home.slide1.title'),
+    accent: t('home.slide1.accent'),
+    text: t('home.slide1.text'),
+    cta: [t('home.slide1.cta'), l('/open-an-account/')],
+    cta2: [t('home.slide1.cta2'), l('/deposits/')],
+    image: '/images/hero/hero-1.webp',
+    pos: '85% 35%',
+  },
+  {
+    eyebrow: t('home.slide2.eyebrow'),
+    title: t('home.slide2.title'),
+    accent: t('home.slide2.accent'),
+    text: t('home.slide2.text'),
+    cta: [t('home.slide2.cta'), l('/deposits/')],
+    cta2: [t('home.slide2.cta2'), l('/interest-rates/')],
+    image: '/images/hero/hero-2.webp',
+    pos: '68% 45%',
+  },
+  {
+    eyebrow: t('home.slide3.eyebrow'),
+    title: t('home.slide3.title'),
+    accent: t('home.slide3.accent'),
+    text: t('home.slide3.text'),
+    cta: [t('home.slide3.cta'), l('/apply-loan/')],
+    cta2: [t('home.slide3.cta2'), l('/loans/')],
+    image: '/images/hero/hero-3.webp',
+    pos: '80% 40%',
+  },
+];
+
+// Photo cards, one picture per product (other brands' logos removed from the photos).
+const fdTop = schemes.find((s) => s.kind === 'fd' && s.rate !== null)?.rate;
+const quick = [
+  { tone: 'var(--g-600)', image: '/images/home/card-account.webp', pos: '50% 30%', tag: t('home.quick.tagAccount'), title: t('home.quick.account'), text: t('home.quick.accountText'), href: l('/open-an-account/'), links: [[t('home.quick.savings'), `${l('/open-an-account/')}?type=Savings%20Account`], [t('home.quick.current'), `${l('/open-an-account/')}?type=Current%20Account`]] },
+  { tone: 'var(--o-strong-hover)', image: '/images/home/card-fd.webp', pos: '50% 30%', tag: fdTop ? t('home.quick.tagFd', { rate: fmtRate(fdTop) }) : t('home.quick.fd'), title: t('home.quick.fd'), text: t('home.quick.fdText'), href: l('/deposits/'), links: [[t('btn.apply'), l('/apply-for-deposits/')]] },
+  { tone: '#7a5300', image: '/images/home/card-rd.webp', pos: '50% 30%', tag: t('home.quick.tagRd'), title: t('home.quick.rd'), text: t('home.quick.rdText'), href: l('/deposits/vishvamangal-recurring-deposit/'), links: [[t('btn.apply'), `${l('/apply-for-deposits/')}?scheme=Vishwamangal%20Recurring%20Deposit`]] },
+  { tone: 'var(--g-700)', image: '/images/home/card-loan.webp', pos: '50% 30%', tag: t('home.quick.tagLoan'), title: t('home.quick.loan'), text: t('home.quick.loanText'), href: l('/loans/'), links: [[t('btn.apply'), l('/apply-loan/')]] },
+];
+
+const journey = [
+  { year: t('home.j1.year'), title: t('home.j1.title'), text: t('home.j1.text', { act: site.act, reg: site.registration }) },
+  { year: t('home.j2.year'), title: t('home.j2.title'), text: t('home.j2.text') },
+  { year: t('home.j3.year'), title: t('home.j3.title'), text: t('home.j3.text') },
+  { year: t('home.j4.year'), title: t('home.j4.title'), text: t('home.j4.text') },
+];
+
+// Trust signals, all from the society's registration and FAQ.
+const trust = [
+  { icon: 'shield-check', title: t('home.trust.reg'), text: t('home.trust.regText', { act: lang === 'mr' ? 'बहुराज्य सहकारी संस्था कायदा, 2002' : 'Multi-State Co-op. Act, 2002', reg: site.registration }) },
+  { icon: 'file-text', title: t('home.trust.audit'), text: t('home.trust.auditText') },
+  { icon: 'users', title: t('home.trust.owned'), text: t('home.trust.ownedText') },
+  { icon: 'lock', title: t('home.trust.secure'), text: t('home.trust.secureText') },
+];
+
+const featured = schemes.filter((s) => s.featured).slice(0, 6);
+// Deposits board: the top fixed deposit as a feature card with its rate ladder, the rest as receipts.
+const fdFeature = featured.find((s) => s.kind === 'fd' && s.rate !== null);
+const tickets = featured.filter((s) => s !== fdFeature).slice(0, 5);
+const decimalsOf = (r: number) => (fmtRate(r).includes('.') ? 2 : 0);
+// The application form receives the English scheme name, whatever language the visitor reads.
+const applyHref = (slug: string) => `${l('/apply-for-deposits/')}?scheme=${encodeURIComponent(schemesEn.schemeBySlug(slug)?.name ?? slug)}`;
+const slabRates = fdSlabs.map((s) => s.regular);
+const [minRate, maxRate] = [Math.min(...slabRates), Math.max(...slabRates)];
+const barHeight = (r: number) => Math.round(30 + ((r - minRate) / (maxRate - minRate || 1)) * 70);
+const premium = fdSlabs.length ? fdSlabs[0].special - fdSlabs[0].regular : 0;
+const rupees = (n: number) => `₹${new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(Math.round(n))}`;
+// The same formula and approved rate as the scheme page's {calc} figures.
+const fdExample = fdFeature ? { ...fdFeature.calc, result: compute(fdFeature.calc.mode, fdFeature.calc.amount, fdFeature.calc.rate, fdFeature.calc.months).result } : null;
+const chartLabel = t('home.dep.chartLabel', { list: fdSlabs.map((s) => `${s.tenure} ${fmtRate(s.regular)}%`).join(', ') });
+const latest = posts.slice(0, 3);
+const words = (text: string, offset = 0) => text.split(' ').map((w, i) => ({ w, i: i + offset }));
+---
+
+<Base>
+  <!-- HERO -->
+  <section class="hero" data-hero>
+    <h1 class="sr-only">{t('home.title')}</h1>
+    <div class="hero__media" aria-hidden="true">
+      {slides.map((s, i) => (
+        <img src={s.image} alt="" class:list={['hero__img', { 'is-active': i === 0 }]} data-visual style={`object-position:${s.pos}`} width="1920" height="1080" fetchpriority={i === 0 ? 'high' : 'low'} />
+      ))}
+    </div>
+
+    <div class="container hero__inner">
+      <div class="hero__copy">
+        <div class="hero__slides">
+          {slides.map((s, i) => (
+            <div class:list={['hero__slide', { 'is-active': i === 0 }]} data-slide aria-hidden={i !== 0 ? 'true' : 'false'}>
+              <p class="eyebrow">{s.eyebrow}</p>
+              <h2 class="display hero__title">
+                {words(s.title).map(({ w, i: n }) => (<><span class="w"><span style={`--i:${n}`}>{w}</span></span>{' '}</>))}
+                <em>{words(s.accent, s.title.split(' ').length).map(({ w, i: n }, k, arr) => (<><span class="w"><span style={`--i:${n}`}>{w}</span></span>{k < arr.length - 1 ? ' ' : ''}</>))}</em>
+              </h2>
+              <p class="lead hero__text">{s.text}</p>
+              <div class="btn-row hero__ctas">
+                <a href={s.cta[1]} class="btn btn--primary btn--lg" tabindex={i !== 0 ? -1 : undefined}>{s.cta[0]} <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+                <a href={s.cta2[1]} class="btn btn--outline-light btn--lg" tabindex={i !== 0 ? -1 : undefined}>{s.cta2[0]}</a>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="hero__controls">
+          <button class="hero__arrow hero__toggle" data-hero-toggle aria-pressed="false" aria-label={t('home.hero.pause')}>
+            <svg class="hero__toggle-pause" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1.2" /><rect x="14" y="5" width="4" height="14" rx="1.2" /></svg>
+            <svg class="hero__toggle-play" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" /></svg>
+          </button>
+          <button class="hero__arrow" data-hero-prev aria-label={t('home.hero.prev')}><Icon name="chevron-left" size={20} /></button>
+          <div class="hero__dots">
+            {slides.map((s, i) => (
+              <button class:list={['hero__dot', { 'is-active': i === 0 }]} data-dot aria-label={t('home.hero.show', { n: i + 1, title: s.eyebrow })}><span></span></button>
+            ))}
+          </div>
+          <button class="hero__arrow" data-hero-next aria-label={t('home.hero.next')}><Icon name="chevron-right" size={20} /></button>
+        </div>
+        <p class="sr-only" aria-live="polite" data-hero-status></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS RIBBON -->
+  <section class="stats-wrap">
+    <div class="container">
+      <div class="stats" data-stagger>
+        {stats.map((s) => (
+          <div class="stat">
+            <p class="stat__num"><span data-count={s.value} data-prefix={s.prefix} data-suffix={s.suffix}>{s.prefix}{s.value}{s.suffix}</span></p>
+            <p class="stat__label">{s.label}</p>
+            <p class="stat__sub">{s.sub}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST / PROOF -->
+  <section class="trust-wrap" aria-labelledby="trust-title">
+    <div class="container">
+      <h2 class="sr-only" id="trust-title">{t('home.trust.title')}</h2>
+      <ul class="trust" data-stagger>
+        {trust.map((item) => (
+          <li class="trust__item">
+            <span class="trust__icon"><Icon name={item.icon} size={20} /></span>
+            <span><strong>{item.title}</strong><small>{item.text}</small></span>
+          </li>
+        ))}
+      </ul>
+      <p class="trust__more" data-reveal="fade"><a href={l('/faq/')} class="link-arrow">{t('home.trust.more')} <Icon name="arrow-right" size={15} /></a></p>
+    </div>
+  </section>
+
+  <!-- QUICK ACTIONS -->
+  <section class="section section--dark quick-sec">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <p class="eyebrow">{t('home.quick.eyebrow')}</p>
+        <h2 class="h2">{t('home.quick.h2a')} <em>{t('home.quick.h2b')}</em></h2>
+      </div>
+      <div class="quick-grid" data-stagger>
+        {quick.map((q) => (
+          <article class="qcard" style={`--tone:${q.tone}`}>
+            <img src={q.image} alt="" class="qcard__img" style={`object-position:${q.pos}`} width="800" height="1000" loading="lazy" />
+            <span class="qcard__tag">{q.tag}</span>
+            <h3 class="qcard__title"><a href={q.href}>{q.title}</a></h3>
+            <p class="qcard__text">{q.text}</p>
+            <div class="qcard__links">
+              {q.links.map(([label, href]) => <a href={href}>{label} <Icon name="arrow-right" size={15} /></a>)}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="section">
+    <div class="container split">
+      <figure class="intro-visual" data-reveal="left">
+        <img src="/images/home/intro.webp" alt={t('home.intro.alt')} width="1000" height="1250" loading="lazy" />
+        <figcaption class="intro-visual__badge">
+          <span class="intro-visual__year">{t('home.intro.years')}</span>
+          <span>{t('home.intro.yearsText')}</span>
+        </figcaption>
+      </figure>
+      <div class="stack" style="--stack:1.25rem">
+        <p class="eyebrow" data-reveal>{t('home.intro.eyebrow')}</p>
+        <h2 class="h2 words" data-words>
+          {words(t('home.intro.h2a')).map(({ w, i }) => (<><span class="w"><span style={`--i:${i}`}>{w}</span></span>{' '}</>))}
+          <em>{words(t('home.intro.h2b'), t('home.intro.h2a').split(' ').length).map(({ w, i }, k, arr) => (<><span class="w"><span style={`--i:${i}`}>{w}</span></span>{k < arr.length - 1 ? ' ' : ''}</>))}</em>
+        </h2>
+        <p class="lead" data-reveal>{t('home.intro.lead')}</p>
+        <ul class="check-list check-list--2" data-stagger>
+          <li>{t('home.intro.c1')}</li>
+          <li>{t('home.intro.c2')}</li>
+          <li>{t('home.intro.c3')}</li>
+          <li>{t('home.intro.c4')}</li>
+          <li>{t('home.intro.c5')}</li>
+          <li>{t('home.intro.c6')}</li>
+        </ul>
+        <div class="btn-row" data-reveal>
+          <a href={l('/about-us/')} class="btn btn--green">{t('home.intro.more')} <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+          <a href={l('/contact-us/')} class="btn btn--ghost">{t('home.intro.touch')}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPOSITS -->
+  <section class="section dep-sec">
+    <div class="container">
+      <div class="section-head section-head--row" data-reveal>
+        <div class="section-head__text">
+          <p class="eyebrow">{t('home.dep.eyebrow')}</p>
+          <h2 class="h2">{t('home.dep.h2a')} <em>{t('home.dep.h2b')}</em></h2>
+          <p class="lead">{t('home.dep.lead', { validity: site.ratesValidity })}</p>
+        </div>
+        <a href={l('/deposits/')} class="btn btn--ghost">{t('home.dep.all')} <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+      </div>
+      <div class="dep-board">
+        {fdFeature && (
+          <article class="dep-hero" data-reveal>
+            <div class="dep-hero__top">
+              <span class="dep-chip dep-chip--light">{t('kind.fd')}</span>
+              {lang === 'en' && <span class="dep-hero__mr" lang="mr">{fdFeature.nameMr}</span>}
+            </div>
+            <p class="dep-hero__rate"><span data-count={fdFeature.rate!} data-decimals={decimalsOf(fdFeature.rate!)}>{fmtRate(fdFeature.rate!)}</span><small>%</small></p>
+            <p class="dep-hero__note">{fdFeature.rateNote}</p>
+            <h3 class="dep-hero__name"><a href={l(`/deposits/${fdFeature.slug}/`)}>{fdFeature.name}</a></h3>
+            <p class="dep-hero__pitch">{fdFeature.pitch}</p>
+            <figure class="dep-chart" role="img" aria-label={chartLabel}>
+              <figcaption class="dep-chart__title">{t('home.dep.chart')}</figcaption>
+              <ol class="dep-chart__bars" aria-hidden="true">
+                {fdSlabs.map((s, i) => (
+                  <li style={`--h:${barHeight(s.regular)}%;--i:${i}`}>
+                    <span class="dep-chart__val">{fmtRate(s.regular)}%</span>
+                    <span class="dep-chart__bar"></span>
+                    <span class="dep-chart__label">{s.max == null ? `${s.min}+` : `${s.min}–${s.max}`}</span>
+                  </li>
+                ))}
+              </ol>
+              <p class="dep-chart__axis" aria-hidden="true"><span>{t('home.dep.days')}</span>{premium > 0 && <span>{t('home.dep.special', { rate: fmtRate(premium) })}</span>}</p>
+            </figure>
+            {fdExample && (
+              <p class="dep-example">
+                <span>{t('home.dep.example', { amount: rupees(fdExample.amount), months: fdExample.months })}</span>
+                <strong><span data-count={Math.round(fdExample.result)} data-prefix="₹">{rupees(fdExample.result)}</span> <small>{t('home.dep.maturity')}</small></strong>
+              </p>
+            )}
+            <div class="dep-hero__actions">
+              <a href={applyHref(fdFeature.slug)} class="btn btn--primary">{t('btn.apply')} <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+              <a href={l(`/deposits/${fdFeature.slug}/`)} class="dep-hero__more">{t('btn.details')} <Icon name="arrow-right" size={16} /></a>
+            </div>
+          </article>
+        )}
+        <div class="dep-tickets" data-stagger>
+          {tickets.map((s) => (
+            <article class="ticket">
+              <div class="ticket__main">
+                <div class="ticket__top">
+                  <span class="dep-chip">{t(`kind.${s.kind}` as 'kind.fd')}</span>
+                  {lang === 'en' && <span class="ticket__mr" lang="mr">{s.nameMr}</span>}
+                </div>
+                <p class="ticket__rate">
+                  {s.rate !== null
+                    ? <><span data-count={s.rate} data-decimals={decimalsOf(s.rate)}>{fmtRate(s.rate)}</span><small>%</small></>
+                    : <><span>2</span><small>×</small></>}
+                </p>
+                <p class="ticket__note">{s.rateNote}</p>
+                <h3 class="ticket__name"><a href={l(`/deposits/${s.slug}/`)}>{s.name}</a></h3>
+              </div>
+              <div class="ticket__stub">
+                <dl class="ticket__facts">
+                  {s.highlight.slice(0, 3).map((h) => <div><dt>{h.label}</dt><dd>{h.value}</dd></div>)}
+                </dl>
+                <a href={applyHref(s.slug)} class="ticket__apply" aria-label={`${t('btn.apply')}: ${s.name}`}>{t('btn.applyShort')} <Icon name="arrow-right" size={15} /></a>
+              </div>
+            </article>
+          ))}
+          <a href={l('/deposits/')} class="ticket-all">
+            <span class="ticket-all__n">{schemes.length}</span>
+            <strong>{t('home.dep.allTile')}</strong>
+            <small>{t('home.dep.allSub')}</small>
+            <span class="ticket-all__go"><Icon name="arrow-right" size={20} /></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALCULATOR -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <p class="eyebrow">{t('home.calc.eyebrow')}</p>
+        <h2 class="h2">{t('home.calc.h2a')} <em>{t('home.calc.h2b')}</em></h2>
+        <p class="lead">{t('home.calc.lead')}</p>
+      </div>
+      <div data-reveal="zoom"><Calculator /></div>
+    </div>
+  </section>
+
+  <!-- JOURNEY -->
+  <section class="section section--dark journey-sec">
+    <div class="container split split--wide-right on-dark" style="position:relative;z-index:1">
+      <div class="stack" style="--stack:1.3rem">
+        <p class="eyebrow" data-reveal>{t('home.story.eyebrow')}</p>
+        <h2 class="h2" data-reveal>{t('home.story.h2a')} <em>{t('home.story.h2b')}</em> {t('home.story.h2c')}</h2>
+        <p class="lead" data-reveal>{t('home.story.lead')}</p>
+        <div class="journey-links" data-stagger>
+          <a href={l('/about-us/')}><Icon name="landmark" size={18} /> {t('home.story.about')} <Icon name="arrow-up-right" size={16} /></a>
+          <a href={l('/social-responsibility/')}><Icon name="heart" size={18} /> {t('home.story.csr')} <Icon name="arrow-up-right" size={16} /></a>
+          <a href={l('/branches/')}><Icon name="map-pin" size={18} /> {t('home.story.branches')} <Icon name="arrow-up-right" size={16} /></a>
+          <a href={l('/careers/')}><Icon name="briefcase" size={18} /> {t('home.story.careers')} <Icon name="arrow-up-right" size={16} /></a>
+        </div>
+      </div>
+      <ol class="timeline" data-stagger>
+        {journey.map((j) => (
+          <li class="timeline__item">
+            <span class="timeline__dot" aria-hidden="true"></span>
+            <div>
+              <span class="timeline__year">{j.year}</span>
+              <h3 class="h4">{j.title}</h3>
+              <p>{j.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- LOANS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head section-head--row" data-reveal>
+        <div class="section-head__text">
+          <p class="eyebrow">{t('home.loans.eyebrow')}</p>
+          <h2 class="h2">{t('home.loans.h2a')} <em>{t('home.loans.h2b')}</em></h2>
+          <p class="lead">{t('home.loans.lead')}</p>
+        </div>
+        <div class="carousel-nav">
+          <button class="carousel-btn carousel-toggle" data-carousel-toggle aria-pressed="false" aria-label={t('home.loans.pause')} data-label-pause={t('home.loans.pause')} data-label-play={t('home.loans.play')} hidden>
+            <svg class="carousel-toggle__pause" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1.2" /><rect x="14" y="5" width="4" height="14" rx="1.2" /></svg>
+            <svg class="carousel-toggle__play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" /></svg>
+          </button>
+          <button class="carousel-btn" data-scroll="-1" aria-label={t('home.loans.left')}><Icon name="chevron-left" size={20} /></button>
+          <button class="carousel-btn" data-scroll="1" aria-label={t('home.loans.right')}><Icon name="chevron-right" size={20} /></button>
+        </div>
+      </div>
+    </div>
+    <div class="carousel" data-carousel data-reveal>
+      <div class="carousel__track">
+        {loans.map((ln) => (
+          <a href={l(`/loans/#${ln.slug}`)} class="loan-tile">
+            <div class="loan-tile__img zoom"><img src={ln.image} alt="" loading="lazy" width="360" height="400" /></div>
+            <div class="loan-tile__body">
+              <span class="loan-tile__icon"><Icon name={ln.icon} size={20} /></span>
+              <h3>{ln.name}</h3>
+              <p>{ln.summary}</p>
+              <dl>
+                <div><dt>{t('home.loans.interest')}</dt><dd>{ln.rate}</dd></div>
+                <div><dt>{t('home.loans.amount')}</dt><dd>{ln.amount}</dd></div>
+              </dl>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+    <div class="container">
+      <div class="carousel-progress" aria-hidden="true"><span data-carousel-bar></span></div>
+    </div>
+    <div class="container center mt-4" data-reveal>
+      <a href={l('/apply-loan/')} class="btn btn--primary btn--lg">{t('home.loans.apply')} <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+    </div>
+  </section>
+
+  <!-- CSR -->
+  <section class="section csr">
+    <div class="container split split--wide-left">
+      <div class="csr-collage" data-reveal="left" data-drift style="--drift:16px">
+        <img src="/images/csr/tree-plantation.webp" alt={t('home.csr.alt1')} loading="lazy" width="400" height="265" class="csr-collage__a" />
+        <img src="/images/csr/cleaning-drive.webp" alt={t('home.csr.alt2')} loading="lazy" width="400" height="265" class="csr-collage__b" />
+        <img src="/images/csr/youth-festival.webp" alt={t('home.csr.alt3')} loading="lazy" width="400" height="265" class="csr-collage__c" />
+        <div class="csr-collage__stat">
+          <strong data-count="2500" data-suffix="+">2,500+</strong>
+          <span>{t('home.csr.stat')}</span>
+        </div>
+      </div>
+      <div class="stack" style="--stack:1.25rem">
+        <p class="group-mark" data-reveal>
+          <img src="/images/brand/emblem.png" alt="" width="44" height="53" />
+          <span class="group-mark__text">
+            <span class="group-mark__name">{t('home.csr.name')}</span>
+            <span class="group-mark__mr" lang={lang === 'mr' ? 'en' : 'mr'}>{t('home.csr.nameOther')}</span>
+          </span>
+        </p>
+        <h2 class="h2" data-reveal>{t('home.csr.h2a')} <em>{t('home.csr.h2b')}</em></h2>
+        <p class="lead" data-reveal>{t('home.csr.lead')}</p>
+        <ol class="csr-list" data-stagger>
+          {initiatives.map((it, i) => (
+            <li>
+              <span class="csr-list__n">{String(i + 1).padStart(2, '0')}</span>
+              <span><strong>{it.title}</strong><small>{it.stat}</small></span>
+            </li>
+          ))}
+        </ol>
+        <div class="btn-row" data-reveal>
+          <a href={l('/social-responsibility/')} class="btn btn--light csr-btn">{t('home.csr.more')} <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+          <a href={l('/contact-us/')} class="btn btn--outline-light">{t('home.csr.involved')}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIGITAL -->
+  <section class="section digital-sec">
+    <div class="container split">
+      <div class="stack" style="--stack:1.25rem">
+        <p class="eyebrow" data-reveal>{t('home.digital.eyebrow')}</p>
+        <h2 class="h2" data-reveal>{t('home.digital.h2a')} <em>{t('home.digital.h2b')}</em></h2>
+        <p class="lead" data-reveal>{t('home.digital.lead')}</p>
+        <ul class="digital-list" data-stagger>
+          {services.slice(0, 6).map((s) => <li>{s.title}</li>)}
+        </ul>
+        <div class="btn-row" data-reveal>
+          <a href={site.appUrl} target="_blank" rel="noopener" class="play-badge" aria-label={t('home.digital.play')}>
+            <svg width="24" height="26" viewBox="0 0 24 26" aria-hidden="true"><path d="M2 1.2 14 13 2 24.8c-.6-.3-1-1-1-1.8V3c0-.8.4-1.5 1-1.8Z" fill="#34A853" /><path d="m18.2 8.8-4.2 4.2 4.2 4.2 4.6-2.6c1.6-.9 1.6-2.3 0-3.2l-4.6-2.6Z" fill="#FBBC04" /><path d="M2 1.2c.4-.2 1-.2 1.6.1l14.6 7.5L14 13 2 1.2Z" fill="#4285F4" /><path d="M14 13l4.2 4.2-14.6 7.5c-.6.3-1.2.3-1.6.1L14 13Z" fill="#EA4335" /></svg>
+            <span><small>{t('home.digital.getOn')}</small>{t('home.digital.store')}</span>
+          </a>
+          <a href={l('/other-services/')} class="btn btn--ghost">{t('home.digital.all')}</a>
+        </div>
+      </div>
+      <figure class="digital-photo" data-reveal="right">
+        <img src="/images/home/mobile-banking.webp" alt={t('home.digital.alt')} width="1000" height="1250" loading="lazy" />
+      </figure>
+    </div>
+  </section>
+
+  <!-- NOTICES -->
+  <section class="section notices-sec">
+    <div class="container">
+      <div class="board" data-reveal>
+        <div class="board__head">
+          <div>
+            <p class="board__kicker">{t('home.notices.eyebrow')}</p>
+            <h2 class="board__title">{notices.title}</h2>
+          </div>
+          <a href={l('/notices/')} class="board__all">{t('home.notices.all')} <Icon name="arrow-right" size={16} /></a>
+        </div>
+        <ol class="board__list" data-stagger>
+          {notices.items.slice(0, 6).map((n, i) => (
+            <li>
+              <a href={n.kind === 'page' ? l(n.href) : n.href} target={n.kind === 'page' ? undefined : '_blank'} rel={n.kind === 'page' ? undefined : 'noopener'}>
+                <span class="board__n">{String(i + 1).padStart(2, '0')}</span>
+                <span class="board__label">{n.label}</span>
+                <span class="board__type">{t(`home.notices.type.${n.kind === 'pdf' ? 'pdf' : n.kind === 'drive' ? 'drive' : 'page'}` as 'home.notices.type.pdf')}</span>
+                <Icon name="arrow-up-right" size={16} class="board__go" />
+              </a>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORIES -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head section-head--row" data-reveal>
+        <div class="section-head__text">
+          <p class="eyebrow">{t('home.news.eyebrow')}</p>
+          <h2 class="h2">{t('home.news.h2a')} <em>{t('home.news.h2b')}</em></h2>
+          <p class="lead">{t('home.news.lead')}</p>
+        </div>
+        <a href={l('/blog/')} class="btn btn--ghost">{t('home.news.all')} <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+      </div>
+      <div class="grid grid-3" data-stagger>
+        {latest.map((p) => <BlogCard post={p} />)}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<script>
+  // Loan carousel. The tiles glide slowly and continuously from left to right and loop without a seam (the set
+  // is repeated once, hidden from screen readers and the keyboard). It holds still while a pointer is over it,
+  // while it has keyboard focus, while it is off screen, after the pause button and for a few seconds after
+  // someone swipes, drags or uses the arrows; with reduced motion it never moves on its own.
+  document.addEventListener('astro:page-load', () => {
+    const carousel = document.querySelector<HTMLElement>('[data-carousel]');
+    if (!carousel) return;
+    const track = carousel.querySelector<HTMLElement>('.carousel__track')!;
+    const originals = Array.from(track.children) as HTMLElement[];
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const auto = !reduce && originals.length > 1;
+
+    if (auto && !track.dataset.looped) {
+      track.dataset.looped = '1';
+      for (const tile of originals) {
+        const copy = tile.cloneNode(true) as HTMLElement;
+        copy.setAttribute('aria-hidden', 'true');
+        copy.inert = true;
+        track.append(copy);
+      }
+    }
+    // Distance after which the repeated set lines up exactly with the first one.
+    const loopWidth = () => {
+      const first = originals[0];
+      const copy = track.children[originals.length] as HTMLElement | undefined;
+      return auto && first && copy ? copy.offsetLeft - first.offsetLeft : 0;
+    };
+
+    // Someone is steering: let snapping work and keep the auto-scroll away for a moment.
+    let holdUntil = 0;
+    const hold = (ms = 3500) => {
+      holdUntil = performance.now() + ms;
+      carousel.classList.remove('is-auto');
+    };
+
+    document.querySelectorAll<HTMLButtonElement>('[data-scroll]').forEach((btn) =>
+      btn.addEventListener('click', () => {
+        hold(4500);
+        const card = carousel.querySelector<HTMLElement>('.loan-tile');
+        const step = card ? card.offsetWidth + 20 : 320;
+        carousel.scrollBy({ left: Number(btn.dataset.scroll) * step * 2, behavior: 'smooth' });
+      }),
+    );
+
+    // Progress bar: where we are within one round of the loans.
+    const bar = document.querySelector<HTMLElement>('[data-carousel-bar]');
+    const update = () => {
+      if (!bar) return;
+      const lw = loopWidth();
+      if (lw > 0) {
+        const share = Math.min(1, carousel.clientWidth / (lw + carousel.clientWidth));
+        const p = (carousel.scrollLeft % lw) / lw;
+        bar.style.width = (share * 100).toFixed(1) + '%';
+        bar.style.transform = 'translateX(' + (p * (1 / share - 1) * 100).toFixed(1) + '%)';
+        return;
+      }
+      const max = carousel.scrollWidth - carousel.clientWidth;
+      const share = max > 0 ? carousel.clientWidth / carousel.scrollWidth : 1;
+      bar.style.width = (share * 100).toFixed(1) + '%';
+      bar.style.transform = 'translateX(' + (max > 0 ? (carousel.scrollLeft / max) * (1 / share - 1) * 100 : 0).toFixed(1) + '%)';
+    };
+    update();
+    carousel.addEventListener('scroll', update, { passive: true });
+    addEventListener('resize', update);
+
+    // Click-and-drag with the mouse.
+    let down = false;
+    let moved = false;
+    let startX = 0;
+    let startLeft = 0;
+    carousel.addEventListener('pointerdown', (e) => {
+      hold();
+      if (e.pointerType !== 'mouse') return;
+      down = true;
+      moved = false;
+      startX = e.clientX;
+      startLeft = carousel.scrollLeft;
+    });
+    addEventListener('pointermove', (e) => {
+      if (!down) return;
+      const dx = e.clientX - startX;
+      if (Math.abs(dx) > 5) {
+        moved = true;
+        carousel.classList.add('is-dragging');
+      }
+      if (moved) carousel.scrollLeft = startLeft - dx;
+    });
+    addEventListener('pointerup', () => {
+      if (!down) return;
+      down = false;
+      hold();
+      carousel.classList.remove('is-dragging');
+    });
+    // A drag must not open the loan the pointer happened to end on.
+    carousel.addEventListener('click', (e) => { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
+    carousel.addEventListener('touchstart', () => hold(), { passive: true });
+    carousel.addEventListener('wheel', (e) => { if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) hold(); }, { passive: true });
+
+    if (!auto) return;
+
+    const toggle = document.querySelector<HTMLButtonElement>('[data-carousel-toggle]');
+    let paused = false;
+    if (toggle) {
+      toggle.hidden = false;
+      toggle.addEventListener('click', () => {
+        paused = !paused;
+        toggle.setAttribute('aria-pressed', String(paused));
+        toggle.setAttribute('aria-label', (paused ? toggle.dataset.labelPlay : toggle.dataset.labelPause) ?? '');
+      });
+    }
+    let hovering = false;
+    carousel.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') hovering = true; });
+    carousel.addEventListener('pointerleave', () => { hovering = false; });
+    let visible = false;
+    const io = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; }, { threshold: 0.15 });
+    io.observe(carousel);
+
+    const SPEED = 36; // px per second: slow enough to read a tile while it passes
+    let pos = carousel.scrollLeft;
+    let last = 0;
+    let raf = 0;
+    const frame = (now: number) => {
+      raf = requestAnimationFrame(frame);
+      const dt = last ? Math.min(50, now - last) : 0;
+      last = now;
+      const still = paused || hovering || !visible || document.hidden || down || carousel.matches(':focus-within');
+      if (still || now < holdUntil) {
+        pos = carousel.scrollLeft; // carry on from wherever the visitor left it
+        return;
+      }
+      carousel.classList.add('is-auto');
+      const lw = loopWidth();
+      pos += (SPEED * dt) / 1000;
+      if (lw > 0 && pos >= lw) pos -= lw;
+      carousel.scrollLeft = pos;
+    };
+    raf = requestAnimationFrame(frame);
+    document.addEventListener('astro:before-swap', () => { cancelAnimationFrame(raf); io.disconnect(); }, { once: true });
+  });
+</script>
+
+<style>
+  /* HERO */
+  .hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    min-height: clamp(580px, 80vh, 780px);
+    padding: clamp(64px, 8vw, 104px) 0 clamp(130px, 12vw, 180px);
+    color: #fff;
+    background: var(--g-950);
+  }
+  .hero__inner { position: relative; z-index: 1; width: min(100% - var(--gutter) * 2, var(--container)); }
+  .hero__copy { max-width: 640px; }
+  .hero__slides { display: grid; }
+  .hero__slide { grid-area: 1 / 1; visibility: hidden; opacity: 0; transition: opacity 0.6s, visibility 0.6s; }
+  .hero__slide.is-active { visibility: visible; opacity: 1; }
+  .hero__slide > * + * { margin-top: 22px; }
+  .hero__slide .eyebrow { color: var(--g-300); }
+  .hero__title { color: #fff; }
+  .hero__title em { display: block; color: var(--o-400); }
+  .hero__title .w > span { transform: translateY(105%); transition: transform 1s var(--ease-out); transition-delay: calc(var(--i) * 60ms + 120ms); }
+  .hero__slide.is-active .hero__title .w > span { transform: none; }
+  .hero__text, .hero__ctas, .hero__slide .eyebrow { opacity: 0; transform: translateY(18px); transition: opacity 0.8s var(--ease-out), transform 0.9s var(--ease-out); }
+  .hero__slide.is-active .eyebrow { opacity: 1; transform: none; transition-delay: 0.05s; }
+  .hero__slide.is-active .hero__text { opacity: 1; transform: none; transition-delay: 0.45s; }
+  .hero__slide.is-active .hero__ctas { opacity: 1; transform: none; transition-delay: 0.6s; }
+  .hero__text { max-width: 540px; color: rgb(255 255 255 / 0.88); }
+
+  .hero__controls { display: flex; align-items: center; gap: 16px; margin-top: 44px; }
+  .hero__arrow { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; color: #fff; border: 1px solid rgb(255 255 255 / 0.2); transition: background 0.25s, border-color 0.25s; }
+  .hero__arrow:hover { background: var(--o-500); border-color: var(--o-500); }
+  .hero__dots { display: flex; gap: 4px; }
+  /* 44×24px hit area around a 6px visual bar */
+  .hero__dot { position: relative; width: 48px; height: 24px; display: grid; align-items: center; }
+  .hero__dot::before { content: ''; height: 6px; border-radius: 6px; background: rgb(255 255 255 / 0.22); transition: background var(--dur-s); }
+  .hero__dot:hover::before { background: rgb(255 255 255 / 0.4); }
+  .hero__dot span { position: absolute; left: 0; right: 0; top: 9px; height: 6px; border-radius: 6px; background: var(--o-400); transform: scaleX(0); transform-origin: left; }
+  .hero__dot.is-active span { animation: dot-fill var(--slide-ms, 6500ms) linear forwards; }
+  @keyframes dot-fill { to { transform: scaleX(1); } }
+  .hero__toggle-play { display: none; }
+  .hero__toggle[aria-pressed='true'] .hero__toggle-play { display: block; }
+  .hero__toggle[aria-pressed='true'] .hero__toggle-pause { display: none; }
+  /* Paused: freeze every decorative loop in the hero (WCAG 2.2.2) */
+  .hero.is-paused *, .hero.is-paused *::before, .hero.is-paused *::after { animation-play-state: paused !important; }
+  .hero.is-paused .hero__dot.is-active span { transform: scaleX(1); animation: none; opacity: 0.55; }
+
+  /* The photo fills the hero; a green wash keeps the words readable. */
+  .hero__media { position: absolute; inset: 0; z-index: -1; }
+  .hero__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgb(4 36 23 / 0.94) 0%, rgb(4 36 23 / 0.8) 38%, rgb(4 36 23 / 0.3) 72%, rgb(4 36 23 / 0.12) 100%); }
+  /* Phones: the photo sits on its own at the top and fades into the green, so faces are never behind words. */
+  @media (max-width: 899px) {
+    .hero { display: block; min-height: 0; padding-top: min(78vw, 360px); padding-bottom: 130px; }
+    .hero__media { inset: 0 0 auto 0; height: min(88vw, 400px); }
+    .hero__media::after { background: linear-gradient(180deg, rgb(4 36 23 / 0.2) 0%, rgb(4 36 23 / 0) 40%, var(--g-950) 100%); }
+  }
+  .hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.06); transition: opacity 1.1s var(--ease), transform 8s linear; }
+  .hero__img.is-active { opacity: 1; transform: scale(1); }
+
+  /* STATS */
+  .stats-wrap { position: relative; z-index: 2; margin-top: clamp(-110px, -9vw, -70px); }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border-radius: var(--r);
+    background: var(--surface);
+    box-shadow: 0 12px 30px -16px rgb(5 42 26 / 0.35);
+    border: 1px solid var(--line-2);
+    overflow: hidden;
+  }
+  @media (min-width: 900px) { .stats { grid-template-columns: repeat(4, 1fr); } }
+  .stat { position: relative; padding: clamp(22px, 3vw, 36px); }
+  .stat + .stat::before { content: ''; position: absolute; left: 0; top: 22%; bottom: 22%; width: 1px; background: var(--line); }
+  @media (max-width: 899px) { .stat:nth-child(3)::before { display: none; } .stat:nth-child(n + 3) { border-top: 1px solid var(--line-2); } }
+  .stat__num { font-size: clamp(1.35rem, 5.4vw, 2.9rem); white-space: nowrap; font-weight: 800; letter-spacing: -0.04em; line-height: 1; color: var(--g-700); font-variant-numeric: tabular-nums; }
+  @media (max-width: 520px) { .stat { padding: 20px 16px; } .stat__sub { font-size: 0.8rem; } }
+  .stat:nth-child(even) .stat__num { color: var(--o-600); }
+  .stat__label { margin-top: 10px; font-weight: 800; color: var(--ink); }
+  .stat__sub { font-size: 0.86rem; color: var(--muted); }
+
+  /* TRUST */
+  .trust-wrap { padding-top: clamp(28px, 4vw, 44px); }
+  .trust { list-style: none; display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); }
+  .trust__item { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 18px; background: var(--surface); border: 1px solid var(--line-2); transition: border-color var(--dur-s), transform var(--dur-m) var(--ease-out); }
+  .trust__item:hover { border-color: var(--g-200); transform: translateY(-2px); }
+  .trust__icon { flex: none; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 12px; background: var(--g-700); color: #fff; }
+  .trust__item strong { display: block; color: var(--ink); font-size: 0.95rem; line-height: 1.3; }
+  .trust__item small { display: block; color: var(--muted); font-size: 0.82rem; line-height: 1.4; }
+  .trust__more { margin-top: 14px; text-align: center; font-size: 0.92rem; }
+
+  /* QUICK: photo cards, each in its own brand colour, on a deep green band with a soft field photo behind */
+  .quick-sec { position: relative; isolation: isolate; overflow: hidden; }
+  .quick-sec::before {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background:
+      radial-gradient(70% 60% at 50% 0%, rgb(236 106 30 / 0.16), transparent 70%),
+      linear-gradient(180deg, rgb(4 36 23 / 0.9), rgb(4 36 23 / 0.8) 45%, rgb(4 36 23 / 0.96)),
+      url('/images/home/quick-bg.webp') center / cover no-repeat;
+  }
+  .quick-sec .section-head .h2 { color: #fff; }
+  .quick-grid { display: grid; gap: clamp(12px, 1.6vw, 20px); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (min-width: 900px) { .quick-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .qcard {
+    position: relative; isolation: isolate; overflow: hidden;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    min-height: 410px; padding: 22px; border-radius: var(--r-lg);
+    color: #fff; background: var(--tone);
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 0.12), 0 24px 44px -24px rgb(0 0 0 / 0.75);
+    transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out);
+  }
+  .qcard__img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; transition: transform 1.1s var(--ease-out); }
+  .qcard::before {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(180deg, transparent 22%, color-mix(in srgb, var(--tone) 62%, transparent) 50%, var(--tone) 78%);
+  }
+  .qcard__tag {
+    position: absolute; top: 16px; left: 16px;
+    padding: 6px 12px; border-radius: 999px; background: rgb(255 255 255 / 0.95);
+    color: var(--tone); font-size: 0.78rem; font-weight: 700; line-height: 1.2;
+    box-shadow: 0 6px 16px -6px rgb(0 0 0 / 0.35);
+  }
+  .qcard__title { color: #fff; font-size: 1.3rem; line-height: 1.25; }
+  .qcard__title a::after { content: ''; position: absolute; inset: 0; z-index: 0; }
+  .qcard__text { margin-top: 8px; font-size: 0.92rem; line-height: 1.55; color: rgb(255 255 255 / 0.9); }
+  .qcard__links { position: relative; z-index: 1; margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .qcard__links a {
+    display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px;
+    background: rgb(255 255 255 / 0.14); border: 1px solid rgb(255 255 255 / 0.4);
+    color: #fff; font-weight: 600; font-size: 0.86rem; line-height: 1.2;
+    transition: background 0.25s, color 0.25s, border-color 0.25s;
+  }
+  .qcard__links a :global(.icon) { transition: transform 0.25s var(--ease-out); }
+  .qcard__links a:hover { background: #fff; border-color: #fff; color: var(--tone); }
+  .qcard__links a:hover :global(.icon) { transform: translateX(3px); }
+  .qcard:hover { transform: translateY(-6px); box-shadow: 0 0 0 1px rgb(255 255 255 / 0.25), 0 34px 56px -26px rgb(0 0 0 / 0.8); }
+  .qcard:hover .qcard__img { transform: scale(1.07); }
+  .qcard:active { transform: translateY(-2px) scale(0.985); transition-duration: 0.12s; }
+  @media (max-width: 639px) {
+    .qcard { min-height: 250px; padding: 14px; border-radius: var(--r); }
+    .qcard::before { background: linear-gradient(180deg, transparent 12%, color-mix(in srgb, var(--tone) 62%, transparent) 42%, var(--tone) 72%); }
+    .qcard__tag { top: 10px; left: 10px; padding: 4px 9px; font-size: 0.7rem; }
+    .qcard__title { font-size: 1.02rem; }
+    .qcard__text { display: none; }
+    .qcard__links { margin-top: 10px; gap: 6px; }
+    .qcard__links a { padding: 6px 9px; font-size: 0.76rem; }
+  }
+
+  /* DEPOSITS: a feature card with the FD rate ladder, and receipt-style tickets, on a banknote-pattern band */
+  .dep-sec { position: relative; isolation: isolate; overflow: hidden; background: linear-gradient(180deg, #fff8f0 0%, #fdeedd 100%); }
+  .dep-sec::before {
+    content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60' fill='none' stroke='%23d9884a' stroke-width='.8' stroke-opacity='.3'%3E%3Cpath d='M0 30C15 12 45 12 60 30S105 48 120 30'/%3E%3Cpath d='M0 30C15 48 45 48 60 30S105 12 120 30'/%3E%3Cpath d='M0 20C15 2 45 2 60 20S105 38 120 20'/%3E%3Cpath d='M0 40C15 58 45 58 60 40S105 22 120 40'/%3E%3C/svg%3E");
+    background-size: 120px 60px;
+    mask-image: linear-gradient(180deg, #000 0%, rgb(0 0 0 / 0.35) 55%, transparent 100%);
+  }
+  .dep-board { display: grid; gap: clamp(14px, 1.8vw, 22px); align-items: stretch; }
+  @media (min-width: 1024px) { .dep-board { grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.55fr); } }
+
+  .dep-chip { display: inline-flex; align-items: center; padding: 5px 11px; border-radius: 999px; background: var(--g-100); color: var(--g-700); font-size: 0.74rem; font-weight: 700; line-height: 1.2; }
+  .dep-chip--light { background: rgb(255 255 255 / 0.14); color: #fff; border: 1px solid rgb(255 255 255 / 0.28); }
+
+  .dep-hero {
+    position: relative; isolation: isolate; overflow: hidden;
+    display: flex; flex-direction: column; gap: 10px;
+    padding: clamp(22px, 2.6vw, 32px); border-radius: var(--r-lg); color: rgb(255 255 255 / 0.85);
+    background: radial-gradient(90% 60% at 100% 0%, rgb(243 179 61 / 0.22), transparent 60%), linear-gradient(160deg, var(--g-700), var(--g-900) 70%);
+    box-shadow: 0 30px 60px -30px rgb(5 42 26 / 0.7);
+  }
+  .dep-hero::before {
+    content: ''; position: absolute; inset: 0; z-index: -1; opacity: 0.5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60' fill='none' stroke='%23ffffff' stroke-width='.7' stroke-opacity='.18'%3E%3Cpath d='M0 30C15 12 45 12 60 30S105 48 120 30'/%3E%3Cpath d='M0 30C15 48 45 48 60 30S105 12 120 30'/%3E%3C/svg%3E");
+    background-size: 120px 60px;
+    mask-image: linear-gradient(200deg, #000, transparent 60%);
+  }
+  .dep-hero__top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .dep-hero__mr { font-size: 0.82rem; font-weight: 600; color: rgb(255 255 255 / 0.7); }
+  .dep-hero__rate { display: flex; align-items: flex-start; margin-top: 6px; color: #fff; line-height: 0.9; }
+  .dep-hero__rate span { font-size: clamp(4.2rem, 8vw, 6rem); font-weight: 800; letter-spacing: -0.05em; font-variant-numeric: tabular-nums; }
+  .dep-hero__rate small { font-size: 2.2rem; font-weight: 800; margin: 8px 0 0 4px; color: var(--gold); }
+  .dep-hero__note { font-size: 0.86rem; font-weight: 600; color: rgb(255 255 255 / 0.7); }
+  .dep-hero__name { color: #fff; font-size: 1.35rem; margin-top: 6px; }
+  .dep-hero__name a::after { content: ''; position: absolute; inset: 0; z-index: 0; }
+  .dep-hero__pitch { font-size: 0.95rem; color: rgb(255 255 255 / 0.82); }
+
+  .dep-chart { margin: 14px 0 0; padding: 16px 16px 12px; border-radius: var(--r); background: rgb(0 0 0 / 0.18); border: 1px solid rgb(255 255 255 / 0.1); }
+  .dep-chart__title { font-size: 0.8rem; font-weight: 700; color: rgb(255 255 255 / 0.75); margin-bottom: 12px; }
+  .dep-chart__bars { list-style: none; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 10px; height: 150px; align-items: end; }
+  .dep-chart__bars li { height: 100%; display: grid; grid-template-rows: auto 1fr auto; justify-items: center; gap: 6px; }
+  .dep-chart__val { font-size: 0.78rem; font-weight: 700; color: #fff; font-variant-numeric: tabular-nums; opacity: 0; transform: translateY(6px); transition: opacity 0.5s, transform 0.5s var(--ease-out); transition-delay: calc(var(--i) * 110ms + 700ms); align-self: end; }
+  .dep-chart__bar {
+    width: 100%; max-width: 46px; align-self: end; height: var(--h); border-radius: 8px 8px 3px 3px;
+    background: linear-gradient(180deg, var(--gold), var(--o-500));
+    transform: scaleY(0); transform-origin: bottom;
+    transition: transform 0.9s var(--ease-out); transition-delay: calc(var(--i) * 110ms + 250ms);
+  }
+  .dep-chart__bars li:last-child .dep-chart__bar { box-shadow: 0 0 0 3px rgb(243 179 61 / 0.3), 0 10px 24px -6px rgb(243 179 61 / 0.6); }
+  .dep-chart__label { font-size: 0.72rem; font-weight: 600; color: rgb(255 255 255 / 0.7); white-space: nowrap; }
+  .dep-chart__axis { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; margin-top: 10px; font-size: 0.74rem; color: rgb(255 255 255 / 0.6); }
+  .dep-chart__axis span:last-child { color: var(--gold); font-weight: 600; }
+  .dep-hero.is-in .dep-chart__bar { transform: none; }
+  .dep-hero.is-in .dep-chart__val { opacity: 1; transform: none; }
+  .dep-example { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; margin-top: 12px; padding: 14px 16px; border-radius: var(--r); background: rgb(243 179 61 / 0.12); border: 1px solid rgb(243 179 61 / 0.3); }
+  .dep-example > span { font-size: 0.84rem; color: rgb(255 255 255 / 0.8); }
+  .dep-example strong { font-size: 1.5rem; font-weight: 800; color: #fff; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+  .dep-example small { font-size: 0.78rem; font-weight: 600; color: var(--gold); letter-spacing: 0; }
+  .dep-hero__actions { position: relative; z-index: 1; margin-top: auto; padding-top: 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+  .dep-hero__more { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: #fff; }
+  .dep-hero__more:hover { color: var(--gold); }
+
+  /* Receipt tickets: two pieces with matching notches where the receipt would tear off. */
+  .dep-tickets { display: grid; gap: clamp(14px, 1.8vw, 22px); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ticket {
+    --notch: 11px;
+    position: relative; display: flex; flex-direction: column;
+    filter: drop-shadow(0 1px 0 rgb(15 31 24 / 0.08)) drop-shadow(0 10px 18px rgb(120 60 10 / 0.1));
+    transition: transform 0.45s var(--ease-out), filter 0.45s var(--ease-out);
+  }
+  .ticket__main, .ticket__stub { background: var(--surface); }
+  .ticket__main {
+    flex: 1; display: flex; flex-direction: column; gap: 4px; padding: 18px 20px 16px; border-radius: var(--r-lg) var(--r-lg) 0 0;
+    -webkit-mask: radial-gradient(circle var(--notch) at 0 100%, #0000 97%, #000) 0 0 / 51% 100% no-repeat, radial-gradient(circle var(--notch) at 100% 100%, #0000 97%, #000) 100% 0 / 51% 100% no-repeat;
+    mask: radial-gradient(circle var(--notch) at 0 100%, #0000 97%, #000) 0 0 / 51% 100% no-repeat, radial-gradient(circle var(--notch) at 100% 100%, #0000 97%, #000) 100% 0 / 51% 100% no-repeat;
+  }
+  .ticket__stub {
+    position: relative; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px 16px;
+    border-radius: 0 0 var(--r-lg) var(--r-lg); background-color: #fbf6ee;
+    background-image: linear-gradient(90deg, #d8cbb6 55%, transparent 0);
+    background-size: 10px 1.5px; background-repeat: repeat-x; background-position: 0 0;
+    -webkit-mask: radial-gradient(circle var(--notch) at 0 0, #0000 97%, #000) 0 0 / 51% 100% no-repeat, radial-gradient(circle var(--notch) at 100% 0, #0000 97%, #000) 100% 0 / 51% 100% no-repeat;
+    mask: radial-gradient(circle var(--notch) at 0 0, #0000 97%, #000) 0 0 / 51% 100% no-repeat, radial-gradient(circle var(--notch) at 100% 0, #0000 97%, #000) 100% 0 / 51% 100% no-repeat;
+  }
+  .ticket__top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .ticket__mr { font-size: 0.76rem; color: var(--muted); font-weight: 600; text-align: right; }
+  .ticket__rate { display: flex; align-items: flex-start; margin-top: 8px; color: var(--g-700); line-height: 0.9; }
+  .ticket__rate span { font-size: clamp(2.6rem, 4vw, 3.2rem); font-weight: 800; letter-spacing: -0.05em; font-variant-numeric: tabular-nums; }
+  .ticket__rate small { font-size: 1.4rem; font-weight: 800; margin: 4px 0 0 2px; }
+  .ticket__note { font-size: 0.78rem; font-weight: 600; color: var(--muted); }
+  .ticket__name { margin-top: 6px; font-size: 1.05rem; line-height: 1.3; }
+  .ticket__name a::after { content: ''; position: absolute; inset: 0; z-index: 0; }
+  .ticket__facts { margin: 0; display: flex; gap: 12px; min-width: 0; }
+  .ticket__facts dt { font-size: 0.64rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted-2); }
+  .ticket__facts dd { margin: 1px 0 0; font-size: 0.84rem; font-weight: 700; color: var(--ink); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .ticket__apply {
+    position: relative; z-index: 1; flex: none; display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 12px; border-radius: 8px; background: var(--g-700); color: #fff; font-size: 0.82rem; font-weight: 700;
+    transition: background 0.25s;
+  }
+  .ticket__apply:hover { background: var(--o-strong); }
+  .ticket__apply :global(.icon) { transition: transform 0.25s var(--ease-out); }
+  .ticket:hover { transform: translateY(-6px) rotate(-0.4deg); filter: drop-shadow(0 1px 0 rgb(15 31 24 / 0.08)) drop-shadow(0 22px 26px rgb(120 60 10 / 0.18)); }
+  .ticket:hover .ticket__apply :global(.icon) { transform: translateX(3px); }
+  .ticket:active { transform: translateY(-2px) scale(0.985); transition-duration: 0.12s; }
+
+  .ticket-all {
+    position: relative; display: flex; flex-direction: column; justify-content: center; gap: 6px; padding: 22px;
+    border-radius: var(--r-lg); border: 2px dashed var(--o-300); color: var(--o-700);
+    background: rgb(255 255 255 / 0.45); transition: background 0.3s, border-color 0.3s, transform 0.45s var(--ease-out);
+  }
+  .ticket-all__n { font-size: 2.6rem; font-weight: 800; line-height: 1; color: var(--o-500); }
+  .ticket-all strong { font-size: 1.05rem; color: var(--ink); }
+  .ticket-all small { font-size: 0.84rem; color: var(--muted); }
+  .ticket-all__go { position: absolute; right: 18px; bottom: 18px; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: var(--o-500); color: #fff; transition: transform 0.35s var(--ease-out); }
+  .ticket-all:hover { background: #fff; border-color: var(--o-500); transform: translateY(-4px); }
+  .ticket-all:hover .ticket-all__go { transform: translateX(4px); }
+
+  /* Phones: the feature card, then the receipts as a swipeable row. */
+  @media (max-width: 699px) {
+    .dep-tickets { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: calc(var(--gutter) * -1); padding: 6px var(--gutter) 18px; scrollbar-width: none; }
+    .dep-tickets::-webkit-scrollbar { display: none; }
+    .ticket, .ticket-all { flex: 0 0 78%; scroll-snap-align: start; }
+    .dep-chart__bars { height: 128px; gap: 6px; }
+    .dep-chart__label { font-size: 0.66rem; }
+    .ticket__facts { gap: 10px; }
+    .ticket__facts div:nth-child(3) { display: none; }
+  }
+
+  /* INTRO */
+  .intro-visual { position: relative; margin: 0 auto; max-width: 500px; }
+  .intro-visual img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--r-lg); background: var(--cream); }
+  .intro-visual__badge { position: absolute; left: 16px; bottom: 16px; display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-radius: var(--r); background: var(--g-800); color: rgb(255 255 255 / 0.88); font-weight: 500; font-size: 0.88rem; line-height: 1.35; }
+  @media (min-width: 640px) { .intro-visual__badge { left: -20px; bottom: 28px; } }
+  .intro-visual__year { font-size: 2.2rem; font-weight: 700; color: var(--o-400); letter-spacing: -0.03em; line-height: 1; }
+
+  /* JOURNEY */
+  .journey-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 10px; padding-top: 6px; }
+  .journey-links a {
+    display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 14px;
+    border: 1px solid rgb(255 255 255 / 0.12); color: #fff; font-weight: 700; background: rgb(255 255 255 / 0.03);
+    transition: background 0.3s, border-color 0.3s, transform 0.4s var(--ease-out);
+  }
+  .journey-links a :global(.icon:first-child) { color: var(--o-400); }
+  .journey-links a :global(.icon:last-child) { margin-left: auto; opacity: 0.5; transition: transform 0.3s, opacity 0.3s; }
+  .journey-links a:hover { background: rgb(255 255 255 / 0.08); border-color: rgb(255 255 255 / 0.3); transform: translateY(-3px); }
+  .journey-links a:hover :global(.icon:last-child) { opacity: 1; transform: translate(3px, -3px); }
+  .timeline { list-style: none; position: relative; display: grid; gap: 18px; }
+  .timeline::before { content: ''; position: absolute; left: 39px; top: 20px; bottom: 20px; width: 2px; background: linear-gradient(var(--o-500), var(--g-400), transparent); }
+  .timeline__item { position: relative; display: flex; gap: 22px; align-items: flex-start; padding: 22px; border-radius: var(--r-lg); background: rgb(255 255 255 / 0.04); border: 1px solid rgb(255 255 255 / 0.08); transition: background 0.3s, transform 0.4s var(--ease-out); }
+  .timeline__item:hover { background: rgb(255 255 255 / 0.08); transform: translateX(6px); }
+  .timeline__dot { position: relative; z-index: 1; flex: none; width: 36px; height: 36px; border-radius: 50%; background: var(--o-500); box-shadow: 0 0 0 6px rgb(236 106 30 / 0.2); }
+  .timeline__dot::after { content: ''; position: absolute; inset: 11px; border-radius: 50%; background: #fff; }
+  .timeline__year { display: inline-block; margin-bottom: 4px; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--o-400); }
+  .timeline__item h3 { color: #fff; }
+  .timeline__item p { font-size: 0.94rem; margin-top: 6px; color: rgb(255 255 255 / 0.7); }
+
+  /* LOANS CAROUSEL */
+  .carousel-nav { display: flex; gap: 10px; }
+  .carousel-btn { display: grid; place-items: center; width: 50px; height: 50px; border-radius: 50%; border: 1.5px solid var(--line); color: var(--g-800); background: #fff; transition: background 0.25s, color 0.25s, border-color 0.25s, transform 0.3s; }
+  .carousel-btn:hover { background: var(--g-700); color: #fff; border-color: var(--g-700); }
+  .carousel {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: max(var(--gutter), calc((100vw - var(--container)) / 2));
+    padding-bottom: 18px;
+    scrollbar-width: none;
+  }
+  .carousel::-webkit-scrollbar { display: none; }
+  .carousel { cursor: grab; overscroll-behavior-x: contain; }
+  .carousel.is-dragging { cursor: grabbing; scroll-snap-type: none; scroll-behavior: auto; }
+  /* While it glides on its own, snapping would pull it back to the nearest tile every frame. */
+  .carousel.is-auto { scroll-snap-type: none; scroll-behavior: auto; }
+  .carousel-toggle__play { display: none; }
+  .carousel-toggle[aria-pressed='true'] .carousel-toggle__play { display: block; }
+  .carousel-toggle[aria-pressed='true'] .carousel-toggle__pause { display: none; }
+  .carousel-toggle[hidden] { display: none; }
+  .carousel.is-dragging .loan-tile { pointer-events: none; }
+  .carousel-progress { height: 4px; margin-top: 4px; border-radius: 99px; background: var(--line); overflow: hidden; }
+  .carousel-progress span { display: block; height: 100%; width: 30%; border-radius: 99px; background: linear-gradient(90deg, var(--o-500), var(--gold)); will-change: transform; }
+  /* Tiles ease in as they slide into view (browsers without scroll-driven animations just show them). */
+  @supports (animation-timeline: view(inline)) {
+    .loan-tile { animation-name: tile-in; animation-timing-function: linear; animation-fill-mode: backwards; }
+    .carousel .loan-tile { animation-timeline: view(inline); animation-range: entry 0% entry 70%; }
+  }
+  @keyframes tile-in { from { opacity: 0.35; transform: scale(0.92); } }
+  .carousel__track { display: flex; gap: 20px; width: max-content; padding-inline: max(var(--gutter), calc((100vw - var(--container)) / 2)); }
+  .loan-tile {
+    scroll-snap-align: start;
+    width: min(78vw, 300px);
+    display: flex; flex-direction: column;
+    border-radius: var(--r-lg); overflow: hidden; background: var(--surface); border: 1px solid var(--line-2);
+    transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out);
+  }
+  .loan-tile:hover { transform: translateY(-8px); box-shadow: var(--shadow); }
+  .loan-tile__img { aspect-ratio: 16 / 11; background: var(--g-50); }
+  .loan-tile__img img { width: 100%; height: 100%; object-fit: cover; }
+  .loan-tile__body { position: relative; padding: 30px 22px 22px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .loan-tile__icon { position: absolute; top: -24px; left: 22px; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: var(--o-500); color: #fff; box-shadow: var(--shadow-o); transition: transform 0.5s var(--ease-spring); }
+  .loan-tile:hover .loan-tile__icon { transform: rotate(-10deg) scale(1.08); }
+  .loan-tile h3 { font-size: 1.12rem; }
+  .loan-tile p { font-size: 0.9rem; color: var(--muted); }
+  .loan-tile dl { margin: auto 0 0; padding-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .loan-tile dl div { padding: 8px 10px; border-radius: 10px; background: var(--bg); }
+  .loan-tile dt { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted-2); }
+  .loan-tile dd { margin: 0; font-weight: 800; font-size: 0.88rem; color: var(--g-800); }
+
+  /* CSR */
+  .csr-collage { position: relative; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; gap: 16px; max-width: 600px; margin-inline: auto; }
+  .csr-collage img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--r-lg); box-shadow: var(--shadow); }
+  .csr-collage__a { grid-column: 1 / -1; aspect-ratio: 16 / 8; }
+  .csr-collage__b, .csr-collage__c { aspect-ratio: 4 / 3; }
+  .csr-collage__stat {
+    position: absolute; left: 50%; top: 50%; translate: -50% -38%;
+    display: grid; justify-items: center; text-align: center; gap: 2px; width: 220px; padding: 20px;
+    border-radius: 22px; background: var(--o-strong); color: #fff; font-size: 0.82rem; font-weight: 600; line-height: 1.35;
+    box-shadow: var(--shadow-o);
+  }
+  .csr-collage__stat strong { font-size: 2.4rem; line-height: 1; letter-spacing: -0.04em; }
+  @media (max-width: 639px) {
+    .csr-collage { gap: 10px; }
+    .csr-collage__stat { width: 176px; padding: 12px 14px; gap: 1px; font-size: 0.74rem; border-radius: 18px; }
+    .csr-collage__stat strong { font-size: 1.9rem; }
+  }
+  .group-mark { display: flex; align-items: center; gap: 14px; }
+  .group-mark img { width: auto; height: 54px; }
+  .group-mark__name { display: block; font-weight: 700; font-size: clamp(1.5rem, 4.4vw, 2rem); letter-spacing: -0.02em; line-height: 1.1; color: var(--g-700); }
+  .group-mark__mr { display: block; margin-top: 4px; font-weight: 600; font-size: 1rem; line-height: 1.4; color: var(--o-600); }
+  /* On phones the words come first and the photos follow. */
+  @media (max-width: 959px) { .csr .stack { order: -1; } }
+  /* Deep saffron band over a soft photo of a community event. */
+  .csr { position: relative; isolation: isolate; overflow: hidden; color: rgb(255 255 255 / 0.85); }
+  .csr::before {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background:
+      radial-gradient(60% 70% at 100% 0%, rgb(243 179 61 / 0.22), transparent 60%),
+      linear-gradient(160deg, rgb(150 58 10 / 0.93), rgb(92 33 5 / 0.96) 70%),
+      url('/images/home/csr-bg.webp') center / cover no-repeat;
+  }
+  .csr .h2 { color: #fff; }
+  .csr .h2 em { color: var(--gold); }
+  .csr .lead { color: rgb(255 255 255 / 0.86); }
+  .csr .group-mark img { height: 62px; padding: 7px; border-radius: 14px; background: #fff; }
+  .csr .group-mark__name { color: #fff; }
+  .csr .group-mark__mr { color: var(--gold); }
+  .csr .csr-collage img { border: 5px solid rgb(255 255 255 / 0.92); box-shadow: 0 24px 44px -22px rgb(0 0 0 / 0.65); }
+  .csr .csr-collage__stat { background: #fff; color: var(--ink-2); box-shadow: 0 22px 44px -18px rgb(0 0 0 / 0.55); }
+  .csr .csr-collage__stat strong { color: var(--o-600); }
+  .csr-list { list-style: none; margin: 0; padding: 0; display: grid; column-gap: 28px; }
+  @media (min-width: 560px) { .csr-list { grid-template-columns: 1fr 1fr; } }
+  .csr-list li { display: flex; gap: 12px; padding: 12px 0; border-top: 1px solid rgb(255 255 255 / 0.2); }
+  .csr-list__n { flex: none; min-width: 1.7em; padding-top: 2px; font-size: 0.82rem; font-weight: 800; color: var(--gold); font-variant-numeric: tabular-nums; }
+  .csr-list strong { display: block; color: #fff; font-size: 0.98rem; line-height: 1.35; }
+  .csr-list small { display: block; margin-top: 2px; color: rgb(255 255 255 / 0.7); font-size: 0.82rem; line-height: 1.4; }
+  .csr .csr-btn { --btn-fg: var(--o-700); }
+  .csr .csr-btn:hover { --btn-bg: var(--gold); --btn-fg: var(--ink); }
+
+  /* DIGITAL: soft green band, a plain list of services, the photo on a saffron block. */
+  .digital-sec { background: linear-gradient(180deg, #eef7f1 0%, #e2f1e7 100%); }
+  .digital-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 28px; }
+  .digital-list li { position: relative; padding: 11px 0 11px 22px; border-bottom: 1px solid rgb(18 97 57 / 0.15); font-weight: 600; color: var(--ink); font-size: 0.96rem; line-height: 1.35; }
+  .digital-list li::before { content: ''; position: absolute; left: 2px; top: calc(11px + 0.675em - 4px); width: 8px; height: 8px; border-radius: 2px; background: var(--o-500); rotate: 45deg; }
+  .play-badge {
+    display: inline-flex; align-items: center; gap: 12px; min-height: 54px; padding: 8px 20px 8px 16px; border-radius: 12px;
+    background: #111; color: #fff; border: 1px solid #3a3a3a; transition: background 0.25s, transform 0.35s var(--ease-out);
+  }
+  .play-badge span { display: grid; line-height: 1.1; font-size: 1.12rem; font-weight: 700; letter-spacing: -0.01em; }
+  .play-badge small { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgb(255 255 255 / 0.75); }
+  :global(html[lang='mr']) .play-badge small { text-transform: none; letter-spacing: 0; }
+  .play-badge:hover { background: #000; transform: translateY(-2px); }
+  .digital-photo { position: relative; isolation: isolate; margin: 0 auto; max-width: 460px; }
+  .digital-photo::before { content: ''; position: absolute; inset: 28px -16px -16px 28px; z-index: -1; border-radius: var(--r-lg); background: var(--o-500); }
+  .digital-photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--r-lg); background: var(--cream); }
+  @media (max-width: 639px) { .digital-photo { margin-right: 16px; } }
+
+  /* NOTICES: a notice board with numbered rows and a plain file-type label. */
+  .notices-sec { background: linear-gradient(180deg, var(--bg), #f2ebdf); }
+  .board { overflow: hidden; border-radius: var(--r-lg); background: var(--surface); border: 1px solid var(--line); box-shadow: 0 26px 50px -34px rgb(15 31 24 / 0.4); }
+  .board__head {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 24px;
+    padding: clamp(20px, 3vw, 30px) clamp(20px, 3vw, 36px); background: var(--g-800); border-bottom: 4px solid var(--o-500); color: #fff;
+  }
+  .board__kicker { font-size: 0.76rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+  :global(html[lang='mr']) .board__kicker { letter-spacing: 0; text-transform: none; font-size: 0.86rem; }
+  .board__title { margin-top: 4px; color: #fff; font-size: clamp(1.12rem, 2.2vw, 1.5rem); }
+  .board__all { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 10px; background: #fff; color: var(--g-800); font-weight: 700; font-size: 0.9rem; transition: background 0.25s; }
+  .board__all:hover { background: var(--gold); }
+  .board__list { list-style: none; margin: 0; padding: 8px clamp(10px, 2.4vw, 28px) 16px; display: grid; column-gap: 32px; }
+  @media (min-width: 900px) { .board__list { grid-template-columns: 1fr 1fr; } }
+  .board__list li { border-bottom: 1px solid var(--line-2); }
+  .board__list a {
+    display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; gap: 14px;
+    padding: 16px 10px; border-radius: 10px; color: var(--ink-2); font-weight: 600; font-size: 0.95rem; line-height: 1.4;
+    transition: background 0.25s, color 0.25s;
+  }
+  .board__list a:hover { background: var(--o-50); color: var(--ink); }
+  .board__n { min-width: 1.7em; font-size: 0.84rem; font-weight: 800; color: var(--o-600); font-variant-numeric: tabular-nums; }
+  .board__type { padding: 3px 8px; border-radius: 6px; border: 1px solid var(--line); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+  .board__list :global(.board__go) { color: var(--muted-2); transition: transform 0.3s var(--ease-out), color 0.3s; }
+  .board__list a:hover :global(.board__go) { color: var(--o-600); transform: translate(2px, -2px); }
+  @media (max-width: 559px) { .board__type { display: none; } .board__list a { grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; padding: 14px 6px; } }
+</style>

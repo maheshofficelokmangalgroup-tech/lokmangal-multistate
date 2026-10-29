@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-brand: #C2410C;
+    --color-brand-hover: #9A3412;
+    --color-brand-accent: #EA580C;
+    --color-brand-soft: #FFF7ED;
+    --color-canvas: #F7F8FA;
+    --color-surface: #FFFFFF;
+    --color-border: #E4E4E7;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: #18181B;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  /* Devanagari font helper */
+  .font-marathi {
+    font-family: 'Mukta', 'Poppins', sans-serif;
+  }
+
+  /* Tabular numbers for clean financial & rate data */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #D4D4D8;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #A1A1AA;
+}

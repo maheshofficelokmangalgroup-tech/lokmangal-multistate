@@ -1,0 +1,615 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Calculator from '../../components/Calculator.astro';
+import EnquiryForm from '../../components/EnquiryForm.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { loansData, type Loan } from '../../data/loans';
+import { siteData } from '../../data/site';
+import { fmtRate } from '../../data/deposits';
+import { getLang, langPaths, localePath } from '../../i18n';
+import { pageCopy, useT } from '../../i18n/ui';
+import { compute } from '@lokmangal/finance';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+
+const lang = getLang(Astro);
+const t = useT(lang);
+const l = (p: string) => localePath(p, lang);
+const { stats } = siteData(lang);
+const { loans, loanBenefits } = loansData(lang);
+const english = loansData('en').loans;
+
+const c = pageCopy(
+  lang,
+  'loans',
+  {
+    metaTitle: 'Loans',
+    metaDescription: 'Agriculture, housing, vehicle, personal, warehouse, cash credit, hypothecation, mortgage, microfinance and bachat gat loans from Lokmangal Multistate, with quick approval and little paperwork.',
+    eyebrow: 'Loans',
+    title: 'A loan for your',
+    accent: 'farm, home or business',
+    lead: 'Quick processing, little paperwork and easy repayment, from a branch team that knows your town.',
+    apply: 'Apply for a loan',
+    emi: 'EMI calculator',
+    pause: 'Pause the changing pictures',
+    play: 'Play the changing pictures',
+    from: 'from {rate}%',
+    catAll: 'All loans',
+    catAgri: 'Farm',
+    catHome: 'Home & property',
+    catBusiness: 'Business',
+    catPersonal: 'Personal & vehicle',
+    allEyebrow: 'Our loan products',
+    allTitle: 'Find the loan that',
+    allAccent: 'fits you',
+    filterLabel: 'Filter loans',
+    interest: 'Interest',
+    amount: 'Amount',
+    details: 'Eligibility & documents',
+    applyFor: 'Apply',
+    viewDetails: 'View details',
+    fromWord: 'from',
+    pa: 'p.a.',
+    guarantors: 'Guarantors',
+    period: 'Period',
+    security: 'Security',
+    close: 'Close',
+    sheetLead: 'Interest and amount',
+    emiExample: 'Borrow {amount} for {years} years and pay about',
+    emiPer: 'a month at {rate}%',
+    emiNote: 'Indicative, at the lowest rate for this loan.',
+    calcThis: 'Work out your EMI',
+    emiEyebrow: 'EMI calculator',
+    emiTitle: 'Plan your',
+    emiAccent: 'repayments',
+    helpEyebrow: 'Talk to us',
+    helpTitle: 'Not sure which loan is',
+    helpAccent: 'right for you?',
+    helpText: 'Tell us what you need and a loan officer from your nearest branch will call you with options, eligibility and the documents you need.',
+    help1: 'Personal guidance from a local branch team',
+    help2: 'Clear rates with no hidden charges',
+    help3: 'Quick processing and disbursal',
+    formTitle: 'Get a callback',
+    formSubtitle: 'About any loan.',
+    ctaTitle: 'Turn your plans into',
+    ctaAccent: 'reality',
+    ctaText: 'Apply online in minutes or visit any of our {branches} branches. Our team will help you every step of the way.',
+  },
+  {
+    metaTitle: 'कर्ज',
+    metaDescription: 'लोकमंगल मल्टीस्टेटकडून शेती, गृह, वाहन, वैयक्तिक, वखार, कॅश क्रेडिट, हायपोथिकेशन, तारण, सूक्ष्म वित्त आणि बचत गट कर्ज; जलद मंजुरी आणि कमी कागदपत्रे.',
+    eyebrow: 'कर्ज',
+    title: 'कर्ज तुमच्या',
+    accent: 'शेती, घर किंवा व्यवसायासाठी',
+    lead: 'जलद प्रक्रिया, कमी कागदपत्रे आणि सोपी परतफेड; तुमच्या गावाची जाण असलेल्या शाखा टीमकडून.',
+    apply: 'कर्जासाठी अर्ज करा',
+    emi: 'हप्ता (EMI) कॅल्क्युलेटर',
+    pause: 'बदलणारी चित्रे थांबवा',
+    play: 'बदलणारी चित्रे सुरू करा',
+    from: '{rate}% पासून',
+    catAll: 'सर्व कर्ज',
+    catAgri: 'शेती',
+    catHome: 'घर व मालमत्ता',
+    catBusiness: 'व्यवसाय',
+    catPersonal: 'वैयक्तिक व वाहन',
+    allEyebrow: 'आमच्या कर्ज योजना',
+    allTitle: 'तुमच्यासाठी योग्य',
+    allAccent: 'कर्ज शोधा',
+    filterLabel: 'कर्ज निवडा',
+    interest: 'व्याज',
+    amount: 'रक्कम',
+    details: 'पात्रता व कागदपत्रे',
+    applyFor: 'अर्ज करा',
+    viewDetails: 'तपशील पहा',
+    fromWord: 'पासून',
+    pa: 'वार्षिक',
+    guarantors: 'जामीनदार',
+    period: 'कालावधी',
+    security: 'तारण',
+    close: 'बंद करा',
+    sheetLead: 'व्याज आणि रक्कम',
+    emiExample: '{amount} कर्ज {years} वर्षांसाठी घेतल्यास हप्ता सुमारे',
+    emiPer: 'दरमहा, {rate}% दराने',
+    emiNote: 'अंदाजे, या कर्जाच्या सर्वात कमी दराने.',
+    calcThis: 'तुमचा हप्ता मोजा',
+    emiEyebrow: 'हप्ता कॅल्क्युलेटर',
+    emiTitle: 'तुमच्या परतफेडीचे',
+    emiAccent: 'नियोजन करा',
+    helpEyebrow: 'आमच्याशी बोला',
+    helpTitle: 'कोणते कर्ज योग्य आहे',
+    helpAccent: 'हे ठरत नाही?',
+    helpText: 'तुमची गरज सांगा; जवळच्या शाखेतील कर्ज अधिकारी पर्याय, पात्रता आणि आवश्यक कागदपत्रांसह तुम्हाला कॉल करतील.',
+    help1: 'स्थानिक शाखा टीमकडून वैयक्तिक मार्गदर्शन',
+    help2: 'छुपे शुल्क नसलेले स्पष्ट दर',
+    help3: 'जलद प्रक्रिया आणि वितरण',
+    formTitle: 'कॉल करण्याची विनंती',
+    formSubtitle: 'कोणत्याही कर्जाबाबत.',
+    ctaTitle: 'तुमची स्वप्ने',
+    ctaAccent: 'प्रत्यक्षात आणा',
+    ctaText: 'काही मिनिटांत ऑनलाइन अर्ज करा किंवा आमच्या {branches} पैकी कोणत्याही शाखेत या. प्रत्येक टप्प्यावर आमची टीम मदत करेल.',
+  },
+);
+
+// Loan groups for the filter and the banner. A loan added later without a group shows under "All loans".
+type Cat = 'agri' | 'home' | 'business' | 'personal';
+const groupOf: Record<string, Cat> = {
+  'agriculture-term-loan': 'agri',
+  'warehouse-loan': 'agri',
+  'housing-loan': 'home',
+  'land-mortgage-loan': 'home',
+  'property-mortgage-loan': 'home',
+  'cash-credit': 'business',
+  'hypothecation-loan': 'business',
+  microfinance: 'business',
+  'bachat-gat-loan': 'business',
+  'vehicle-loan': 'personal',
+  'personal-loan': 'personal',
+};
+const catLabel: Record<Cat, string> = { agri: c('catAgri'), home: c('catHome'), business: c('catBusiness'), personal: c('catPersonal') };
+const cats = (Object.keys(catLabel) as Cat[]).filter((k) => loans.some((ln) => groupOf[ln.slug] === k));
+const minRate = (list: Loan[]) => Math.min(...list.map((ln) => ln.rateFrom));
+
+// Banner pictures per group: frontend/public/images/loans/banner-<group>.webp, or a site photo until then.
+const fallback: Record<Cat, string> = { agri: '/images/hero/hero-1.webp', home: '/images/about/banner.webp', business: '/images/hero/hero-3.webp', personal: '/images/hero/hero-2.webp' };
+const bannerFor = (k: Cat) => {
+  const own = `/images/loans/banner-${k}.webp`;
+  return existsSync(join(process.cwd(), 'public', own)) ? { src: own, own: true } : { src: fallback[k], own: false };
+};
+const slides = cats.map((k) => ({ k, label: catLabel[k], rate: minRate(loans.filter((ln) => groupOf[ln.slug] === k)), ...bannerFor(k) }));
+
+const englishName = (slug: string) => english.find((e) => e.slug === slug)?.name ?? slug;
+// A second fact for each card, found by the English label so it works in both languages.
+const fact = (ln: Loan, label: string) => {
+  const i = english.find((e) => e.slug === ln.slug)?.details.findIndex(([k]) => k === label) ?? -1;
+  return i >= 0 ? ln.details[i] : null;
+};
+const secondFact = (ln: Loan) => fact(ln, 'Guarantors') ?? fact(ln, 'Period') ?? fact(ln, 'Security');
+// Term loans repaid in monthly instalments get a worked EMI example (₹1 lakh over 3 years).
+const emiLoans = new Set(['agriculture-term-loan', 'housing-loan', 'vehicle-loan', 'personal-loan', 'warehouse-loan', 'land-mortgage-loan', 'property-mortgage-loan']);
+const rupees = (n: number) => `₹${new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(Math.round(n))}`;
+const emiOf = (ln: Loan) => compute('emi', 100000, ln.rateFrom, 36).result;
+const branches = stats.find((s) => s.prefix === '' && s.suffix === '')?.value ?? 60;
+---
+
+<Base title={c('metaTitle')} description={c('metaDescription')}>
+  <!-- BANNER -->
+  <section class="ln-hero" data-ln-hero>
+    <div class="ln-hero__media" aria-hidden="true">
+      {slides.map((s, i) => (
+        <img src={s.src} alt="" class:list={['ln-hero__img', { 'is-active': i === 0, 'ln-hero__img--own': s.own }]} width="1920" height="1080" fetchpriority={i === 0 ? 'high' : 'low'} data-ln-slide />
+      ))}
+    </div>
+    <div class="container">
+      <nav class="ln-crumbs" aria-label={t('breadcrumb')}>
+        <a href={l('/')}>{t('home')}</a>
+        <Icon name="chevron-right" size={14} />
+        <span aria-current="page">{c('eyebrow')}</span>
+      </nav>
+      <div class="ln-hero__copy">
+        <p class="ln-hero__eyebrow">{c('eyebrow')}</p>
+        <h1 class="h1 ln-hero__title" data-reveal>{c('title')} <em>{c('accent')}</em></h1>
+        <p class="lead ln-hero__lead" data-reveal style="--d:120ms">{c('lead')}</p>
+        <div class="ln-chips" data-reveal style="--d:200ms">
+          {slides.map((s, i) => (
+            <a href={`${l('/loans/')}?type=${s.k}#products`} class:list={['ln-chip', { 'is-active': i === 0 }]} data-ln-chip={i}>
+              <span>{s.label}</span>
+              <strong>{c('from', { rate: fmtRate(s.rate) })}</strong>
+            </a>
+          ))}
+          {slides.length > 1 && (
+            <button type="button" class="ln-toggle" data-ln-toggle aria-pressed="false" aria-label={c('pause')} data-label-pause={c('pause')} data-label-play={c('play')}>
+              <svg class="ln-toggle__pause" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1.2" /><rect x="14" y="5" width="4" height="14" rx="1.2" /></svg>
+              <svg class="ln-toggle__play" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" /></svg>
+            </button>
+          )}
+        </div>
+        <div class="btn-row" data-reveal style="--d:280ms">
+          <a href={l('/apply-loan/')} class="btn btn--primary btn--lg">{c('apply')} <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+          <a href="#emi" class="btn btn--ghost btn--lg"><Icon name="calculator" size={18} /> {c('emi')}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFITS -->
+  <section class="ln-benefits-wrap">
+    <div class="container">
+      <ol class="ln-benefits" data-stagger>
+        {loanBenefits.map((b, i) => (
+          <li><span class="ln-benefits__n">{String(i + 1).padStart(2, '0')}</span><div><strong>{b.title}</strong><small>{b.text}</small></div></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section class="section ln-all" id="products">
+    <div class="container">
+      <div class="ln-all__head" data-reveal>
+        <div>
+          <p class="eyebrow">{c('allEyebrow')}</p>
+          <h2 class="h2">{c('allTitle')} <em>{c('allAccent')}</em></h2>
+        </div>
+        <div class="ln-filters" data-filter-group="#loan-grid" role="group" aria-label={c('filterLabel')}>
+          <button type="button" class="ln-filter" data-filter="all" aria-pressed="true">{c('catAll')} <span class="ln-filter__n">{loans.length}</span></button>
+          {cats.map((k) => (
+            <button type="button" class="ln-filter" data-filter={k} aria-pressed="false">
+              {catLabel[k]} <span class="ln-filter__n">{loans.filter((ln) => groupOf[ln.slug] === k).length}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+      <ul class="ln-grid" id="loan-grid" data-stagger>
+        {loans.map((ln) => {
+          const k = groupOf[ln.slug];
+          const f2 = secondFact(ln);
+          return (
+            <li class="ln-card" id={ln.slug} data-kind={k ?? 'other'}>
+              <div class="ln-card__media">
+                <img src={ln.image} alt="" width="1200" height="751" loading="lazy" />
+                {k && <span class="ln-card__tag">{catLabel[k]}</span>}
+                <span class="ln-card__price" aria-hidden="true">
+                  {lang === 'en' && <small>{c('fromWord')}</small>}
+                  <strong>{fmtRate(ln.rateFrom)}<em>%</em></strong>
+                  <small>{lang === 'mr' ? c('fromWord') : c('pa')}</small>
+                </span>
+              </div>
+              <div class="ln-card__body">
+                <h3 class="ln-card__name">{ln.name}</h3>
+                <p class="ln-card__summary">{ln.summary}</p>
+                <dl class="ln-card__facts">
+                  <div><dt>{c('interest')}</dt><dd>{ln.rate}</dd></div>
+                  <div><dt>{c('amount')}</dt><dd>{ln.amount}</dd></div>
+                  {f2 && <div><dt>{f2[0]}</dt><dd>{f2[1]}</dd></div>}
+                </dl>
+                <div class="ln-card__actions">
+                  <button type="button" class="ln-card__more" data-sheet-open={ln.slug} aria-haspopup="dialog">
+                    {c('viewDetails')} <Icon name="arrow-up-right" size={16} />
+                  </button>
+                  <a href={`${l('/apply-loan/')}?type=${encodeURIComponent(englishName(ln.slug))}`} class="ln-card__apply">{c('applyFor')} <Icon name="arrow-right" size={16} /></a>
+                </div>
+              </div>
+
+              <dialog class="ln-sheet" data-sheet={ln.slug} aria-labelledby={`sheet-${ln.slug}`}>
+                <div class="ln-sheet__panel">
+                  <div class="ln-sheet__media">
+                    <img src={ln.image} alt="" width="1200" height="751" loading="lazy" />
+                    <button type="button" class="ln-sheet__close" data-sheet-close aria-label={c('close')}><Icon name="x" size={20} /></button>
+                    {k && <span class="ln-card__tag">{catLabel[k]}</span>}
+                  </div>
+                  <div class="ln-sheet__body">
+                    <h3 class="ln-sheet__title" id={`sheet-${ln.slug}`}>{ln.name}</h3>
+                    <p class="ln-sheet__summary">{ln.summary}</p>
+                    <div class="ln-sheet__key">
+                      <div><span>{c('interest')}</span><strong>{ln.rate}</strong></div>
+                      <div><span>{c('amount')}</span><strong>{ln.amount}</strong></div>
+                    </div>
+                    {emiLoans.has(ln.slug) && (
+                      <div class="ln-sheet__emi">
+                        <p>{c('emiExample', { amount: rupees(100000), years: 3 })}</p>
+                        <p class="ln-sheet__emi-value"><strong>{rupees(emiOf(ln))}</strong> <span>{c('emiPer', { rate: fmtRate(ln.rateFrom) })}</span></p>
+                        <small>{c('emiNote')}</small>
+                      </div>
+                    )}
+                    <h4 class="ln-sheet__sub">{c('details')}</h4>
+                    <dl class="ln-sheet__details">
+                      {ln.details.map(([label, value]) => <div><dt>{label}</dt><dd>{value}</dd></div>)}
+                    </dl>
+                    <div class="ln-sheet__actions">
+                      <a href={`${l('/apply-loan/')}?type=${encodeURIComponent(englishName(ln.slug))}`} class="btn btn--primary">{c('applyFor')} <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+                      {emiLoans.has(ln.slug) && <button type="button" class="btn btn--ghost" data-sheet-emi={ln.rateFrom}><Icon name="calculator" size={18} /> {c('calcThis')}</button>}
+                    </div>
+                  </div>
+                </div>
+              </dialog>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </section>
+
+  <!-- EMI -->
+  <section class="section ln-emi" id="emi">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <p class="eyebrow">{c('emiEyebrow')}</p>
+        <h2 class="h2">{c('emiTitle')} <em>{c('emiAccent')}</em></h2>
+      </div>
+      <div data-reveal="zoom"><Calculator mode="emi" only={['emi']} /></div>
+    </div>
+  </section>
+
+  <!-- HELP -->
+  <section class="section ln-help">
+    <div class="container split">
+      <div class="stack" style="--stack:1.2rem">
+        <p class="eyebrow" data-reveal>{c('helpEyebrow')}</p>
+        <h2 class="h2" data-reveal>{c('helpTitle')} <em>{c('helpAccent')}</em></h2>
+        <p class="lead" data-reveal>{c('helpText')}</p>
+        <ol class="ln-points" data-stagger>
+          {[c('help1'), c('help2'), c('help3')].map((p, i) => <li><span>{String(i + 1).padStart(2, '0')}</span>{p}</li>)}
+        </ol>
+      </div>
+      <div data-reveal="right"><EnquiryForm variant="loan" title={c('formTitle')} subtitle={c('formSubtitle')} /></div>
+    </div>
+  </section>
+
+  <CtaBand title={c('ctaTitle')} accent={c('ctaAccent')} text={c('ctaText', { branches })} />
+</Base>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    // Loan details open in a sheet (slides in from the right, or up from the bottom on phones).
+    const sheets = Array.from(document.querySelectorAll<HTMLDialogElement>('[data-sheet]'));
+    const closeSheet = (d: HTMLDialogElement) => {
+      if (!d.open || d.classList.contains('is-closing')) return;
+      d.classList.add('is-closing');
+      const done = () => { d.classList.remove('is-closing'); d.close(); };
+      d.addEventListener('animationend', done, { once: true });
+      setTimeout(() => d.open && done(), 450);
+    };
+    const openSheet = (slug: string) => {
+      const d = sheets.find((s) => s.dataset.sheet === slug);
+      if (!d || d.open) return;
+      d.showModal();
+      history.replaceState(history.state, '', `#${slug}`);
+    };
+    document.querySelectorAll<HTMLElement>('[data-sheet-open]').forEach((b) => b.addEventListener('click', () => openSheet(b.dataset.sheetOpen!)));
+    sheets.forEach((d) => {
+      d.querySelector('[data-sheet-close]')?.addEventListener('click', () => closeSheet(d));
+      d.addEventListener('click', (e) => { if (e.target === d) closeSheet(d); });
+      d.addEventListener('cancel', (e) => { e.preventDefault(); closeSheet(d); });
+      d.addEventListener('close', () => {
+        if (location.hash === `#${d.dataset.sheet}`) history.replaceState(history.state, '', location.pathname + location.search);
+      });
+      // "Work out your EMI": close the sheet and set the calculator below to this loan's rate.
+      d.querySelector<HTMLElement>('[data-sheet-emi]')?.addEventListener('click', (e) => {
+        const rate = Number((e.currentTarget as HTMLElement).dataset.sheetEmi);
+        closeSheet(d);
+        const emi = document.getElementById('emi');
+        emi?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+        emi?.querySelector('[data-calc]')?.dispatchEvent(new CustomEvent('calc:set', { detail: { ratePct: rate } }));
+      });
+    });
+    // Links like /loans/#housing-loan (from the homepage and the menu) open that loan's details.
+    const fromHash = location.hash ? decodeURIComponent(location.hash.slice(1)) : '';
+    if (fromHash && sheets.some((s) => s.dataset.sheet === fromHash)) {
+      document.getElementById(fromHash)?.scrollIntoView({ block: 'center' });
+      setTimeout(() => openSheet(fromHash), 350);
+    }
+
+    // Banner pictures cross-fade every 5 seconds; a chip under the pointer or in focus shows its group.
+    const hero = document.querySelector<HTMLElement>('[data-ln-hero]');
+    if (!hero) return;
+    const slides = Array.from(hero.querySelectorAll<HTMLElement>('[data-ln-slide]'));
+    const chips = Array.from(hero.querySelectorAll<HTMLElement>('[data-ln-chip]'));
+    if (slides.length < 2) return;
+    let index = 0;
+    let paused = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let holding = false;
+    let visible = true;
+    const show = (n: number) => {
+      index = (n + slides.length) % slides.length;
+      slides.forEach((s, i) => s.classList.toggle('is-active', i === index));
+      chips.forEach((c, i) => c.classList.toggle('is-active', i === index));
+    };
+    chips.forEach((chip, i) => {
+      chip.addEventListener('pointerenter', () => { holding = true; show(i); });
+      chip.addEventListener('pointerleave', () => { holding = false; });
+      chip.addEventListener('focus', () => { holding = true; show(i); });
+      chip.addEventListener('blur', () => { holding = false; });
+    });
+    const toggle = hero.querySelector<HTMLButtonElement>('[data-ln-toggle]');
+    if (paused) toggle?.setAttribute('aria-pressed', 'true');
+    toggle?.addEventListener('click', () => {
+      paused = !paused;
+      toggle.setAttribute('aria-pressed', String(paused));
+      toggle.setAttribute('aria-label', (paused ? toggle.dataset.labelPlay : toggle.dataset.labelPause) ?? '');
+    });
+    const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; });
+    io.observe(hero);
+    const timer = window.setInterval(() => { if (!paused && !holding && visible && !document.hidden) show(index + 1); }, 5000);
+    document.addEventListener('astro:before-swap', () => { window.clearInterval(timer); io.disconnect(); }, { once: true });
+  });
+</script>
+
+<style>
+  /* ---------- Banner ---------- */
+  .ln-hero {
+    position: relative; isolation: isolate; overflow: hidden;
+    min-height: clamp(560px, 76vh, 720px); display: flex; flex-direction: column;
+    padding: clamp(32px, 5vw, 56px) 0 clamp(48px, 6vw, 80px); background: #fff8f0;
+  }
+  .ln-hero > .container { flex: 1; display: flex; flex-direction: column; }
+  .ln-hero__media { position: absolute; inset: 0 0 0 30%; z-index: -2; }
+  .ln-hero__img {
+    position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 70% 40%;
+    opacity: 0; transform: scale(1.06); transition: opacity 1s var(--ease), transform 6s linear;
+  }
+  .ln-hero__img.is-active { opacity: 1; transform: scale(1); }
+  .ln-hero::after {
+    content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background: linear-gradient(90deg, #fff8f0 0%, #fff8f0 34%, rgb(255 248 240 / 0.86) 46%, rgb(255 248 240 / 0.12) 66%, transparent 80%);
+  }
+  .ln-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.86rem; font-weight: 600; color: var(--muted); }
+  .ln-crumbs a { color: var(--g-700); }
+  .ln-crumbs span { color: var(--o-700); }
+  .ln-hero__copy { margin-block: auto; padding-top: clamp(24px, 4vw, 40px); max-width: 580px; display: grid; gap: 16px; justify-items: start; }
+  .ln-hero__eyebrow { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g-600); }
+  :global(html[lang='mr']) .ln-hero__eyebrow { letter-spacing: 0; text-transform: none; font-size: 0.95rem; }
+  .ln-hero__title { color: var(--g-900); }
+  .ln-hero__title em { display: block; color: var(--o-600); }
+  .ln-hero__lead { color: var(--ink-2); }
+  .ln-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ln-chip {
+    display: inline-grid; gap: 1px; padding: 8px 14px; border-radius: 12px; background: #fff; border: 1px solid var(--line);
+    font-size: 0.86rem; font-weight: 700; color: var(--ink-2); line-height: 1.25;
+    transition: background 0.3s, border-color 0.3s, color 0.3s, transform 0.35s var(--ease-out);
+  }
+  .ln-chip strong { font-size: 0.8rem; font-weight: 700; color: var(--o-600); transition: color 0.3s; }
+  .ln-chip:hover { transform: translateY(-2px); border-color: var(--o-300); }
+  .ln-chip.is-active { background: var(--g-800); border-color: var(--g-800); color: #fff; }
+  .ln-chip.is-active strong { color: var(--gold); }
+  .ln-toggle { align-self: center; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); background: #fff; color: var(--g-800); }
+  .ln-toggle__play { display: none; }
+  .ln-toggle[aria-pressed='true'] .ln-toggle__play { display: block; }
+  .ln-toggle[aria-pressed='true'] .ln-toggle__pause { display: none; }
+  @media (max-width: 899px) {
+    .ln-hero { min-height: 0; padding-top: 18px; }
+    .ln-hero__media { inset: 0 0 auto 0; height: min(66vw, 330px); }
+    .ln-hero::after { background: linear-gradient(180deg, rgb(255 248 240 / 0.5) 0, rgb(255 248 240 / 0) 60px, rgb(255 248 240 / 0) calc(min(66vw, 330px) - 110px), #fff8f0 min(66vw, 330px)); }
+    .ln-hero__copy { padding-top: calc(min(66vw, 330px) - 50px); }
+  }
+
+  /* ---------- Benefits ---------- */
+  .ln-benefits-wrap { background: var(--g-800); color: rgb(255 255 255 / 0.8); }
+  .ln-benefits { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .ln-benefits li { display: flex; gap: 12px; padding: clamp(20px, 2.6vw, 30px) clamp(14px, 2vw, 24px); border-left: 1px solid rgb(255 255 255 / 0.12); }
+  .ln-benefits li:first-child { border-left: 0; padding-left: 0; }
+  .ln-benefits__n { flex: none; min-width: 1.7em; font-size: 0.82rem; font-weight: 800; color: var(--gold); padding-top: 2px; }
+  .ln-benefits strong { display: block; color: #fff; line-height: 1.3; }
+  .ln-benefits small { display: block; margin-top: 4px; font-size: 0.86rem; line-height: 1.5; color: rgb(255 255 255 / 0.7); }
+  @media (max-width: 899px) {
+    .ln-benefits { grid-template-columns: 1fr 1fr; }
+    .ln-benefits li:nth-child(odd) { border-left: 0; padding-left: 0; }
+    .ln-benefits li:nth-child(n + 3) { border-top: 1px solid rgb(255 255 255 / 0.12); }
+  }
+  @media (max-width: 479px) {
+    .ln-benefits { grid-template-columns: 1fr; }
+    .ln-benefits li { border-left: 0; padding-left: 0; }
+    .ln-benefits li + li { border-top: 1px solid rgb(255 255 255 / 0.12); }
+  }
+
+  /* ---------- Products ---------- */
+  .ln-all { background: var(--bg); scroll-margin-top: calc(var(--header-h) + 8px); }
+  .ln-all__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 18px 28px; margin-bottom: clamp(24px, 3vw, 36px); }
+  .ln-filters { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ln-filter {
+    display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: 999px; border: 1px solid var(--line);
+    background: #fff; font-weight: 700; font-size: 0.88rem; color: var(--ink-2); transition: background 0.25s, color 0.25s, border-color 0.25s;
+  }
+  .ln-filter__n { min-width: 22px; padding: 1px 6px; border-radius: 999px; background: var(--g-50); color: var(--g-700); font-size: 0.74rem; text-align: center; }
+  .ln-filter:hover { border-color: var(--g-400); }
+  .ln-filter[aria-pressed='true'] { background: var(--g-800); border-color: var(--g-800); color: #fff; }
+  .ln-filter[aria-pressed='true'] .ln-filter__n { background: var(--gold); color: var(--ink); }
+  .ln-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(18px, 2.2vw, 26px); grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); align-items: stretch; }
+  .ln-card[hidden] { display: none; }
+  .ln-card {
+    position: relative; display: flex; flex-direction: column; border-radius: var(--r-lg); background: var(--surface);
+    border: 1px solid var(--line-2); box-shadow: 0 1px 0 rgb(15 31 24 / 0.04);
+    scroll-margin-top: calc(var(--header-h) + 24px);
+    transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out), border-color 0.3s;
+  }
+  .ln-card:target { border-color: var(--o-400); box-shadow: 0 0 0 3px rgb(236 106 30 / 0.2); }
+  .ln-card__media { position: relative; aspect-ratio: 16 / 10; overflow: hidden; border-radius: var(--r-lg) var(--r-lg) 0 0; background: var(--g-50); }
+  .ln-card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease-out); }
+  .ln-card__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgb(4 36 23 / 0.45)); pointer-events: none; }
+  .ln-card__tag { position: absolute; z-index: 1; left: 12px; top: 12px; padding: 5px 11px; border-radius: 999px; background: rgb(8 56 34 / 0.92); color: #fff; font-size: 0.74rem; font-weight: 700; backdrop-filter: blur(4px); }
+  /* A swing tag with the lowest rate, hanging from the photo's corner. */
+  .ln-card__price {
+    position: absolute; z-index: 1; right: 14px; bottom: 14px; display: grid; justify-items: center; line-height: 1;
+    padding: 12px 14px 10px; min-width: 78px; border-radius: 12px 12px 12px 12px;
+    background: linear-gradient(160deg, var(--o-500), var(--o-strong-hover)); color: #fff;
+    box-shadow: 0 12px 24px -10px rgb(120 45 5 / 0.7);
+    transform-origin: 50% -14px; rotate: -4deg;
+    transition: rotate 0.6s var(--ease-spring);
+  }
+  .ln-card__price::before { content: ''; position: absolute; top: 5px; width: 7px; height: 7px; border-radius: 50%; background: var(--surface); box-shadow: inset 0 1px 2px rgb(0 0 0 / 0.3); }
+  .ln-card__price small { font-size: 0.64rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; opacity: 0.9; margin-top: 6px; }
+  :global(html[lang='mr']) .ln-card__price small { text-transform: none; letter-spacing: 0; font-size: 0.7rem; }
+  .ln-card__price small:last-child { margin-top: 3px; }
+  .ln-card__price strong { margin-top: 3px; font-size: 1.7rem; font-weight: 800; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  .ln-card__price em { font-style: normal; font-size: 0.9rem; color: var(--gold); margin-left: 1px; }
+  .ln-card__body { flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 20px 20px 18px; }
+  .ln-card__name { font-size: 1.18rem; line-height: 1.3; }
+  .ln-card__summary { font-size: 0.92rem; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 3em; }
+  .ln-card__facts { margin: 4px 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--line-2); border-radius: 12px; overflow: hidden; }
+  .ln-card__facts div { padding: 10px 10px; background: var(--bg); border-left: 1px solid var(--line-2); min-width: 0; }
+  .ln-card__facts div:first-child { border-left: 0; }
+  .ln-card__facts dt { font-size: 0.64rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  :global(html[lang='mr']) .ln-card__facts dt { letter-spacing: 0; text-transform: none; font-size: 0.74rem; }
+  .ln-card__facts dd { margin: 3px 0 0; font-weight: 800; font-size: 0.86rem; line-height: 1.3; color: var(--g-800); }
+  .ln-card__actions { margin-top: auto; padding-top: 8px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .ln-card__more {
+    display: inline-flex; align-items: center; gap: 6px; padding: 9px 4px; font-weight: 700; font-size: 0.92rem; color: var(--g-700);
+    border-bottom: 2px solid transparent; transition: color 0.25s, border-color 0.25s;
+  }
+  .ln-card__more :global(.icon) { transition: transform 0.3s var(--ease-out); }
+  .ln-card__more:hover { color: var(--o-700); border-color: var(--o-300); }
+  .ln-card__more:hover :global(.icon) { transform: translate(2px, -2px); }
+  .ln-card__apply {
+    display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 10px; background: var(--g-800); color: #fff; font-weight: 700; font-size: 0.9rem;
+    transition: background 0.25s, transform 0.3s var(--ease-out);
+  }
+  .ln-card__apply :global(.icon) { transition: transform 0.3s var(--ease-out); }
+  .ln-card__apply:hover { background: var(--o-strong); }
+  .ln-card__apply:hover :global(.icon) { transform: translateX(3px); }
+  .ln-card:hover { transform: translateY(-6px); box-shadow: 0 30px 50px -32px rgb(120 60 10 / 0.55); border-color: var(--o-200); }
+  .ln-card:hover .ln-card__media img { transform: scale(1.06); }
+  .ln-card:hover .ln-card__price { rotate: 3deg; }
+  @media (max-width: 479px) {
+    .ln-card__facts { grid-template-columns: 1fr 1fr; }
+    .ln-card__facts div:nth-child(3) { grid-column: 1 / -1; border-left: 0; border-top: 1px solid var(--line-2); }
+  }
+
+  /* Details sheet */
+  .ln-sheet {
+    margin: 0 0 0 auto; padding: 0; border: 0; width: min(520px, 100vw); max-width: 100vw; height: 100dvh; max-height: 100dvh;
+    background: transparent; overflow: visible;
+  }
+  .ln-sheet::backdrop { background: rgb(4 36 23 / 0.5); backdrop-filter: blur(3px); }
+  .ln-sheet[open] { animation: ln-sheet-in 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+  .ln-sheet[open]::backdrop { animation: ln-fade 0.35s ease-out; }
+  .ln-sheet.is-closing { animation: ln-sheet-out 0.3s ease-in forwards; }
+  .ln-sheet.is-closing::backdrop { animation: ln-fade 0.3s ease-in reverse forwards; }
+  @keyframes ln-sheet-in { from { transform: translateX(100%); } }
+  @keyframes ln-sheet-out { to { transform: translateX(100%); } }
+  @keyframes ln-fade { from { opacity: 0; } }
+  .ln-sheet__panel { height: 100%; overflow-y: auto; overscroll-behavior: contain; background: var(--surface); box-shadow: -30px 0 60px -30px rgb(0 0 0 / 0.5); }
+  .ln-sheet__media { position: relative; aspect-ratio: 16 / 9; overflow: hidden; }
+  .ln-sheet__media img { width: 100%; height: 100%; object-fit: cover; }
+  .ln-sheet__close { position: absolute; top: 12px; right: 12px; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: rgb(255 255 255 / 0.95); color: var(--g-900); box-shadow: 0 6px 16px -6px rgb(0 0 0 / 0.5); transition: transform 0.3s var(--ease-out); }
+  .ln-sheet__close:hover { transform: rotate(90deg); }
+  .ln-sheet__body { display: grid; gap: 14px; padding: 22px clamp(18px, 4vw, 30px) 30px; }
+  .ln-sheet__title { font-size: 1.5rem; line-height: 1.25; color: var(--g-900); }
+  .ln-sheet__summary { color: var(--muted); }
+  .ln-sheet__key { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .ln-sheet__key div { padding: 12px 14px; border-radius: 12px; background: var(--g-800); color: rgb(255 255 255 / 0.75); }
+  .ln-sheet__key span { display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); }
+  :global(html[lang='mr']) .ln-sheet__key span { letter-spacing: 0; text-transform: none; font-size: 0.8rem; }
+  .ln-sheet__key strong { display: block; margin-top: 3px; color: #fff; font-size: 1.05rem; }
+  .ln-sheet__emi { padding: 14px 16px; border-radius: 12px; background: var(--o-50); border: 1px solid var(--o-200); color: var(--ink-2); font-size: 0.92rem; }
+  .ln-sheet__emi-value { margin-top: 4px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; }
+  .ln-sheet__emi-value strong { font-size: 1.7rem; font-weight: 800; letter-spacing: -0.02em; color: var(--o-700); font-variant-numeric: tabular-nums; }
+  .ln-sheet__emi-value span { font-weight: 600; color: var(--muted); }
+  .ln-sheet__emi small { display: block; margin-top: 4px; color: var(--muted); font-size: 0.78rem; }
+  .ln-sheet__sub { margin-top: 4px; font-size: 1rem; }
+  .ln-sheet__details { margin: 0; display: grid; }
+  .ln-sheet__details div { display: grid; grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr); gap: 12px; padding: 10px 0; border-top: 1px solid var(--line-2); font-size: 0.92rem; }
+  .ln-sheet__details dt { color: var(--muted); font-weight: 600; }
+  .ln-sheet__details dd { margin: 0; color: var(--ink); font-weight: 600; }
+  .ln-sheet__actions { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 6px; }
+  @media (max-width: 699px) {
+    .ln-sheet { margin: auto 0 0; width: 100vw; height: auto; max-height: 92dvh; }
+    .ln-sheet__panel { max-height: 92dvh; border-radius: 22px 22px 0 0; }
+    .ln-sheet__media { border-radius: 22px 22px 0 0; aspect-ratio: 16 / 8; }
+    @keyframes ln-sheet-in { from { transform: translateY(100%); } }
+    @keyframes ln-sheet-out { to { transform: translateY(100%); } }
+  }
+
+  .ln-emi { background: var(--surface); scroll-margin-top: calc(var(--header-h) + 8px); }
+
+  /* ---------- Help ---------- */
+  .ln-help { background: linear-gradient(180deg, #fff8f0, #fdeedd); }
+  .ln-points { list-style: none; margin: 4px 0 0; padding: 0; display: grid; }
+  .ln-points li { display: flex; gap: 14px; padding: 12px 0; border-top: 1px solid rgb(201 169 120 / 0.4); font-weight: 600; color: var(--ink); }
+  .ln-points li span { flex: none; min-width: 1.8em; font-size: 0.82rem; font-weight: 800; color: var(--o-600); padding-top: 2px; }
+
+  @media (prefers-reduced-motion: reduce) { .ln-hero__img { transition: none; transform: none; } }
+</style>

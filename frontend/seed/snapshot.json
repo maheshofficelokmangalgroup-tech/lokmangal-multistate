@@ -250,7 +250,7 @@
       "tagline": "Success Through Total Dedication",
       "taglineMr": "अखंड गतीतून सार्थकता",
       "url": "https://lokmangalmultistate.com",
-      "description": "Lokmangal Multistate Co-operative Society Ltd., Solapur — savings, fixed & recurring deposits up to 10% p.a., agriculture, housing, vehicle and business loans through 60 branches across Maharashtra & Karnataka.",
+      "description": "Lokmangal Multistate Co-operative Society Ltd., Solapur, savings, fixed & recurring deposits up to 10% p.a., agriculture, housing, vehicle and business loans through 60 branches across Maharashtra & Karnataka.",
       "registration": "MSCS/CR.216/2004",
       "act": "Multi-State Co-operative Societies Act, 2002",
       "founded": 2004,
@@ -286,7 +286,7 @@
         {
           "label": "Instagram",
           "icon": "instagram",
-          "href": "https://www.instagram.com/LMCSOfficial/"
+          "href": "https://www.instagram.com/lokmangal_multistate_official"
         },
         {
           "label": "LinkedIn",
@@ -294,7 +294,20 @@
           "href": "https://www.linkedin.com/company/lmcsofficial/"
         }
       ],
-      "headOfficeCode": "HO"
+      "headOfficeCode": "HO",
+      "mr": {
+        "name": "लोकमंगल मल्टीस्टेट",
+        "legalName": "लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटी लि.",
+        "tagline": "अखंड गतीतून सार्थकता",
+        "description": "लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटी लि., सोलापूर: बचत, मुदत व रिकरिंग ठेवी (वार्षिक 10% पर्यंत व्याज), तसेच महाराष्ट्र आणि कर्नाटकातील 60 शाखांमधून शेती, गृह, वाहन आणि व्यवसाय कर्ज.",
+        "act": "बहुराज्य सहकारी संस्था कायदा, 2002",
+        "address": {
+          "line1": "प्लॉट क्र. 94, मित्र नगर",
+          "line2": "रब्बी रिसर्च सेंटरजवळ, शेळगी",
+          "city": "सोलापूर",
+          "state": "महाराष्ट्र"
+        }
+      }
     },
     "home": {
       "stats": [
@@ -333,6 +346,34 @@
         "text": "Board of Directors & Office Bearers election notices are published.",
         "href": "/notices/",
         "linkText": "View notices"
+      },
+      "mr": {
+        "stats": [
+          {
+            "label": "शाखा",
+            "sub": "महाराष्ट्र आणि कर्नाटकात"
+          },
+          {
+            "suffix": "+ कोटी",
+            "label": "एकूण ठेवी",
+            "sub": "सभासदांनी सोपवलेल्या"
+          },
+          {
+            "suffix": "+ कोटी",
+            "label": "एकूण व्यवसाय",
+            "sub": "आणि दरवर्षी वाढणारा"
+          },
+          {
+            "suffix": " लाख+",
+            "label": "समाधानी सभासद",
+            "sub": "लोकमंगल परिवाराचा भाग"
+          }
+        ],
+        "announcement": {
+          "label": "निवडणूक 2025:",
+          "text": "संचालक मंडळ व पदाधिकारी निवडणुकीच्या सूचना प्रसिद्ध झाल्या आहेत.",
+          "linkText": "सूचना पहा"
+        }
       }
     },
     "navigation": {
@@ -470,6 +511,108 @@
             "href": "/sitemap/"
           }
         ]
+      },
+      "mr": {
+        "nav": [
+          {
+            "label": "मुख्यपृष्ठ"
+          },
+          {
+            "label": "आमच्याबद्दल",
+            "children": [
+              {
+                "label": "लोकमंगलबद्दल",
+                "desc": "2004 पासूनची वाटचाल"
+              },
+              {
+                "label": "अध्यक्षांचा संदेश",
+                "desc": "अध्यक्षांचे मनोगत"
+              },
+              {
+                "label": "संचालक मंडळ",
+                "desc": "आमचे नेतृत्व करणारे"
+              },
+              {
+                "label": "सामाजिक बांधिलकी",
+                "desc": "लोकमंगल फाउंडेशनचे उपक्रम"
+              },
+              {
+                "label": "वार्षिक अहवाल",
+                "desc": "कामगिरी आणि माहिती"
+              },
+              {
+                "label": "छायाचित्रे",
+                "desc": "आमच्या वाटचालीतील क्षण"
+              }
+            ]
+          },
+          {
+            "label": "आमची उत्पादने"
+          },
+          {
+            "label": "इतर सेवा"
+          },
+          {
+            "label": "रुरल वेल्थ मॅनेजर"
+          },
+          {
+            "label": "प्रश्नोत्तरे"
+          },
+          {
+            "label": "शाखा"
+          }
+        ],
+        "footerLinks": {
+          "quick": [
+            {
+              "label": "मुख्यपृष्ठ"
+            },
+            {
+              "label": "आमच्याबद्दल"
+            },
+            {
+              "label": "मुदत ठेवी"
+            },
+            {
+              "label": "कर्ज"
+            },
+            {
+              "label": "व्याजदर"
+            },
+            {
+              "label": "प्रश्नोत्तरे"
+            },
+            {
+              "label": "आमच्या शाखा"
+            }
+          ],
+          "other": [
+            {
+              "label": "संपर्क"
+            },
+            {
+              "label": "ब्लॉग"
+            },
+            {
+              "label": "करिअर"
+            },
+            {
+              "label": "सूचना"
+            },
+            {
+              "label": "कॅल्क्युलेटर"
+            },
+            {
+              "label": "वापराच्या अटी"
+            },
+            {
+              "label": "गोपनीयता धोरण"
+            },
+            {
+              "label": "साइटमॅप"
+            }
+          ]
+        }
       }
     },
     "deposit_page": {
@@ -496,14 +639,43 @@
         {
           "icon": "calendar",
           "title": "Flexible tenures",
-          "text": "From 7 days to 88 months — choose what fits your goal."
+          "text": "From 7 days to 88 months. Choose what fits your goal."
         },
         {
           "icon": "users",
           "title": "Nomination facility",
           "text": "Secure your family’s future with an easy nomination."
         }
-      ]
+      ],
+      "mr": {
+        "specialCategories": "ज्येष्ठ नागरिक, दिव्यांग व्यक्ती, माजी सैनिक, एकल पालक, 50 वर्षांवरील विधवा, तसेच ₹25 लाख व त्याहून अधिकच्या मोठ्या ठेवी (किंवा संस्था).",
+        "documents": [
+          "पॅन कार्ड",
+          "आधार कार्ड",
+          "वीज बिल (पत्त्याचा पुरावा)",
+          "फोटो असलेले ओळखपत्र",
+          "पासपोर्ट आकाराचे तीन फोटो",
+          "फॉर्म 60 / 61 (पॅन नसल्यास)"
+        ],
+        "benefits": [
+          {
+            "title": "वार्षिक 10% पर्यंत",
+            "text": "सहकार क्षेत्रातील सर्वाधिक फायदेशीर ठेव दरांपैकी एक."
+          },
+          {
+            "title": "सुरक्षित आणि नियमित",
+            "text": "बहुराज्य सहकारी संस्था कायदा, 2002 अंतर्गत नोंदणीकृत."
+          },
+          {
+            "title": "लवचिक मुदत",
+            "text": "7 दिवसांपासून 88 महिन्यांपर्यंत. तुमच्या उद्दिष्टाला साजेशी मुदत निवडा."
+          },
+          {
+            "title": "वारसदार सुविधा",
+            "text": "सोप्या वारसदार नोंदणीने कुटुंबाचे भविष्य सुरक्षित करा."
+          }
+        ]
+      }
     },
     "loan_page": {
       "benefits": [
@@ -531,13 +703,37 @@
       "extraFormTypes": [
         "Educational Loan",
         "Gold Loan"
-      ]
+      ],
+      "mr": {
+        "benefits": [
+          {
+            "title": "आकर्षक व्याजदर",
+            "text": "प्रत्येक कर्ज योजनेवर स्पर्धात्मक दर."
+          },
+          {
+            "title": "सोपी कागदपत्रे",
+            "text": "कमी कागदपत्रे आणि प्रत्येक टप्प्यावर मार्गदर्शन."
+          },
+          {
+            "title": "जलद वितरण",
+            "text": "गरजेच्या वेळी पैसे मिळावेत म्हणून जलद प्रक्रिया."
+          },
+          {
+            "title": "तत्पर ग्राहक सेवा",
+            "text": "तुमच्या गरजा समजून घेणारी स्थानिक शाखा टीम."
+          }
+        ],
+        "extraFormTypes": [
+          "शैक्षणिक कर्ज",
+          "सोने तारण कर्ज"
+        ]
+      }
     },
     "people": {
       "chairman": {
         "name": "Hon. Mr. Rohan Subhash Deshmukh",
         "role": "Chairman, Lokmangal Multistate Co-operative Society Ltd.",
-        "photo": "/images/people/chairman.webp"
+        "photo": "/images/people/board-01.webp"
       },
       "mentor": {
         "name": "Hon. Mr. Subhash (Bapu) Deshmukh",
@@ -599,7 +795,63 @@
           "role": "Director",
           "photo": "/images/people/board-11.webp"
         }
-      ]
+      ],
+      "mr": {
+        "chairman": {
+          "name": "मा. श्री. रोहन सुभाष देशमुख",
+          "role": "अध्यक्ष, लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटी लि."
+        },
+        "mentor": {
+          "name": "मा. श्री. सुभाष (बापू) देशमुख",
+          "role": "मार्गदर्शक आणि संस्थापक"
+        },
+        "board": [
+          {
+            "name": "श्री. रोहन सुभाष देशमुख",
+            "role": "अध्यक्ष"
+          },
+          {
+            "name": "श्री. अविनाश लक्ष्मण महागावकर",
+            "role": "संचालक"
+          },
+          {
+            "name": "श्री. शिवाजी कल्याणराव पाटील",
+            "role": "संचालक"
+          },
+          {
+            "name": "श्री. रामराजे राजेसाहेब पाटील",
+            "role": "संचालक"
+          },
+          {
+            "name": "श्री. भीमाशंकर सिद्राम नरसगोंडे",
+            "role": "संचालक"
+          },
+          {
+            "name": "श्री. शीलरत्न चंद्रकांत गायकवाड",
+            "role": "संचालक"
+          },
+          {
+            "name": "श्री. निलेश महेंद्रभाई पटेल",
+            "role": "संचालक"
+          },
+          {
+            "name": "श्री. अभिमन्यू अशोक जाधव",
+            "role": "संचालक"
+          },
+          {
+            "name": "श्री. देवीप्रसाद शरदशरण कुलकर्णी",
+            "role": "संचालक"
+          },
+          {
+            "name": "सौ. वैशाली अविनाश भिसे",
+            "role": "संचालक"
+          },
+          {
+            "name": "सौ. उज्ज्वला दत्ताजीराव सूर्यवंशी",
+            "role": "संचालक"
+          }
+        ]
+      }
     },
     "faq": {
       "items": [
@@ -617,11 +869,11 @@
         },
         {
           "q": "How is the society different from a finance company?",
-          "a": "<p>A co-operative society is not owned by an individual. It is a democratic organisation run by a Board of Directors elected by members at the Annual General Meeting, and decisions are taken collectively and transparently. The Department of Co-operation reviews the society’s functioning regularly, and its accounts are statutorily audited and submitted to the Government of India every year.</p><p>When you invest with Lokmangal you are not just a depositor — you become a member and shareholder of the Lokmangal Parivar.</p>"
+          "a": "<p>A co-operative society is not owned by an individual. It is a democratic organisation run by a Board of Directors elected by members at the Annual General Meeting, and decisions are taken collectively and transparently. The Department of Co-operation reviews the society’s functioning regularly, and its accounts are statutorily audited and submitted to the Government of India every year.</p><p>When you invest with Lokmangal you are not just a depositor. You become a member and shareholder of the Lokmangal Parivar.</p>"
         },
         {
           "q": "Why does Lokmangal pay a higher rate of interest?",
-          "a": "<p>We believe in encouraging the habit of saving among our members. Higher savings lead to higher investment and a stronger economy — so we share more of our earnings with the people who make them possible.</p>"
+          "a": "<p>We believe in encouraging the habit of saving among our members. Higher savings lead to higher investment and a stronger economy, so we share more of our earnings with the people who make them possible.</p>"
         },
         {
           "q": "How can the society offer better rates than commercial banks?",
@@ -647,7 +899,7 @@
           "icon": "globe",
           "title": "Net Banking",
           "image": "/images/services/net-banking.webp",
-          "text": "Bank securely from anywhere — check balances, view statements and manage your accounts online without visiting a branch."
+          "text": "Bank securely from anywhere. Check balances, view statements and manage your accounts online without visiting a branch."
         },
         {
           "icon": "smartphone",
@@ -659,7 +911,7 @@
           "icon": "zap",
           "title": "IMPS & UPI",
           "image": "/images/services/upi.webp",
-          "text": "Pay merchants online and offline, or send money instantly to any bank account — no card details or long account numbers needed."
+          "text": "Pay merchants online and offline, or send money instantly to any bank account, no card details or long account numbers needed."
         },
         {
           "icon": "arrow-left-right",
@@ -786,7 +1038,39 @@
             ]
           ]
         }
-      ]
+      ],
+      "mr": {
+        "services": [
+          {
+            "title": "नेट बँकिंग",
+            "text": "कुठूनही सुरक्षितपणे बँकिंग करा. शाखेत न जाता ऑनलाइन शिल्लक पाहा, स्टेटमेंट पाहा आणि खाती सांभाळा."
+          },
+          {
+            "title": "मोबाइल बँकिंग",
+            "text": "आमचे मोबाइल ॲप फक्त तुमच्या खात्याशी जोडलेल्या नोंदणीकृत मोबाइल आणि सिमवरच चालते, त्यामुळे प्रवासात बँकिंगसाठी हा अत्यंत सुरक्षित मार्ग आहे."
+          },
+          {
+            "title": "आयएमपीएस आणि यूपीआय",
+            "text": "ऑनलाइन व प्रत्यक्ष दुकानात पैसे द्या, किंवा कोणत्याही बँक खात्यात लगेच पैसे पाठवा. कार्डचे तपशील किंवा लांब खाते क्रमांक लागत नाहीत."
+          },
+          {
+            "title": "एनईएफटी / आरटीजीएस",
+            "text": "एनईएफटी, आरटीजीएस किंवा आयएमपीएसद्वारे कोणत्याही लोकमंगल खात्यात किंवा भारतातील इतर कोणत्याही बँकेत पैसे पाठवा. सुरू करण्यासाठी जवळच्या शाखेत जा."
+          },
+          {
+            "title": "एसएमएस बँकिंग",
+            "text": "इंटरनेट नाही? काळजी नाही. साध्या एसएमएसवर शिल्लक, शेवटचे तीन व्यवहार, डेबिट कार्ड सुरू करणे आणि पिन पुन्हा तयार करणे या सुविधा मिळवा."
+          },
+          {
+            "title": "सुरक्षित तिजोरी (लॉकर)",
+            "text": "दागिने, कागदपत्रे आणि मौल्यवान वस्तू आमच्या शाखांमधील अत्यंत सुरक्षित लॉकरमध्ये ठेवा. लॉकर उपलब्धतेनुसार दिले जाते."
+          },
+          {
+            "title": "वीज व इतर बिल भरणा",
+            "text": "वीज, मोबाइल आणि इतर बिले घरबसल्या ऑनलाइन बँकिंगद्वारे किंवा जवळच्या शाखेच्या काउंटरवर भरा."
+          }
+        ]
+      }
     },
     "csr": {
       "pillars": [
@@ -810,14 +1094,14 @@
       "initiatives": [
         {
           "icon": "heart",
-          "title": "Annapoorna Yojana",
+          "title": "Lokmangal Annapoorna Yojana",
           "stat": "500 elders fed, twice a day",
-          "text": "Free, nutritious meals delivered to the doorsteps of homeless and deprived elderly people — twice every day — so that no one in our community goes hungry.",
+          "text": "Free, nutritious meals delivered to the doorsteps of homeless and deprived elderly people, twice every day, so that no one in our community goes hungry.",
           "link": "http://lokmangalfoundation.com/lokmangal-annapurna-yojana.php"
         },
         {
           "icon": "sparkles",
-          "title": "Community Wedding Event",
+          "title": "Lokmangal Samudayik Vivah",
           "stat": "2,500+ weddings supported",
           "text": "Weddings are increasingly expensive for farmers and labourers. Through the Sarvadharmiy Samudayik Vivah Sohala we have helped more than 2,500 daughters get married with dignity."
         },
@@ -839,7 +1123,7 @@
           "title": "Tree Plantation",
           "stat": "Every year",
           "image": "/images/csr/tree-plantation.webp",
-          "text": "An annual plantation drive in which our employees and their families plant saplings near branches, along roads and in schools — and encourage neighbours to nurture them."
+          "text": "An annual plantation drive in which our employees and their families plant saplings near branches, along roads and in schools, and encourage neighbours to nurture them."
         },
         {
           "icon": "sparkles",
@@ -855,7 +1139,60 @@
           "image": "/images/csr/youth-festival.webp",
           "text": "Renowned speakers and youth icons share their journeys with rural and urban youth, inspiring the next generation to dream bigger."
         }
-      ]
+      ],
+      "mr": {
+        "pillars": [
+          {
+            "title": "सर्वसमावेशक वाढ आणि विकास"
+          },
+          {
+            "title": "सामुदायिक सहभाग"
+          },
+          {
+            "title": "सहकार्याची भागीदारी"
+          },
+          {
+            "title": "समाजावर सकारात्मक परिणाम"
+          }
+        ],
+        "initiatives": [
+          {
+            "title": "लोकमंगल अन्नपूर्णा योजना",
+            "stat": "500 वृद्धांना दिवसातून दोनदा जेवण",
+            "text": "बेघर आणि निराधार वृद्धांना रोज दोन वेळा, त्यांच्या दारापर्यंत मोफत आणि पौष्टिक जेवण पोहोचवले जाते, जेणेकरून आपल्या समाजात कोणीही उपाशी राहू नये."
+          },
+          {
+            "title": "लोकमंगल सामुदायिक विवाह",
+            "stat": "2,500+ विवाहांना सहाय्य",
+            "text": "शेतकरी आणि कामगारांसाठी विवाह खर्चिक झाले आहेत. सर्वधर्मीय सामुदायिक विवाह सोहळ्याद्वारे आम्ही 2,500 हून अधिक लेकींचे विवाह सन्मानाने पार पाडण्यास मदत केली आहे."
+          },
+          {
+            "title": "जलसंधारण",
+            "stat": "सोलापूर आणि धाराशिव जिल्हे",
+            "text": "पावसाच्या पाण्याची साठवण, पारंपरिक जलस्रोतांचे पुनर्भरण, पाणलोट विकास आणि वनीकरण. शेतकऱ्यांसाठी भूजल पातळी वाढवण्यासाठी अनेक गावांतील ओढे, तळी आणि बंधारे रुंद व खोल करण्यात आले."
+          },
+          {
+            "title": "आरोग्य शिबिरे",
+            "stat": "लोकमंगल जीवक हॉस्पिटलसोबत",
+            "text": "लोकमंगल जीवक हॉस्पिटल अँड रिसर्च सेंटरच्या सहकार्याने गावोगावी नियमित आरोग्य शिबिरे घेतली जातात; ज्यांना सर्वाधिक गरज आहे अशा कुटुंबांपर्यंत उपचार आणि आरोग्य जागृती पोहोचते."
+          },
+          {
+            "title": "वृक्षारोपण",
+            "stat": "दरवर्षी",
+            "text": "दरवर्षी आमचे कर्मचारी आणि त्यांचे कुटुंबीय शाखांजवळ, रस्त्यांलगत आणि शाळांमध्ये रोपे लावतात आणि शेजाऱ्यांनाही ती जगवण्यासाठी प्रोत्साहित करतात."
+          },
+          {
+            "title": "स्वच्छता मोहीम",
+            "stat": "स्वच्छ भारत अभियान",
+            "text": "स्वच्छ भारताच्या भावनेतून आमची पथके शाखांच्या आसपासचा परिसर स्वच्छ करतात आणि रोजच्या स्वच्छतेबद्दल जागृती करतात."
+          },
+          {
+            "title": "जिल्हास्तरीय युवा महोत्सव",
+            "stat": "लोकमंगल फाउंडेशनतर्फे आयोजित",
+            "text": "नामवंत वक्ते आणि युवा आदर्श ग्रामीण व शहरी तरुणांना आपला प्रवास सांगतात आणि पुढच्या पिढीला मोठी स्वप्ने पाहण्याची प्रेरणा देतात."
+          }
+        ]
+      }
     }
   },
   "collections": {
@@ -869,26 +1206,26 @@
           "kind": "fd",
           "rateNote": "p.a. for 365 days & above",
           "pitch": "Lock in up to {rate:fd.365-plus.regular}% p.a. with tenures from just 7 days.",
-          "intro": "Grow idle savings with complete peace of mind. Vishwamangal Fixed Deposit offers some of the most attractive rates in the co-operative sector, with tenures from 7 days upward — ideal for goals like a child’s education, a new home or a wedding in the family.",
+          "intro": "Grow idle savings with complete peace of mind. Vishwamangal Fixed Deposit offers some of the most attractive rates in the co-operative sector, with tenures from 7 days upward, ideal for goals like a child’s education, a new home or a wedding in the family.",
           "facts": [
             {
               "label": "Scheme type",
               "value": "Fixed Deposit"
             },
             {
-              "label": "7 – 30 days",
+              "label": "7 to 30 days",
               "value": "{rate2:fd.7-30.regular}% p.a."
             },
             {
-              "label": "31 – 90 days",
+              "label": "31 to 90 days",
               "value": "{rate2:fd.31-90.regular}% p.a."
             },
             {
-              "label": "91 – 180 days",
+              "label": "91 to 180 days",
               "value": "{rate2:fd.91-180.regular}% p.a."
             },
             {
-              "label": "181 – 364 days",
+              "label": "181 to 364 days",
               "value": "{rate2:fd.181-364.regular}% p.a."
             },
             {
@@ -922,7 +1259,7 @@
             "Safety and liquidity",
             "Nomination facility"
           ],
-          "eligibility": "Any resident Indian individual or entity can open a Fixed Deposit — including senior citizens and Hindu Undivided Families (HUFs).",
+          "eligibility": "Any resident Indian individual or entity can open a Fixed Deposit, including senior citizens and Hindu Undivided Families (HUFs).",
           "image": "/images/schemes/creative-fd.webp",
           "featured": true,
           "rateKey": "fd.365-plus.regular",
@@ -932,7 +1269,64 @@
             "months": 12,
             "rateKey": "fd.365-plus.regular"
           },
-          "order": 1
+          "order": 1,
+          "mr": {
+            "name": "विश्वमंगल मुदत ठेव योजना",
+            "rateNote": "वार्षिक, 365 दिवस व त्याहून अधिक मुदतीसाठी",
+            "pitch": "वार्षिक {rate:fd.365-plus.regular}% पर्यंत व्याज, मुदत फक्त 7 दिवसांपासून.",
+            "highlight": [
+              {
+                "label": "मुदत",
+                "value": "7 दिवस +"
+              },
+              {
+                "label": "कमाल दर"
+              },
+              {
+                "label": "विशेष दर"
+              }
+            ],
+            "facts": [
+              {
+                "label": "योजनेचा प्रकार",
+                "value": "मुदत ठेव"
+              },
+              {
+                "label": "7 ते 30 दिवस",
+                "value": "वार्षिक {rate2:fd.7-30.regular}%"
+              },
+              {
+                "label": "31 ते 90 दिवस",
+                "value": "वार्षिक {rate2:fd.31-90.regular}%"
+              },
+              {
+                "label": "91 ते 180 दिवस",
+                "value": "वार्षिक {rate2:fd.91-180.regular}%"
+              },
+              {
+                "label": "181 ते 364 दिवस",
+                "value": "वार्षिक {rate2:fd.181-364.regular}%"
+              },
+              {
+                "label": "365 दिवस व त्याहून अधिक",
+                "value": "वार्षिक {rate2:fd.365-plus.regular}%"
+              },
+              {
+                "label": "टीडीएस",
+                "value": "व्याजावर लागू, संस्थेच्या सभासदांना वगळून"
+              }
+            ],
+            "intro": "निष्क्रिय बचत निर्धास्तपणे वाढवा. विश्वमंगल मुदत ठेव सहकार क्षेत्रातील सर्वात आकर्षक दरांपैकी एक देते; मुदत 7 दिवसांपासून पुढे, मुलांचे शिक्षण, नवीन घर किंवा घरातील लग्न अशा उद्दिष्टांसाठी उपयुक्त.",
+            "eligibility": "ज्येष्ठ नागरिक आणि हिंदू अविभक्त कुटुंबांसह (एचयूएफ) कोणतीही निवासी भारतीय व्यक्ती किंवा संस्था मुदत ठेव उघडू शकते.",
+            "features": [
+              "आकर्षक व्याजदर",
+              "लवचिक मुदत",
+              "सोपी आणि सोयीची प्रक्रिया",
+              "स्थिर आणि खात्रीशीर परतावा",
+              "सुरक्षितता आणि तरलता",
+              "वारसदार नेमण्याची सुविधा"
+            ]
+          }
         }
       },
       {
@@ -943,7 +1337,7 @@
           "nameMr": "विश्वमंगल मासिक ठेव योजना",
           "kind": "monthly",
           "rateNote": "p.a., paid monthly",
-          "pitch": "A steady monthly income from your savings — {rate2:deposit.vishwamangal-monthly}% for every depositor.",
+          "pitch": "A steady monthly income from your savings, {rate2:deposit.vishwamangal-monthly}% for every depositor.",
           "intro": "Deposit a lump sum once and receive interest in your account every month. Vishwamangal Monthly Interest is designed for retirees, homemakers and anyone who wants a dependable monthly income without touching the principal.",
           "facts": [
             {
@@ -999,7 +1393,56 @@
             "months": 12,
             "rateKey": "deposit.vishwamangal-monthly"
           },
-          "order": 2
+          "order": 2,
+          "mr": {
+            "name": "विश्वमंगल मासिक ठेव योजना",
+            "rateNote": "वार्षिक, दरमहा व्याज",
+            "pitch": "तुमच्या बचतीवर दरमहा नियमित उत्पन्न, सर्व ठेवीदारांना {rate2:deposit.vishwamangal-monthly}%.",
+            "highlight": [
+              {
+                "label": "ठेव"
+              },
+              {
+                "label": "दरमहा"
+              },
+              {
+                "label": "मुदत",
+                "value": "12 महिने +"
+              }
+            ],
+            "facts": [
+              {
+                "label": "योजनेचा प्रकार",
+                "value": "मासिक व्याज योजना"
+              },
+              {
+                "label": "व्याजदर",
+                "value": "सर्व ठेवीदारांसाठी वार्षिक {rate2:deposit.vishwamangal-monthly}%"
+              },
+              {
+                "label": "मुदत",
+                "value": "12 महिने व त्याहून अधिक"
+              },
+              {
+                "label": "उदाहरण",
+                "value": "₹1,00,000 वर दरमहा सुमारे {calc} व्याज"
+              },
+              {
+                "label": "टीडीएस",
+                "value": "व्याजावर लागू, संस्थेच्या सभासदांना वगळून"
+              }
+            ],
+            "intro": "एकदाच रक्कम ठेवा आणि दर महिन्याला व्याज खात्यात मिळवा. मुद्दलाला हात न लावता नियमित मासिक उत्पन्न हवे असलेले निवृत्त, गृहिणी आणि इतर सर्वांसाठी विश्वमंगल मासिक व्याज योजना.",
+            "eligibility": "ज्येष्ठ नागरिक आणि एचयूएफसह कोणतीही निवासी भारतीय व्यक्ती किंवा संस्था गुंतवणूक करू शकते.",
+            "features": [
+              "आकर्षक व्याजदर",
+              "लवचिक मुदत",
+              "सोपी आणि सोयीची प्रक्रिया",
+              "स्थिर आणि खात्रीशीर परतावा",
+              "सुरक्षितता आणि तरलता",
+              "वारसदार नेमण्याची सुविधा"
+            ]
+          }
         }
       },
       {
@@ -1066,7 +1509,57 @@
             "months": 36,
             "rateKey": "deposit.vishwamangal-rd"
           },
-          "order": 3
+          "order": 3,
+          "mr": {
+            "name": "विश्वमंगल रिकरिंग ठेव योजना",
+            "rateNote": "वार्षिक",
+            "pitch": "दरमहा फक्त ₹100 पासून बचत सुरू करा, वार्षिक {rate2:deposit.vishwamangal-rd}% दराने.",
+            "highlight": [
+              {
+                "label": "किमान",
+                "value": "₹100/महिना"
+              },
+              {
+                "label": "मुदत",
+                "value": "12 ते 60 महिने"
+              },
+              {
+                "label": "दर"
+              }
+            ],
+            "facts": [
+              {
+                "label": "योजनेचा प्रकार",
+                "value": "रिकरिंग ठेव"
+              },
+              {
+                "label": "व्याजदर",
+                "value": "वार्षिक {rate2:deposit.vishwamangal-rd}%"
+              },
+              {
+                "label": "मुदत",
+                "value": "12 ते 60 महिने"
+              },
+              {
+                "label": "किमान हप्ता",
+                "value": "दरमहा ₹100"
+              },
+              {
+                "label": "टीडीएस",
+                "value": "व्याजावर लागू, संस्थेच्या सभासदांना वगळून"
+              }
+            ],
+            "intro": "दर महिन्याला थोडी बचत करून बचतीची सवय लावा. 12 ते 60 महिन्यांपैकी कोणतीही मुदत निवडा, दरमहा फक्त ₹100 पासून सुरुवात करा आणि वार्षिक {rate2:deposit.vishwamangal-rd}% दराने पैसे वाढताना पहा.",
+            "eligibility": "पालकामार्फत अज्ञानांसह कोणतीही निवासी भारतीय व्यक्ती किंवा संस्था रिकरिंग ठेव उघडू शकते.",
+            "features": [
+              "सोपे मासिक हप्ते",
+              "आकर्षक व्याजदर",
+              "मोठी रक्कम जमा होते",
+              "खात्रीशीर मुदतपूर्ती रक्कम",
+              "वापरण्यास सोपे",
+              "सुरक्षितता आणि तरलता"
+            ]
+          }
         }
       },
       {
@@ -1078,7 +1571,7 @@
           "kind": "rd",
           "rateNote": "p.a.",
           "pitch": "Save ₹3,800 a month and become a lakhpati in 24 months.",
-          "intro": "Lakshadish — also known as the Lakhpati Thev Yojana — turns a small, fixed monthly saving into a guaranteed lump sum of over one lakh rupees. Pick the instalment that suits your budget, deposit it every month, and collect your maturity amount at the end of the term.",
+          "intro": "Lakshadish, also known as the Lakhpati Thev Yojana, turns a small, fixed monthly saving into a guaranteed lump sum of over one lakh rupees. Pick the instalment that suits your budget, deposit it every month, and collect your maturity amount at the end of the term.",
           "facts": [
             {
               "label": "Scheme type",
@@ -1137,7 +1630,58 @@
             "months": 24,
             "rateKey": "deposit.lakshadish"
           },
-          "order": 4
+          "order": 4,
+          "mr": {
+            "name": "लक्षदिश (रिकरिंग) ठेव योजना 1",
+            "rateNote": "वार्षिक",
+            "pitch": "दरमहा ₹3,800 बचत करा आणि 24 महिन्यांत लखपती व्हा.",
+            "highlight": [
+              {
+                "label": "मासिक"
+              },
+              {
+                "label": "मुदत",
+                "value": "24 महिने"
+              },
+              {
+                "label": "परिपक्वता"
+              }
+            ],
+            "facts": [
+              {
+                "label": "योजनेचा प्रकार",
+                "value": "रिकरिंग ठेव"
+              },
+              {
+                "label": "व्याजदर",
+                "value": "वार्षिक {rate2:deposit.lakshadish}%"
+              },
+              {
+                "label": "मासिक हप्ता"
+              },
+              {
+                "label": "मुदत",
+                "value": "24 महिने"
+              },
+              {
+                "label": "मुदतपूर्ती रक्कम"
+              },
+              {
+                "label": "टीडीएस",
+                "value": "व्याजावर लागू, संस्थेच्या सभासदांना वगळून"
+              }
+            ],
+            "intro": "लक्षदिश, म्हणजेच लखपती ठेव योजना, दरमहा ठराविक छोट्या बचतीतून एक लाख रुपयांहून अधिक खात्रीशीर रक्कम उभी करते. तुमच्या बजेटला साजेसा हप्ता निवडा, तो दर महिन्याला भरा आणि मुदत संपल्यावर मुदतपूर्ती रक्कम मिळवा.",
+            "eligibility": "व्यक्ती (एकट्या किंवा संयुक्त), पालकांमार्फत अज्ञान, एचयूएफ, संघटना, संस्था, ट्रस्ट आणि क्लब लक्षदिशमध्ये गुंतवणूक करू शकतात.",
+            "features": [
+              "सोपे मासिक हप्ते",
+              "आकर्षक व्याजदर",
+              "मोठी रक्कम जमा होते",
+              "खात्रीशीर मुदतपूर्ती रक्कम",
+              "वापरण्यास सोपे",
+              "सुरक्षितता आणि तरलता"
+            ]
+          }
         }
       },
       {
@@ -1149,7 +1693,7 @@
           "kind": "rd",
           "rateNote": "p.a.",
           "pitch": "Save ₹2,450 a month and become a lakhpati in 36 months.",
-          "intro": "Lakshadish — also known as the Lakhpati Thev Yojana — turns a small, fixed monthly saving into a guaranteed lump sum of over one lakh rupees. Pick the instalment that suits your budget, deposit it every month, and collect your maturity amount at the end of the term.",
+          "intro": "Lakshadish, also known as the Lakhpati Thev Yojana, turns a small, fixed monthly saving into a guaranteed lump sum of over one lakh rupees. Pick the instalment that suits your budget, deposit it every month, and collect your maturity amount at the end of the term.",
           "facts": [
             {
               "label": "Scheme type",
@@ -1208,7 +1752,58 @@
             "months": 36,
             "rateKey": "deposit.lakshadish"
           },
-          "order": 5
+          "order": 5,
+          "mr": {
+            "name": "लक्षदिश (रिकरिंग) ठेव योजना 2",
+            "rateNote": "वार्षिक",
+            "pitch": "दरमहा ₹2,450 बचत करा आणि 36 महिन्यांत लखपती व्हा.",
+            "highlight": [
+              {
+                "label": "मासिक"
+              },
+              {
+                "label": "मुदत",
+                "value": "36 महिने"
+              },
+              {
+                "label": "परिपक्वता"
+              }
+            ],
+            "facts": [
+              {
+                "label": "योजनेचा प्रकार",
+                "value": "रिकरिंग ठेव"
+              },
+              {
+                "label": "व्याजदर",
+                "value": "वार्षिक {rate2:deposit.lakshadish}%"
+              },
+              {
+                "label": "मासिक हप्ता"
+              },
+              {
+                "label": "मुदत",
+                "value": "36 महिने"
+              },
+              {
+                "label": "मुदतपूर्ती रक्कम"
+              },
+              {
+                "label": "टीडीएस",
+                "value": "व्याजावर लागू, संस्थेच्या सभासदांना वगळून"
+              }
+            ],
+            "intro": "लक्षदिश, म्हणजेच लखपती ठेव योजना, दरमहा ठराविक छोट्या बचतीतून एक लाख रुपयांहून अधिक खात्रीशीर रक्कम उभी करते. तुमच्या बजेटला साजेसा हप्ता निवडा, तो दर महिन्याला भरा आणि मुदत संपल्यावर मुदतपूर्ती रक्कम मिळवा.",
+            "eligibility": "व्यक्ती (एकट्या किंवा संयुक्त), पालकांमार्फत अज्ञान, एचयूएफ, संघटना, संस्था, ट्रस्ट आणि क्लब लक्षदिशमध्ये गुंतवणूक करू शकतात.",
+            "features": [
+              "सोपे मासिक हप्ते",
+              "आकर्षक व्याजदर",
+              "मोठी रक्कम जमा होते",
+              "खात्रीशीर मुदतपूर्ती रक्कम",
+              "वापरण्यास सोपे",
+              "सुरक्षितता आणि तरलता"
+            ]
+          }
         }
       },
       {
@@ -1220,7 +1815,7 @@
           "kind": "rd",
           "rateNote": "p.a.",
           "pitch": "Save ₹1,750 a month and become a lakhpati in 48 months.",
-          "intro": "Lakshadish — also known as the Lakhpati Thev Yojana — turns a small, fixed monthly saving into a guaranteed lump sum of over one lakh rupees. Pick the instalment that suits your budget, deposit it every month, and collect your maturity amount at the end of the term.",
+          "intro": "Lakshadish, also known as the Lakhpati Thev Yojana, turns a small, fixed monthly saving into a guaranteed lump sum of over one lakh rupees. Pick the instalment that suits your budget, deposit it every month, and collect your maturity amount at the end of the term.",
           "facts": [
             {
               "label": "Scheme type",
@@ -1279,7 +1874,58 @@
             "months": 48,
             "rateKey": "deposit.lakshadish"
           },
-          "order": 6
+          "order": 6,
+          "mr": {
+            "name": "लक्षदिश (रिकरिंग) ठेव योजना 3",
+            "rateNote": "वार्षिक",
+            "pitch": "दरमहा ₹1,750 बचत करा आणि 48 महिन्यांत लखपती व्हा.",
+            "highlight": [
+              {
+                "label": "मासिक"
+              },
+              {
+                "label": "मुदत",
+                "value": "48 महिने"
+              },
+              {
+                "label": "परिपक्वता"
+              }
+            ],
+            "facts": [
+              {
+                "label": "योजनेचा प्रकार",
+                "value": "रिकरिंग ठेव"
+              },
+              {
+                "label": "व्याजदर",
+                "value": "वार्षिक {rate2:deposit.lakshadish}%"
+              },
+              {
+                "label": "मासिक हप्ता"
+              },
+              {
+                "label": "मुदत",
+                "value": "48 महिने"
+              },
+              {
+                "label": "मुदतपूर्ती रक्कम"
+              },
+              {
+                "label": "टीडीएस",
+                "value": "व्याजावर लागू, संस्थेच्या सभासदांना वगळून"
+              }
+            ],
+            "intro": "लक्षदिश, म्हणजेच लखपती ठेव योजना, दरमहा ठराविक छोट्या बचतीतून एक लाख रुपयांहून अधिक खात्रीशीर रक्कम उभी करते. तुमच्या बजेटला साजेसा हप्ता निवडा, तो दर महिन्याला भरा आणि मुदत संपल्यावर मुदतपूर्ती रक्कम मिळवा.",
+            "eligibility": "व्यक्ती (एकट्या किंवा संयुक्त), पालकांमार्फत अज्ञान, एचयूएफ, संघटना, संस्था, ट्रस्ट आणि क्लब लक्षदिशमध्ये गुंतवणूक करू शकतात.",
+            "features": [
+              "सोपे मासिक हप्ते",
+              "आकर्षक व्याजदर",
+              "मोठी रक्कम जमा होते",
+              "खात्रीशीर मुदतपूर्ती रक्कम",
+              "वापरण्यास सोपे",
+              "सुरक्षितता आणि तरलता"
+            ]
+          }
         }
       },
       {
@@ -1291,7 +1937,7 @@
           "kind": "rd",
           "rateNote": "p.a.",
           "pitch": "Save ₹1,350 a month and become a lakhpati in 60 months.",
-          "intro": "Lakshadish — also known as the Lakhpati Thev Yojana — turns a small, fixed monthly saving into a guaranteed lump sum of over one lakh rupees. Pick the instalment that suits your budget, deposit it every month, and collect your maturity amount at the end of the term.",
+          "intro": "Lakshadish, also known as the Lakhpati Thev Yojana, turns a small, fixed monthly saving into a guaranteed lump sum of over one lakh rupees. Pick the instalment that suits your budget, deposit it every month, and collect your maturity amount at the end of the term.",
           "facts": [
             {
               "label": "Scheme type",
@@ -1350,7 +1996,58 @@
             "months": 60,
             "rateKey": "deposit.lakshadish"
           },
-          "order": 7
+          "order": 7,
+          "mr": {
+            "name": "लक्षदिश (रिकरिंग) ठेव योजना 4",
+            "rateNote": "वार्षिक",
+            "pitch": "दरमहा ₹1,350 बचत करा आणि 60 महिन्यांत लखपती व्हा.",
+            "highlight": [
+              {
+                "label": "मासिक"
+              },
+              {
+                "label": "मुदत",
+                "value": "60 महिने"
+              },
+              {
+                "label": "परिपक्वता"
+              }
+            ],
+            "facts": [
+              {
+                "label": "योजनेचा प्रकार",
+                "value": "रिकरिंग ठेव"
+              },
+              {
+                "label": "व्याजदर",
+                "value": "वार्षिक {rate2:deposit.lakshadish}%"
+              },
+              {
+                "label": "मासिक हप्ता"
+              },
+              {
+                "label": "मुदत",
+                "value": "60 महिने"
+              },
+              {
+                "label": "मुदतपूर्ती रक्कम"
+              },
+              {
+                "label": "टीडीएस",
+                "value": "व्याजावर लागू, संस्थेच्या सभासदांना वगळून"
+              }
+            ],
+            "intro": "लक्षदिश, म्हणजेच लखपती ठेव योजना, दरमहा ठराविक छोट्या बचतीतून एक लाख रुपयांहून अधिक खात्रीशीर रक्कम उभी करते. तुमच्या बजेटला साजेसा हप्ता निवडा, तो दर महिन्याला भरा आणि मुदत संपल्यावर मुदतपूर्ती रक्कम मिळवा.",
+            "eligibility": "व्यक्ती (एकट्या किंवा संयुक्त), पालकांमार्फत अज्ञान, एचयूएफ, संघटना, संस्था, ट्रस्ट आणि क्लब लक्षदिशमध्ये गुंतवणूक करू शकतात.",
+            "features": [
+              "सोपे मासिक हप्ते",
+              "आकर्षक व्याजदर",
+              "मोठी रक्कम जमा होते",
+              "खात्रीशीर मुदतपूर्ती रक्कम",
+              "वापरण्यास सोपे",
+              "सुरक्षितता आणि तरलता"
+            ]
+          }
         }
       },
       {
@@ -1361,8 +2058,8 @@
           "nameMr": "दाम दुप्पट ठेव योजना",
           "kind": "double",
           "rateNote": "Money doubles",
-          "pitch": "Double your money in {number:doubling.general.months} months — or {number:doubling.special.months} months for special categories.",
-          "intro": "A simple promise: deposit once and get twice the amount back at maturity. Daam Duppat doubles your deposit in {number:doubling.general.months} months, and even sooner — {number:doubling.special.months} months — for senior citizens, persons with disabilities, ex-servicemen, single parents and widows aged 50 and above.",
+          "pitch": "Double your money in {number:doubling.general.months} months, or {number:doubling.special.months} months for special categories.",
+          "intro": "A simple promise: deposit once and get twice the amount back at maturity. Daam Duppat doubles your deposit in {number:doubling.general.months} months, and even sooner, {number:doubling.special.months} months, for senior citizens, persons with disabilities, ex-servicemen, single parents and widows aged 50 and above.",
           "facts": [
             {
               "label": "Scheme type",
@@ -1421,7 +2118,60 @@
             "months": 88,
             "rateKey": "doubling.illustrative-rate"
           },
-          "order": 8
+          "order": 8,
+          "mr": {
+            "name": "दाम दुप्पट ठेव योजना",
+            "rateNote": "रक्कम दुप्पट",
+            "pitch": "तुमची रक्कम {number:doubling.general.months} महिन्यांत दुप्पट, विशेष गटांसाठी {number:doubling.special.months} महिन्यांत.",
+            "highlight": [
+              {
+                "label": "ठेव"
+              },
+              {
+                "label": "परिपक्वता"
+              },
+              {
+                "label": "मुदत",
+                "value": "{number:doubling.special.months} ते {number:doubling.general.months} महिने"
+              }
+            ],
+            "facts": [
+              {
+                "label": "योजनेचा प्रकार",
+                "value": "दामदुप्पट ठेव"
+              },
+              {
+                "label": "सर्वसाधारण ठेवीदार",
+                "value": "{number:doubling.general.months} महिन्यांत दुप्पट"
+              },
+              {
+                "label": "विशेष गट",
+                "value": "{number:doubling.special.months} महिन्यांत दुप्पट"
+              },
+              {
+                "label": "किमान ठेव",
+                "value": "₹100 व त्यावर"
+              },
+              {
+                "label": "उदाहरण",
+                "value": "₹1,00,000 चे ₹2,00,000 होतात"
+              },
+              {
+                "label": "टीडीएस",
+                "value": "व्याजावर लागू, संस्थेच्या सभासदांना वगळून"
+              }
+            ],
+            "intro": "साधे वचन: एकदा ठेव ठेवा आणि मुदतपूर्तीला दुप्पट रक्कम मिळवा. दाम दुप्पट योजनेत तुमची ठेव {number:doubling.general.months} महिन्यांत दुप्पट होते; ज्येष्ठ नागरिक, दिव्यांग, माजी सैनिक, एकल पालक आणि 50 वर्षांवरील विधवा यांच्यासाठी त्याहूनही लवकर, {number:doubling.special.months} महिन्यांत.",
+            "eligibility": "कोणतीही निवासी भारतीय व्यक्ती किंवा संस्था गुंतवणूक करू शकते; विशेष गटांना कमी, {number:doubling.special.months} महिन्यांची मुदत मिळते.",
+            "features": [
+              "एकदाच ठेव",
+              "आकर्षक व्याजदर",
+              "मोठी रक्कम जमा होते",
+              "खात्रीशीर मुदतपूर्ती रक्कम",
+              "वापरण्यास सोपे",
+              "सुरक्षितता आणि तरलता"
+            ]
+          }
         }
       },
       {
@@ -1433,7 +2183,7 @@
           "kind": "fd",
           "rateNote": "p.a. for 12 months",
           "pitch": "Earn {calc:interest} on every ₹1 lakh in one year.",
-          "intro": "A straightforward one-year deposit at {rate:deposit.vishwamangal-12m}% p.a. Invest ₹1,00,000 today and receive {calc} after 12 months — a clear, predictable return for your short-term goals.",
+          "intro": "A straightforward one-year deposit at {rate:deposit.vishwamangal-12m}% p.a. Invest ₹1,00,000 today and receive {calc} after 12 months, a clear, predictable return for your short-term goals.",
           "facts": [
             {
               "label": "Scheme type",
@@ -1495,7 +2245,61 @@
             "months": 12,
             "rateKey": "deposit.vishwamangal-12m"
           },
-          "order": 9
+          "order": 9,
+          "mr": {
+            "name": "विश्वमंगल 12 महिन्यांची मुदत ठेव",
+            "rateNote": "वार्षिक, 12 महिन्यांसाठी",
+            "pitch": "प्रत्येक ₹1 लाखावर एका वर्षात {calc:interest} व्याज मिळवा.",
+            "highlight": [
+              {
+                "label": "ठेव"
+              },
+              {
+                "label": "परिपक्वता"
+              },
+              {
+                "label": "मुदत",
+                "value": "12 महिने"
+              }
+            ],
+            "facts": [
+              {
+                "label": "योजनेचा प्रकार",
+                "value": "मुदत ठेव"
+              },
+              {
+                "label": "व्याजदर",
+                "value": "वार्षिक {rate:deposit.vishwamangal-12m}%"
+              },
+              {
+                "label": "मुदत",
+                "value": "12 महिने"
+              },
+              {
+                "label": "उदाहरणातील ठेव"
+              },
+              {
+                "label": "मिळणारे व्याज"
+              },
+              {
+                "label": "मुदतपूर्ती रक्कम"
+              },
+              {
+                "label": "टीडीएस",
+                "value": "व्याजावर लागू, संस्थेच्या सभासदांना वगळून"
+              }
+            ],
+            "intro": "वार्षिक {rate:deposit.vishwamangal-12m}% दराने सरळ एक वर्षाची ठेव. आज ₹1,00,000 गुंतवा आणि 12 महिन्यांनंतर {calc} मिळवा; अल्प मुदतीच्या उद्दिष्टांसाठी स्पष्ट आणि निश्चित परतावा.",
+            "eligibility": "ज्येष्ठ नागरिक आणि एचयूएफसह कोणतीही निवासी भारतीय व्यक्ती किंवा संस्था गुंतवणूक करू शकते.",
+            "features": [
+              "आकर्षक व्याजदर",
+              "लवचिक मुदत",
+              "सोपी आणि सोयीची प्रक्रिया",
+              "स्थिर आणि खात्रीशीर परतावा",
+              "सुरक्षितता आणि तरलता",
+              "वारसदार नेमण्याची सुविधा"
+            ]
+          }
         }
       }
     ],
@@ -1542,7 +2346,41 @@
           ],
           "rateKey": "loan.agriculture.above-25000",
           "showInForm": true,
-          "order": 1
+          "order": 1,
+          "mr": {
+            "name": "कृषी मुदत कर्ज",
+            "amount": "₹90 लाखांपर्यंत",
+            "summary": "शेती अवजारे, सिंचन, जमीन विकास आणि शेतीशी संबंधित कामांसाठी अर्थसाहाय्य.",
+            "details": [
+              {
+                "label": "कर्जाची रक्कम",
+                "value": "₹90 लाखांपर्यंत"
+              },
+              {
+                "label": "व्याजदर",
+                "value": "₹25,000 पर्यंत {rate:loan.agriculture.up-to-25000}% · ₹25,000 पेक्षा जास्त {rate:loan.agriculture.above-25000}%"
+              },
+              {
+                "label": "मार्जिन",
+                "value": "नफ्याच्या 25%"
+              },
+              {
+                "label": "जामीनदार"
+              },
+              {
+                "label": "सभासदत्व",
+                "value": "सभासद / नाममात्र"
+              },
+              {
+                "label": "तारण",
+                "value": "जमीन 7/12 गहाण"
+              },
+              {
+                "label": "कागदपत्रे",
+                "value": "मूल्यांकन, गहाणखत, कारखाना हमी, फोटो, रेशन कार्ड, मालमत्ता 7/12"
+              }
+            ]
+          }
         }
       },
       {
@@ -1587,7 +2425,41 @@
           ],
           "rateKey": "loan.housing",
           "showInForm": true,
-          "order": 2
+          "order": 2,
+          "mr": {
+            "name": "गृह कर्ज",
+            "amount": "₹90 लाखांपर्यंत",
+            "summary": "परवडणाऱ्या दरात आणि सोयीच्या परतफेडीसह तुमचे स्वप्नातील घर विकत घ्या, बांधा किंवा वाढवा.",
+            "details": [
+              {
+                "label": "कर्जाची रक्कम",
+                "value": "₹90 लाखांपर्यंत, गृहप्रकल्पानुसार"
+              },
+              {
+                "label": "व्याजदर"
+              },
+              {
+                "label": "मार्जिन",
+                "value": "अंदाजपत्रकाच्या 1/4"
+              },
+              {
+                "label": "जामीनदार",
+                "value": "किमान 2"
+              },
+              {
+                "label": "सभासदत्व",
+                "value": "सभासद / नाममात्र"
+              },
+              {
+                "label": "तारण",
+                "value": "जमीन व इमारत"
+              },
+              {
+                "label": "कागदपत्रे",
+                "value": "मूल्यांकन, शोध अहवाल, चालू 7/12, खरेदी कागदपत्रे, बांधकाम परवानगी, उत्पन्नाचा पुरावा, फोटो, पत्त्याचा पुरावा, नकाशा"
+              }
+            ]
+          }
         }
       },
       {
@@ -1599,7 +2471,7 @@
           "image": "/images/loans/vehicle.webp",
           "rate": "{rate:loan.vehicle}%",
           "amount": "As per quotation",
-          "summary": "Drive home a new car, two-wheeler or commercial vehicle — anyone can apply.",
+          "summary": "Drive home a new car, two-wheeler or commercial vehicle. Anyone can apply.",
           "details": [
             {
               "label": "Loan amount",
@@ -1632,7 +2504,40 @@
           ],
           "rateKey": "loan.vehicle",
           "showInForm": true,
-          "order": 3
+          "order": 3,
+          "mr": {
+            "name": "वाहन कर्ज",
+            "amount": "कोटेशननुसार",
+            "summary": "नवी कार, दुचाकी किंवा व्यावसायिक वाहन घरी आणा. कोणीही अर्ज करू शकतो.",
+            "details": [
+              {
+                "label": "कर्जाची रक्कम",
+                "value": "कोटेशननुसार"
+              },
+              {
+                "label": "व्याजदर"
+              },
+              {
+                "label": "मार्जिन",
+                "value": "1/4 (25%)"
+              },
+              {
+                "label": "जामीनदार"
+              },
+              {
+                "label": "सभासदत्व",
+                "value": "सभासद / नाममात्र"
+              },
+              {
+                "label": "तारण",
+                "value": "वाहनाचे आरसी बुक (हायपोथिकेशन)"
+              },
+              {
+                "label": "कागदपत्रे",
+                "value": "कोटेशन, उत्पन्नाचा दाखला, आयकर विवरणपत्रे"
+              }
+            ]
+          }
         }
       },
       {
@@ -1673,7 +2578,36 @@
           ],
           "rateKey": "loan.personal",
           "showInForm": true,
-          "order": 4
+          "order": 4,
+          "mr": {
+            "name": "वैयक्तिक कर्ज",
+            "amount": "₹1 लाखापर्यंत",
+            "summary": "विवाह, वैद्यकीय गरज, प्रवास किंवा कोणत्याही वैयक्तिक गरजेसाठी जलद निधी.",
+            "details": [
+              {
+                "label": "कर्जाची रक्कम",
+                "value": "₹1 लाखापर्यंत"
+              },
+              {
+                "label": "व्याजदर"
+              },
+              {
+                "label": "जामीनदार"
+              },
+              {
+                "label": "सभासदत्व",
+                "value": "सभासद / नाममात्र"
+              },
+              {
+                "label": "तारण",
+                "value": "हमीपत्र / चेकबुक"
+              },
+              {
+                "label": "कागदपत्रे",
+                "value": "फोटो, रेशन कार्ड, पगाराचा दाखला किंवा उत्पन्नाचा पुरावा"
+              }
+            ]
+          }
         }
       },
       {
@@ -1706,7 +2640,28 @@
           ],
           "rateKey": "loan.warehouse",
           "showInForm": true,
-          "order": 5
+          "order": 5,
+          "mr": {
+            "name": "वखार (वेअरहाउस) कर्ज",
+            "amount": "मूल्यांकनानुसार",
+            "summary": "साठवलेला शेतमाल व वस्तूंचे मूल्य सोयीच्या मासिक हप्त्यांत वापरा.",
+            "details": [
+              {
+                "label": "व्याजदर"
+              },
+              {
+                "label": "हप्ता",
+                "value": "मासिक"
+              },
+              {
+                "label": "जामीनदार"
+              },
+              {
+                "label": "कागदपत्रे",
+                "value": "मूल्यांकन, गहाणखत, हमी, फोटो, ओळखपत्र, पत्त्याचा पुरावा"
+              }
+            ]
+          }
         }
       },
       {
@@ -1718,7 +2673,7 @@
           "image": "/images/loans/cash-credit.webp",
           "rate": "As agri term loan",
           "amount": "Up to ₹90 lakh",
-          "summary": "A flexible working-capital limit for traders and businesses — pay interest only on what you use.",
+          "summary": "A flexible working-capital limit for traders and businesses. Pay interest only on what you use.",
           "details": [
             {
               "label": "Loan amount",
@@ -1747,7 +2702,39 @@
           ],
           "rateKey": "loan.agriculture.above-25000",
           "showInForm": true,
-          "order": 6
+          "order": 6,
+          "mr": {
+            "name": "कॅश क्रेडिट",
+            "rate": "कृषी मुदत कर्जाप्रमाणे",
+            "amount": "₹90 लाखांपर्यंत",
+            "summary": "व्यापारी व व्यावसायिकांसाठी लवचिक खेळते भांडवल. वापरलेल्या रकमेवरच व्याज भरा.",
+            "details": [
+              {
+                "label": "कर्जाची रक्कम",
+                "value": "₹90 लाखांपर्यंत"
+              },
+              {
+                "label": "व्याजदर",
+                "value": "कृषी मुदत कर्जाप्रमाणेच"
+              },
+              {
+                "label": "जामीनदार",
+                "value": "किमान 2"
+              },
+              {
+                "label": "सभासदत्व",
+                "value": "सभासद / नाममात्र"
+              },
+              {
+                "label": "तारण",
+                "value": "मालमत्ता गहाण"
+              },
+              {
+                "label": "कागदपत्रे",
+                "value": "चालू 7/12, मूल्यांकन, शोध अहवाल, उत्पन्नाचा पुरावा, पत्त्याचा पुरावा"
+              }
+            ]
+          }
         }
       },
       {
@@ -1788,7 +2775,39 @@
           ],
           "rateKey": "loan.agriculture.above-25000",
           "showInForm": true,
-          "order": 7
+          "order": 7,
+          "mr": {
+            "name": "हायपोथिकेशन कर्ज",
+            "rate": "कृषी मुदत कर्जाप्रमाणे",
+            "amount": "₹90 लाखांपर्यंत",
+            "summary": "व्यवसाय सुरळीत चालण्यासाठी तुमच्या मालाच्या साठ्यावर व मालमत्तेवर वित्तपुरवठा.",
+            "details": [
+              {
+                "label": "कर्जाची रक्कम",
+                "value": "₹90 लाखांपर्यंत"
+              },
+              {
+                "label": "व्याजदर",
+                "value": "कृषी मुदत कर्जाप्रमाणेच"
+              },
+              {
+                "label": "जामीनदार",
+                "value": "किमान 2"
+              },
+              {
+                "label": "सभासदत्व",
+                "value": "सभासद / नाममात्र"
+              },
+              {
+                "label": "तारण",
+                "value": "शॉप ॲक्ट परवाना, मालमत्ता, ताळेबंद"
+              },
+              {
+                "label": "कागदपत्रे",
+                "value": "फोटो, पत्त्याचा पुरावा, उत्पन्नाचा पुरावा, शोध अहवाल, मूल्यांकन, गहाणखत, शॉप ॲक्ट, ताळेबंद"
+              }
+            ]
+          }
         }
       },
       {
@@ -1829,7 +2848,37 @@
           ],
           "rateKey": "loan.mortgage.above-90000",
           "showInForm": true,
-          "order": 8
+          "order": 8,
+          "mr": {
+            "name": "जमीन तारण कर्ज",
+            "amount": "₹1 कोटी+",
+            "summary": "शेती किंवा बिगरशेती जमिनीच्या तारणावर मोठ्या रकमेचा निधी.",
+            "details": [
+              {
+                "label": "कर्जाची रक्कम",
+                "value": "₹1 कोटी व त्यावर"
+              },
+              {
+                "label": "व्याजदर",
+                "value": "₹90,000 पर्यंत {rate:loan.mortgage.up-to-90000}% · ₹90,000 पेक्षा जास्त {rate:loan.mortgage.above-90000}%"
+              },
+              {
+                "label": "जामीनदार"
+              },
+              {
+                "label": "सभासदत्व",
+                "value": "सभासद / नाममात्र"
+              },
+              {
+                "label": "तारण",
+                "value": "जमीन 7/12 गहाण"
+              },
+              {
+                "label": "कागदपत्रे",
+                "value": "जमीन हमी, फोटो, रेशन कार्ड, 7/12 गहाणखत"
+              }
+            ]
+          }
         }
       },
       {
@@ -1870,7 +2919,37 @@
           ],
           "rateKey": "loan.mortgage.above-90000",
           "showInForm": true,
-          "order": 9
+          "order": 9,
+          "mr": {
+            "name": "मालमत्ता तारण कर्ज",
+            "amount": "₹1 कोटी+",
+            "summary": "तुमचे घर किंवा व्यावसायिक मालमत्ता तारण ठेवून व्यवसाय किंवा वैयक्तिक गरजेसाठी निधी उभारा.",
+            "details": [
+              {
+                "label": "कर्जाची रक्कम",
+                "value": "₹1 कोटी व त्यावर"
+              },
+              {
+                "label": "व्याजदर",
+                "value": "₹90,000 पर्यंत {rate:loan.mortgage.up-to-90000}% · ₹90,000 पेक्षा जास्त {rate:loan.mortgage.above-90000}%"
+              },
+              {
+                "label": "जामीनदार"
+              },
+              {
+                "label": "सभासदत्व",
+                "value": "सभासद / नाममात्र"
+              },
+              {
+                "label": "तारण",
+                "value": "जमीन व इमारत"
+              },
+              {
+                "label": "कागदपत्रे",
+                "value": "चालू 7/12, उत्पन्नाचा पुरावा, फोटो, पत्त्याचा पुरावा, खरेदी कागदपत्रे"
+              }
+            ]
+          }
         }
       },
       {
@@ -1899,7 +2978,25 @@
           ],
           "rateKey": "loan.microfinance",
           "showInForm": true,
-          "order": 10
+          "order": 10,
+          "mr": {
+            "name": "सूक्ष्म वित्त (मायक्रोफायनान्स)",
+            "amount": "₹1 लाखापर्यंत",
+            "summary": "लहान उद्योजकांना उपजीविका वाढवण्यासाठी लहान, अल्प मुदतीचे कर्ज.",
+            "details": [
+              {
+                "label": "कर्जाची रक्कम",
+                "value": "₹1 लाखापर्यंत"
+              },
+              {
+                "label": "व्याजदर"
+              },
+              {
+                "label": "कालावधी",
+                "value": "100 दिवस"
+              }
+            ]
+          }
         }
       },
       {
@@ -1928,7 +3025,25 @@
           ],
           "rateKey": "loan.bachat-gat",
           "showInForm": true,
-          "order": 11
+          "order": 11,
+          "mr": {
+            "name": "बचत गट कर्ज",
+            "amount": "₹1 लाखापर्यंत",
+            "summary": "महिला बचत गटांना छोटे उद्योग सुरू करण्यासाठी आणि वाढवण्यासाठी गट कर्ज.",
+            "details": [
+              {
+                "label": "कर्जाची रक्कम",
+                "value": "₹1 लाखापर्यंत"
+              },
+              {
+                "label": "व्याजदर"
+              },
+              {
+                "label": "कालावधी",
+                "value": "100 दिवस"
+              }
+            ]
+          }
         }
       }
     ],
@@ -1937,7 +3052,7 @@
         "slug": "ho",
         "data": {
           "code": "HO",
-          "name": "Head Office — Shelgi, Solapur",
+          "name": "Head Office, Shelgi, Solapur",
           "region": "Head Office",
           "headOffice": true,
           "address": "Plot No. 94, Mitra Nagar, Near Rabbi Research Center, Shelgi, Solapur – 413002",
@@ -3668,7 +4783,7 @@
         "data": {
           "id": 2697,
           "slug": "salary-loan-super-dhamaka-offer",
-          "title": "Salary Loan — Super Dhamaka Offer",
+          "title": "Salary Loan (Super Dhamaka Offer)",
           "date": "2019-09-07T13:00:45",
           "image": "/images/blog/2697.jpg",
           "excerpt": "Are you a salaried person working in an organization? Are you in need of surplus amount for reasons like house renovation, travel, medical care, repayment of debts and others then…",
@@ -3739,7 +4854,7 @@
           "pinned": true,
           "items": [
             {
-              "label": "Board of Directors & Office Bearers Election 2025 — Programme",
+              "label": "Board of Directors & Office Bearers Election 2025: Programme",
               "href": "/docs/election-2025-programme.pdf",
               "kind": "pdf"
             },
@@ -3754,7 +4869,7 @@
               "kind": "drive"
             },
             {
-              "label": "Final List of Members — Dharashiv District",
+              "label": "Final List of Members, Dharashiv District",
               "href": "https://drive.google.com/file/d/1JtRnQ2VRJaHbzqJTJT_6QL1h6MBYf-Px/view?usp=drive_link",
               "kind": "drive"
             },
@@ -3764,7 +4879,7 @@
               "kind": "pdf"
             },
             {
-              "label": "List of Valid Nominations — Board of Directors",
+              "label": "List of Valid Nominations, Board of Directors",
               "href": "/docs/valid-nominations-2025.pdf",
               "kind": "pdf"
             },
@@ -3774,7 +4889,7 @@
               "kind": "pdf"
             },
             {
-              "label": "Approval of Election Result — Board of Directors (29.05.2025)",
+              "label": "Approval of Election Result, Board of Directors (29.05.2025)",
               "href": "/docs/approval-of-election-result-2025.pdf",
               "kind": "pdf"
             },
@@ -3789,7 +4904,42 @@
               "kind": "pdf"
             }
           ],
-          "order": 1
+          "order": 1,
+          "mr": {
+            "title": "संचालक मंडळ व पदाधिकारी निवडणूक 2025",
+            "items": [
+              {
+                "label": "संचालक मंडळ व पदाधिकारी निवडणूक 2025: कार्यक्रम"
+              },
+              {
+                "label": "मतदानास पात्र सभासदांची / प्रतिनिधींची तात्पुरती यादी"
+              },
+              {
+                "label": "मतदानास पात्र सभासदांची / प्रतिनिधींची अंतिम यादी"
+              },
+              {
+                "label": "सभासदांची अंतिम यादी, धाराशिव जिल्हा"
+              },
+              {
+                "label": "निवडणूक निर्णय अधिकाऱ्यांकडे प्राप्त एकूण नामनिर्देशनांची यादी"
+              },
+              {
+                "label": "वैध नामनिर्देशनांची यादी, संचालक मंडळ"
+              },
+              {
+                "label": "निवडणूक लढवणाऱ्या उमेदवारांची अंतिम यादी"
+              },
+              {
+                "label": "निवडणूक निकालास मान्यता, संचालक मंडळ (29.05.2025)"
+              },
+              {
+                "label": "आरआर-17 सभेची कार्यसूची (30.05.2025)"
+              },
+              {
+                "label": "पदाधिकाऱ्यांच्या निवडणुकीचा कार्यक्रम"
+              }
+            ]
+          }
         }
       }
     ],
@@ -4044,7 +5194,48 @@
               "caption": "Lokmangal moments"
             }
           ],
-          "order": 1
+          "order": 1,
+          "mr": {
+            "title": "लोकमंगल क्षणचित्रे",
+            "images": [
+              {
+                "caption": "लोकमंगल क्षणचित्रे, 2017–18"
+              },
+              {
+                "caption": "लोकमंगल क्षणचित्रे, 2017–18"
+              },
+              {
+                "caption": "लोकमंगल क्षणचित्रे, 2017–18"
+              },
+              {
+                "caption": "लोकमंगल क्षणचित्रे, 2017–18"
+              },
+              {
+                "caption": "लोकमंगल क्षणचित्रे, 2016–17"
+              },
+              {
+                "caption": "स्वातंत्र्य दिन, 15 ऑगस्ट 2016"
+              },
+              {
+                "caption": "यशवंत राऊत यांचा सत्कार"
+              },
+              {
+                "caption": "स्वच्छता अभियान"
+              },
+              {
+                "caption": "SUS कार्यक्रम, 2013"
+              },
+              {
+                "caption": "छत्रपती शिवाजी महाराज पुतळा"
+              },
+              {
+                "caption": "लोकमंगल क्षणचित्रे"
+              },
+              {
+                "caption": "लोकमंगल क्षणचित्रे"
+              }
+            ]
+          }
         }
       }
     ],
@@ -4076,7 +5267,7 @@
         "data": {
           "icon": "users",
           "title": "Relationship Manager",
-          "text": "Deposits & account opening, loan disbursement, or insurance & demat — one specialist per division.",
+          "text": "Deposits & account opening, loan disbursement, or insurance & demat, with one specialist per division.",
           "location": "",
           "open": true,
           "order": 3

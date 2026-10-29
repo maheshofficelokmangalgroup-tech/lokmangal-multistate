@@ -10,6 +10,7 @@
 import { readFileSync } from 'node:fs';
 import { resolveDeep, type CalcConfig, type RateEntries } from '@lokmangal/finance/tokens';
 import type { CalcMode } from '@lokmangal/finance';
+import { localize, type Lang } from '../i18n';
 
 export type RateEntry = {
   key: string;
@@ -27,7 +28,7 @@ export type SnapshotItem<T = Record<string, unknown>> = { slug: string; data: T 
 export type Snapshot = {
   schemaVersion: 1;
   release: { id: string; kind: 'live' | 'preview' | 'seed'; createdAt: string; financePolicy: string; contentHash: string | null };
-  rateSet: { id: string; label: string; validFrom: string; validUntil: string; timezone: string; entries: RateEntry[] };
+  rateSet: { id: string; label: string; validFrom: string; validUntil: string; timezone: string; entries: RateEntry[]; expired?: boolean };
   singletons: Record<string, any>;
   collections: Record<string, SnapshotItem<any>[]>;
 };
@@ -62,17 +63,17 @@ export const rates: RateEntries = Object.fromEntries(
   }),
 );
 
-/** Published items of a collection, in their display order. */
-export function items<T = any>(collection: string): T[] {
+/** Published items of a collection, in their display order, with the language's translations applied. */
+export function items<T = any>(collection: string, lang: Lang = 'en'): T[] {
   return (snapshot.collections[collection] ?? [])
-    .map((i) => i.data as T & { order?: number })
+    .map((i) => localize(i.data as T & { order?: number }, lang))
     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 }
 
-export function singleton<T = any>(name: string): T {
+export function singleton<T = any>(name: string, lang: Lang = 'en'): T {
   const value = snapshot.singletons[name];
   if (value === undefined) throw new Error(`Snapshot is missing the "${name}" content`);
-  return value as T;
+  return localize(value as T, lang);
 }
 
 export function rate(key: string): number {
@@ -87,11 +88,15 @@ export function resolve<T>(value: T, calc?: { mode: CalcMode; amount: number; mo
   return resolveDeep(value, { rates, calc: c, where });
 }
 
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-const longDate = (iso: string) => {
-  const [y, m, d] = iso.split('-').map(Number);
-  return `${d} ${months[m - 1]} ${y}`;
+const monthNames: Record<Lang, string[]> = {
+  en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+  mr: ['जानेवारी', 'फेब्रुवारी', 'मार्च', 'एप्रिल', 'मे', 'जून', 'जुलै', 'ऑगस्ट', 'सप्टेंबर', 'ऑक्टोबर', 'नोव्हेंबर', 'डिसेंबर'],
 };
+export const longDateFor = (iso: string, lang: Lang = 'en') => {
+  const [y, m, d] = iso.split('-').map(Number);
+  return `${d} ${monthNames[lang][m - 1]} ${y}`;
+};
+const longDate = (iso: string) => longDateFor(iso, 'en');
 /** Rate sets end exclusively; the public text shows the last valid day. */
 function lastValidDay(isoExclusive: string) {
   const d = new Date(`${isoExclusive}T00:00:00Z`);
@@ -100,4 +105,9 @@ function lastValidDay(isoExclusive: string) {
 }
 export const ratesValidFrom = snapshot.rateSet.validFrom;
 export const ratesValidUntil = snapshot.rateSet.validUntil;
+/** Set by the release controller when published rates ran out and no approved replacement was ready. */
+export const ratesExpired = snapshot.rateSet.expired === true;
+export const ratesLastValidDayText = longDate(lastValidDay(ratesValidUntil));
 export const ratesValidityText = `${longDate(ratesValidFrom)} – ${longDate(lastValidDay(ratesValidUntil))}`;
+export const ratesValidityFor = (lang: Lang) => `${longDateFor(ratesValidFrom, lang)} – ${longDateFor(lastValidDay(ratesValidUntil), lang)}`;
+export const ratesLastValidDayFor = (lang: Lang) => longDateFor(lastValidDay(ratesValidUntil), lang);

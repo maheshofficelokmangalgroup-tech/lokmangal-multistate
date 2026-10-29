@@ -1,0 +1,15 @@
+# Serves the built admin SPA inside its container (the edge Caddy adds TLS and security headers).
+{
+	admin off
+	auto_https off
+}
+
+:8080 {
+	root * /srv
+	encode zstd gzip
+	@assets path /assets/*
+	header @assets Cache-Control "public, max-age=31536000, immutable"
+	header /index.html Cache-Control "no-store"
+	try_files {path} /index.html
+	file_server
+}

@@ -1,6 +1,8 @@
 // Site-wide interactions. Runs once per full load; `init` re-runs after every
 // client-side navigation (Astro view transitions fire `astro:page-load`).
 import { navigate } from 'astro:transitions/client';
+import { compute } from '@lokmangal/finance';
+import { localePath, type Lang } from '../i18n';
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const finePointer = window.matchMedia('(pointer: fine)').matches;
@@ -9,6 +11,16 @@ const $$ = <T extends Element = HTMLElement>(sel: string, root: ParentNode = doc
 const inr = new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 });
 const rupees = (n: number) => `₹${inr.format(Math.round(n))}`;
 const escapeHtml = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
+
+/* Fixed wording comes from the page itself (src/i18n/ui.ts → #i18n), so scripts speak the page's language. */
+const pageLang = (): Lang => (document.documentElement.lang === 'mr' ? 'mr' : 'en');
+function ui(key: string): string {
+  try {
+    return (JSON.parse(document.getElementById('i18n')?.textContent ?? '{}') as Record<string, string>)[key] ?? key;
+  } catch {
+    return key;
+  }
+}
 
 let cleanups: Array<() => void> = [];
 const onCleanup = (fn: () => void) => cleanups.push(fn);
@@ -59,8 +71,11 @@ function initCounters() {
     const target = Number(el.dataset.count);
     const prefix = el.dataset.prefix ?? '';
     const suffix = el.dataset.suffix ?? '';
+    const decimals = Number(el.dataset.decimals ?? 0);
+    const fmt = decimals ? new Intl.NumberFormat('en-IN', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) : inr;
+    const round = (n: number) => (decimals ? n : Math.round(n));
     if (reduceMotion) {
-      el.textContent = `${prefix}${inr.format(target)}${suffix}`;
+      el.textContent = `${prefix}${fmt.format(target)}${suffix}`;
       return;
     }
     const duration = 1600;
@@ -68,7 +83,7 @@ function initCounters() {
     const tick = (now: number) => {
       const t = Math.min(1, (now - start) / duration);
       const eased = 1 - Math.pow(1 - t, 4);
-      el.textContent = `${prefix}${inr.format(Math.round(target * eased))}${suffix}`;
+      el.textContent = `${prefix}${fmt.format(round(target * eased))}${suffix}`;
       if (t < 1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
@@ -280,30 +295,21 @@ function initMagnetic() {
 }
 
 /* ---------- Calculators ---------- */
+// Formulas are shared with scheme pages and admin previews (packages/finance), so every figure agrees.
+
+/** Published rates past their validity (flag set at build time, or the date has passed since). */
+function ratesExpired() {
+  const html = document.documentElement;
+  if (html.dataset.ratesExpired === 'true') return true;
+  const until = html.dataset.ratesValidUntil;
+  if (!until) return false;
+  const todayIst = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(new Date());
+  return todayIst >= until;
+}
+
 type Mode = 'fd' | 'rd' | 'monthly' | 'emi';
 type Range = [number, number, number, number];
 type CalcConfig = Record<Mode, { label: string; amountLabel: string; amount: Range; rate: Range; months: Range }>;
-
-function compute(mode: Mode, amount: number, rate: number, months: number) {
-  if (mode === 'fd') {
-    // Simple interest up to a year, half-yearly compounding beyond (matches published maturity values).
-    const maturity = months <= 12 ? amount * (1 + (rate * months) / 1200) : amount * Math.pow(1 + rate / 200, months / 6);
-    return { result: maturity, b1: amount, b2: maturity - amount };
-  }
-  if (mode === 'rd') {
-    let maturity = 0;
-    for (let k = 1; k <= months; k++) maturity += amount * Math.pow(1 + rate / 200, k / 6);
-    const invested = amount * months;
-    return { result: maturity, b1: invested, b2: maturity - invested };
-  }
-  if (mode === 'monthly') {
-    const payout = (amount * rate) / 1200;
-    return { result: payout, b1: amount, b2: payout * months };
-  }
-  const r = rate / 1200;
-  const emi = r === 0 ? amount / months : (amount * r * Math.pow(1 + r, months)) / (Math.pow(1 + r, months) - 1);
-  return { result: emi, b1: amount, b2: emi * months - amount };
-}
 
 /* Tween a rupee figure from its current value; a new update cancels the previous tween. */
 const tweens = new WeakMap<HTMLElement, number>();
@@ -327,39 +333,134 @@ function setRupees(el: HTMLElement, value: number) {
 }
 
 function initCalculators() {
+  const expired = ratesExpired();
+  if (expired) $('[data-rates-notice]')?.removeAttribute('hidden');
   $$('[data-calc]').forEach((calc) => {
+    if (expired) {
+      // Estimates must never use rates that are no longer offered.
+      calc.classList.add('is-disabled');
+      if (!$('.calc__expired', calc)) {
+        const p = document.createElement('p');
+        p.className = 'calc__expired';
+        p.setAttribute('role', 'status');
+        p.textContent = ui('calc.paused');
+        calc.append(p);
+      }
+      return;
+    }
+    type Key = 'amount' | 'rate' | 'months';
+    const keys: Key[] = ['amount', 'rate', 'months'];
     const config = JSON.parse(calc.dataset.config!) as CalcConfig;
     const defaults = JSON.parse(calc.dataset.defaults!) as { mode: Mode; amount: number; rate: number; months: number };
-    const inputs = {
-      amount: $<HTMLInputElement>('[data-input="amount"]', calc)!,
-      rate: $<HTMLInputElement>('[data-input="rate"]', calc)!,
-      months: $<HTMLInputElement>('[data-input="months"]', calc)!,
-    };
-    const out = (k: string) => $(`[data-out="${k}"]`, calc)!;
+    const inputs = Object.fromEntries(keys.map((k) => [k, $<HTMLInputElement>(`[data-input="${k}"]`, calc)!])) as Record<Key, HTMLInputElement>;
+    const boxes = Object.fromEntries(keys.map((k) => [k, $<HTMLInputElement>(`[data-box="${k}"]`, calc)!])) as Record<Key, HTMLInputElement>;
     const tabs = $$('[data-calc-tab]', calc);
     const ink = $('.calc__tab-ink', calc);
     const cta = $<HTMLAnchorElement>('[data-calc-cta]', calc);
+    const chart = $('[data-chart]', calc);
+    const tip = $('[data-tip]', calc);
     let mode = defaults.mode;
+    let seen = false; // the chart grows in the first time the calculator is on screen
 
+    const tenure = (m: number) => {
+      const y = Math.floor(m / 12);
+      const mo = m % 12;
+      return [y ? `${y} ${ui('calc.yr')}` : '', mo ? `${mo} ${ui('calc.mo')}` : ''].filter(Boolean).join(' ') || `0 ${ui('calc.mo')}`;
+    };
+    // ₹5,000 → ₹5K, ₹50,00,000 → ₹50 L (slider end labels)
+    const short = (n: number) => {
+      const f = (v: number) => String(Number(v.toFixed(2)));
+      if (n >= 1e7) return `₹${f(n / 1e7)}${ui('calc.crore')}`;
+      if (n >= 1e5) return `₹${f(n / 1e5)}${ui('calc.lakh')}`;
+      if (n >= 1e3) return `₹${f(n / 1e3)}${ui('calc.thousand')}`;
+      return `₹${n}`;
+    };
+    const boxText = (k: Key, v: number) => (k === 'amount' ? inr.format(v) : k === 'rate' ? v.toFixed(2) : String(v));
     const fill = (el: HTMLInputElement) => {
       const p = ((Number(el.value) - Number(el.min)) / (Number(el.max) - Number(el.min))) * 100;
       el.style.setProperty('--p', `${p}%`);
     };
-    const tenure = (m: number) => {
-      const y = Math.floor(m / 12);
-      const mo = m % 12;
-      return [y ? `${y} yr` : '', mo ? `${mo} mo` : ''].filter(Boolean).join(' ') || '0 mo';
+
+    // Year-by-year bars: what the money is worth each year (deposits), the interest received (monthly income) or
+    // how each year's instalments split between principal and interest (loans).
+    const periodOf = (m: number) => (m <= 12 ? 1 : m <= 36 ? 3 : 12);
+    const yearly = (a: number, r: number, m: number) => {
+      const p = periodOf(m);
+      const years = Math.ceil(m / p);
+      const rows: { y: number; a: number; b: number }[] = [];
+      if (mode === 'emi') {
+        const inst = compute('emi', a, r, m).result;
+        let bal = a;
+        for (let y = 1; y <= years; y++) {
+          let pr = 0;
+          let it = 0;
+          for (let k = (y - 1) * p; k < Math.min(y * p, m); k++) {
+            const i = (bal * r) / 1200;
+            it += i;
+            pr += inst - i;
+            bal -= inst - i;
+          }
+          rows.push({ y, a: pr, b: it });
+        }
+      } else {
+        for (let y = 1; y <= years; y++) {
+          const t = Math.min(y * p, m);
+          const res = compute(mode, a, r, t);
+          if (mode === 'monthly') rows.push({ y, a: 0, b: res.result * t });
+          else {
+            const invested = mode === 'rd' ? a * t : a;
+            rows.push({ y, a: invested, b: res.result - invested });
+          }
+        }
+      }
+      return rows;
     };
+    const drawChart = (a: number, r: number, m: number) => {
+      if (!chart) return;
+      const rows = yearly(a, r, m);
+      const max = Math.max(...rows.map((x) => x.a + x.b), 1);
+      if (chart.children.length !== rows.length) {
+        chart.innerHTML = '';
+        const every = rows.length > 15 ? 5 : rows.length > 10 ? 2 : 1;
+        rows.forEach((row, i) => {
+          const bar = document.createElement('div');
+          bar.className = 'calc__bar';
+          bar.innerHTML = '<i class="calc__seg calc__seg--b"></i><i class="calc__seg calc__seg--a"></i>' + ((i + 1) % every === 0 || i === 0 ? `<b>${row.y}</b>` : '');
+          chart.append(bar);
+        });
+      }
+      const period = periodOf(m);
+      const unit = ui(period === 1 ? 'calc.month' : period === 3 ? 'calc.quarter' : 'calc.year');
+      const axis = $('.calc__axis', calc);
+      if (axis) axis.textContent = unit;
+      const title = $('[data-chart-title]', calc);
+      if (title) title.textContent = ui(mode === 'emi' ? 'calc.chartEmi' : mode === 'monthly' ? 'calc.chartIncome' : 'calc.chartGrow');
+      Array.from(chart.children).forEach((bar, i) => {
+        const row = rows[i];
+        const el = bar as HTMLElement;
+        el.dataset.barTip = (mode === 'emi' ? ui('calc.tipEmi') : mode === 'monthly' ? ui('calc.tipIncome') : ui('calc.tipGrow'))
+          .replace('{p}', `${unit} ${row.y}`)
+          .replace('{a}', rupees(row.a))
+          .replace('{b}', rupees(row.b))
+          .replace('{t}', rupees(row.a + row.b));
+        const scale = seen ? 1 : 0;
+        el.style.setProperty('--h1', `${((row.a / max) * 100 * scale).toFixed(2)}%`);
+        el.style.setProperty('--h2', `${((row.b / max) * 100 * scale).toFixed(2)}%`);
+      });
+    };
+
     const update = () => {
       const a = Number(inputs.amount.value);
       const r = Number(inputs.rate.value);
       const m = Number(inputs.months.value);
-      Object.values(inputs).forEach(fill);
-      out('amount').textContent = rupees(a);
-      out('rate').textContent = `${r.toFixed(2)}%`;
-      out('months').textContent = tenure(m);
+      keys.forEach((k) => {
+        fill(inputs[k]);
+        if (document.activeElement !== boxes[k]) boxes[k].value = boxText(k, Number(inputs[k].value));
+      });
+      const hint = $('[data-out="months"]', calc);
+      if (hint) hint.textContent = tenure(m);
       inputs.amount.setAttribute('aria-valuetext', rupees(a));
-      inputs.rate.setAttribute('aria-valuetext', `${r.toFixed(2)} percent`);
+      inputs.rate.setAttribute('aria-valuetext', `${r.toFixed(2)} %`);
       inputs.months.setAttribute('aria-valuetext', tenure(m));
       const { result, b1, b2 } = compute(mode, a, r, m);
       setRupees($('[data-result]', calc)!, result);
@@ -367,12 +468,65 @@ function initCalculators() {
       setRupees($('[data-b2]', calc)!, b2);
       const pct = b1 + b2 > 0 ? (b2 / (b1 + b2)) * 100 : 0;
       $('[data-donut]', calc)!.style.setProperty('--pct', pct.toFixed(1));
+      const share = $('[data-share]', calc);
+      if (share) share.textContent = `${Math.round(pct)}%`;
+      const per = $('[data-per]', calc);
+      if (per) per.textContent = mode === 'emi' || mode === 'monthly' ? ui('calc.perMonth') : '';
+      drawChart(a, r, m);
     };
+
+    // Typing in a box moves its slider; the value is kept within the slider's range and step.
+    const commit = (k: Key) => {
+      const el = inputs[k];
+      const raw = Number(boxes[k].value.replace(/[^0-9.]/g, ''));
+      if (!Number.isFinite(raw) || boxes[k].value.trim() === '') {
+        boxes[k].value = boxText(k, Number(el.value));
+        return;
+      }
+      const min = Number(el.min);
+      const max = Number(el.max);
+      const step = Number(el.step) || 1;
+      const snapped = Math.min(max, Math.max(min, Math.round((raw - min) / step) * step + min));
+      el.value = String(Number(snapped.toFixed(2)));
+      boxes[k].value = boxText(k, Number(el.value));
+      update();
+    };
+    keys.forEach((k) => {
+      boxes[k].addEventListener('focus', () => {
+        boxes[k].value = k === 'rate' ? String(Number(inputs[k].value)) : String(inputs[k].value);
+        boxes[k].select();
+      });
+      boxes[k].addEventListener('blur', () => commit(k));
+      boxes[k].addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          commit(k);
+          boxes[k].blur();
+        }
+      });
+      inputs[k].addEventListener('input', update);
+    });
+
+    // Chart tooltip (pointer and touch).
+    const showTip = (bar: HTMLElement | null) => {
+      if (!tip) return;
+      $$('.calc__bar.is-hot', calc).forEach((b) => b.classList.remove('is-hot'));
+      if (!bar?.dataset.barTip) {
+        tip.hidden = true;
+        return;
+      }
+      bar.classList.add('is-hot');
+      tip.textContent = bar.dataset.barTip;
+      tip.hidden = false;
+    };
+    chart?.addEventListener('pointerover', (e) => showTip((e.target as HTMLElement).closest<HTMLElement>('.calc__bar')));
+    chart?.addEventListener('pointerleave', () => showTip(null));
+
     const labels: Record<Mode, [string, string, string, string, string]> = {
-      fd: ['Maturity value', 'Total invested', 'Interest earned', 'Book a fixed deposit', '/apply-for-deposits/'],
-      rd: ['Maturity value', 'Total invested', 'Interest earned', 'Start a recurring deposit', '/apply-for-deposits/'],
-      monthly: ['Monthly income', 'Deposit (returned)', 'Total interest', 'Open a monthly income plan', '/apply-for-deposits/'],
-      emi: ['Monthly EMI', 'Principal', 'Total interest', 'Apply for a loan', '/apply-loan/'],
+      fd: [ui('calc.maturity'), ui('calc.invested'), ui('calc.interest'), ui('calc.ctaFd'), '/apply-for-deposits/'],
+      rd: [ui('calc.maturity'), ui('calc.invested'), ui('calc.interest'), ui('calc.ctaRd'), '/apply-for-deposits/'],
+      monthly: [ui('calc.monthlyIncome'), ui('calc.deposit'), ui('calc.totalInterest'), ui('calc.ctaMonthly'), '/apply-for-deposits/'],
+      emi: [ui('calc.emiLabel'), ui('calc.principal'), ui('calc.totalInterest'), ui('calc.ctaEmi'), '/apply-loan/'],
     };
     const moveInk = () => {
       const active = tabs.find((t) => t.getAttribute('aria-selected') === 'true');
@@ -384,18 +538,24 @@ function initCalculators() {
       mode = next;
       calc.dataset.mode = next;
       const c = config[next];
-      (['amount', 'rate', 'months'] as const).forEach((k) => {
+      keys.forEach((k) => {
         const [min, max, step, def] = c[k];
         Object.assign(inputs[k], { min: String(min), max: String(max), step: String(step) });
         inputs[k].value = String(values ? values[k] : def);
+        const lo = $(`[data-min="${k}"]`, calc);
+        const hi = $(`[data-max="${k}"]`, calc);
+        if (lo) lo.textContent = k === 'amount' ? short(min) : k === 'rate' ? `${min}%` : tenure(min);
+        if (hi) hi.textContent = k === 'amount' ? short(max) : k === 'rate' ? `${max}%` : tenure(max);
       });
-      $('[data-amount-label]', calc)!.textContent = c.amountLabel;
+      const amountLabel = $('[data-label="amount"]', calc);
+      if (amountLabel) amountLabel.textContent = c.amountLabel;
+      boxes.amount.setAttribute('aria-label', c.amountLabel);
       const [res, b1, b2, ctaText, ctaHref] = labels[next];
       $('[data-result-label]', calc)!.textContent = res;
       $('[data-b1-label]', calc)!.textContent = b1;
       $('[data-b2-label]', calc)!.textContent = b2;
       if (cta) {
-        cta.href = ctaHref;
+        cta.href = localePath(ctaHref, pageLang());
         cta.firstChild!.textContent = `${ctaText} `;
       }
       tabs.forEach((t) => {
@@ -403,6 +563,7 @@ function initCalculators() {
         t.setAttribute('aria-selected', String(on));
         t.tabIndex = on ? 0 : -1;
       });
+      if (chart) chart.innerHTML = '';
       moveInk();
       update();
     };
@@ -418,10 +579,32 @@ function initCalculators() {
         setMode(next.dataset.calcTab as Mode);
       });
     });
-    Object.values(inputs).forEach((el) => el.addEventListener('input', update));
+    // Other parts of a page can set the calculator, e.g. a loan's rate: dispatch 'calc:set' with { amount, ratePct, months }.
+    // (Not "rate": the release check reads "{rate:…}" in a page as an unfilled rate placeholder.)
+    calc.addEventListener('calc:set', (e) => {
+      const d = (e as CustomEvent<{ amount?: number; ratePct?: number; months?: number }>).detail;
+      const v: Partial<Record<Key, number>> = { amount: d.amount, rate: d.ratePct, months: d.months };
+      keys.forEach((k) => {
+        if (v[k] === undefined) return;
+        const el = inputs[k];
+        el.value = String(Math.min(Number(el.max), Math.max(Number(el.min), v[k]!)));
+      });
+      update();
+    });
     const ro = new ResizeObserver(moveInk);
     ro.observe(calc);
-    onCleanup(() => ro.disconnect());
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        seen = true;
+        io.disconnect();
+        requestAnimationFrame(() => update());
+      },
+      { threshold: 0.25 },
+    );
+    if (reduceMotion) seen = true;
+    else io.observe(calc);
+    onCleanup(() => { ro.disconnect(); io.disconnect(); });
     setMode(mode, defaults);
   });
 }
@@ -572,9 +755,15 @@ function initLightbox() {
 /* ---------- Site search (Ctrl/⌘ K or "/") ---------- */
 type Entry = { t: string; u: string; g: string; k?: string };
 let searchIndex: Promise<Entry[]> | null = null;
-const loadIndex = () => (searchIndex ??= fetch('/search-index.json').then((r) => r.json()).catch(() => { searchIndex = null; return []; }));
+let searchIndexLang: Lang | null = null;
+const loadIndex = (): Promise<Entry[]> => {
+  const lang = pageLang();
+  if (searchIndexLang !== lang) { searchIndex = null; searchIndexLang = lang; }
+  return (searchIndex ??= fetch(lang === 'mr' ? '/mr/search-index.json' : '/search-index.json').then((r) => r.json()).catch(() => { searchIndex = null; return []; }));
+};
 const norm = (s: string) => s.toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '');
 const GROUPS = ['Pages', 'Deposits', 'Loans', 'Services', 'Branches', 'FAQ', 'Stories'];
+const groupLabel = (g: string) => ui('search.groups').split('|')[GROUPS.indexOf(g)] ?? g;
 const GROUP_ICON: Record<string, string> = {
   Pages: '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/>',
   Deposits: '<path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.7-1 2-2h2v-4h-2c0-1-.5-1.5-1-2V5z"/>',
@@ -654,9 +843,9 @@ function initSearch() {
     for (const g of GROUPS) {
       const inGroup = hits.filter((h) => h.e.g === g).slice(0, 6);
       if (!inGroup.length) continue;
-      html.push(`<li role="presentation" class="search__group">${g}</li>`);
+      html.push(`<li role="presentation" class="search__group">${escapeHtml(groupLabel(g))}</li>`);
       for (const { e } of inGroup) {
-        const sub = e.g === 'Branches' || e.g === 'Deposits' || e.g === 'Loans' ? escapeHtml((e.k ?? '').slice(0, 90)) : e.g;
+        const sub = e.g === 'Branches' || e.g === 'Deposits' || e.g === 'Loans' ? escapeHtml((e.k ?? '').slice(0, 90)) : escapeHtml(groupLabel(e.g));
         html.push(
           `<li role="option" id="sr-${n++}" class="search__opt" aria-selected="false" data-href="${escapeHtml(e.u)}">` +
             `<span class="search__opt-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${GROUP_ICON[g]}</svg></span>` +
@@ -670,7 +859,7 @@ function initSearch() {
     list.hidden = !options.length;
     empty.hidden = !!options.length;
     input.setAttribute('aria-expanded', String(!!options.length));
-    status.textContent = options.length ? `${options.length} results` : 'No results';
+    status.textContent = options.length ? ui('search.count').replace('{n}', String(options.length)) : ui('search.none');
     active = -1;
     if (options.length) setActive(0);
     options.forEach((o, i) => {
@@ -716,21 +905,22 @@ document.addEventListener('keydown', (e) => {
 /* ---------- Enquiry forms: inline validation, error summary, submit feedback ---------- */
 function fieldLabel(el: HTMLElement) {
   const text = el.closest('.field')?.querySelector('label')?.textContent ?? '';
-  return text.replace('*', '').replace(/\(.*?\)/g, '').trim().toLowerCase() || 'this field';
+  const label = text.replace('*', '').replace(/\(.*?\)/g, '').trim();
+  return (pageLang() === 'en' ? label.toLowerCase() : label) || ui('form.thisField');
 }
 
 function errorFor(el: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement) {
   const v = el.validity;
   if (v.valid) return '';
-  if (el instanceof HTMLInputElement && el.type === 'checkbox') return 'Please tick this box so we can contact you about your enquiry.';
-  if (v.valueMissing) return el instanceof HTMLSelectElement ? `Select your ${fieldLabel(el)}.` : `Enter your ${fieldLabel(el)}.`;
+  if (el instanceof HTMLInputElement && el.type === 'checkbox') return ui('form.checkbox');
+  if (v.valueMissing) return ui(el instanceof HTMLSelectElement ? 'form.select' : 'form.enter').replace('{field}', fieldLabel(el));
   if (el instanceof HTMLInputElement) {
-    if (el.type === 'email') return 'Enter a valid email address, like name@example.com.';
-    if (el.type === 'tel') return 'Enter a 10-digit mobile number, like 99232 03322.';
-    if (v.rangeUnderflow) return `Enter at least ${el.name === 'amount' ? rupees(Number(el.min)) : el.min}.`;
-    if (v.rangeOverflow) return `Enter no more than ${el.max}.`;
+    if (el.type === 'email') return ui('form.email');
+    if (el.type === 'tel') return ui('form.phone');
+    if (v.rangeUnderflow) return ui('form.min').replace('{n}', el.name === 'amount' ? rupees(Number(el.min)) : el.min);
+    if (v.rangeOverflow) return ui('form.max').replace('{n}', el.max);
   }
-  return `Check your ${fieldLabel(el)}.`;
+  return ui('form.check').replace('{field}', fieldLabel(el));
 }
 
 function initForms() {
@@ -758,7 +948,7 @@ function initForms() {
         const hint = document.createElement('p');
         hint.className = 'field__hint';
         hint.id = `${el.id}-hint`;
-        hint.textContent = '10-digit mobile number';
+        hint.textContent = ui('form.phoneHint');
         el.after(hint);
         el.setAttribute('aria-describedby', hint.id);
       }
@@ -811,7 +1001,7 @@ function initForms() {
         box.className = 'error-summary';
         box.setAttribute('role', 'alert');
         box.tabIndex = -1;
-        box.innerHTML = `<h3>There ${invalid.length === 1 ? 'is 1 problem' : `are ${invalid.length} problems`} with your details</h3><ul>${invalid
+        box.innerHTML = `<h3>${escapeHtml(invalid.length === 1 ? ui('form.problems1') : ui('form.problemsN').replace('{n}', String(invalid.length)))}</h3><ul>${invalid
           .map((el) => `<li><a href="#${el.id}">${escapeHtml(errorFor(el))}</a></li>`)
           .join('')}</ul>`;
         box.querySelectorAll('a').forEach((a) =>
@@ -833,14 +1023,34 @@ function initForms() {
       btn.disabled = true;
       btn.setAttribute('aria-busy', 'true');
       const data = new FormData(form);
+      if (!form.getAttribute('action')) {
+        // Preview builds have no form endpoint: nothing is sent.
+        status.textContent = ui('form.preview');
+        btn.classList.remove('is-loading');
+        btn.disabled = false;
+        btn.removeAttribute('aria-busy');
+        return;
+      }
+      // One key per filled-in form: a retry after a network error cannot create a duplicate enquiry.
+      form.dataset.idempotencyKey ??= crypto.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2)}`;
       try {
-        const res = await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: data,
+          headers: { Accept: 'application/json', 'Idempotency-Key': form.dataset.idempotencyKey },
+        });
         const json = await res.json().catch(() => ({}));
-        if (!res.ok || !json.ok) throw new Error(json.error || 'Request failed');
+        const reference: string | undefined = json?.data?.reference;
+        if (!res.ok || !(reference || json.ok)) throw new Error(json?.error?.message || json.error || 'Request failed');
         const card = form.closest('[data-form-card]')!;
         form.hidden = true;
         const ok = $<HTMLElement>('[data-success]', card);
         if (ok) {
+          const ref = $<HTMLElement>('[data-reference]', ok);
+          if (ref && reference) {
+            $('strong', ref)!.textContent = reference;
+            ref.hidden = false;
+          }
           ok.hidden = false;
           ok.tabIndex = -1;
           ok.focus();
@@ -850,7 +1060,9 @@ function initForms() {
           .filter(([k, v]) => !['website', 'ts', 'consent'].includes(k) && String(v).trim())
           .map(([k, v]) => `${k.replace(/_/g, ' ')}: ${v}`);
         const mail = `mailto:emailus@lokmangal.co.in?subject=${encodeURIComponent('Website enquiry')}&body=${encodeURIComponent(lines.join('\n'))}`;
-        status.innerHTML = `We couldn't send your request right now. Please <a href="${mail}">email it to us</a> or call <a href="tel:+919923203322">+91 99232 03322</a>.`;
+        status.innerHTML = escapeHtml(ui('form.failed'))
+          .replace('{email}', `<a href="${mail}">${escapeHtml(ui('form.failEmail'))}</a>`)
+          .replace('{phone}', '<a href="tel:+919923203322">+91 99232 03322</a>');
       } finally {
         btn.classList.remove('is-loading');
         btn.disabled = false;

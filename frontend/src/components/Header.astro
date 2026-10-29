@@ -1,17 +1,29 @@
 ---
 import Icon from './Icon.astro';
-import { announcement, nav, site } from '../data/site';
-import { schemes, fmtRate } from '../data/deposits';
-import { loans } from '../data/loans';
+import { siteData } from '../data/site';
+import { depositsData, fmtRate } from '../data/deposits';
+import { loansData } from '../data/loans';
+import { getLang, hasMarathi, localePath, stripLang, switchTarget } from '../i18n';
+import { useT } from '../i18n/ui';
 
-const path = Astro.url.pathname;
+const lang = getLang(Astro);
+const t = useT(lang);
+const l = (p: string) => localePath(p, lang);
+const otherLang = lang === 'mr' ? 'en' : 'mr';
+const switchHref = switchTarget(Astro.url.pathname, otherLang);
+const { announcement, nav, site } = siteData(lang);
+const { schemes } = depositsData(lang);
+const { loans } = loansData(lang);
+
+const path = stripLang(Astro.url.pathname);
 const productPaths = ['/deposits/', '/loans/', '/interest-rates/', '/calculators/', '/apply-for-deposits/', '/apply-loan/'];
-const isActive = (href: string, label?: string) => {
-  if (href === '/') return path === '/';
-  if (label === 'Our Products') return productPaths.some((p) => path.startsWith(p));
-  if (label === 'About Us')
-    return ['/about-us/', '/chairman-message/', '/board-of-directors/', '/social-responsibility/', '/annual-reports/', '/gallery/'].some((p) => path.startsWith(p));
-  return path.startsWith(href);
+const aboutPaths = ['/about-us/', '/chairman-message/', '/board-of-directors/', '/social-responsibility/', '/annual-reports/', '/gallery/'];
+type Item = { href: string; mega?: boolean; children?: unknown[] };
+const isActive = (item: Item) => {
+  if (item.href === '/') return path === '/';
+  if (item.mega) return productPaths.some((p) => path.startsWith(p));
+  if (item.href === '/about-us/') return aboutPaths.some((p) => path.startsWith(p));
+  return path.startsWith(item.href);
 };
 ---
 
@@ -21,8 +33,8 @@ const isActive = (href: string, label?: string) => {
     <span class="announce__pulse" aria-hidden="true"></span>
     <Icon name="megaphone" size={16} />
     <p><strong>{announcement.label}</strong> {announcement.text}</p>
-    <a href={announcement.href} class="announce__link">{announcement.linkText} <Icon name="arrow-right" size={14} /></a>
-    <button class="announce__close" data-announce-close aria-label="Dismiss announcement"><Icon name="x" size={16} /></button>
+    <a href={l(announcement.href)} class="announce__link">{announcement.linkText} <Icon name="arrow-right" size={14} /></a>
+    <button class="announce__close" data-announce-close aria-label={t('announce.dismiss')}><Icon name="x" size={16} /></button>
   </div>
 </div>
 )}
@@ -32,12 +44,12 @@ const isActive = (href: string, label?: string) => {
     <div class="topbar__info">
       <a href={`mailto:${site.email}`}><Icon name="mail" size={15} />{site.email}</a>
       <a href={site.phoneHref}><Icon name="phone" size={15} />{site.phone}</a>
-      <span class="topbar__ifsc"><Icon name="landmark" size={15} />IFSC: <strong>{site.ifsc}</strong></span>
+      <span class="topbar__ifsc"><Icon name="landmark" size={15} />{t('footer.ifsc')}: <strong>{site.ifsc}</strong></span>
     </div>
     <div class="topbar__links">
-      <a href="/contact-us/">Contact Us</a>
-      <a href="/careers/">Careers</a>
-      <a href="/blog/">Blog</a>
+      <a href={l('/contact-us/')}>{t('nav.contact')}</a>
+      <a href={l('/careers/')}>{t('nav.careers')}</a>
+      <a href={l('/blog/')}>{t('nav.blog')}</a>
       <span class="topbar__sep" aria-hidden="true"></span>
       {site.social.map((s) => (
         <a href={s.href} target="_blank" rel="noopener" aria-label={s.label} class="topbar__social"><Icon name={s.icon} size={15} /></a>
@@ -48,21 +60,21 @@ const isActive = (href: string, label?: string) => {
 
 <header class="header" data-header transition:name="site-header" transition:animate="none">
   <div class="container--wide header__inner">
-    <a href="/" class="brand" aria-label="Lokmangal Multistate — home">
-      <img src="/images/brand/logo-full.png" alt="Lokmangal — Success through total dedication" width="854" height="253" class="brand__logo" />
+    <a href={l('/')} class="brand" aria-label={t('brand.home')}>
+      <img src="/images/brand/logo-full.png" alt={t('brand.logo')} width="854" height="253" class="brand__logo" />
     </a>
 
-    <nav class="nav" aria-label="Main">
+    <nav class="nav" aria-label={t('nav.main')}>
       <ul class="nav__list">
         {nav.map((item) => (
           <li class:list={['nav__item', { 'has-menu': item.children || item.mega, 'is-mega': item.mega, 'nav__item--home': item.href === '/' }]} data-nav-item>
             {item.children || item.mega ? (
-              <button class:list={['nav__link', { 'is-active': isActive(item.href, item.label) }]} aria-expanded="false" data-nav-trigger>
+              <button class:list={['nav__link', { 'is-active': isActive(item) }]} aria-expanded="false" data-nav-trigger>
                 {item.label}
                 <Icon name="chevron-down" size={15} class="nav__chev" />
               </button>
             ) : (
-              <a href={item.href} class:list={['nav__link', { 'is-active': isActive(item.href, item.label) }]} aria-current={isActive(item.href) ? 'page' : undefined}>
+              <a href={l(item.href)} class:list={['nav__link', { 'is-active': isActive(item) }]} aria-current={isActive(item) ? 'page' : undefined}>
                 {item.label}
               </a>
             )}
@@ -72,7 +84,7 @@ const isActive = (href: string, label?: string) => {
                 <ul class="dropdown__list">
                   {item.children.map((c) => (
                     <li>
-                      <a href={c.href} class="dropdown__link">
+                      <a href={l(c.href)} class="dropdown__link">
                         <span class="dropdown__icon"><Icon name={c.icon ?? 'arrow-right'} size={18} /></span>
                         <span>
                           <strong>{c.label}</strong>
@@ -88,11 +100,11 @@ const isActive = (href: string, label?: string) => {
             {item.mega && (
               <div class="dropdown mega">
                 <div class="mega__col">
-                  <a href="/deposits/" class="mega__title"><Icon name="piggy-bank" size={18} /> Deposits <Icon name="arrow-right" size={14} /></a>
+                  <a href={l('/deposits/')} class="mega__title"><Icon name="piggy-bank" size={18} /> {t('nav.deposits')} <Icon name="arrow-right" size={14} /></a>
                   <ul>
                     {schemes.map((s) => (
                       <li>
-                        <a href={`/deposits/${s.slug}/`}>
+                        <a href={l(`/deposits/${s.slug}/`)}>
                           <span>{s.name}</span>
                           <em>{s.rate ? `${fmtRate(s.rate)}%` : '2×'}</em>
                         </a>
@@ -101,22 +113,22 @@ const isActive = (href: string, label?: string) => {
                   </ul>
                 </div>
                 <div class="mega__col">
-                  <a href="/loans/" class="mega__title"><Icon name="hand-coins" size={18} /> Loans <Icon name="arrow-right" size={14} /></a>
+                  <a href={l('/loans/')} class="mega__title"><Icon name="hand-coins" size={18} /> {t('nav.loans')} <Icon name="arrow-right" size={14} /></a>
                   <ul class="mega__loans">
-                    {loans.map((l) => (
-                      <li><a href={`/loans/#${l.slug}`}><span>{l.name}</span></a></li>
+                    {loans.map((ln) => (
+                      <li><a href={l(`/loans/#${ln.slug}`)}><span>{ln.name}</span></a></li>
                     ))}
                   </ul>
                 </div>
                 <div class="mega__promo">
-                  <span class="chip chip--dark">Vishwamangal FD 2026</span>
+                  <span class="chip chip--dark">{t('mega.fd')}</span>
                   <p class="mega__rate">10<span>%</span></p>
-                  <p class="mega__promo-text">p.a. on fixed deposits of 365 days &amp; above. Special categories earn up to 0.50% extra.</p>
+                  <p class="mega__promo-text">{t('mega.promo')}</p>
                   <div class="mega__promo-links">
-                    <a href="/interest-rates/"><Icon name="percent" size={16} /> Interest rates</a>
-                    <a href="/calculators/"><Icon name="calculator" size={16} /> Calculators</a>
+                    <a href={l('/interest-rates/')}><Icon name="percent" size={16} /> {t('nav.rates')}</a>
+                    <a href={l('/calculators/')}><Icon name="calculator" size={16} /> {t('nav.calculators')}</a>
                   </div>
-                  <a href="/apply-for-deposits/" class="btn btn--primary btn--sm">Book an FD <Icon name="arrow-right" size={16} class="icon--arrow" /></a>
+                  <a href={l('/apply-for-deposits/')} class="btn btn--primary btn--sm">{t('mega.bookFd')} <Icon name="arrow-right" size={16} class="icon--arrow" /></a>
                 </div>
               </div>
             )}
@@ -126,34 +138,35 @@ const isActive = (href: string, label?: string) => {
     </nav>
 
     <div class="header__actions">
-      <button class="search-trigger" data-search-open aria-label="Search the website" aria-haspopup="dialog" aria-keyshortcuts="Control+K Meta+K">
+      <button class="search-trigger" data-search-open aria-label={t('search.site')} aria-haspopup="dialog" aria-keyshortcuts="Control+K Meta+K">
         <Icon name="search" size={18} />
-        <span class="search-trigger__label">Search</span>
+        <span class="search-trigger__label">{t('search')}</span>
         <kbd class="search-trigger__kbd">Ctrl K</kbd>
       </button>
+      {hasMarathi('/') && <a href={switchHref} class="lang-switch" hreflang={otherLang} lang={otherLang} aria-label={t('lang.toLabel')} data-lang-switch={otherLang}>{t('lang.to')}</a>}
       <div class="nav__item has-menu login" data-nav-item>
         <button class="btn btn--ghost btn--sm login__btn" aria-expanded="false" data-nav-trigger>
-          <Icon name="log-in" size={17} /> Login
+          <Icon name="log-in" size={17} /> {t('login')}
         </button>
         <div class="dropdown dropdown--right">
           <ul class="dropdown__list">
             <li>
               <a href={site.appUrl} target="_blank" rel="noopener" class="dropdown__link">
                 <span class="dropdown__icon"><Icon name="smartphone" size={18} /></span>
-                <span><strong>Mobile Banking App</strong><small>Download on Google Play</small></span>
+                <span><strong>{t('login.app')}</strong><small>{t('login.appSub')}</small></span>
               </a>
             </li>
             <li>
-              <a href="/other-services/" class="dropdown__link">
+              <a href={l('/other-services/')} class="dropdown__link">
                 <span class="dropdown__icon"><Icon name="globe" size={18} /></span>
-                <span><strong>Net Banking</strong><small>Activate at your branch</small></span>
+                <span><strong>{t('login.net')}</strong><small>{t('login.netSub')}</small></span>
               </a>
             </li>
           </ul>
         </div>
       </div>
-      <a href="/open-an-account/" class="btn btn--primary btn--sm header__cta">Open Account <Icon name="arrow-right" size={16} class="icon--arrow" /></a>
-      <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="drawer" data-burger>
+      <a href={l('/open-an-account/')} class="btn btn--primary btn--sm header__cta">{t('cta.openAccount')} <Icon name="arrow-right" size={16} class="icon--arrow" /></a>
+      <button class="burger" aria-label={t('nav.menu')} aria-expanded="false" aria-controls="drawer" data-burger>
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -164,54 +177,54 @@ const isActive = (href: string, label?: string) => {
   <div class="drawer__panel">
     <div class="drawer__top">
       <img src="/images/brand/emblem.png" alt="" width="42" height="51" class="drawer__emblem" />
-      <span class="drawer__title">Lokmangal<small>Multistate</small></span>
-      <button class="drawer__close" data-drawer-close aria-label="Close menu"><Icon name="x" size={22} /></button>
+      <span class="drawer__title">{lang === 'mr' ? 'लोकमंगल' : 'Lokmangal'}<small>{lang === 'mr' ? 'मल्टीस्टेट' : 'Multistate'}</small></span>
+      <button class="drawer__close" data-drawer-close aria-label={t('nav.menuClose')}><Icon name="x" size={22} /></button>
     </div>
     <button class="drawer__search" data-search-open aria-haspopup="dialog">
-      <Icon name="search" size={18} /> Search schemes, loans, branches…
+      <Icon name="search" size={18} /> {t('search.drawer')}
     </button>
-    <nav aria-label="Mobile">
+    <nav aria-label={t('nav.mobile')}>
       <ul class="drawer__list">
-        <li style="--i:0"><a href="/" class="drawer__link">Home</a></li>
+        <li style="--i:0"><a href={l('/')} class="drawer__link">{t('home')}</a></li>
         <li style="--i:1">
           <details class="drawer__group">
-            <summary class="drawer__link">About Us <Icon name="chevron-down" size={20} /></summary>
+            <summary class="drawer__link">{t('nav.about')} <Icon name="chevron-down" size={20} /></summary>
             <div class="drawer__sub">
-              {nav[1].children!.map((c) => <a href={c.href}>{c.label}</a>)}
+              {nav[1].children!.map((c) => <a href={l(c.href)}>{c.label}</a>)}
             </div>
           </details>
         </li>
         <li style="--i:2">
           <details class="drawer__group">
-            <summary class="drawer__link">Deposits <Icon name="chevron-down" size={20} /></summary>
+            <summary class="drawer__link">{t('nav.deposits')} <Icon name="chevron-down" size={20} /></summary>
             <div class="drawer__sub">
-              <a href="/deposits/"><strong>All deposit schemes</strong></a>
-              {schemes.map((s) => <a href={`/deposits/${s.slug}/`}>{s.name}</a>)}
-              <a href="/interest-rates/">Interest rates</a>
+              <a href={l('/deposits/')}><strong>{t('nav.allDeposits')}</strong></a>
+              {schemes.map((s) => <a href={l(`/deposits/${s.slug}/`)}>{s.name}</a>)}
+              <a href={l('/interest-rates/')}>{t('nav.rates')}</a>
             </div>
           </details>
         </li>
         <li style="--i:3">
           <details class="drawer__group">
-            <summary class="drawer__link">Loans <Icon name="chevron-down" size={20} /></summary>
+            <summary class="drawer__link">{t('nav.loans')} <Icon name="chevron-down" size={20} /></summary>
             <div class="drawer__sub">
-              <a href="/loans/"><strong>All loans</strong></a>
-              {loans.map((l) => <a href={`/loans/#${l.slug}`}>{l.name}</a>)}
-              <a href="/apply-loan/">Apply for a loan</a>
+              <a href={l('/loans/')}><strong>{t('nav.allLoans')}</strong></a>
+              {loans.map((ln) => <a href={l(`/loans/#${ln.slug}`)}>{ln.name}</a>)}
+              <a href={l('/apply-loan/')}>{t('nav.applyLoan')}</a>
             </div>
           </details>
         </li>
-        <li style="--i:4"><a href="/other-services/" class="drawer__link">Other Services</a></li>
-        <li style="--i:5"><a href="/rural-wealth-manager/" class="drawer__link">Rural Wealth Manager</a></li>
-        <li style="--i:6"><a href="/calculators/" class="drawer__link">Calculators</a></li>
-        <li style="--i:7"><a href="/faq/" class="drawer__link">FAQ</a></li>
-        <li style="--i:8"><a href="/branches/" class="drawer__link">Branches</a></li>
-        <li style="--i:9"><a href="/contact-us/" class="drawer__link">Contact Us</a></li>
+        <li style="--i:4"><a href={l('/other-services/')} class="drawer__link">{t('nav.services')}</a></li>
+        <li style="--i:5"><a href={l('/rural-wealth-manager/')} class="drawer__link">{t('nav.rwm')}</a></li>
+        <li style="--i:6"><a href={l('/calculators/')} class="drawer__link">{t('nav.calculators')}</a></li>
+        <li style="--i:7"><a href={l('/faq/')} class="drawer__link">{t('nav.faq')}</a></li>
+        <li style="--i:8"><a href={l('/branches/')} class="drawer__link">{t('nav.branches')}</a></li>
+        <li style="--i:9"><a href={l('/contact-us/')} class="drawer__link">{t('nav.contact')}</a></li>
       </ul>
     </nav>
     <div class="drawer__foot">
-      <a href="/open-an-account/" class="btn btn--primary btn--block">Open an Account <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
-      <a href={site.appUrl} target="_blank" rel="noopener" class="btn btn--outline-light btn--block"><Icon name="smartphone" size={18} /> Mobile Banking App</a>
+      <a href={l('/open-an-account/')} class="btn btn--primary btn--block">{t('cta.openAnAccount')} <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+      <a href={site.appUrl} target="_blank" rel="noopener" class="btn btn--outline-light btn--block"><Icon name="smartphone" size={18} /> {t('login.app')}</a>
       <div class="drawer__contact">
         <a href={site.phoneHref}><Icon name="phone" size={16} /> {site.phone}</a>
         <a href={`mailto:${site.email}`}><Icon name="mail" size={16} /> {site.email}</a>
@@ -221,6 +234,16 @@ const isActive = (href: string, label?: string) => {
 </div>
 
 <style>
+  /* Language switch */
+  .lang-switch {
+    display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 0 14px;
+    border-radius: 10px; border: 1px solid var(--line); background: var(--surface);
+    font-weight: 600; font-size: 0.92rem; line-height: 1; color: var(--g-800); white-space: nowrap;
+    transition: border-color var(--dur-s), background var(--dur-s), color var(--dur-s);
+  }
+  .lang-switch:hover { border-color: var(--g-600); background: var(--g-50); color: var(--g-900); }
+  @media (max-width: 420px) { .lang-switch { min-height: 40px; padding: 0 10px; font-size: 0.88rem; } }
+
   /* Announcement */
   .announce {
     background: linear-gradient(90deg, var(--o-strong-hover), var(--o-strong) 55%, #b84c0c);
@@ -233,7 +256,7 @@ const isActive = (href: string, label?: string) => {
   .announce__pulse {
     width: 8px; height: 8px; border-radius: 50%; background: #fff; flex: none;
     box-shadow: 0 0 0 0 rgb(255 255 255 / 0.7);
-    animation: pulse 2s infinite;
+   
   }
   @keyframes pulse { 70% { box-shadow: 0 0 0 10px rgb(255 255 255 / 0); } 100% { box-shadow: 0 0 0 0 rgb(255 255 255 / 0); } }
   .announce__link { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; white-space: nowrap; border-bottom: 1px solid rgb(255 255 255 / 0.5); }

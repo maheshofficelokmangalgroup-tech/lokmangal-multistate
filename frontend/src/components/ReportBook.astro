@@ -1,0 +1,63 @@
+---
+// An annual report drawn as a standing book: the real cover when there is one, otherwise a cover in the
+// style of the printed reports (which are in Marathi).
+interface Props {
+  year: string;
+  cover?: string;
+  tone?: 'green' | 'saffron';
+  class?: string;
+}
+const { year, cover, tone = 'green', class: className } = Astro.props;
+---
+
+<div class:list={['rbook', `rbook--${tone}`, className]}>
+  <div class="rbook__cover">
+    {cover ? (
+      <img src={cover} alt="" width="302" height="413" loading="lazy" />
+    ) : (
+      <div class="rbook__design" lang="mr">
+        <img src="/images/brand/emblem.png" alt="" width="44" height="53" class="rbook__emblem" />
+        <span class="rbook__kicker">वार्षिक अहवाल</span>
+        <strong class="rbook__year">{year}</strong>
+        <span class="rbook__name">लोकमंगल मल्टीस्टेट<br />को-ऑप. सोसायटी लि., सोलापूर</span>
+      </div>
+    )}
+  </div>
+</div>
+
+<style>
+  .rbook {
+    position: relative; container-type: inline-size; aspect-ratio: 302 / 413;
+    border-radius: 3px 8px 8px 3px; background: var(--g-900);
+    box-shadow: 0 1px 0 rgb(255 255 255 / 0.2) inset, 0 22px 34px -18px rgb(0 0 0 / 0.6);
+  }
+  /* Page edges on the right and the fold of the spine on the left. */
+  .rbook::after {
+    content: ''; position: absolute; top: 2.5%; bottom: 2.5%; right: -6px; width: 7px; border-radius: 0 3px 3px 0;
+    background: repeating-linear-gradient(90deg, #f6f1e6 0 1px, #d8cfbd 1px 2px);
+  }
+  .rbook__cover { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; }
+  .rbook__cover::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(90deg, rgb(0 0 0 / 0.38), rgb(255 255 255 / 0.18) 3%, transparent 8%, transparent 92%, rgb(0 0 0 / 0.08));
+  }
+  .rbook__cover > img { width: 100%; height: 100%; object-fit: cover; }
+
+  .rbook__design {
+    position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; text-align: center;
+    padding: 12cqw 8cqw 0; color: #fff;
+    background:
+      linear-gradient(170deg, transparent 0 60%, var(--o-500) 60% 64.5%, #fff 64.5%),
+      linear-gradient(160deg, var(--g-600), var(--g-950));
+  }
+  .rbook--saffron .rbook__design {
+    background:
+      linear-gradient(170deg, transparent 0 60%, var(--g-600) 60% 64.5%, #fff 64.5%),
+      linear-gradient(160deg, var(--o-500), #8f3608);
+  }
+  .rbook__emblem { width: 17cqw; height: auto; padding: 2.4cqw; border-radius: 4cqw; background: #fff; }
+  .rbook__kicker { margin-top: 7cqw; font-size: 8.5cqw; font-weight: 700; line-height: 1.3; }
+  .rbook__year { margin-top: 1.5cqw; font-size: 9.5cqw; font-weight: 800; line-height: 1.1; color: var(--gold); }
+  .rbook--saffron .rbook__year { color: #fff; }
+  .rbook__name { margin-top: auto; margin-bottom: 9cqw; font-size: 5.6cqw; font-weight: 700; line-height: 1.35; color: var(--g-800); }
+</style>

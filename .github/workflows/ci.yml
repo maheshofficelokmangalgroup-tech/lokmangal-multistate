@@ -1,0 +1,124 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      TEST_DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/postgres
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: backend
+      - run: cargo fmt --check
+      - run: cargo clippy --all-targets -- -D warnings
+      # Unit tests plus the API integration tests (they create their own databases).
+      - run: cargo test -- --include-ignored
+      - run: cargo install cargo-audit --locked && cargo audit
+
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Shared finance rules (fixtures from the published leaflets)
+        run: npm run test:finance
+      - name: Admin type-check, unit tests and production build
+        run: |
+          npm run typecheck -w @lokmangal/admin
+          npm test -w @lokmangal/admin
+          npm run build -w @lokmangal/admin
+      - name: Public website builds from the seed snapshot
+        run: |
+          npm run build:site:seed
+          test "$(find frontend/dist -name '*.html' | wc -l)" -ge 100
+          ! grep -rE '\{(rate|rate2|number|calc)(:[^}]*)?\}' frontend/dist --include=*.html
+      - run: npm audit --omit=dev --audit-level=high
+
+  e2e:
+    runs-on: ubuntu-latest
+    needs: [backend, web]
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: backend
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Start the stack (API + worker + builder) and publish end to end
+        working-directory: backend
+        env:
+          DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/postgres
+        run: |
+          cp .env.example .env
+          sed -i '/^SMTP_/d' .env
+          cargo build --bins
+          ./target/debug/lokmangal-cli migrate
+          ./target/debug/lokmangal-cli import-seed ../frontend/seed/snapshot.json
+          ./target/debug/lokmangal-cli create-admin --email ci@example.com --name "CI Admin" | tail -1 > ../invite.txt
+          (node ../frontend/builder/server.mjs > ../builder.log 2>&1 &)
+          (./target/debug/lokmangal-server > ../server.log 2>&1 &)
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:8000/api/v1/health && break || sleep 2; done
+          node ../tests/e2e/publish-smoke.mjs "$(cat ../invite.txt)"
+      - if: failure()
+        run: tail -n 80 builder.log server.log
+
+  # Image builds are checked on every push; publishing images to GHCR happens in release.yml.
+  images:
+    runs-on: ubuntu-latest
+    needs: [backend, web]
+    strategy:
+      matrix:
+        include:
+          - { name: api, file: backend/Dockerfile }
+          - { name: site-builder, file: frontend/Dockerfile }
+          - { name: admin, file: admin/Dockerfile }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ${{ matrix.file }}
+          push: false
+          cache-from: type=gha,scope=${{ matrix.name }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.name }}

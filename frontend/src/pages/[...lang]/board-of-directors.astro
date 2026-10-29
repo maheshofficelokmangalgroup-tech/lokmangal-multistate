@@ -1,0 +1,267 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import AboutNav from '../../components/AboutNav.astro';
+import { peopleFor } from '../../data/people';
+import { getLang, langPaths, localePath } from '../../i18n';
+import { pageCopy, useT } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+
+const lang = getLang(Astro);
+const t = useT(lang);
+const l = (p: string) => localePath(p, lang);
+const { board } = peopleFor(lang);
+const [chair, ...directors] = board;
+
+const c = pageCopy(
+  lang,
+  'board-of-directors',
+  {
+    metaTitle: 'Board of Directors',
+    metaDescription: 'Meet the Board of Directors of Lokmangal Multistate Co-operative Society Ltd., led by Chairman {name}.',
+    eyebrow: 'Board of Directors',
+    title: 'The people who',
+    accent: 'guide Lokmangal',
+    lead: 'Elected by our members, the board sets the direction of the society and reports to the members at every Annual General Meeting.',
+    factMembers: 'Board members',
+    factElected: 'Elected by',
+    factElectedValue: 'Members at the AGM',
+    factElection: 'Last election',
+    chairText: 'Under his leadership Lokmangal has grown beyond financial services into dairy and fertilisers, and across two states.',
+    chairLink: 'Read the chairman’s message',
+    dirEyebrow: 'Directors',
+    dirTitle: 'Meet the',
+    dirAccent: 'board',
+    howEyebrow: 'How the board works',
+    howTitle: 'A board that answers to',
+    howAccent: 'its members',
+    s1: 'Elected by members',
+    s1t: 'Members elect the Board of Directors at the Annual General Meeting.',
+    s2: 'Decides together',
+    s2t: 'Decisions are taken collectively and transparently, not by any one person.',
+    s3: 'Checked every year',
+    s3t: 'The society’s accounts are audited every year and submitted to the Government of India.',
+    notices: 'See the Election 2025 notices',
+  },
+  {
+    metaTitle: 'संचालक मंडळ',
+    metaDescription: 'अध्यक्ष {name} यांच्या नेतृत्वाखालील लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटी लि.च्या संचालक मंडळाची ओळख.',
+    eyebrow: 'संचालक मंडळ',
+    title: 'लोकमंगलला दिशा देणारे',
+    accent: 'आमचे नेतृत्व',
+    lead: 'सभासदांनी निवडलेले संचालक मंडळ संस्थेची दिशा ठरवते आणि प्रत्येक वार्षिक सर्वसाधारण सभेत सभासदांना उत्तरदायी असते.',
+    factMembers: 'संचालक',
+    factElected: 'निवड',
+    factElectedValue: 'सभासदांकडून, वार्षिक सभेत',
+    factElection: 'शेवटची निवडणूक',
+    chairText: 'त्यांच्या नेतृत्वाखाली लोकमंगलने आर्थिक सेवांच्या पलीकडे दुग्धव्यवसाय आणि खत व्यवसायात पाऊल टाकले आणि दोन राज्यांत विस्तार केला.',
+    chairLink: 'अध्यक्षांचा संदेश वाचा',
+    dirEyebrow: 'संचालक',
+    dirTitle: 'आमच्या',
+    dirAccent: 'संचालक मंडळाची ओळख',
+    howEyebrow: 'संचालक मंडळ कसे काम करते',
+    howTitle: 'सभासदांना',
+    howAccent: 'उत्तरदायी संचालक मंडळ',
+    s1: 'सभासदांकडून निवड',
+    s1t: 'वार्षिक सर्वसाधारण सभेत सभासद संचालक मंडळाची निवड करतात.',
+    s2: 'एकत्रित निर्णय',
+    s2t: 'निर्णय कोणा एका व्यक्तीकडून नव्हे, तर एकत्रितपणे आणि पारदर्शकपणे घेतले जातात.',
+    s3: 'दरवर्षी तपासणी',
+    s3t: 'संस्थेच्या हिशेबांचे दरवर्षी लेखापरीक्षण होते आणि ते भारत सरकारकडे सादर केले जातात.',
+    notices: 'निवडणूक 2025 च्या सूचना पहा',
+  },
+);
+
+const facts = [
+  [c('factMembers'), String(board.length)],
+  [c('factElected'), c('factElectedValue')],
+  [c('factElection'), '2025'],
+];
+const steps = [1, 2, 3].map((n) => ({ title: c(`s${n}` as 's1'), text: c(`s${n}t` as 's1t') }));
+---
+
+<Base title={c('metaTitle')} description={c('metaDescription', { name: chair.name })}>
+  <!-- BANNER -->
+  <section class="bd-hero">
+    <img src="/images/board/banner.webp" alt="" class="bd-hero__img" width="1672" height="941" fetchpriority="high" />
+    <div class="container">
+      <nav class="bd-crumbs" aria-label={t('breadcrumb')}>
+        <a href={l('/')}>{t('home')}</a>
+        <Icon name="chevron-right" size={14} />
+        <a href={l('/about-us/')}>{t('nav.about')}</a>
+        <Icon name="chevron-right" size={14} />
+        <span aria-current="page">{c('eyebrow')}</span>
+      </nav>
+    </div>
+    <div class="container bd-hero__grid">
+      <div class="bd-hero__copy">
+        <p class="bd-hero__eyebrow">{c('eyebrow')}</p>
+        <h1 class="h1 bd-hero__title" data-reveal>{c('title')} <em>{c('accent')}</em></h1>
+        <p class="lead bd-hero__lead" data-reveal style="--d:150ms">{c('lead')}</p>
+        <dl class="bd-facts" data-stagger>
+          {facts.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAIRMAN -->
+  <section class="section bd-chair-sec">
+    <div class="container">
+      <article class="bd-chair" data-reveal>
+        <figure class="bd-chair__photo"><img src={chair.photo} alt={chair.name} width="520" height="564" loading="lazy" /></figure>
+        <div class="bd-chair__body">
+          <span class="bd-chip">{chair.role}</span>
+          <h2 class="h2 bd-chair__name">{chair.name}</h2>
+          <p class="lead">{c('chairText')}</p>
+          <a href={l('/chairman-message/')} class="btn btn--primary">{c('chairLink')} <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- DIRECTORS -->
+  <section class="section bd-dir-sec">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <p class="eyebrow">{c('dirEyebrow')}</p>
+        <h2 class="h2">{c('dirTitle')} <em>{c('dirAccent')}</em></h2>
+      </div>
+      <ul class="bd-people" data-stagger>
+        {directors.map((p) => (
+          <li class="bd-person">
+            <div class="bd-person__img"><img src={p.photo} alt={p.name} loading="lazy" width="395" height="429" /></div>
+            <div class="bd-person__body">
+              <h3>{p.name}</h3>
+              <span>{p.role}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- HOW THE BOARD WORKS -->
+  <section class="section bd-how">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">{c('howEyebrow')}</p>
+        <h2 class="h2">{c('howTitle')} <em>{c('howAccent')}</em></h2>
+      </div>
+      <ol class="bd-steps" data-stagger>
+        {steps.map((s, i) => (
+          <li>
+            <span class="bd-steps__n">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </li>
+        ))}
+      </ol>
+      <p class="bd-how__more" data-reveal><a href={l('/notices/')} class="link-arrow">{c('notices')} <Icon name="arrow-right" size={16} /></a></p>
+    </div>
+  </section>
+
+  <AboutNav current="/board-of-directors/" />
+  <CtaBand />
+</Base>
+
+<style>
+  /* ---------- Banner ---------- */
+  .bd-hero {
+    position: relative; isolation: isolate; overflow: hidden; color: #fff;
+    padding: clamp(40px, 6vw, 72px) 0 clamp(56px, 7vw, 96px);
+    min-height: clamp(520px, 70vh, 680px); display: flex; flex-direction: column; justify-content: center;
+    background: var(--g-950);
+  }
+  .bd-hero__img {
+    position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; max-width: none;
+    object-fit: cover; object-position: 62% 40%;
+    animation: bd-settle 14s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  @keyframes bd-settle { from { transform: scale(1.12); } }
+  .bd-hero::after {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background:
+      linear-gradient(90deg, rgb(4 36 23 / 0.95) 0%, rgb(4 36 23 / 0.84) 38%, rgb(4 36 23 / 0.4) 72%, rgb(4 36 23 / 0.15) 100%),
+      linear-gradient(0deg, rgb(4 36 23 / 0.6), transparent 35%);
+  }
+  .bd-hero__copy { max-width: 640px; }
+  @media (max-width: 899px) {
+    .bd-hero { min-height: 0; justify-content: flex-start; padding-top: min(56vw, 260px); }
+    .bd-hero__img { inset: 0 0 auto 0; height: min(72vw, 340px); }
+    .bd-hero::after { background: linear-gradient(180deg, rgb(4 36 23 / 0.35) 0, rgb(4 36 23 / 0.1) 90px, var(--g-950) min(72vw, 340px)); }
+    .bd-crumbs { position: absolute; top: 18px; }
+  }
+  .bd-crumbs { margin-bottom: clamp(24px, 4vw, 40px); display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.86rem; font-weight: 600; color: rgb(255 255 255 / 0.6); }
+  .bd-crumbs a { color: rgb(255 255 255 / 0.75); }
+  .bd-crumbs a:hover { color: #fff; }
+  .bd-crumbs span { color: var(--gold); }
+  .bd-hero__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
+  .bd-hero__copy { display: grid; gap: 18px; }
+  .bd-hero__eyebrow { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g-300); }
+  :global(html[lang='mr']) .bd-hero__eyebrow { letter-spacing: 0; text-transform: none; font-size: 0.95rem; }
+  .bd-hero__title { color: #fff; }
+  .bd-hero__title em { display: block; color: var(--gold); }
+  .bd-hero__lead { color: rgb(255 255 255 / 0.84); max-width: 560px; }
+  .bd-facts { margin: 6px 0 0; display: flex; flex-wrap: wrap; gap: 0; border-top: 1px solid rgb(255 255 255 / 0.15); padding-top: 18px; }
+  .bd-facts > div { padding: 0 22px; border-left: 1px solid rgb(255 255 255 / 0.15); }
+  .bd-facts > div:first-child { padding-left: 0; border-left: 0; }
+  .bd-facts dt { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+  :global(html[lang='mr']) .bd-facts dt { letter-spacing: 0; text-transform: none; font-size: 0.82rem; }
+  .bd-facts dd { margin: 4px 0 0; font-weight: 700; color: #fff; }
+  @media (max-width: 559px) {
+    .bd-facts { display: grid; grid-template-columns: 1fr 1fr; row-gap: 14px; }
+    .bd-facts > div:nth-child(3) { padding-left: 0; border-left: 0; }
+  }
+
+  /* ---------- Chairman ---------- */
+  .bd-chair-sec { background: var(--bg); }
+  .bd-chair { display: grid; gap: clamp(28px, 4vw, 56px); align-items: center; }
+  @media (min-width: 860px) { .bd-chair { grid-template-columns: minmax(0, 360px) minmax(0, 1fr); } }
+  .bd-chair__photo { position: relative; isolation: isolate; margin: 0 auto; width: min(100%, 340px); }
+  .bd-chair__photo::before { content: ''; position: absolute; inset: 20px -16px -16px 20px; z-index: -1; border-radius: var(--r-lg); background: var(--o-500); }
+  .bd-chair__photo img { width: 100%; height: auto; border-radius: var(--r-lg); box-shadow: 0 24px 44px -26px rgb(15 31 24 / 0.6); }
+  .bd-chair__body { display: grid; gap: 16px; justify-items: start; }
+  .bd-chip { padding: 6px 14px; border-radius: 999px; background: var(--o-100); color: var(--o-700); font-weight: 700; font-size: 0.85rem; }
+  .bd-chair__name { color: var(--g-800); }
+
+  /* ---------- Directors ---------- */
+  .bd-dir-sec { background: var(--cream); }
+  .bd-people { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(14px, 2vw, 22px); grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); }
+  @media (max-width: 559px) { .bd-people { grid-template-columns: 1fr 1fr; gap: 12px; } }
+  .bd-person { position: relative; overflow: hidden; border-radius: var(--r-lg); background: #fff; border: 1px solid var(--line-2); transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out); }
+  /* Passport photos come on red, blue and white grounds; a shared frame and a gentle tone make them a set. */
+  .bd-person__img { position: relative; aspect-ratio: 4 / 4.4; overflow: hidden; background: var(--g-100); }
+  .bd-person__img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 60%, rgb(4 36 23 / 0.28)); }
+  .bd-person__img img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; filter: saturate(0.68) contrast(1.03); transition: transform 0.9s var(--ease-out), filter 0.5s; }
+  .bd-person__body { position: relative; padding: 16px 18px 18px; }
+  .bd-person__body::before { content: ''; position: absolute; left: 18px; top: 0; width: 36px; height: 3px; border-radius: 3px; background: var(--o-500); transition: width 0.5s var(--ease-out); }
+  .bd-person h3 { font-size: 1rem; line-height: 1.35; letter-spacing: -0.01em; }
+  .bd-person span { display: block; margin-top: 4px; font-size: 0.85rem; font-weight: 700; color: var(--g-600); }
+  .bd-person:hover { transform: translateY(-6px); box-shadow: 0 24px 40px -26px rgb(120 60 10 / 0.5); }
+  .bd-person:hover .bd-person__img img { transform: scale(1.05); filter: none; }
+  .bd-person:hover .bd-person__body::before { width: 72px; }
+  @media (max-width: 559px) {
+    .bd-person__body { padding: 12px 12px 14px; }
+    .bd-person__body::before { left: 12px; }
+    .bd-person h3 { font-size: 0.88rem; }
+    .bd-person span { font-size: 0.78rem; }
+  }
+
+  /* ---------- How the board works ---------- */
+  .bd-how { background: var(--surface); }
+  .bd-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(14px, 2vw, 22px); grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); counter-reset: s; }
+  .bd-steps li { position: relative; padding: 26px 24px 26px; border-radius: var(--r-lg); background: var(--bg); border: 1px solid var(--line-2); }
+  .bd-steps li:not(:last-child)::after { content: ''; position: absolute; top: 46px; right: -22px; width: 22px; height: 2px; background: var(--o-300); }
+  @media (max-width: 899px) { .bd-steps li::after { display: none; } }
+  .bd-steps__n { display: block; font-size: 2.4rem; font-weight: 800; line-height: 1; letter-spacing: -0.04em; color: transparent; -webkit-text-stroke: 1.5px var(--o-400); }
+  .bd-steps h3 { margin-top: 12px; font-size: 1.1rem; }
+  .bd-steps p { margin-top: 6px; color: var(--muted); font-size: 0.95rem; }
+  .bd-how__more { margin-top: 22px; }
+
+  @media (prefers-reduced-motion: reduce) { .bd-hero__img { animation: none; } }
+</style>

@@ -1,0 +1,293 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import AboutNav from '../../components/AboutNav.astro';
+import ReportBook from '../../components/ReportBook.astro';
+import { siteData } from '../../data/site';
+import { getLang, langPaths, localePath } from '../../i18n';
+import { pageCopy, useT } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+
+const lang = getLang(Astro);
+const t = useT(lang);
+const l = (p: string) => localePath(p, lang);
+const { site, annualReports } = siteData(lang);
+
+const c = pageCopy(
+  lang,
+  'annual-reports',
+  {
+    metaTitle: 'Annual Reports',
+    metaDescription: 'Annual reports of Lokmangal Multistate Co-operative Society Ltd.: performance, audited accounts and disclosures.',
+    eyebrow: 'Annual reports',
+    title: 'Our accounts,',
+    accent: 'open to members',
+    lead: 'Our books are audited every year and submitted to the Government of India. Members can download or ask for a copy of any annual report on this page.',
+    factAudit: 'Audited',
+    factAuditValue: 'Every year',
+    factSubmitted: 'Submitted to',
+    factSubmittedValue: 'Govt. of India',
+    factReports: 'Reports here',
+    shelfEyebrow: 'Reports by year',
+    shelfTitle: 'Read our',
+    shelfAccent: 'annual reports',
+    fy: 'Financial year',
+    edition: '{n} annual report',
+    report: 'Annual Report {year}',
+    latest: 'Latest',
+    download: 'Download PDF',
+    request: 'Request a copy',
+    notOnline: 'Not online yet. Ask us for a copy by email.',
+    waysEyebrow: 'Getting a copy',
+    waysTitle: 'Three ways to get',
+    waysAccent: 'a copy',
+    w1: 'Download',
+    w1t: 'Where a report is online, download the PDF from this page.',
+    w2: 'Email us',
+    w2t: 'Write to us with the year you need.',
+    w3: 'Visit a branch',
+    w3t: 'Members can collect a printed copy at any branch or at the head office in Shelgi, Solapur.',
+    w3link: 'Find a branch',
+  },
+  {
+    metaTitle: 'वार्षिक अहवाल',
+    metaDescription: 'लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटी लि.चे वार्षिक अहवाल: कामगिरी, लेखापरीक्षित हिशेब आणि माहिती.',
+    eyebrow: 'वार्षिक अहवाल',
+    title: 'आमचे हिशेब,',
+    accent: 'सभासदांसाठी खुले',
+    lead: 'आमच्या हिशेबांचे दरवर्षी लेखापरीक्षण होते आणि ते भारत सरकारकडे सादर केले जातात. सभासद या पानावरील कोणताही वार्षिक अहवाल डाउनलोड करू शकतात किंवा त्याची प्रत मागवू शकतात.',
+    factAudit: 'लेखापरीक्षण',
+    factAuditValue: 'दरवर्षी',
+    factSubmitted: 'सादर',
+    factSubmittedValue: 'भारत सरकारकडे',
+    factReports: 'येथे उपलब्ध अहवाल',
+    shelfEyebrow: 'वर्षनिहाय अहवाल',
+    shelfTitle: 'आमचे',
+    shelfAccent: 'वार्षिक अहवाल',
+    fy: 'आर्थिक वर्ष',
+    edition: '{n} वा वार्षिक अहवाल',
+    report: 'वार्षिक अहवाल {year}',
+    latest: 'नवीनतम',
+    download: 'PDF डाउनलोड करा',
+    request: 'प्रत मागवा',
+    notOnline: 'अजून ऑनलाइन नाही. ईमेलद्वारे प्रत मागवा.',
+    waysEyebrow: 'प्रत कशी मिळवावी',
+    waysTitle: 'प्रत मिळवण्याचे',
+    waysAccent: 'तीन मार्ग',
+    w1: 'डाउनलोड करा',
+    w1t: 'अहवाल ऑनलाइन असल्यास या पानावरून PDF डाउनलोड करा.',
+    w2: 'ईमेल करा',
+    w2t: 'हवे असलेले वर्ष लिहून आम्हाला ईमेल करा.',
+    w3: 'शाखेत भेट द्या',
+    w3t: 'सभासदांना कोणत्याही शाखेत किंवा शेळगी, सोलापूर येथील मुख्य कार्यालयात छापील प्रत मिळू शकते.',
+    w3link: 'शाखा शोधा',
+  },
+);
+
+// Reports are managed in the admin panel (Notices & documents → Annual reports). Newest first.
+const reports = [...annualReports].reverse();
+// The office reads these requests, so the subject stays in English whatever language the page is in.
+const mail = (y: string) => `mailto:${site.email}?subject=${encodeURIComponent(`Request: Annual Report ${y}`)}`;
+// The printed 2016–17 report calls itself the 13th, so each year's number is its starting year minus 2003.
+const ordinal = (n: number) => (lang === 'mr' ? String(n) : n + (['th', 'st', 'nd', 'rd'][(n % 100 >= 11 && n % 100 <= 13) || n % 10 > 3 ? 0 : n % 10]));
+const edition = (year: string) => {
+  const start = parseInt(year, 10);
+  return start > 2003 ? c('edition', { n: ordinal(start - 2003) }) : c('fy');
+};
+const facts = [
+  [c('factAudit'), c('factAuditValue')],
+  [c('factSubmitted'), c('factSubmittedValue')],
+  [c('factReports'), String(reports.length)],
+];
+// The banner shows the real printed cover in front.
+const withCover = reports.find((r) => r.cover);
+const stack = [...reports.filter((r) => r !== withCover).slice(0, 2), ...(withCover ? [withCover] : [])];
+const ways = [
+  { title: c('w1'), text: c('w1t') },
+  { title: c('w2'), text: c('w2t'), link: [site.email, `mailto:${site.email}`] },
+  { title: c('w3'), text: c('w3t'), link: [c('w3link'), l('/branches/')] },
+];
+---
+
+<Base title={c('metaTitle')} description={c('metaDescription')}>
+  <!-- BANNER -->
+  <section class="ar-hero">
+    <div class="container">
+      <nav class="ar-crumbs" aria-label={t('breadcrumb')}>
+        <a href={l('/')}>{t('home')}</a>
+        <Icon name="chevron-right" size={14} />
+        <a href={l('/about-us/')}>{t('nav.about')}</a>
+        <Icon name="chevron-right" size={14} />
+        <span aria-current="page">{c('eyebrow')}</span>
+      </nav>
+    </div>
+    <div class="container ar-hero__grid">
+      <div class="ar-hero__copy">
+        <p class="ar-hero__eyebrow">{c('eyebrow')}</p>
+        <h1 class="h1 ar-hero__title" data-reveal>{c('title')} <em>{c('accent')}</em></h1>
+        <p class="lead ar-hero__lead" data-reveal style="--d:150ms">{c('lead')}</p>
+        <dl class="ar-facts" data-stagger>
+          {facts.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+        </dl>
+      </div>
+      <div class="ar-stack" aria-hidden="true">
+        {stack.map((r, i) => (
+          <div class="ar-stack__book" style={`--i:${i}`}>
+            <ReportBook year={r.year} cover={r.cover} tone={i === 0 ? 'saffron' : 'green'} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- SHELF -->
+  <section class="section ar-shelf">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">{c('shelfEyebrow')}</p>
+        <h2 class="h2">{c('shelfTitle')} <em>{c('shelfAccent')}</em></h2>
+      </div>
+      <ul class="ar-list" data-stagger>
+        {reports.map((r, i) => (
+          <li class="ar-report">
+            <div class="ar-report__stage">
+              {i === 0 && <span class="ar-report__badge">{c('latest')}</span>}
+              <ReportBook year={r.year} cover={r.cover} tone={i % 2 === 0 ? 'green' : 'saffron'} class="ar-report__book" />
+            </div>
+            <div class="ar-report__body">
+              <span class="ar-report__fy">{edition(r.year)}</span>
+              <h3 class="ar-report__title">{c('report', { year: r.year })}</h3>
+              {r.file ? (
+                <a href={r.file} class="btn btn--green btn--sm" download><Icon name="download" size={16} /> {c('download')}</a>
+              ) : (
+                <>
+                  <p class="ar-report__note">{c('notOnline')}</p>
+                  <a href={mail(r.year)} class="btn btn--ghost btn--sm"><Icon name="mail" size={16} /> {c('request')}</a>
+                </>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- WAYS TO GET A COPY -->
+  <section class="section ar-ways">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">{c('waysEyebrow')}</p>
+        <h2 class="h2">{c('waysTitle')} <em>{c('waysAccent')}</em></h2>
+      </div>
+      <ol class="ar-steps" data-stagger>
+        {ways.map((w, i) => (
+          <li>
+            <span class="ar-steps__n">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{w.title}</h3>
+            <p>{w.text}</p>
+            {w.link && <a href={w.link[1]} class="link-arrow">{w.link[0]} <Icon name="arrow-right" size={15} /></a>}
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <AboutNav current="/annual-reports/" />
+  <CtaBand />
+</Base>
+
+<style>
+  /* ---------- Banner ---------- */
+  .ar-hero {
+    position: relative; isolation: isolate; overflow: hidden; color: #fff;
+    padding: clamp(40px, 6vw, 72px) 0 clamp(56px, 7vw, 96px);
+    background: radial-gradient(60% 80% at 80% 40%, rgb(243 179 61 / 0.18), transparent 60%), linear-gradient(150deg, var(--g-800), var(--g-950) 70%);
+  }
+  .ar-hero::before {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60' fill='none' stroke='%23ffffff' stroke-width='.7' stroke-opacity='.08'%3E%3Cpath d='M0 30C15 12 45 12 60 30S105 48 120 30'/%3E%3Cpath d='M0 30C15 48 45 48 60 30S105 12 120 30'/%3E%3C/svg%3E");
+    background-size: 120px 60px;
+  }
+  .ar-crumbs { margin-bottom: clamp(24px, 4vw, 40px); display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.86rem; font-weight: 600; color: rgb(255 255 255 / 0.6); }
+  .ar-crumbs a { color: rgb(255 255 255 / 0.75); }
+  .ar-crumbs a:hover { color: #fff; }
+  .ar-crumbs span { color: var(--gold); }
+  .ar-hero__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(36px, 5vw, 64px); align-items: center; }
+  @media (min-width: 960px) { .ar-hero__grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); } }
+  .ar-hero__copy { display: grid; gap: 18px; max-width: 620px; }
+  .ar-hero__eyebrow { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g-300); }
+  :global(html[lang='mr']) .ar-hero__eyebrow { letter-spacing: 0; text-transform: none; font-size: 0.95rem; }
+  .ar-hero__title { color: #fff; }
+  .ar-hero__title em { display: block; color: var(--gold); }
+  .ar-hero__lead { color: rgb(255 255 255 / 0.84); }
+  .ar-facts { margin: 6px 0 0; display: flex; flex-wrap: wrap; gap: 14px 0; padding-top: 18px; border-top: 1px solid rgb(255 255 255 / 0.15); }
+  .ar-facts > div { padding: 0 22px; border-left: 1px solid rgb(255 255 255 / 0.15); }
+  .ar-facts > div:first-child { padding-left: 0; border-left: 0; }
+  .ar-facts dt { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+  :global(html[lang='mr']) .ar-facts dt { letter-spacing: 0; text-transform: none; font-size: 0.82rem; }
+  .ar-facts dd { margin: 4px 0 0; font-weight: 700; color: #fff; }
+  @media (max-width: 479px) {
+    .ar-facts { display: grid; grid-template-columns: 1fr 1fr; }
+    .ar-facts > div:nth-child(3) { padding-left: 0; border-left: 0; }
+  }
+
+  /* Three reports standing together; they rise one after another and fan out a little on hover. */
+  .ar-stack { position: relative; height: clamp(300px, 34vw, 400px); width: min(100%, 440px); margin-inline: auto; }
+  .ar-stack__book {
+    position: absolute; bottom: 8%; width: 38%;
+    left: calc(var(--i) * 28%);
+    rotate: calc((var(--i) - 1) * 7deg);
+    transition: rotate 0.6s var(--ease-out), translate 0.6s var(--ease-out);
+    animation: ar-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--i) * 160ms + 200ms);
+  }
+  .ar-stack__book:last-child { width: 46%; left: 54%; bottom: 4%; z-index: 2; }
+  .ar-stack::after { content: ''; position: absolute; left: 4%; right: 4%; bottom: 2%; height: 14px; border-radius: 50%; background: radial-gradient(closest-side, rgb(0 0 0 / 0.45), transparent); filter: blur(2px); }
+  .ar-stack:hover .ar-stack__book { rotate: calc((var(--i) - 1) * 11deg); translate: calc((var(--i) - 1) * 14px) -6px; }
+  @keyframes ar-rise { from { opacity: 0; translate: 0 60px; } }
+  @media (max-width: 959px) { .ar-stack { height: 260px; width: min(100%, 320px); margin-inline: 0; } }
+
+  /* ---------- Shelf ---------- */
+  .ar-shelf { background: var(--bg); }
+  .ar-list { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(16px, 2vw, 24px); grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+  .ar-report {
+    display: flex; flex-direction: column; overflow: hidden; border-radius: var(--r-lg); background: var(--surface); border: 1px solid var(--line-2);
+    transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out);
+  }
+  .ar-report__stage {
+    position: relative; display: grid; place-items: end center; padding: 30px 24px 26px;
+    background: linear-gradient(180deg, var(--cream), #ece2d0);
+    border-bottom: 6px solid #c9a978;
+  }
+  .ar-report__badge { position: absolute; top: 14px; left: 14px; padding: 4px 10px; border-radius: 999px; background: var(--o-500); color: #fff; font-size: 0.74rem; font-weight: 700; }
+  .ar-report :global(.ar-report__book) { width: min(52%, 170px); transform: perspective(900px) rotateY(0deg); transform-origin: left center; transition: transform 0.6s var(--ease-out); }
+  .ar-report__body { flex: 1; display: grid; gap: 10px; align-content: start; justify-items: start; padding: 20px 22px 22px; }
+  .ar-report__fy { font-size: 0.78rem; font-weight: 700; color: var(--g-600); }
+  .ar-report__title { font-size: 1.2rem; line-height: 1.3; }
+  .ar-report__note { font-size: 0.9rem; color: var(--muted); }
+  .ar-report:hover { transform: translateY(-6px); box-shadow: 0 26px 44px -28px rgb(120 60 10 / 0.5); }
+  .ar-report:hover :global(.ar-report__book) { transform: perspective(900px) rotateY(-16deg) translateY(-4px); }
+  @media (max-width: 559px) {
+    .ar-report { flex-direction: row; }
+    .ar-report__stage { flex: none; width: 128px; padding: 18px 14px; border-bottom: 0; border-right: 5px solid #c9a978; }
+    .ar-report :global(.ar-report__book) { width: 100%; }
+    .ar-report__badge { top: 8px; left: 8px; font-size: 0.68rem; }
+    .ar-report__body { padding: 16px; }
+    .ar-report__title { font-size: 1.05rem; }
+  }
+
+  /* ---------- Ways to get a copy ---------- */
+  .ar-ways { background: var(--surface); }
+  .ar-steps { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(14px, 2vw, 22px); grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+  .ar-steps li { display: grid; gap: 8px; align-content: start; justify-items: start; padding: 26px 24px; border-radius: var(--r-lg); background: var(--bg); border: 1px solid var(--line-2); transition: border-color 0.3s, transform 0.45s var(--ease-out); }
+  .ar-steps li:hover { border-color: var(--o-300); transform: translateY(-4px); }
+  .ar-steps__n { font-size: 2.4rem; font-weight: 800; line-height: 1; letter-spacing: -0.04em; color: transparent; -webkit-text-stroke: 1.5px var(--o-400); }
+  .ar-steps h3 { margin-top: 6px; font-size: 1.1rem; }
+  .ar-steps p { color: var(--muted); font-size: 0.95rem; }
+
+  @media (prefers-reduced-motion: reduce) { .ar-stack__book { animation: none; } }
+</style>

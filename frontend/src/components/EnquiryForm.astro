@@ -1,8 +1,10 @@
 ---
 import Icon from './Icon.astro';
 import { jobOpenings, site } from '../data/site';
-import { schemes } from '../data/deposits';
-import { loanTypesForForm } from '../data/loans';
+import { depositsData } from '../data/deposits';
+import { loansData } from '../data/loans';
+import { getLang } from '../i18n';
+import { pageCopy } from '../i18n/ui';
 
 type Variant = 'account' | 'deposit' | 'loan' | 'contact' | 'callback' | 'service' | 'career';
 interface Props {
@@ -13,9 +15,39 @@ interface Props {
   preset?: string;
   dark?: boolean;
 }
-const { variant, title, subtitle, submitLabel = 'Submit', preset, dark = false } = Astro.props;
+const lang = getLang(Astro);
+// Labels follow the page's language; the values sent to the office (scheme, loan and account names) stay English.
+const f = pageCopy(
+  lang,
+  'enquiry-form',
+  {
+    submit: 'Submit', firstName: 'First name', middleName: 'Middle name', lastName: 'Last name', contactNumber: 'Contact number',
+    email: 'Email', city: 'City', accountType: 'Account type you would like to open', depositType: 'Which deposit would you like to open?',
+    message: 'Message', fullName: 'Full name', residentCity: 'Resident city', loanType: 'Loan type', chooseLoan: 'Choose loan type',
+    loanAmount: 'Required loan amount (₹)', phone: 'Phone number', location: 'Location', help: 'How can we help?', yourLocation: 'Your location',
+    position: 'Position', other: 'Other', experience: 'Experience (years)', currentCity: 'Current city', about: 'Tell us about yourself',
+    resume: 'Please also email your résumé to', consent: 'I agree to be contacted by Lokmangal Multistate about my enquiry.',
+    thanks: 'Thank you!', received: 'We have received your details. Our team will get in touch with you shortly.',
+    refBefore: 'Your reference number is', refAfter: 'Please keep it for your records.', callNow: 'Need help right away? Call {phone}',
+    savings: 'Savings Account', current: 'Current Account', rd: 'Recurring Deposit',
+  },
+  {
+    submit: 'पाठवा', firstName: 'पहिले नाव', middleName: 'मधले नाव', lastName: 'आडनाव', contactNumber: 'संपर्क क्रमांक',
+    email: 'ईमेल', city: 'शहर / गाव', accountType: 'कोणते खाते उघडायचे आहे?', depositType: 'कोणती ठेव उघडायची आहे?',
+    message: 'संदेश', fullName: 'पूर्ण नाव', residentCity: 'राहण्याचे शहर / गाव', loanType: 'कर्जाचा प्रकार', chooseLoan: 'कर्जाचा प्रकार निवडा',
+    loanAmount: 'हवी असलेली कर्ज रक्कम (₹)', phone: 'फोन क्रमांक', location: 'ठिकाण', help: 'आम्ही कशी मदत करू?', yourLocation: 'तुमचे ठिकाण',
+    position: 'पद', other: 'इतर', experience: 'अनुभव (वर्षे)', currentCity: 'सध्याचे शहर', about: 'तुमच्याबद्दल सांगा',
+    resume: 'कृपया तुमचा बायोडेटा या पत्त्यावरही ईमेल करा:', consent: 'माझ्या चौकशीबाबत लोकमंगल मल्टीस्टेटने माझ्याशी संपर्क साधण्यास माझी संमती आहे.',
+    thanks: 'धन्यवाद!', received: 'तुमची माहिती आम्हाला मिळाली आहे. आमची टीम लवकरच तुमच्याशी संपर्क साधेल.',
+    refBefore: 'तुमचा संदर्भ क्रमांक', refAfter: 'कृपया तो जपून ठेवा.', callNow: 'लगेच मदत हवी आहे? {phone} वर कॉल करा',
+    savings: 'बचत खाते', current: 'चालू खाते', rd: 'रिकरिंग ठेव',
+  },
+);
+const { variant, title, subtitle, submitLabel = f('submit'), preset, dark = false } = Astro.props;
 const id = `f-${variant}-${Math.random().toString(36).slice(2, 7)}`;
-const depositOptions = schemes.map((s) => s.name);
+// Option labels in the page's language; the values the office receives stay English.
+const depositOptions = depositsData(lang).schemes.map((s) => ({ value: depositsData('en').schemeBySlug(s.slug)?.name ?? s.name, label: s.name }));
+const loanOptions = loansData(lang).loanFormOptions;
 ---
 
 <div class:list={['form-card', { 'form-card--dark': dark }]} data-form-card>
@@ -26,10 +58,11 @@ const depositOptions = schemes.map((s) => s.name);
     </div>
   )}
 
-  <form class="form" action={site.formEndpoint} method="post" data-enquiry novalidate={false}>
+  <form class="form" action={site.formEndpoint || undefined} method="post" data-enquiry novalidate={false}>
     <input type="hidden" name="form" value={variant} />
     <input type="hidden" name="page" value={Astro.url.pathname} />
     <input type="hidden" name="ts" value="" data-ts />
+    <input type="hidden" name="consent_version" value={variant === 'career' ? '2026-10-application' : '2026-10-enquiry'} />
     <div class="hp" aria-hidden="true">
       <label for={`${id}-website`}>Website</label>
       <input type="text" id={`${id}-website`} name="website" tabindex="-1" autocomplete="off" />
@@ -38,78 +71,78 @@ const depositOptions = schemes.map((s) => s.name);
     {(variant === 'account' || variant === 'deposit') && (
       <>
         <div class="form-grid">
-          <div class="field"><label for={`${id}-fn`}>First name <span class="req">*</span></label><input id={`${id}-fn`} name="first_name" required autocomplete="given-name" /></div>
-          <div class="field"><label for={`${id}-mn`}>Middle name</label><input id={`${id}-mn`} name="middle_name" autocomplete="additional-name" /></div>
-          <div class="field"><label for={`${id}-ln`}>Last name <span class="req">*</span></label><input id={`${id}-ln`} name="last_name" required autocomplete="family-name" /></div>
+          <div class="field"><label for={`${id}-fn`}>{f('firstName')} <span class="req">*</span></label><input id={`${id}-fn`} name="first_name" required autocomplete="given-name" /></div>
+          <div class="field"><label for={`${id}-mn`}>{f('middleName')}</label><input id={`${id}-mn`} name="middle_name" autocomplete="additional-name" /></div>
+          <div class="field"><label for={`${id}-ln`}>{f('lastName')} <span class="req">*</span></label><input id={`${id}-ln`} name="last_name" required autocomplete="family-name" /></div>
         </div>
         <div class="form-grid">
-          <div class="field"><label for={`${id}-ph`}>Contact number <span class="req">*</span></label><input id={`${id}-ph`} name="phone" type="tel" inputmode="tel" pattern="[0-9+\\s-]{10,15}" required autocomplete="tel" /></div>
-          <div class="field"><label for={`${id}-em`}>Email <span class="req">*</span></label><input id={`${id}-em`} name="email" type="email" required autocomplete="email" /></div>
-          <div class="field"><label for={`${id}-ct`}>City <span class="req">*</span></label><input id={`${id}-ct`} name="city" required autocomplete="address-level2" /></div>
+          <div class="field"><label for={`${id}-ph`}>{f('contactNumber')} <span class="req">*</span></label><input id={`${id}-ph`} name="phone" type="tel" inputmode="tel" pattern="[0-9+\\s-]{10,15}" required autocomplete="tel" /></div>
+          <div class="field"><label for={`${id}-em`}>{f('email')} <span class="req">*</span></label><input id={`${id}-em`} name="email" type="email" required autocomplete="email" /></div>
+          <div class="field"><label for={`${id}-ct`}>{f('city')} <span class="req">*</span></label><input id={`${id}-ct`} name="city" required autocomplete="address-level2" /></div>
         </div>
         {variant === 'account' ? (
           <div class="field">
-            <label for={`${id}-type`}>Account type you would like to open <span class="req">*</span></label>
+            <label for={`${id}-type`}>{f('accountType')} <span class="req">*</span></label>
             <select id={`${id}-type`} name="account_type" required>
-              {['Savings Account', 'Current Account', 'Recurring Deposit'].map((o) => <option selected={o === preset}>{o}</option>)}
+              {([['Savings Account', f('savings')], ['Current Account', f('current')], ['Recurring Deposit', f('rd')]] as const).map(([value, label]) => <option value={value} selected={value === preset}>{label}</option>)}
             </select>
           </div>
         ) : (
           <div class="field">
-            <label for={`${id}-type`}>Which deposit would you like to open? <span class="req">*</span></label>
+            <label for={`${id}-type`}>{f('depositType')} <span class="req">*</span></label>
             <select id={`${id}-type`} name="deposit_type" required>
-              {depositOptions.map((o) => <option selected={o === preset}>{o}</option>)}
+              {depositOptions.map((o) => <option value={o.value} selected={o.value === preset}>{o.label}</option>)}
             </select>
           </div>
         )}
-        <div class="field"><label for={`${id}-msg`}>Message</label><textarea id={`${id}-msg`} name="message" rows="4"></textarea></div>
+        <div class="field"><label for={`${id}-msg`}>{f('message')}</label><textarea id={`${id}-msg`} name="message" rows="4"></textarea></div>
       </>
     )}
 
     {variant === 'loan' && (
       <>
         <div class="form-grid">
-          <div class="field"><label for={`${id}-nm`}>Full name <span class="req">*</span></label><input id={`${id}-nm`} name="name" required autocomplete="name" /></div>
-          <div class="field"><label for={`${id}-ph`}>Contact number <span class="req">*</span></label><input id={`${id}-ph`} name="phone" type="tel" inputmode="tel" pattern="[0-9+\\s-]{10,15}" required autocomplete="tel" /></div>
+          <div class="field"><label for={`${id}-nm`}>{f('fullName')} <span class="req">*</span></label><input id={`${id}-nm`} name="name" required autocomplete="name" /></div>
+          <div class="field"><label for={`${id}-ph`}>{f('contactNumber')} <span class="req">*</span></label><input id={`${id}-ph`} name="phone" type="tel" inputmode="tel" pattern="[0-9+\\s-]{10,15}" required autocomplete="tel" /></div>
         </div>
         <div class="form-grid">
-          <div class="field"><label for={`${id}-em`}>Email <span class="req">*</span></label><input id={`${id}-em`} name="email" type="email" required autocomplete="email" /></div>
-          <div class="field"><label for={`${id}-ct`}>Resident city <span class="req">*</span></label><input id={`${id}-ct`} name="city" required autocomplete="address-level2" /></div>
+          <div class="field"><label for={`${id}-em`}>{f('email')} <span class="req">*</span></label><input id={`${id}-em`} name="email" type="email" required autocomplete="email" /></div>
+          <div class="field"><label for={`${id}-ct`}>{f('residentCity')} <span class="req">*</span></label><input id={`${id}-ct`} name="city" required autocomplete="address-level2" /></div>
         </div>
         <div class="form-grid">
           <div class="field">
-            <label for={`${id}-type`}>Loan type <span class="req">*</span></label>
+            <label for={`${id}-type`}>{f('loanType')} <span class="req">*</span></label>
             <select id={`${id}-type`} name="loan_type" required data-loan-select>
-              <option value="">Choose loan type</option>
-              {loanTypesForForm.map((o) => <option selected={o === preset}>{o}</option>)}
+              <option value="">{f('chooseLoan')}</option>
+              {loanOptions.map((o) => <option value={o.value} selected={o.value === preset}>{o.label}</option>)}
             </select>
           </div>
-          <div class="field"><label for={`${id}-amt`}>Required loan amount (₹) <span class="req">*</span></label><input id={`${id}-amt`} name="amount" type="number" min="1000" step="1" inputmode="numeric" required /></div>
+          <div class="field"><label for={`${id}-amt`}>{f('loanAmount')} <span class="req">*</span></label><input id={`${id}-amt`} name="amount" type="number" min="1000" step="1" inputmode="numeric" required /></div>
         </div>
-        <div class="field"><label for={`${id}-msg`}>Message</label><textarea id={`${id}-msg`} name="message" rows="4"></textarea></div>
+        <div class="field"><label for={`${id}-msg`}>{f('message')}</label><textarea id={`${id}-msg`} name="message" rows="4"></textarea></div>
       </>
     )}
 
     {(variant === 'contact' || variant === 'service') && (
       <>
         <div class="form-grid">
-          <div class="field"><label for={`${id}-nm`}>Full name <span class="req">*</span></label><input id={`${id}-nm`} name="name" required autocomplete="name" /></div>
-          <div class="field"><label for={`${id}-ph`}>Phone number <span class="req">*</span></label><input id={`${id}-ph`} name="phone" type="tel" inputmode="tel" pattern="[0-9+\\s-]{10,15}" required autocomplete="tel" /></div>
+          <div class="field"><label for={`${id}-nm`}>{f('fullName')} <span class="req">*</span></label><input id={`${id}-nm`} name="name" required autocomplete="name" /></div>
+          <div class="field"><label for={`${id}-ph`}>{f('phone')} <span class="req">*</span></label><input id={`${id}-ph`} name="phone" type="tel" inputmode="tel" pattern="[0-9+\\s-]{10,15}" required autocomplete="tel" /></div>
         </div>
         <div class="form-grid">
-          <div class="field"><label for={`${id}-em`}>Email <span class="req">*</span></label><input id={`${id}-em`} name="email" type="email" required autocomplete="email" /></div>
-          {variant === 'service' && <div class="field"><label for={`${id}-loc`}>Location <span class="req">*</span></label><input id={`${id}-loc`} name="city" required autocomplete="address-level2" /></div>}
+          <div class="field"><label for={`${id}-em`}>{f('email')} <span class="req">*</span></label><input id={`${id}-em`} name="email" type="email" required autocomplete="email" /></div>
+          {variant === 'service' && <div class="field"><label for={`${id}-loc`}>{f('location')} <span class="req">*</span></label><input id={`${id}-loc`} name="city" required autocomplete="address-level2" /></div>}
         </div>
-        <div class="field"><label for={`${id}-msg`}>How can we help? {variant === 'contact' && <span class="req">*</span>}</label><textarea id={`${id}-msg`} name="message" rows="5" required={variant === 'contact'}></textarea></div>
+        <div class="field"><label for={`${id}-msg`}>{f('help')} {variant === 'contact' && <span class="req">*</span>}</label><textarea id={`${id}-msg`} name="message" rows="5" required={variant === 'contact'}></textarea></div>
       </>
     )}
 
     {variant === 'callback' && (
       <>
-        <div class="field"><label for={`${id}-nm`}>Full name <span class="req">*</span></label><input id={`${id}-nm`} name="name" required autocomplete="name" /></div>
-        <div class="field"><label for={`${id}-ph`}>Contact number <span class="req">*</span></label><input id={`${id}-ph`} name="phone" type="tel" inputmode="tel" pattern="[0-9+\\s-]{10,15}" required autocomplete="tel" /></div>
-        <div class="field"><label for={`${id}-em`}>Email <span class="req">*</span></label><input id={`${id}-em`} name="email" type="email" required autocomplete="email" /></div>
-        <div class="field"><label for={`${id}-loc`}>Your location <span class="req">*</span></label><input id={`${id}-loc`} name="city" required autocomplete="address-level2" /></div>
+        <div class="field"><label for={`${id}-nm`}>{f('fullName')} <span class="req">*</span></label><input id={`${id}-nm`} name="name" required autocomplete="name" /></div>
+        <div class="field"><label for={`${id}-ph`}>{f('contactNumber')} <span class="req">*</span></label><input id={`${id}-ph`} name="phone" type="tel" inputmode="tel" pattern="[0-9+\\s-]{10,15}" required autocomplete="tel" /></div>
+        <div class="field"><label for={`${id}-em`}>{f('email')} <span class="req">*</span></label><input id={`${id}-em`} name="email" type="email" required autocomplete="email" /></div>
+        <div class="field"><label for={`${id}-loc`}>{f('yourLocation')} <span class="req">*</span></label><input id={`${id}-loc`} name="city" required autocomplete="address-level2" /></div>
         {preset && <input type="hidden" name="interest" value={preset} />}
       </>
     )}
@@ -117,31 +150,31 @@ const depositOptions = schemes.map((s) => s.name);
     {variant === 'career' && (
       <>
         <div class="form-grid">
-          <div class="field"><label for={`${id}-nm`}>Full name <span class="req">*</span></label><input id={`${id}-nm`} name="name" required autocomplete="name" /></div>
-          <div class="field"><label for={`${id}-ph`}>Phone number <span class="req">*</span></label><input id={`${id}-ph`} name="phone" type="tel" inputmode="tel" pattern="[0-9+\\s-]{10,15}" required autocomplete="tel" /></div>
+          <div class="field"><label for={`${id}-nm`}>{f('fullName')} <span class="req">*</span></label><input id={`${id}-nm`} name="name" required autocomplete="name" /></div>
+          <div class="field"><label for={`${id}-ph`}>{f('phone')} <span class="req">*</span></label><input id={`${id}-ph`} name="phone" type="tel" inputmode="tel" pattern="[0-9+\\s-]{10,15}" required autocomplete="tel" /></div>
         </div>
         <div class="form-grid">
-          <div class="field"><label for={`${id}-em`}>Email <span class="req">*</span></label><input id={`${id}-em`} name="email" type="email" required autocomplete="email" /></div>
+          <div class="field"><label for={`${id}-em`}>{f('email')} <span class="req">*</span></label><input id={`${id}-em`} name="email" type="email" required autocomplete="email" /></div>
           <div class="field">
-            <label for={`${id}-pos`}>Position <span class="req">*</span></label>
+            <label for={`${id}-pos`}>{f('position')} <span class="req">*</span></label>
             <select id={`${id}-pos`} name="position" required>
               {jobOpenings.map((j) => <option>{j.title}</option>)}
-              <option>Other</option>
+              <option value="Other">{f('other')}</option>
             </select>
           </div>
         </div>
         <div class="form-grid">
-          <div class="field"><label for={`${id}-exp`}>Experience (years)</label><input id={`${id}-exp`} name="experience" type="number" min="0" max="50" inputmode="numeric" /></div>
-          <div class="field"><label for={`${id}-ct`}>Current city <span class="req">*</span></label><input id={`${id}-ct`} name="city" required autocomplete="address-level2" /></div>
+          <div class="field"><label for={`${id}-exp`}>{f('experience')}</label><input id={`${id}-exp`} name="experience" type="number" min="0" max="50" inputmode="numeric" /></div>
+          <div class="field"><label for={`${id}-ct`}>{f('currentCity')} <span class="req">*</span></label><input id={`${id}-ct`} name="city" required autocomplete="address-level2" /></div>
         </div>
-        <div class="field"><label for={`${id}-msg`}>Tell us about yourself</label><textarea id={`${id}-msg`} name="message" rows="4"></textarea></div>
-        <p class="form__note">Please also email your résumé to <a href={`mailto:${site.hrEmail}`}>{site.hrEmail}</a>.</p>
+        <div class="field"><label for={`${id}-msg`}>{f('about')}</label><textarea id={`${id}-msg`} name="message" rows="4"></textarea></div>
+        <p class="form__note">{f('resume')} <a href={`mailto:${site.hrEmail}`}>{site.hrEmail}</a>.</p>
       </>
     )}
 
     <label class="consent">
       <input type="checkbox" name="consent" required />
-      <span>I agree to be contacted by Lokmangal Multistate about my enquiry.</span>
+      <span>{f('consent')}</span>
     </label>
 
     <button type="submit" class="btn btn--primary btn--lg btn--block" data-submit>
@@ -154,9 +187,10 @@ const depositOptions = schemes.map((s) => s.name);
 
   <div class="form-success" data-success hidden>
     <svg class="form-success__check" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24" /><path d="M15 27l7 7 15-16" /></svg>
-    <h3 class="h3">Thank you!</h3>
-    <p class="muted">We have received your details. Our team will get in touch with you shortly.</p>
-    <a href={site.phoneHref} class="link-arrow">Need help right away? Call {site.phone} <Icon name="arrow-right" size={16} /></a>
+    <h3 class="h3">{f('thanks')}</h3>
+    <p class="muted">{f('received')}</p>
+    <p class="form-success__ref" data-reference hidden>{f('refBefore')} <strong></strong>. {f('refAfter')}</p>
+    <a href={site.phoneHref} class="link-arrow">{f('callNow', { phone: site.phone })} <Icon name="arrow-right" size={16} /></a>
   </div>
 </div>
 

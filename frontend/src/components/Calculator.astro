@@ -1,5 +1,7 @@
 ---
 import Icon from './Icon.astro';
+import { getLang, localePath } from '../i18n';
+import { useT } from '../i18n/ui';
 
 type Mode = 'fd' | 'rd' | 'monthly' | 'emi';
 interface Props {
@@ -10,27 +12,35 @@ interface Props {
   only?: Mode[];
 }
 const { mode = 'fd', amount, rate, months, only } = Astro.props;
+const lang = getLang(Astro);
+const t = useT(lang);
 
-// Slider limits and sensible starting values per calculator.
+// Slider limits and sensible starting values per calculator: [min, max, step, default].
 const config: Record<Mode, { label: string; icon: string; amountLabel: string; amount: [number, number, number, number]; rate: [number, number, number, number]; months: [number, number, number, number] }> = {
-  fd: { label: 'Fixed Deposit', icon: 'piggy-bank', amountLabel: 'Deposit amount', amount: [5000, 5000000, 5000, 100000], rate: [3, 12, 0.05, 10], months: [1, 120, 1, 12] },
-  rd: { label: 'Recurring Deposit', icon: 'calendar', amountLabel: 'Monthly instalment', amount: [100, 100000, 100, 2000], rate: [3, 12, 0.05, 9.5], months: [6, 120, 1, 36] },
-  monthly: { label: 'Monthly Income', icon: 'coins', amountLabel: 'Deposit amount', amount: [10000, 5000000, 10000, 100000], rate: [3, 12, 0.05, 9.75], months: [12, 120, 1, 12] },
-  emi: { label: 'Loan EMI', icon: 'hand-coins', amountLabel: 'Loan amount', amount: [10000, 9000000, 10000, 500000], rate: [8, 24, 0.25, 12], months: [6, 240, 6, 60] },
+  fd: { label: t('calc.fd'), icon: 'piggy-bank', amountLabel: t('calc.depositAmount'), amount: [5000, 5000000, 5000, 100000], rate: [3, 12, 0.05, 10], months: [1, 120, 1, 12] },
+  rd: { label: t('calc.rd'), icon: 'calendar', amountLabel: t('calc.instalment'), amount: [100, 100000, 100, 2000], rate: [3, 12, 0.05, 9.5], months: [6, 120, 1, 36] },
+  monthly: { label: t('calc.monthly'), icon: 'coins', amountLabel: t('calc.depositAmount'), amount: [10000, 5000000, 10000, 100000], rate: [3, 12, 0.05, 9.75], months: [12, 120, 1, 12] },
+  emi: { label: t('calc.emi'), icon: 'hand-coins', amountLabel: t('calc.loanAmount'), amount: [10000, 9000000, 10000, 500000], rate: [8, 24, 0.25, 12], months: [6, 240, 6, 60] },
 };
-const tabs = (only ?? (['fd', 'rd', 'monthly', 'emi'] as Mode[]));
+const tabs = only ?? (['fd', 'rd', 'monthly', 'emi'] as Mode[]);
 const start = { ...config[mode] };
 const a = amount ?? start.amount[3];
 const r = rate ?? start.rate[3];
 const m = months ?? start.months[3];
+const uid = `calc-${Math.random().toString(36).slice(2, 7)}`;
+const fields = [
+  { key: 'amount', label: start.amountLabel, pre: '₹', post: '', range: start.amount, value: a },
+  { key: 'rate', label: t('calc.rate'), pre: '', post: '%', range: start.rate, value: r },
+  { key: 'months', label: t('calc.tenure'), pre: '', post: t('calc.months'), range: start.months, value: m },
+] as const;
 ---
 
 <div class="calc" data-calc data-mode={mode} data-config={JSON.stringify(config)} data-defaults={JSON.stringify({ mode, amount: a, rate: r, months: m })}>
   {tabs.length > 1 && (
-    <div class="calc__tabs" role="tablist" aria-label="Calculator type">
-      {tabs.map((t) => (
-        <button role="tab" class="calc__tab" aria-selected={t === mode ? 'true' : 'false'} data-calc-tab={t}>
-          <Icon name={config[t].icon} size={17} /> {config[t].label}
+    <div class="calc__tabs" role="tablist" aria-label={t('calc.type')}>
+      {tabs.map((tab) => (
+        <button role="tab" class="calc__tab" aria-selected={tab === mode ? 'true' : 'false'} data-calc-tab={tab}>
+          <Icon name={config[tab].icon} size={17} /> {config[tab].label}
         </button>
       ))}
       <span class="calc__tab-ink" aria-hidden="true"></span>
@@ -39,166 +49,209 @@ const m = months ?? start.months[3];
 
   <div class="calc__body">
     <div class="calc__inputs">
-      <div class="calc__field">
-        <div class="calc__row">
-          <label for="calc-amount" data-amount-label>{start.amountLabel}</label>
-          <output class="calc__val" data-out="amount">₹ —</output>
+      {fields.map((f) => (
+        <div class="calc__field">
+          <div class="calc__row">
+            <label for={`${uid}-${f.key}`} data-label={f.key}>{f.label}</label>
+            {f.key === 'months' && <span class="calc__hint" data-out="months"></span>}
+            <span class="calc__box">
+              {f.pre && <span class="calc__unit">{f.pre}</span>}
+              <input class="calc__num" type="text" inputmode="decimal" autocomplete="off" data-box={f.key} value={f.value} aria-label={f.label} />
+              {f.post && <span class="calc__unit">{f.post}</span>}
+            </span>
+          </div>
+          <input type="range" id={`${uid}-${f.key}`} data-input={f.key} min={f.range[0]} max={f.range[1]} step={f.range[2]} value={f.value} />
+          <div class="calc__range" aria-hidden="true"><span data-min={f.key}></span><span data-max={f.key}></span></div>
         </div>
-        <input type="range" id="calc-amount" data-input="amount" min={start.amount[0]} max={start.amount[1]} step={start.amount[2]} value={a} />
-      </div>
-      <div class="calc__field">
-        <div class="calc__row">
-          <label for="calc-rate">Interest rate (p.a.)</label>
-          <output class="calc__val" data-out="rate">—</output>
-        </div>
-        <input type="range" id="calc-rate" data-input="rate" min={start.rate[0]} max={start.rate[1]} step={start.rate[2]} value={r} />
-      </div>
-      <div class="calc__field">
-        <div class="calc__row">
-          <label for="calc-months">Tenure</label>
-          <output class="calc__val" data-out="months">—</output>
-        </div>
-        <input type="range" id="calc-months" data-input="months" min={start.months[0]} max={start.months[1]} step={start.months[2]} value={m} />
-      </div>
-      <p class="calc__note">Figures are indicative. Actual returns depend on the scheme, tenure and applicable TDS — please confirm at your branch.</p>
+      ))}
+      <p class="calc__note">{t('calc.note')}</p>
     </div>
 
     <div class="calc__result">
-      <div class="calc__donut" data-donut style="--pct: 30">
-        <div class="calc__donut-inner">
-          <span data-result-label>Maturity value</span>
-          <strong data-result>₹ —</strong>
-        </div>
+      <div class="calc__display">
+        <span class="calc__display-label" data-result-label>{t('calc.maturity')}</span>
+        <p class="calc__display-value"><strong data-result>₹ —</strong> <span class="calc__per" data-per></span></p>
       </div>
-      <dl class="calc__breakdown">
-        <div><dt><i class="dot dot--g"></i><span data-b1-label>Total invested</span></dt><dd data-b1>₹ —</dd></div>
-        <div><dt><i class="dot dot--o"></i><span data-b2-label>Interest earned</span></dt><dd data-b2>₹ —</dd></div>
-      </dl>
-      <a href="/apply-for-deposits/" class="btn btn--primary btn--block" data-calc-cta>Start investing <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+      <div class="calc__split">
+        <div class="calc__donut" data-donut style="--pct: 30">
+          <span class="calc__donut-in"><b data-share>—</b><small>{t('calc.share')}</small></span>
+        </div>
+        <dl class="calc__breakdown">
+          <div><dt><i class="dot dot--g"></i><span data-b1-label>{t('calc.invested')}</span></dt><dd data-b1>₹ —</dd></div>
+          <div><dt><i class="dot dot--o"></i><span data-b2-label>{t('calc.interest')}</span></dt><dd data-b2>₹ —</dd></div>
+        </dl>
+      </div>
+      <figure class="calc__chart">
+        <figcaption class="calc__chart-title" data-chart-title></figcaption>
+        <div class="calc__bars" data-chart aria-hidden="true"></div>
+        <p class="calc__axis" aria-hidden="true">{t('calc.year')}</p>
+        <p class="calc__tip" data-tip hidden></p>
+      </figure>
+      <a href={localePath('/apply-for-deposits/', lang)} class="btn btn--primary btn--block" data-calc-cta>{t('calc.start')} <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
     </div>
   </div>
 </div>
 
 <style>
+  /* A dark "banking app" panel: the inputs on the left, a live display with a year-by-year chart on the right. */
   .calc {
-    position: relative;
-    border-radius: var(--r-xl);
-    padding: clamp(18px, 3vw, 36px);
+    position: relative; isolation: isolate; overflow: hidden;
+    border-radius: var(--r-xl); padding: clamp(18px, 3vw, 34px);
     color: rgb(255 255 255 / 0.8);
     background:
-      radial-gradient(80% 70% at 100% 0%, rgb(236 106 30 / 0.28), transparent 60%),
+      radial-gradient(70% 60% at 100% 0%, rgb(236 106 30 / 0.24), transparent 60%),
+      radial-gradient(60% 60% at 0% 100%, rgb(35 146 82 / 0.28), transparent 65%),
       linear-gradient(160deg, var(--g-800), var(--g-950));
-    box-shadow: var(--shadow-lg);
-    overflow: hidden;
+    box-shadow: 0 40px 70px -40px rgb(5 42 26 / 0.8), inset 0 0 0 1px rgb(255 255 255 / 0.06);
   }
+  .calc::before {
+    content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0.5;
+    background-image: linear-gradient(rgb(255 255 255 / 0.035) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / 0.035) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: linear-gradient(180deg, #000, transparent 75%);
+  }
+
+  /* Tabs: a segmented control with a sliding highlight. */
   .calc__tabs {
-    position: relative;
-    display: flex;
-    gap: 4px;
-    padding: 5px;
-    border-radius: 999px;
-    background: rgb(0 0 0 / 0.22);
-    border: 1px solid rgb(255 255 255 / 0.08);
-    overflow-x: auto;
-    scrollbar-width: none;
-    margin-bottom: clamp(22px, 3vw, 34px);
+    position: relative; display: flex; gap: 4px; padding: 5px; margin-bottom: clamp(20px, 3vw, 30px);
+    border-radius: 14px; background: rgb(0 0 0 / 0.25); border: 1px solid rgb(255 255 255 / 0.08);
+    overflow-x: auto; scrollbar-width: none;
   }
   .calc__tabs::-webkit-scrollbar { display: none; }
   .calc__tab {
-    position: relative;
-    z-index: 1;
-    flex: 1 0 auto;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 11px 16px;
-    border-radius: 999px;
-    color: rgb(255 255 255 / 0.72);
-    font-weight: 700;
-    font-size: 0.9rem;
-    white-space: nowrap;
+    position: relative; z-index: 1; flex: 1 0 auto; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 11px 16px; border-radius: 10px; color: rgb(255 255 255 / 0.72); font-weight: 700; font-size: 0.9rem; white-space: nowrap;
     transition: color 0.3s;
   }
+  .calc__tab:hover { color: #fff; }
   .calc__tab[aria-selected='true'] { color: var(--g-900); }
   .calc__tab-ink {
-    position: absolute;
-    z-index: 0;
-    top: 5px;
-    bottom: 5px;
-    left: var(--ink-x, 5px);
-    width: var(--ink-w, 0);
-    border-radius: 999px;
-    background: #fff;
-    box-shadow: 0 6px 18px -6px rgb(0 0 0 / 0.4);
+    position: absolute; z-index: 0; top: 5px; bottom: 5px; left: var(--ink-x, 5px); width: var(--ink-w, 0);
+    border-radius: 10px; background: linear-gradient(180deg, #fff, #f3efe6); box-shadow: 0 8px 18px -8px rgb(0 0 0 / 0.5);
     transition: left 0.5s var(--ease-out), width 0.5s var(--ease-out);
   }
-  .calc__body { display: grid; gap: clamp(26px, 4vw, 48px); align-items: center; }
-  @media (min-width: 860px) { .calc__body { grid-template-columns: 1.15fr 0.85fr; } }
-  .calc__inputs { display: grid; gap: 26px; }
-  .calc__row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 12px; }
-  .calc__row label { font-weight: 600; color: rgb(255 255 255 / 0.85); }
-  .calc__val {
-    font-weight: 800; color: #fff; font-size: 1.12rem; font-variant-numeric: tabular-nums;
-    padding: 4px 12px; border-radius: 10px; background: rgb(255 255 255 / 0.08); border: 1px solid rgb(255 255 255 / 0.1);
+
+  .calc__body { display: grid; gap: clamp(22px, 3.5vw, 40px); align-items: start; }
+  @media (min-width: 900px) { .calc__body { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); } }
+
+  /* Inputs */
+  .calc__inputs { display: grid; gap: 22px; }
+  .calc__field { padding: 16px 18px 12px; border-radius: 16px; background: rgb(255 255 255 / 0.04); border: 1px solid rgb(255 255 255 / 0.07); transition: border-color 0.3s, background 0.3s; }
+  .calc__field:focus-within { border-color: rgb(243 179 61 / 0.5); background: rgb(255 255 255 / 0.06); }
+  .calc__row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .calc__row label { font-weight: 600; color: rgb(255 255 255 / 0.88); }
+  .calc__hint { font-size: 0.8rem; font-weight: 600; color: var(--gold); }
+  .calc__box {
+    margin-left: auto; display: inline-flex; align-items: center; gap: 4px; padding: 6px 12px; min-width: 120px;
+    border-radius: 10px; background: rgb(0 0 0 / 0.3); border: 1px solid rgb(255 255 255 / 0.14);
+    transition: border-color 0.25s, box-shadow 0.25s;
   }
+  .calc__box:focus-within { border-color: var(--gold); box-shadow: 0 0 0 3px rgb(243 179 61 / 0.22); }
+  .calc__unit { font-size: 0.86rem; font-weight: 700; color: rgb(255 255 255 / 0.6); }
+  .calc__num {
+    width: 100%; min-width: 0; padding: 0; border: 0; outline: 0; background: transparent; text-align: right;
+    color: #fff; font-size: 1.12rem; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -0.01em;
+  }
+  .calc__num:focus-visible { outline: none; }
   .calc input[type='range'] {
     --p: 50%;
-    width: 100%;
-    height: 8px;
-    appearance: none;
-    -webkit-appearance: none;
-    border-radius: 99px;
-    background: linear-gradient(90deg, var(--o-500), var(--gold)) 0 / var(--p) 100% no-repeat, rgb(255 255 255 / 0.14);
-    cursor: pointer;
+    width: 100%; height: 8px; appearance: none; -webkit-appearance: none; border-radius: 99px; cursor: pointer;
+    background: linear-gradient(90deg, var(--o-500), var(--gold)) 0 / var(--p) 100% no-repeat, rgb(255 255 255 / 0.12);
   }
   .calc input[type='range']::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 26px; height: 26px; border-radius: 50%;
+    -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%;
     background: #fff; border: 6px solid var(--o-500);
-    box-shadow: 0 4px 14px rgb(0 0 0 / 0.35);
-    transition: transform 0.2s var(--ease-spring);
+    box-shadow: 0 0 0 6px rgb(236 106 30 / 0.18), 0 6px 14px rgb(0 0 0 / 0.4);
+    transition: transform 0.2s var(--ease-spring), box-shadow 0.2s;
   }
-  .calc input[type='range']::-moz-range-thumb {
-    width: 16px; height: 16px; border-radius: 50%;
-    background: #fff; border: 6px solid var(--o-500); box-shadow: 0 4px 14px rgb(0 0 0 / 0.35);
-  }
-  .calc input[type='range']:active::-webkit-slider-thumb { transform: scale(1.18); }
+  .calc input[type='range']::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 6px solid var(--o-500); }
+  .calc input[type='range']:hover::-webkit-slider-thumb { box-shadow: 0 0 0 9px rgb(236 106 30 / 0.22), 0 6px 14px rgb(0 0 0 / 0.4); }
+  .calc input[type='range']:active::-webkit-slider-thumb { transform: scale(1.15); }
+  .calc__range { display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.74rem; font-weight: 600; color: rgb(255 255 255 / 0.5); font-variant-numeric: tabular-nums; }
   .calc__note { font-size: 0.8rem; color: rgb(255 255 255 / 0.55); }
 
+  /* Result: a display panel */
   .calc__result {
-    display: grid;
-    gap: 22px;
-    justify-items: center;
-    padding: clamp(22px, 3vw, 32px);
-    border-radius: var(--r-lg);
-    background: rgb(255 255 255 / 0.05);
-    border: 1px solid rgb(255 255 255 / 0.1);
+    display: grid; gap: 18px; padding: clamp(20px, 3vw, 28px); border-radius: 20px;
+    background: linear-gradient(180deg, rgb(0 0 0 / 0.32), rgb(0 0 0 / 0.18));
+    border: 1px solid rgb(255 255 255 / 0.1); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06);
   }
+  .calc__display { padding-bottom: 16px; border-bottom: 1px dashed rgb(255 255 255 / 0.16); }
+  .calc__display-label { font-size: 0.86rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); }
+  :global(html[lang='mr']) .calc__display-label { letter-spacing: 0; text-transform: none; font-size: 0.95rem; }
+  .calc__display-value { margin-top: 6px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+  .calc__display-value strong {
+    font-size: clamp(2.3rem, 4.6vw, 3.2rem); font-weight: 800; line-height: 1; letter-spacing: -0.03em; color: #fff;
+    font-variant-numeric: tabular-nums; text-shadow: 0 0 28px rgb(243 179 61 / 0.25);
+  }
+  .calc__per { font-size: 0.95rem; font-weight: 600; color: rgb(255 255 255 / 0.65); }
+
+  .calc__split { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; align-items: center; }
   .calc__donut {
     --pct: 30;
-    width: min(240px, 72vw);
-    aspect-ratio: 1;
-    border-radius: 50%;
-    padding: 18px;
+    width: 104px; aspect-ratio: 1; border-radius: 50%; padding: 11px;
     background: conic-gradient(var(--o-500) calc(var(--pct) * 1%), var(--g-400) 0);
     transition: --pct 0.8s var(--ease-out);
-    box-shadow: 0 20px 40px -18px rgb(0 0 0 / 0.6);
+    box-shadow: 0 12px 26px -12px rgb(0 0 0 / 0.6);
   }
-  .calc__donut-inner {
-    width: 100%; height: 100%; border-radius: 50%;
-    display: grid; place-content: center; text-align: center; gap: 4px;
-    background: var(--g-900);
-  }
-  .calc__donut-inner span { font-size: 0.82rem; font-weight: 600; color: rgb(255 255 255 / 0.65); }
-  .calc__donut-inner strong { font-size: clamp(1.45rem, 3vw, 1.85rem); color: #fff; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
-  .calc__breakdown { width: 100%; margin: 0; display: grid; gap: 10px; }
-  .calc__breakdown div { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 10px; border-bottom: 1px dashed rgb(255 255 255 / 0.14); }
-  .calc__breakdown dt { display: flex; align-items: center; gap: 10px; }
+  .calc__donut-in { width: 100%; height: 100%; border-radius: 50%; display: grid; place-content: center; text-align: center; background: var(--g-950); }
+  .calc__donut-in b { font-size: 1.15rem; color: #fff; font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .calc__donut-in small { font-size: 0.66rem; font-weight: 600; color: rgb(255 255 255 / 0.6); }
+  .calc__breakdown { margin: 0; display: grid; gap: 10px; }
+  .calc__breakdown div { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-bottom: 10px; border-bottom: 1px dashed rgb(255 255 255 / 0.14); }
+  .calc__breakdown div:last-child { border-bottom: 0; padding-bottom: 0; }
+  .calc__breakdown dt { display: flex; align-items: center; gap: 10px; font-size: 0.92rem; }
   .calc__breakdown dd { margin: 0; font-weight: 800; color: #fff; font-variant-numeric: tabular-nums; }
-  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot { width: 10px; height: 10px; border-radius: 3px; flex: none; }
   .dot--g { background: var(--g-400); }
   .dot--o { background: var(--o-500); }
+
+  /* Year-by-year chart */
+  .calc__chart { position: relative; margin: 0; padding-top: 14px; border-top: 1px dashed rgb(255 255 255 / 0.16); }
+  .calc__chart-title { font-size: 0.82rem; font-weight: 700; color: rgb(255 255 255 / 0.8); margin-bottom: 10px; }
+  .calc__bars { display: flex; align-items: flex-end; justify-content: center; gap: clamp(3px, 0.6vw, 7px); height: 120px; }
+  .calc__bars :global(.calc__bar) {
+    position: relative; flex: 1 1 0; min-width: 0; max-width: 46px; height: 100%; display: flex; flex-direction: column-reverse; gap: 2px;
+    cursor: default; border-radius: 6px 6px 2px 2px;
+  }
+  .calc__bars :global(.calc__seg) { display: block; width: 100%; border-radius: 4px; transition: height 0.6s var(--ease-out); }
+  .calc__bars :global(.calc__seg--b) { height: var(--h1, 0%); background: linear-gradient(180deg, var(--g-400), var(--g-600)); }
+  .calc__bars :global(.calc__seg--a) { height: var(--h2, 0%); background: linear-gradient(180deg, var(--gold), var(--o-500)); transition-delay: 0.08s; }
+  .calc__bars :global(.calc__bar:hover .calc__seg), .calc__bars :global(.calc__bar.is-hot .calc__seg) { filter: brightness(1.18); }
+  .calc__bars :global(.calc__bar > b) {
+    position: absolute; left: 50%; bottom: -18px; translate: -50% 0; font-size: 0.66rem; font-weight: 700; color: rgb(255 255 255 / 0.55);
+  }
+  .calc__axis { margin-top: 22px; text-align: center; font-size: 0.72rem; font-weight: 600; color: rgb(255 255 255 / 0.45); }
+  .calc__tip {
+    position: absolute; left: 0; right: 0; top: 4px; margin: 0 auto; width: fit-content; max-width: 100%;
+    padding: 6px 12px; border-radius: 8px; background: #fff; color: var(--g-900); font-size: 0.78rem; font-weight: 700;
+    box-shadow: 0 10px 22px -10px rgb(0 0 0 / 0.6); pointer-events: none;
+  }
+
+  /* Phones: the same calculator, compact. */
+  @media (max-width: 639px) {
+    .calc { padding: 14px; border-radius: var(--r-lg); }
+    .calc__tabs { padding: 4px; margin-bottom: 14px; border-radius: 12px; }
+    .calc__tab { padding: 9px 12px; font-size: 0.82rem; gap: 6px; border-radius: 9px; }
+    .calc__tab-ink { top: 4px; bottom: 4px; border-radius: 9px; }
+    .calc__body { gap: 14px; }
+    .calc__inputs { gap: 10px; }
+    .calc__field { padding: 12px 12px 8px; border-radius: 12px; }
+    .calc__row { margin-bottom: 10px; gap: 8px; flex-wrap: wrap; }
+    .calc__row label { font-size: 0.9rem; }
+    .calc__box { min-width: 108px; padding: 4px 10px; }
+    .calc__num { font-size: 1rem; }
+    .calc input[type='range'] { height: 6px; }
+    .calc input[type='range']::-webkit-slider-thumb { width: 22px; height: 22px; border-width: 5px; }
+    .calc__note { font-size: 0.72rem; line-height: 1.45; }
+    .calc__result { gap: 12px; padding: 16px; border-radius: 14px; }
+    .calc__display { padding-bottom: 12px; }
+    .calc__display-value strong { font-size: 2rem; }
+    .calc__donut { width: 78px; padding: 9px; }
+    .calc__donut-in b { font-size: 0.95rem; }
+    .calc__bars { height: 76px; }
+    .calc__chart { padding-top: 10px; }
+  }
 </style>
 
 <style is:global>

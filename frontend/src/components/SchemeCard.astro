@@ -1,18 +1,23 @@
 ---
 import Icon from './Icon.astro';
-import { kindLabels, fmtRate, type Scheme } from '../data/deposits';
+import { fmtRate, type Scheme } from '../data/deposits';
+import { getLang, localePath } from '../i18n';
+import { useT } from '../i18n/ui';
 
 interface Props {
   scheme: Scheme;
   index?: number;
 }
 const { scheme: s, index = 0 } = Astro.props;
+const lang = getLang(Astro);
+const t = useT(lang);
+const detailsHref = localePath(`/deposits/${s.slug}/`, lang);
 ---
 
 <article class:list={['scheme', `scheme--${s.kind}`]} data-kind={s.kind} style={`--i:${index}`}>
   <div class="scheme__top">
-    <span class="chip">{kindLabels[s.kind]}</span>
-    <span class="scheme__mr" lang="mr">{s.nameMr}</span>
+    <span class="chip">{t(`kind.${s.kind}` as 'kind.fd')}</span>
+    {lang === 'en' && <span class="scheme__mr" lang="mr">{s.nameMr}</span>}
   </div>
   <div class="scheme__rate" transition:name={`rate-${s.slug}`}>
     {s.rate !== null ? (
@@ -22,7 +27,7 @@ const { scheme: s, index = 0 } = Astro.props;
     )}
     <small>{s.rateNote}</small>
   </div>
-  <h3 class="scheme__name"><a href={`/deposits/${s.slug}/`}>{s.name}</a></h3>
+  <h3 class="scheme__name"><a href={detailsHref}>{s.name}</a></h3>
   <p class="scheme__pitch">{s.pitch}</p>
   <dl class="scheme__facts">
     {s.highlight.map((h) => (
@@ -30,8 +35,8 @@ const { scheme: s, index = 0 } = Astro.props;
     ))}
   </dl>
   <div class="scheme__actions">
-    <a href={`/deposits/${s.slug}/`} class="link-arrow">View details <Icon name="arrow-right" size={16} /></a>
-    <a href={`/apply-for-deposits/?scheme=${encodeURIComponent(s.name)}`} class="btn btn--green btn--sm">Apply now</a>
+    <a href={detailsHref} class="link-arrow">{t('btn.details')} <Icon name="arrow-right" size={16} /></a>
+    <a href={`${localePath('/apply-for-deposits/', lang)}?scheme=${encodeURIComponent(s.name)}`} class="btn btn--green btn--sm">{t('btn.apply')}</a>
   </div>
   <span class="scheme__shine" aria-hidden="true"></span>
 </article>
@@ -63,17 +68,11 @@ const { scheme: s, index = 0 } = Astro.props;
     background: radial-gradient(circle, var(--g-100), transparent 70%);
     transition: transform 0.8s var(--ease-out), background 0.4s;
   }
-  .scheme--rd::before { background: radial-gradient(circle, var(--o-100), transparent 70%); }
-  .scheme--double::before { background: radial-gradient(circle, #fdf0c8, transparent 70%); }
   .scheme:hover { transform: translateY(-8px); box-shadow: var(--shadow); border-color: transparent; }
   .scheme:hover::before { transform: scale(1.6); }
   .scheme__top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
   .scheme__mr { font-size: 0.82rem; color: var(--muted); font-weight: 600; text-align: right; }
-  .scheme--rd .chip { background: var(--o-100); color: var(--o-700); }
-  .scheme--double .chip { background: #fdf0c8; color: #8a5a00; }
   .scheme__rate p { display: flex; align-items: flex-start; line-height: 0.9; color: var(--g-700); }
-  .scheme--rd .scheme__rate p { color: var(--o-600); }
-  .scheme--double .scheme__rate p { color: #b57800; }
   .scheme__num { font-size: clamp(3.4rem, 6vw, 4.2rem); font-weight: 800; letter-spacing: -0.05em; }
   .scheme__pct { font-size: 1.8rem; font-weight: 800; margin-top: 6px; margin-left: 2px; }
   .scheme__rate small { display: block; margin-top: 6px; font-size: 0.82rem; font-weight: 600; color: var(--muted); }

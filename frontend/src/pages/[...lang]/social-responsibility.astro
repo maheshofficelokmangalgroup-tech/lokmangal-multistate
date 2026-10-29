@@ -1,0 +1,315 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import AboutNav from '../../components/AboutNav.astro';
+import { csrData } from '../../data/csr';
+import { siteData } from '../../data/site';
+import { postsFor } from '../../data/posts';
+import { getLang, langPaths, localePath } from '../../i18n';
+import { pageCopy, useT } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+
+const lang = getLang(Astro);
+const t = useT(lang);
+const l = (p: string) => localePath(p, lang);
+const { site } = siteData(lang);
+const { csrPillars, initiatives } = csrData(lang);
+const posts = postsFor(lang).slice(0, 3);
+
+const c = pageCopy(
+  lang,
+  'social-responsibility',
+  {
+    metaTitle: 'Social Responsibility',
+    metaDescription: 'How the Lokmangal group gives back: Lokmangal Annapoorna Yojana, community weddings, water conservation, health camps, tree plantation, cleaning drives and youth festivals.',
+    eyebrow: 'Social responsibility',
+    title: 'Our work',
+    accent: 'beyond banking',
+    lead: 'Alongside its business, the Lokmangal group runs welfare work across rural Maharashtra, with members, employees and the wider community taking part.',
+    factInitiatives: 'Initiatives',
+    introEyebrow: 'An enduring commitment',
+    introTitle: 'Social good is part of',
+    introAccent: 'who we are',
+    introP1: 'Social responsibility is part of everything Lokmangal Multistate does. The Lokmangal group’s work for social development is carried out with people from across the group and the wider community.',
+    introP2: 'Our aim is to support real socio-economic growth in rural India, and to help more people take part in, and benefit from, economic progress.',
+    pillarsTitle: 'What guides this work',
+    initEyebrow: 'Our initiatives',
+    initTitle: 'Work that',
+    initAccent: 'changes lives',
+    involveTitle: 'Want to',
+    involveAccent: 'take part?',
+    involveText: 'If you would like to support or take part in our community programmes, get in touch with our team.',
+    involveBtn: 'Get in touch',
+    storiesEyebrow: 'Stories',
+    storiesTitle: 'News from our',
+    storiesAccent: 'branches',
+    storiesAll: 'All stories',
+  },
+  {
+    metaTitle: 'सामाजिक बांधिलकी',
+    metaDescription: 'लोकमंगल समूहाचे सामाजिक उपक्रम: लोकमंगल अन्नपूर्णा योजना, सामुदायिक विवाह, जलसंधारण, आरोग्य शिबिरे, वृक्षारोपण, स्वच्छता मोहीम आणि युवा महोत्सव.',
+    eyebrow: 'सामाजिक बांधिलकी',
+    title: 'बँकिंगच्या पलीकडचे',
+    accent: 'आमचे काम',
+    lead: 'व्यवसायासोबतच लोकमंगल समूह ग्रामीण महाराष्ट्रात कल्याणकारी उपक्रम राबवतो, ज्यात सभासद, कर्मचारी आणि समाज सहभागी होतात.',
+    factInitiatives: 'उपक्रम',
+    introEyebrow: 'कायमची बांधिलकी',
+    introTitle: 'सामाजिक हित हा',
+    introAccent: 'आमचा स्वभाव',
+    introP1: 'सामाजिक बांधिलकी हा लोकमंगल मल्टीस्टेटच्या प्रत्येक कामाचा भाग आहे. लोकमंगल समूहाचे सामाजिक विकासाचे काम समूहातील आणि समाजातील लोकांच्या सहभागातून होते.',
+    introP2: 'ग्रामीण भारतात खरी सामाजिक-आर्थिक प्रगती घडवून आणणे आणि अधिकाधिक लोकांना आर्थिक प्रगतीत सहभागी होऊन तिचा लाभ घेता यावा, हे आमचे उद्दिष्ट आहे.',
+    pillarsTitle: 'या कामामागील सूत्रे',
+    initEyebrow: 'आमचे उपक्रम',
+    initTitle: 'आयुष्य बदलणारे',
+    initAccent: 'उपक्रम',
+    involveTitle: 'सहभागी',
+    involveAccent: 'व्हायचे आहे?',
+    involveText: 'आमच्या सामाजिक उपक्रमांना पाठिंबा द्यायचा असेल किंवा त्यात सहभागी व्हायचे असेल, तर आमच्या टीमशी संपर्क साधा.',
+    involveBtn: 'संपर्क करा',
+    storiesEyebrow: 'बातम्या',
+    storiesTitle: 'आमच्या शाखांमधील',
+    storiesAccent: 'घडामोडी',
+    storiesAll: 'सर्व बातम्या',
+  },
+);
+
+// "500 elders fed, twice a day" → count up to 500, then the words. Stats without a leading number stay as text.
+const statParts = (stat: string) => {
+  const m = stat.match(/^([\d,]+)(\+?)\s+(.+)$/);
+  return m ? { value: Number(m[1].replace(/,/g, '')), plus: m[2], rest: m[3] } : null;
+};
+const numbered = initiatives.map((it) => ({ ...it, parts: statParts(it.stat) }));
+const headline = numbered.filter((it) => it.parts).slice(0, 2);
+---
+
+<Base title={c('metaTitle')} description={c('metaDescription')}>
+  <!-- BANNER -->
+  <section class="sr-hero">
+    <img src="/images/csr/banner.webp" alt="" class="sr-hero__img" width="1448" height="1086" fetchpriority="high" />
+    <div class="container">
+      <nav class="sr-crumbs" aria-label={t('breadcrumb')}>
+        <a href={l('/')}>{t('home')}</a>
+        <Icon name="chevron-right" size={14} />
+        <a href={l('/about-us/')}>{t('nav.about')}</a>
+        <Icon name="chevron-right" size={14} />
+        <span aria-current="page">{c('eyebrow')}</span>
+      </nav>
+      <div class="sr-hero__copy">
+        <p class="sr-hero__eyebrow">{c('eyebrow')}</p>
+        <h1 class="h1 sr-hero__title" data-reveal>{c('title')} <em>{c('accent')}</em></h1>
+        <p class="lead sr-hero__lead" data-reveal style="--d:150ms">{c('lead')}</p>
+        <dl class="sr-facts" data-stagger>
+          {headline.map((it) => (
+            <div>
+              <dd><span data-count={it.parts!.value} data-suffix={it.parts!.plus}>{it.parts!.value.toLocaleString('en-IN')}{it.parts!.plus}</span></dd>
+              <dt>{it.parts!.rest}</dt>
+            </div>
+          ))}
+          <div><dd><span data-count={initiatives.length}>{initiatives.length}</span></dd><dt>{c('factInitiatives')}</dt></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMITMENT AND PILLARS -->
+  <section class="section sr-intro">
+    <div class="container split">
+      <div class="stack" style="--stack:1.2rem">
+        <p class="eyebrow" data-reveal>{c('introEyebrow')}</p>
+        <h2 class="h2" data-reveal>{c('introTitle')} <em>{c('introAccent')}</em></h2>
+        <div class="prose lead" data-reveal>
+          <p>{c('introP1')}</p>
+          <p>{c('introP2')}</p>
+        </div>
+      </div>
+      <div class="sr-pillars" data-reveal="right">
+        <p class="sr-pillars__title">{c('pillarsTitle')}</p>
+        <ol data-stagger>
+          {csrPillars.map((p, i) => <li><span>{String(i + 1).padStart(2, '0')}</span>{p.title}</li>)}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- INITIATIVES: one row each, photo and words alternating sides -->
+  <section class="section sr-init">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">{c('initEyebrow')}</p>
+        <h2 class="h2">{c('initTitle')} <em>{c('initAccent')}</em></h2>
+      </div>
+      <ol class="sr-list">
+        {numbered.map((it, i) => (
+          <li class:list={['sr-item', { 'sr-item--flip': i % 2 === 1 }]}>
+            <div class="sr-item__media" data-reveal={i % 2 === 1 ? 'right' : 'left'}>
+              {it.image ? (
+                <img src={it.image as string} alt={it.title} loading="lazy" width="400" height="265" />
+              ) : (
+                <div class="sr-item__panel">
+                  {it.parts ? (
+                    <>
+                      <strong><span data-count={it.parts.value} data-suffix={it.parts.plus}>{it.parts.value.toLocaleString('en-IN')}{it.parts.plus}</span></strong>
+                      <span>{it.parts.rest}</span>
+                    </>
+                  ) : (
+                    <>
+                      <Icon name={it.icon} size={44} />
+                      <span>{it.stat}</span>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+            <div class="sr-item__body" data-reveal={i % 2 === 1 ? 'left' : 'right'}>
+              <span class="sr-item__n">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="sr-item__title">{it.title}</h3>
+              {(it.image || !it.parts) && it.image && <p class="sr-item__stat">{it.stat}</p>}
+              <p class="sr-item__text">{it.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- TAKE PART -->
+  <section class="section--tight sr-involve-wrap">
+    <div class="container">
+      <div class="sr-involve" data-reveal="zoom">
+        <div>
+          <h2 class="h2">{c('involveTitle')} <em>{c('involveAccent')}</em></h2>
+          <p>{c('involveText')}</p>
+        </div>
+        <div class="btn-row">
+          <a href={l('/contact-us/')} class="btn btn--light">{c('involveBtn')} <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+          <a href={site.phoneHref} class="btn btn--outline-light"><Icon name="phone" size={18} /> {site.phone}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORIES -->
+  {posts.length > 0 && (
+    <section class="section sr-stories">
+      <div class="container">
+        <div class="section-head section-head--row" data-reveal>
+          <div class="section-head__text">
+            <p class="eyebrow">{c('storiesEyebrow')}</p>
+            <h2 class="h2">{c('storiesTitle')} <em>{c('storiesAccent')}</em></h2>
+          </div>
+          <a href={l('/blog/')} class="btn btn--ghost">{c('storiesAll')} <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+        </div>
+        <div class="grid grid-3" data-stagger>
+          {posts.map((p) => <BlogCard post={p as any} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <AboutNav current="/social-responsibility/" />
+</Base>
+
+<style>
+  /* ---------- Banner ---------- */
+  .sr-hero {
+    position: relative; isolation: isolate; overflow: hidden; color: #fff;
+    min-height: clamp(520px, 72vh, 700px); display: flex; flex-direction: column;
+    padding: clamp(40px, 6vw, 72px) 0 clamp(48px, 6vw, 80px); background: var(--g-950);
+  }
+  .sr-hero > .container { flex: 1; display: flex; flex-direction: column; }
+  .sr-hero__img {
+    position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; max-width: none;
+    object-fit: cover; object-position: 66% 45%;
+    animation: sr-settle 14s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  @keyframes sr-settle { from { transform: scale(1.12); } }
+  .sr-hero::after {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background:
+      linear-gradient(90deg, rgb(70 26 4 / 0.95) 0%, rgb(92 33 5 / 0.86) 38%, rgb(92 33 5 / 0.4) 72%, rgb(92 33 5 / 0.15) 100%),
+      linear-gradient(0deg, rgb(60 22 3 / 0.6), transparent 35%);
+  }
+  .sr-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.86rem; font-weight: 600; color: rgb(255 255 255 / 0.65); }
+  .sr-crumbs a { color: rgb(255 255 255 / 0.8); }
+  .sr-crumbs a:hover { color: #fff; }
+  .sr-crumbs span { color: var(--gold); }
+  .sr-hero__copy { margin-block: auto; padding-top: clamp(28px, 5vw, 48px); max-width: 640px; display: grid; gap: 18px; }
+  .sr-hero__eyebrow { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); }
+  :global(html[lang='mr']) .sr-hero__eyebrow { letter-spacing: 0; text-transform: none; font-size: 0.95rem; }
+  .sr-hero__title { color: #fff; }
+  .sr-hero__title em { display: block; color: var(--gold); }
+  .sr-hero__lead { color: rgb(255 255 255 / 0.88); }
+  .sr-facts { margin: 6px 0 0; display: flex; flex-wrap: wrap; gap: 14px 0; padding-top: 18px; border-top: 1px solid rgb(255 255 255 / 0.2); }
+  .sr-facts > div { padding: 0 22px; border-left: 1px solid rgb(255 255 255 / 0.2); display: flex; flex-direction: column-reverse; justify-content: flex-end; }
+  .sr-facts > div:first-child { padding-left: 0; border-left: 0; }
+  .sr-facts dd { margin: 0; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; color: #fff; font-variant-numeric: tabular-nums; }
+  .sr-facts dt { order: -1; margin-top: 4px; font-size: 0.86rem; color: rgb(255 255 255 / 0.78); max-width: 180px; line-height: 1.35; }
+  @media (max-width: 899px) {
+    .sr-hero { min-height: 0; padding-top: 18px; }
+    .sr-hero__img { inset: 0 0 auto 0; height: min(70vw, 330px); }
+    .sr-hero::after { background: linear-gradient(180deg, rgb(60 22 3 / 0.35) 0, rgb(60 22 3 / 0.1) 90px, #5c2105 min(70vw, 330px), #4a1a04 100%); }
+    .sr-hero__copy { padding-top: min(52vw, 240px); }
+    .sr-facts > div { padding: 0 14px; }
+  }
+  @media (max-width: 479px) {
+    .sr-facts { display: grid; grid-template-columns: 1fr 1fr; }
+    .sr-facts > div:nth-child(3) { padding-left: 0; border-left: 0; }
+  }
+
+  /* ---------- Commitment and pillars ---------- */
+  .sr-intro { background: var(--bg); }
+  .sr-pillars { padding: clamp(24px, 3vw, 36px); border-radius: var(--r-lg); background: var(--g-800); color: #fff; }
+  .sr-pillars__title { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+  :global(html[lang='mr']) .sr-pillars__title { letter-spacing: 0; text-transform: none; font-size: 0.95rem; }
+  .sr-pillars ol { list-style: none; margin: 14px 0 0; padding: 0; }
+  .sr-pillars li { display: flex; align-items: baseline; gap: 14px; padding: 16px 0; border-top: 1px solid rgb(255 255 255 / 0.14); font-size: clamp(1.05rem, 1.6vw, 1.25rem); font-weight: 700; line-height: 1.35; }
+  .sr-pillars li span { min-width: 1.8em; font-size: 0.8rem; font-weight: 800; color: var(--gold); }
+
+  /* ---------- Initiatives ---------- */
+  .sr-init { background: var(--surface); }
+  .sr-list { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(36px, 6vw, 72px); }
+  .sr-item { display: grid; gap: clamp(20px, 4vw, 56px); align-items: center; }
+  @media (min-width: 860px) {
+    .sr-item { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); }
+    .sr-item--flip .sr-item__media { order: 2; }
+  }
+  .sr-item__media { position: relative; isolation: isolate; max-width: 480px; width: 100%; justify-self: center; }
+  .sr-item__media::before { content: ''; position: absolute; inset: 18px -14px -14px 18px; z-index: -1; border-radius: var(--r-lg); background: var(--o-100); transition: transform 0.6s var(--ease-out); }
+  .sr-item--flip .sr-item__media::before { inset: 18px 18px -14px -14px; background: var(--g-100); }
+  .sr-item:hover .sr-item__media::before { transform: translate(4px, 4px); }
+  .sr-item__media img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--r-lg); box-shadow: 0 24px 44px -28px rgb(15 31 24 / 0.55); }
+  .sr-item__panel {
+    aspect-ratio: 4 / 3; display: grid; place-content: center; justify-items: center; gap: 10px; padding: 24px; text-align: center;
+    border-radius: var(--r-lg); color: #fff; background: linear-gradient(150deg, var(--o-500), #8f3608);
+    box-shadow: 0 24px 44px -28px rgb(120 60 10 / 0.6);
+  }
+  .sr-item--flip .sr-item__panel { background: linear-gradient(150deg, var(--g-600), var(--g-900)); }
+  .sr-item__panel strong { font-size: clamp(3rem, 7vw, 4.6rem); font-weight: 800; line-height: 1; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+  .sr-item__panel > span { max-width: 260px; font-size: 1rem; font-weight: 600; color: rgb(255 255 255 / 0.9); line-height: 1.4; }
+  .sr-item__panel :global(.icon) { color: var(--gold); }
+  .sr-item__body { display: grid; gap: 10px; align-content: start; }
+  .sr-item__n { font-size: 2.6rem; font-weight: 800; line-height: 1; letter-spacing: -0.04em; color: transparent; -webkit-text-stroke: 1.5px var(--o-400); }
+  .sr-item__title { font-size: clamp(1.35rem, 2.4vw, 1.8rem); line-height: 1.25; color: var(--g-800); }
+  .sr-item__stat { width: fit-content; padding: 5px 12px; border-radius: 999px; background: var(--o-50); border: 1px solid var(--o-200); color: var(--o-700); font-size: 0.82rem; font-weight: 700; }
+  .sr-item__text { color: var(--muted); font-size: 1.02rem; line-height: 1.75; max-width: 560px; }
+
+  /* ---------- Take part ---------- */
+  .sr-involve-wrap { background: var(--surface); padding-top: 0; }
+  .sr-involve {
+    display: grid; gap: 22px; align-items: center; padding: clamp(28px, 5vw, 52px); border-radius: var(--r-lg); color: rgb(255 255 255 / 0.88);
+    background: radial-gradient(80% 120% at 100% 0%, rgb(243 179 61 / 0.3), transparent 60%), linear-gradient(140deg, var(--o-600), #8f3608);
+  }
+  @media (min-width: 900px) { .sr-involve { grid-template-columns: minmax(0, 1fr) auto; } }
+  .sr-involve .h2 { color: #fff; }
+  .sr-involve .h2 em { color: var(--gold); }
+  .sr-involve p { margin-top: 10px; max-width: 560px; }
+  .sr-involve .btn--light { --btn-fg: var(--o-700); }
+
+  .sr-stories { background: var(--bg); }
+
+  @media (prefers-reduced-motion: reduce) { .sr-hero__img { animation: none; } }
+</style>

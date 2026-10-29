@@ -1,0 +1,529 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import AboutNav from '../../components/AboutNav.astro';
+import { siteData } from '../../data/site';
+import { peopleFor } from '../../data/people';
+import { getLang, langPaths, localePath } from '../../i18n';
+import { pageCopy, useT } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+
+const lang = getLang(Astro);
+const t = useT(lang);
+const l = (p: string) => localePath(p, lang);
+const { site, stats, gallery } = siteData(lang);
+const { chairman, mentor } = peopleFor(lang);
+
+const c = pageCopy(
+  lang,
+  'about-us',
+  {
+    metaTitle: 'About Us',
+    metaDescription: 'Lokmangal Multistate Co-operative Society Ltd. was founded in 2004 to empower farmers, small entrepreneurs and weaker sections of society. Learn about our journey, vision and values.',
+    eyebrow: 'About Lokmangal',
+    title: 'Growing with our members',
+    accent: 'since 2004',
+    lead: 'Lokmangal Multistate Co-operative Society works with farmers, small entrepreneurs, young people and families who need fair access to savings and credit.',
+    findBranch: 'Find a branch',
+    chairmanMsg: 'Chairman’s message',
+    factSince: 'Since',
+    factReg: 'Registration No.',
+    factBranches: 'Branches',
+    factArea: 'Serving',
+    factAreaValue: 'Maharashtra & Karnataka',
+    whoEyebrow: 'Who we are',
+    whoTitle: 'A multi-state co-operative',
+    whoAccent: 'owned by its members',
+    whoP1: 'The idea of empowering people came from our mentor, {mentor}, and a group of like-minded people who joined him. Today Lokmangal Multistate serves members through branches and ATMs in the towns and villages of Maharashtra and Karnataka.',
+    whoP2: 'Our motto is {motto}. We work to bring people from every walk of life into the financial mainstream, with honest dealing, clear and efficient service, trained staff and the leadership of our chairman, {chairman}.',
+    motto: 'success through total dedication',
+    contact: 'Get in touch',
+    board: 'Board of Directors',
+    videoAlt: 'Watch: Lokmangal Multistate introduction video',
+    videoPlay: 'Play video',
+    videoCaption: 'Watch our story',
+    numbersEyebrow: 'Lokmangal in numbers',
+    vision: 'Our vision',
+    visionText: 'To be a forward-looking, technology-driven and customer-centric co-operative society that serves every section of society, creating value for members and employees through co-operative wealth, as we move towards a pan-India presence.',
+    promise: 'Our promise',
+    promiseText: 'We expect more of ourselves than anyone else expects of us. Every day we try to give our members a pleasant, rewarding experience, guided by the principles below.',
+    valuesEyebrow: 'What we stand for',
+    valuesTitle: 'Five principles behind',
+    valuesAccent: 'every branch',
+    v1: 'Trust and transparency',
+    v1t: 'Every decision is taken collectively by an elected board, and our books are audited every year.',
+    v2: 'Trained staff',
+    v2t: 'Branch teams who know their communities and guide members at every step.',
+    v3: 'Trusted network',
+    v3t: 'Branches and ATMs in the towns and villages of Maharashtra and Karnataka.',
+    v4: 'Digital banking',
+    v4t: 'Net banking, mobile banking, UPI, IMPS, NEFT/RTGS and SMS banking.',
+    v5: 'Financial inclusion',
+    v5t: 'Bringing people from all walks of life into the formal financial system.',
+    journeyEyebrow: 'Our journey so far',
+    journeyTitle: 'From Solapur to',
+    journeyAccent: 'two states',
+    journeyLead: 'Lokmangal runs on co-operative principles in every part of its business.',
+    j1y: '2004',
+    j1: 'A society is born',
+    j1t: 'Lokmangal Multistate Co-operative Society Ltd. was registered under the {act} (Registration No. {reg}), inspired by the vision of our mentor {mentor}.',
+    j2y: '2008',
+    j2: 'Full operations begin',
+    j2t: 'Operations began in Solapur district, where most of our first members came from farming families. Our first aim was simple: give financial support to people who wanted to start or grow something of their own.',
+    j3y: 'Growth',
+    j3: 'Beyond financial services',
+    j3t: 'Under the leadership of {chairman}, Lokmangal added dairy, with chilling plants at Mangalvedha, Karmala and Sangola, and a fertiliser business that makes biotic and chemical fertilisers and distributes IFFCO products.',
+    j4y: 'Today',
+    j4: 'Touching lakhs of lives',
+    j4t: 'With {branches} branches in Maharashtra and Karnataka, a growing ATM network and digital channels, Lokmangal serves lakhs of members and plans to reach many more.',
+    welcome: 'You are welcome to join the {family}. Together we can build stronger communities on co-operative principles.',
+    family: 'Lokmangal family',
+    momentsEyebrow: 'Moments',
+    momentsTitle: 'Life at',
+    momentsAccent: 'Lokmangal',
+    momentsLink: 'Open the photo gallery',
+  },
+  {
+    metaTitle: 'आमच्याबद्दल',
+    metaDescription: 'लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटी लि.ची स्थापना 2004 मध्ये शेतकरी, लघुउद्योजक आणि समाजातील दुर्बल घटकांना सक्षम करण्यासाठी झाली. आमची वाटचाल, दृष्टी आणि मूल्ये जाणून घ्या.',
+    eyebrow: 'लोकमंगलबद्दल',
+    title: 'सभासदांसोबत वाटचाल,',
+    accent: '2004 पासून',
+    lead: 'लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटी शेतकरी, लघुउद्योजक, तरुण आणि कुटुंबांसोबत काम करते, ज्यांना बचत आणि कर्जाची योग्य सुविधा हवी आहे.',
+    findBranch: 'शाखा शोधा',
+    chairmanMsg: 'अध्यक्षांचा संदेश',
+    factSince: 'स्थापना',
+    factReg: 'नोंदणी क्र.',
+    factBranches: 'शाखा',
+    factArea: 'कार्यक्षेत्र',
+    factAreaValue: 'महाराष्ट्र व कर्नाटक',
+    whoEyebrow: 'आम्ही कोण आहोत',
+    whoTitle: 'सभासदांच्या मालकीची',
+    whoAccent: 'बहुराज्य सहकारी संस्था',
+    whoP1: 'लोकांना सक्षम करण्याची कल्पना आमचे मार्गदर्शक {mentor} आणि त्यांच्यासोबत आलेल्या समविचारी लोकांची होती. आज लोकमंगल मल्टीस्टेट महाराष्ट्र आणि कर्नाटकातील शहरे व खेड्यांमधील शाखा आणि एटीएमद्वारे सभासदांची सेवा करते.',
+    whoP2: '{motto} हे आमचे ब्रीद आहे. प्रामाणिक व्यवहार, स्पष्ट आणि कार्यक्षम सेवा, प्रशिक्षित कर्मचारी आणि आमचे अध्यक्ष {chairman} यांच्या नेतृत्वाखाली समाजाच्या प्रत्येक घटकाला आर्थिक प्रवाहात आणण्याचे काम आम्ही करतो.',
+    motto: '‘अखंड गतीतून सार्थकता’',
+    contact: 'संपर्क करा',
+    board: 'संचालक मंडळ',
+    videoAlt: 'पहा: लोकमंगल मल्टीस्टेट परिचय व्हिडिओ',
+    videoPlay: 'व्हिडिओ सुरू करा',
+    videoCaption: 'आमची कहाणी पहा',
+    numbersEyebrow: 'आकड्यांमध्ये लोकमंगल',
+    vision: 'आमची दृष्टी',
+    visionText: 'समाजाच्या प्रत्येक घटकाची सेवा करणारी, भविष्याचा वेध घेणारी, तंत्रज्ञानाधारित आणि ग्राहककेंद्री सहकारी संस्था बनणे; सहकारी संपत्तीतून सभासद आणि कर्मचाऱ्यांसाठी मूल्य निर्माण करत देशभर विस्तार करणे.',
+    promise: 'आमचे वचन',
+    promiseText: 'इतर आमच्याकडून जेवढी अपेक्षा करतात, त्याहून अधिक अपेक्षा आम्ही स्वतःकडून ठेवतो. खालील तत्त्वांनुसार आमच्या सभासदांना दररोज सुखद आणि फायदेशीर अनुभव देण्याचा आमचा प्रयत्न असतो.',
+    valuesEyebrow: 'आमची मूल्ये',
+    valuesTitle: 'प्रत्येक शाखेमागील',
+    valuesAccent: 'पाच तत्त्वे',
+    v1: 'विश्वास आणि पारदर्शकता',
+    v1t: 'प्रत्येक निर्णय निवडून आलेले संचालक मंडळ एकत्रितपणे घेते आणि आमच्या हिशेबांचे दरवर्षी लेखापरीक्षण होते.',
+    v2: 'प्रशिक्षित कर्मचारी',
+    v2t: 'आपल्या परिसराची जाण असलेल्या आणि प्रत्येक टप्प्यावर सभासदांना मार्गदर्शन करणाऱ्या शाखा टीम.',
+    v3: 'विश्वासार्ह जाळे',
+    v3t: 'महाराष्ट्र आणि कर्नाटकातील शहरे व खेड्यांमध्ये शाखा आणि एटीएम.',
+    v4: 'डिजिटल बँकिंग',
+    v4t: 'नेट बँकिंग, मोबाइल बँकिंग, यूपीआय, आयएमपीएस, एनईएफटी/आरटीजीएस आणि एसएमएस बँकिंग.',
+    v5: 'आर्थिक समावेशन',
+    v5t: 'समाजाच्या सर्व स्तरांतील लोकांना औपचारिक आर्थिक व्यवस्थेत आणणे.',
+    journeyEyebrow: 'आतापर्यंतची वाटचाल',
+    journeyTitle: 'सोलापूरपासून',
+    journeyAccent: 'दोन राज्यांपर्यंत',
+    journeyLead: 'लोकमंगलच्या व्यवसायाचा प्रत्येक भाग सहकाराच्या तत्त्वांवर चालतो.',
+    j1y: '2004',
+    j1: 'संस्थेची स्थापना',
+    j1t: 'आमचे मार्गदर्शक {mentor} यांच्या दूरदृष्टीतून प्रेरणा घेऊन लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटी लि.ची {act} अंतर्गत नोंदणी झाली (नोंदणी क्र. {reg}).',
+    j2y: '2008',
+    j2: 'पूर्ण कार्यास सुरुवात',
+    j2t: 'सोलापूर जिल्ह्यात कामकाज सुरू झाले, जिथे आमचे बहुतेक पहिले सभासद शेतकरी कुटुंबांतील होते. स्वतःचे काही सुरू करू किंवा वाढवू इच्छिणाऱ्या लोकांना आर्थिक आधार देणे, हे आमचे पहिले उद्दिष्ट होते.',
+    j3y: 'वाढ',
+    j3: 'आर्थिक सेवांच्या पलीकडे',
+    j3t: '{chairman} यांच्या नेतृत्वाखाली लोकमंगलने मंगळवेढा, करमाळा आणि सांगोला येथील दूध शीतकरण केंद्रांसह दुग्धव्यवसाय, तसेच जैविक व रासायनिक खते तयार करणारा आणि इफ्को उत्पादनांचे वितरण करणारा खत व्यवसाय सुरू केला.',
+    j4y: 'आज',
+    j4: 'लाखो जीवनांना स्पर्श',
+    j4t: 'महाराष्ट्र आणि कर्नाटकातील {branches} शाखा, वाढते एटीएम जाळे आणि डिजिटल सेवांमधून लोकमंगल लाखो सभासदांची सेवा करते आणि आणखी अनेकांपर्यंत पोहोचण्याची योजना आहे.',
+    welcome: '{family} सहभागी होण्यासाठी आपले स्वागत आहे. सहकाराच्या तत्त्वांवर आपण मिळून अधिक सक्षम समाज घडवू शकतो.',
+    family: 'लोकमंगल परिवारात',
+    momentsEyebrow: 'क्षणचित्रे',
+    momentsTitle: 'लोकमंगलमधील',
+    momentsAccent: 'काही क्षण',
+    momentsLink: 'छायाचित्र दालन पहा',
+  },
+);
+
+const branches = stats.find((s) => s.prefix === '' && s.suffix === '')?.value ?? 60;
+const facts = [
+  [c('factSince'), String(site.founded)],
+  [c('factReg'), site.registration],
+  [c('factBranches'), String(branches)],
+  [c('factArea'), c('factAreaValue')],
+];
+const values = [1, 2, 3, 4, 5].map((n) => ({ title: c(`v${n}` as 'v1'), text: c(`v${n}t` as 'v1t') }));
+const vars = { act: site.act, reg: site.registration, mentor: mentor.name, chairman: chairman.name, branches };
+const journey = [1, 2, 3, 4].map((n) => ({ year: c(`j${n}y` as 'j1y'), title: c(`j${n}` as 'j1'), text: c(`j${n}t` as 'j1t', vars) }));
+
+// The introduction video is set in the admin panel (Settings → Organisation).
+const videoId = site.aboutVideo?.match(/(?:embed\/|youtu\.be\/|v=)([\w-]{6,})/)?.[1];
+// Our own photo as the video's cover (the YouTube thumbnail of the current video is a "coming soon" card).
+const poster = '/images/gallery/gallery-10.webp';
+const moments = gallery.filter((g) => g.src !== poster).slice(0, 10);
+const words = (text: string, offset = 0) => text.split(' ').map((w, i) => ({ w, i: i + offset }));
+---
+
+<Base title={c('metaTitle')} description={c('metaDescription')}>
+  <!-- BANNER -->
+  <section class="ab-hero">
+    <img src="/images/about/banner.webp" alt="" class="ab-hero__img" width="1672" height="941" fetchpriority="high" />
+    <div class="container ab-hero__inner">
+      <nav class="ab-crumbs" aria-label={t('breadcrumb')}>
+        <a href={l('/')}>{t('home')}</a>
+        <Icon name="chevron-right" size={14} />
+        <span aria-current="page">{t('nav.about')}</span>
+      </nav>
+      <p class="eyebrow ab-hero__eyebrow">{c('eyebrow')}</p>
+      <h1 class="h1 words ab-hero__title" data-words>
+        {words(c('title')).map(({ w, i }) => (<><span class="w"><span style={`--i:${i}`}>{w}</span></span>{' '}</>))}
+        <em>{words(c('accent'), c('title').split(' ').length).map(({ w, i }, k, arr) => (<><span class="w"><span style={`--i:${i}`}>{w}</span></span>{k < arr.length - 1 ? ' ' : ''}</>))}</em>
+      </h1>
+      <p class="lead ab-hero__lead" data-reveal style="--d:350ms">{c('lead')}</p>
+      <div class="btn-row" data-reveal style="--d:480ms">
+        <a href={l('/branches/')} class="btn btn--primary">{c('findBranch')} <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+        <a href={l('/chairman-message/')} class="btn btn--outline-light">{c('chairmanMsg')}</a>
+      </div>
+    </div>
+    <div class="ab-facts">
+      <dl class="container ab-facts__row" data-stagger>
+        {facts.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+      </dl>
+    </div>
+  </section>
+
+  <!-- WHO WE ARE -->
+  <section class="section ab-who">
+    <div class="container split">
+      <div class="stack" style="--stack:1.2rem">
+        <p class="eyebrow" data-reveal>{c('whoEyebrow')}</p>
+        <h2 class="h2" data-reveal>{c('whoTitle')} <em>{c('whoAccent')}</em></h2>
+        <div class="prose lead" data-reveal>
+          <p>{c('whoP1', { mentor: mentor.name })}</p>
+          <p set:html={c('whoP2', { chairman: chairman.name, motto: `<strong>${c('motto')}</strong>` })} />
+        </div>
+        <div class="btn-row" data-reveal>
+          <a href={l('/contact-us/')} class="btn btn--green">{c('contact')} <Icon name="arrow-right" size={18} class="icon--arrow" /></a>
+          <a href={l('/board-of-directors/')} class="btn btn--ghost">{c('board')}</a>
+        </div>
+      </div>
+      <div class="ab-media" data-reveal="right">
+        {videoId ? (
+          <div class="ab-video" data-video={videoId}>
+            <img src={poster} alt={c('videoAlt')} loading="lazy" width="1400" height="1050" />
+            <button class="ab-video__play" data-video-play aria-label={c('videoPlay')}><Icon name="play" size={28} /></button>
+            <span class="ab-video__cap">{c('videoCaption')}</span>
+          </div>
+        ) : (
+          <img src="/images/home/intro.webp" alt="" class="ab-media__photo" loading="lazy" width="1000" height="1250" />
+        )}
+        <p class="ab-motto">
+          <img src="/images/brand/emblem.png" alt="" width="40" height="48" />
+          <span>
+            {lang === 'mr' ? <strong>{site.taglineMr}</strong> : <><strong>{site.tagline}</strong><small lang="mr">{site.taglineMr}</small></>}
+          </span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- NUMBERS -->
+  <section class="ab-numbers" aria-label={c('numbersEyebrow')}>
+    <div class="container">
+      <p class="ab-numbers__kicker" data-reveal>{c('numbersEyebrow')}</p>
+      <div class="ab-numbers__row" data-stagger>
+        {stats.map((s) => (
+          <div>
+            <strong><span data-count={s.value} data-prefix={s.prefix} data-suffix={s.suffix}>{s.prefix}{s.value}{s.suffix}</span></strong>
+            <span class="ab-numbers__label">{s.label}</span>
+            <small>{s.sub}</small>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- VISION & PROMISE -->
+  <section class="section ab-vm">
+    <div class="container ab-vm__grid">
+      <article class="ab-vm__vision" data-reveal="left">
+        <p class="ab-vm__kicker">{c('vision')}</p>
+        <p class="ab-vm__text">{c('visionText')}</p>
+      </article>
+      <article class="ab-vm__promise" data-reveal="right">
+        <p class="ab-vm__kicker">{c('promise')}</p>
+        <p class="ab-vm__text">{c('promiseText')}</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section class="section ab-values">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">{c('valuesEyebrow')}</p>
+        <h2 class="h2">{c('valuesTitle')} <em>{c('valuesAccent')}</em></h2>
+      </div>
+      <ol class="ab-values__grid" data-stagger>
+        {values.map((v, i) => (
+          <li class="ab-value">
+            <span class="ab-value__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="ab-value__title">{v.title}</h3>
+            <p>{v.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- JOURNEY -->
+  <section class="section ab-journey">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <p class="eyebrow">{c('journeyEyebrow')}</p>
+        <h2 class="h2">{c('journeyTitle')} <em>{c('journeyAccent')}</em></h2>
+        <p class="lead">{c('journeyLead')}</p>
+      </div>
+      <div class="ab-tl">
+        <span class="ab-tl__rail" aria-hidden="true"><span class="ab-tl__line"></span></span>
+        <ol class="ab-tl__list">
+          {journey.map((j, i) => (
+            <li class:list={['ab-tl__item', { 'ab-tl__item--right': i % 2 === 1 }]} data-reveal={i % 2 === 1 ? 'right' : 'left'}>
+              <span class="ab-tl__dot" aria-hidden="true"></span>
+              <div class="ab-tl__card">
+                <span class="ab-tl__year">{j.year}</span>
+                <h3 class="h4">{j.title}</h3>
+                <p>{j.text}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+      <p class="ab-welcome" data-reveal set:html={c('welcome', { family: `<strong>${c('family')}</strong>` })} />
+    </div>
+  </section>
+
+  <!-- MOMENTS: real photos from the gallery, gliding slowly -->
+  {moments.length > 3 && (
+    <section class="section ab-moments">
+      <div class="container ab-moments__head" data-reveal>
+        <div>
+          <p class="eyebrow">{c('momentsEyebrow')}</p>
+          <h2 class="h2">{c('momentsTitle')} <em>{c('momentsAccent')}</em></h2>
+        </div>
+        <a href={l('/gallery/')} class="link-arrow">{c('momentsLink')} <Icon name="arrow-right" size={16} /></a>
+      </div>
+      <div class="ab-strip">
+        <div class="ab-strip__track">
+          {[0, 1].map((copy) =>
+            moments.map((m) => (
+              <figure class="ab-strip__item" aria-hidden={copy === 1 ? 'true' : undefined}>
+                <img src={m.src.replace('/images/gallery/', '/images/gallery/thumb/')} alt={copy === 1 ? '' : m.caption} loading="lazy" width="640" height="425" />
+              </figure>
+            )),
+          )}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <AboutNav current="/about-us/" />
+  <CtaBand />
+</Base>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const wrap = document.querySelector<HTMLElement>('[data-video]');
+    wrap?.querySelector('[data-video-play]')?.addEventListener('click', () => {
+      const id = encodeURIComponent(wrap.dataset.video ?? '');
+      wrap.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0" title="Lokmangal Multistate" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+      wrap.classList.add('is-playing');
+    });
+  });
+</script>
+
+<style>
+  /* ---------- Banner: a photo that settles slowly, words that rise, a strip of facts ---------- */
+  .ab-hero {
+    position: relative; isolation: isolate; overflow: hidden;
+    display: flex; flex-direction: column; min-height: clamp(560px, 78vh, 740px);
+    color: #fff; background: var(--g-950);
+  }
+  .ab-hero__img {
+    position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; max-width: none;
+    object-fit: cover; object-position: 60% 45%;
+    animation: ab-settle 14s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  @keyframes ab-settle { from { transform: scale(1.14); } }
+  .ab-hero::after {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background:
+      linear-gradient(90deg, rgb(4 36 23 / 0.95) 0%, rgb(4 36 23 / 0.84) 36%, rgb(4 36 23 / 0.35) 70%, rgb(4 36 23 / 0.1) 100%),
+      linear-gradient(0deg, rgb(4 36 23 / 0.7), transparent 30%);
+  }
+  .ab-hero__inner { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 18px; padding-block: clamp(48px, 7vw, 88px) 40px; }
+  .ab-hero__inner > * { max-width: 640px; }
+  .ab-crumbs { display: flex; align-items: center; gap: 6px; font-size: 0.86rem; font-weight: 600; color: rgb(255 255 255 / 0.65); }
+  .ab-crumbs a { color: rgb(255 255 255 / 0.75); }
+  .ab-crumbs a:hover { color: #fff; }
+  .ab-crumbs span { color: var(--gold); }
+  .ab-hero__eyebrow { color: var(--g-300); }
+  .ab-hero__title { color: #fff; }
+  .ab-hero__title em { display: block; color: var(--gold); }
+  .ab-hero__lead { color: rgb(255 255 255 / 0.86); }
+  .ab-facts { position: relative; background: rgb(4 36 23 / 0.55); border-top: 1px solid rgb(255 255 255 / 0.14); backdrop-filter: blur(6px); }
+  .ab-facts__row { margin: 0 auto; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .ab-facts__row > div { padding: 18px 20px; border-left: 1px solid rgb(255 255 255 / 0.12); }
+  .ab-facts__row > div:first-child { border-left: 0; padding-left: 0; }
+  .ab-facts dt { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+  .ab-facts dd { margin: 4px 0 0; font-weight: 700; font-size: 1.05rem; color: #fff; }
+  :global(html[lang='mr']) .ab-facts dt { letter-spacing: 0; text-transform: none; font-size: 0.82rem; }
+  @media (max-width: 899px) {
+    .ab-hero { min-height: 0; padding-top: min(62vw, 300px); }
+    .ab-hero__img { inset: 0 0 auto 0; height: min(78vw, 380px); object-position: 64% 40%; }
+    .ab-hero::after { background: linear-gradient(180deg, rgb(4 36 23 / 0.15) 0, rgb(4 36 23 / 0) 90px, var(--g-950) min(78vw, 380px)); }
+    .ab-hero__inner { padding-block: 0 32px; gap: 14px; }
+    .ab-facts__row { grid-template-columns: 1fr 1fr; }
+    .ab-facts__row > div { padding: 14px 0 14px 14px; border-top: 1px solid rgb(255 255 255 / 0.12); }
+    .ab-facts__row > div:nth-child(odd) { border-left: 0; padding-left: 0; }
+    .ab-facts__row > div:nth-child(-n + 2) { border-top: 0; }
+    .ab-facts dd { font-size: 0.95rem; }
+  }
+
+  /* ---------- Who we are ---------- */
+  .ab-who { background: var(--bg); }
+  .ab-media { position: relative; isolation: isolate; max-width: 560px; margin-inline: auto; width: 100%; }
+  .ab-media::before { content: ''; position: absolute; inset: 26px -14px 46px 26px; z-index: -1; border-radius: var(--r-lg); background: var(--o-500); }
+  .ab-video { position: relative; aspect-ratio: 16 / 10; overflow: hidden; border-radius: var(--r-lg); background: var(--g-900); box-shadow: 0 30px 50px -28px rgb(5 42 26 / 0.6); }
+  .ab-video img { width: 100%; height: 100%; max-width: none; object-fit: cover; transform: scale(1.02); transition: transform 1s var(--ease-out); }
+  .ab-video::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 50%, rgb(4 36 23 / 0.7)); pointer-events: none; }
+  .ab-video.is-playing::after { display: none; }
+  .ab-video:hover img { transform: scale(1.07); }
+  .ab-video :global(iframe) { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .ab-video__play {
+    position: absolute; z-index: 1; left: 50%; top: 50%; translate: -50% -50%;
+    display: grid; place-items: center; width: 82px; height: 82px; border-radius: 50%;
+    background: #fff; color: var(--o-600); box-shadow: 0 0 0 10px rgb(255 255 255 / 0.25);
+    transition: transform 0.4s var(--ease-spring), box-shadow 0.4s;
+  }
+  .ab-video__play :global(.icon) { fill: currentColor; margin-left: 4px; }
+  .ab-video__play:hover { transform: scale(1.08); box-shadow: 0 0 0 16px rgb(255 255 255 / 0.2); }
+  .ab-video__cap { position: absolute; z-index: 1; left: 18px; bottom: 14px; color: #fff; font-weight: 700; font-size: 0.92rem; pointer-events: none; }
+  .ab-media__photo { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--r-lg); }
+  .ab-motto { display: flex; align-items: center; gap: 12px; margin: 18px 0 0 26px; padding: 12px 16px; width: fit-content; max-width: calc(100% - 26px); border-radius: var(--r); background: #fff; box-shadow: 0 16px 30px -18px rgb(15 31 24 / 0.45); }
+  .ab-motto img { width: 34px; height: auto; flex: none; }
+  .ab-motto strong { display: block; color: var(--g-800); font-size: 0.95rem; line-height: 1.3; }
+  .ab-motto small { display: block; color: var(--o-600); font-weight: 600; font-size: 0.88rem; }
+
+  /* ---------- Numbers ---------- */
+  .ab-numbers {
+    position: relative; isolation: isolate; padding-block: clamp(44px, 6vw, 72px); color: rgb(255 255 255 / 0.8);
+    background: linear-gradient(120deg, var(--g-800), var(--g-950));
+  }
+  .ab-numbers::before {
+    content: ''; position: absolute; inset: 0; z-index: -1; opacity: 0.7;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60' fill='none' stroke='%23ffffff' stroke-width='.7' stroke-opacity='.1'%3E%3Cpath d='M0 30C15 12 45 12 60 30S105 48 120 30'/%3E%3Cpath d='M0 30C15 48 45 48 60 30S105 12 120 30'/%3E%3C/svg%3E");
+    background-size: 120px 60px;
+  }
+  .ab-numbers__kicker { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
+  :global(html[lang='mr']) .ab-numbers__kicker { letter-spacing: 0; text-transform: none; font-size: 0.9rem; }
+  .ab-numbers__row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .ab-numbers__row > div { padding: 6px 22px; border-left: 1px solid rgb(255 255 255 / 0.15); }
+  .ab-numbers__row > div:first-child { padding-left: 0; border-left: 0; }
+  .ab-numbers strong { display: block; color: #fff; font-size: clamp(1.9rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .ab-numbers__row > div:nth-child(even) strong { color: var(--gold); }
+  .ab-numbers__label { display: block; margin-top: 8px; font-weight: 700; color: #fff; }
+  .ab-numbers small { display: block; font-size: 0.85rem; color: rgb(255 255 255 / 0.65); }
+  @media (max-width: 799px) {
+    .ab-numbers__row { grid-template-columns: 1fr 1fr; row-gap: 22px; }
+    .ab-numbers__row > div:nth-child(odd) { padding-left: 0; border-left: 0; }
+    .ab-numbers__row > div { padding: 4px 14px; }
+  }
+
+  /* ---------- Vision & promise ---------- */
+  .ab-vm__grid { display: grid; gap: clamp(14px, 2vw, 22px); }
+  @media (min-width: 900px) { .ab-vm__grid { grid-template-columns: 1.15fr 0.85fr; } }
+  .ab-vm__vision, .ab-vm__promise { position: relative; overflow: hidden; padding: clamp(28px, 4vw, 48px); border-radius: var(--r-lg); }
+  .ab-vm__vision { color: #fff; background: radial-gradient(80% 90% at 100% 0%, rgb(243 179 61 / 0.3), transparent 60%), linear-gradient(150deg, var(--o-600), #8f3608); }
+  .ab-vm__vision::after { content: '“'; position: absolute; right: 18px; top: -30px; font-size: 13rem; font-weight: 800; line-height: 1; color: rgb(255 255 255 / 0.12); pointer-events: none; }
+  .ab-vm__promise { background: #fff; border: 1px solid var(--line); }
+  .ab-vm__kicker { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--g-600); }
+  .ab-vm__vision .ab-vm__kicker { color: var(--gold); }
+  :global(html[lang='mr']) .ab-vm__kicker { letter-spacing: 0; text-transform: none; font-size: 0.95rem; }
+  .ab-vm__text { margin-top: 14px; font-size: clamp(1.08rem, 1.6vw, 1.3rem); line-height: 1.6; font-weight: 500; }
+  .ab-vm__vision .ab-vm__text { color: #fff; }
+  .ab-vm__promise .ab-vm__text { color: var(--ink-2); }
+
+  /* ---------- Values ---------- */
+  .ab-values { background: var(--cream); }
+  .ab-values__grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); }
+  .ab-value {
+    position: relative; overflow: hidden; display: grid; gap: 8px; align-content: start;
+    padding: 24px 22px 26px; border-radius: var(--r-lg); background: #fff; border: 1px solid var(--line-2);
+    transition: transform 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out);
+  }
+  .ab-value::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 4px; background: linear-gradient(90deg, var(--o-500), var(--gold)); transform: scaleX(0); transform-origin: left; transition: transform 0.5s var(--ease-out); }
+  .ab-value__n { font-size: 2.6rem; font-weight: 800; line-height: 1; letter-spacing: -0.04em; color: transparent; -webkit-text-stroke: 1.5px var(--o-400); transition: color 0.4s; }
+  .ab-value__title { font-size: 1.08rem; line-height: 1.3; margin-top: 6px; }
+  .ab-value p { font-size: 0.93rem; color: var(--muted); line-height: 1.6; }
+  .ab-value:hover { transform: translateY(-6px); box-shadow: 0 24px 40px -26px rgb(120 60 10 / 0.45); }
+  .ab-value:hover::before { transform: scaleX(1); }
+  .ab-value:hover .ab-value__n { color: var(--o-500); }
+
+  /* ---------- Journey: a line that draws itself as you scroll ---------- */
+  .ab-journey { background: var(--surface); }
+  .ab-tl { position: relative; max-width: 1000px; margin: clamp(28px, 4vw, 48px) auto 0; }
+  .ab-tl__rail { position: absolute; left: 21px; top: 6px; bottom: 6px; width: 3px; border-radius: 3px; background: var(--line-2); }
+  .ab-tl__line { position: absolute; inset: 0; border-radius: 3px; background: linear-gradient(var(--o-500), var(--gold), var(--g-500)); transform-origin: top; }
+  @supports (animation-timeline: view()) {
+    .ab-tl__line { animation-name: ab-draw; animation-timing-function: linear; animation-fill-mode: both; }
+    .ab-tl .ab-tl__line { animation-timeline: --ab-tl; animation-range: entry 30% cover 65%; }
+    .ab-tl { view-timeline-name: --ab-tl; }
+  }
+  @keyframes ab-draw { from { transform: scaleY(0); } }
+  .ab-tl__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 26px; }
+  .ab-tl__item { position: relative; padding-left: 62px; }
+  .ab-tl__dot { position: absolute; left: 10px; top: 30px; width: 25px; height: 25px; border-radius: 50%; background: #fff; border: 5px solid var(--o-500); scale: 0.4; transition: scale 0.6s var(--ease-spring) 0.25s, box-shadow 0.6s 0.25s; }
+  .ab-tl__item.is-in .ab-tl__dot { scale: 1; box-shadow: 0 0 0 7px rgb(236 106 30 / 0.16); }
+  .ab-tl__card { padding: 24px 26px; border-radius: var(--r-lg); background: var(--bg); border: 1px solid var(--line-2); transition: transform 0.45s var(--ease-out), box-shadow 0.45s, border-color 0.3s; }
+  .ab-tl__card:hover { transform: translateY(-4px); box-shadow: 0 22px 40px -26px rgb(15 31 24 / 0.45); border-color: var(--o-200); }
+  .ab-tl__year { display: block; margin-bottom: 6px; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; line-height: 1; letter-spacing: -0.03em; color: var(--o-600); }
+  .ab-tl__card p { margin-top: 8px; color: var(--muted); }
+  @media (min-width: 900px) {
+    .ab-tl__rail { left: 50%; translate: -50% 0; }
+    .ab-tl__item { padding-left: 0; width: calc(50% - 44px); }
+    .ab-tl__item--right { margin-left: auto; }
+    .ab-tl__dot { left: auto; right: -57px; }
+    .ab-tl__item--right .ab-tl__dot { right: auto; left: -57px; }
+    .ab-tl__item:not(.ab-tl__item--right) .ab-tl__card { text-align: right; }
+  }
+  .ab-welcome { max-width: 720px; margin: clamp(32px, 4vw, 48px) auto 0; text-align: center; font-size: 1.1rem; color: var(--muted); }
+  .ab-welcome :global(strong) { color: var(--g-700); }
+
+  /* ---------- Moments: real photos gliding slowly; holds still on hover ---------- */
+  .ab-moments { background: var(--bg); overflow: hidden; padding-bottom: clamp(24px, 3vw, 40px); }
+  .ab-moments__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; margin-bottom: clamp(22px, 3vw, 34px); }
+  .ab-strip { mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+  .ab-strip__track { display: flex; gap: 16px; width: max-content; animation: ab-strip 60s linear infinite; }
+  .ab-strip:hover .ab-strip__track { animation-play-state: paused; }
+  @keyframes ab-strip { to { transform: translateX(calc(-50% - 8px)); } }
+  .ab-strip__item { margin: 0; width: clamp(220px, 26vw, 340px); aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--r); background: var(--cream); }
+  .ab-strip__item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease-out); }
+  .ab-strip__item:hover img { transform: scale(1.06); }
+  @media (prefers-reduced-motion: reduce) {
+    .ab-hero__img { animation: none; }
+    .ab-strip { overflow-x: auto; mask-image: none; }
+    .ab-strip__track { animation: none !important; }
+    .ab-strip__item[aria-hidden='true'] { display: none; }
+  }
+</style>

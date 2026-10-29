@@ -1,0 +1,187 @@
+# Production stack on one Docker host. Only Caddy publishes ports (80/443).
+#   cd deploy && cp .env.example .env   (fill in every value)
+#   docker compose -f compose.prod.yaml up -d
+#
+# Networks: "edge" reaches the internet; "internal" has no outside access and is not reachable from it.
+
+name: lokmangal
+
+x-api-env: &api-env
+  APP_ENV: production
+  DATABASE_URL: postgres://lokmangal:${POSTGRES_PASSWORD}@db:5432/lokmangal
+  PUBLIC_SITE_URL: ${PUBLIC_SITE_URL}
+  ADMIN_URL: ${ADMIN_URL}
+  PREVIEW_URL: ${PREVIEW_URL}
+  RELEASE_CHECK_URL: http://caddy:8088
+  SESSION_KEY: ${SESSION_KEY}
+  DATA_ENCRYPTION_KEY: ${DATA_ENCRYPTION_KEY}
+  DATA_ENCRYPTION_KEY_VERSION: ${DATA_ENCRYPTION_KEY_VERSION:-1}
+  BUILD_SERVICE_URL: http://builder:4300
+  BUILD_SERVICE_TOKEN: ${BUILD_SERVICE_TOKEN}
+  INTERNAL_URL: http://api:8001
+  ACTIVATION_DRIVER: caddy
+  CADDY_ADMIN_URL: http://caddy:2019
+  CADDY_TEMPLATE: /etc/lokmangal/Caddyfile.template
+  CADDY_RENDERED: /srv/state/Caddyfile.rendered
+  RELEASES_ROOT: /srv/releases
+  PREVIEWS_ROOT: /srv/previews
+  MEDIA_STORE_ROOT: /srv/media
+  PRIVATE_FILES_ROOT: /srv/private
+  SMTP_HOST: ${SMTP_HOST}
+  SMTP_PORT: ${SMTP_PORT:-587}
+  SMTP_SECURITY: ${SMTP_SECURITY:-starttls}
+  SMTP_USER: ${SMTP_USER}
+  SMTP_PASSWORD: ${SMTP_PASSWORD}
+  MAIL_FROM: ${MAIL_FROM}
+  TRUST_PROXY: "true"
+  JOB_CONCURRENCY: ${JOB_CONCURRENCY:-2}
+  BUILD_TIMEOUT_SECONDS: ${BUILD_TIMEOUT_SECONDS:-300}
+  SOURCE_COMMIT: ${TAG}
+  BUILDER_IMAGE: ghcr.io/${IMAGE_OWNER}/lokmangal-site-builder:${TAG}
+  RUST_LOG: ${RUST_LOG:-info}
+
+services:
+  caddy:
+    image: caddy:2.10-alpine
+    restart: unless-stopped
+    # Resumes the configuration of the last activated release; the bootstrap file is only for first start.
+    command: ["caddy", "run", "--resume", "--config", "/etc/caddy/Caddyfile.bootstrap", "--adapter", "caddyfile"]
+    ports: ["80:80", "443:443", "443:443/udp"]
+    environment:
+      PUBLIC_HOST: ${PUBLIC_HOST}
+      ADMIN_HOST: ${ADMIN_HOST}
+      PREVIEW_HOST: ${PREVIEW_HOST}
+      ACME_EMAIL: ${ACME_EMAIL}
+    volumes:
+      - ./caddy/Caddyfile.bootstrap:/etc/caddy/Caddyfile.bootstrap:ro
+      - ./caddy/bootstrap:/srv/bootstrap:ro
+      - caddy_data:/data
+      - caddy_config:/config
+      - releases:/srv/releases:ro
+      - previews:/srv/previews:ro
+      - state:/srv/state:ro
+    networks: [edge, internal]
+
+  api:
+    image: ghcr.io/${IMAGE_OWNER}/lokmangal-api:${TAG}
+    restart: unless-stopped
+    command: ["api"]
+    environment:
+      <<: *api-env
+      RUN_WORKER: "false"
+    volumes:
+      - media:/srv/media
+      - private:/srv/private
+      - releases:/srv/releases:ro
+      - previews:/srv/previews:ro
+    depends_on:
+      db: { condition: service_healthy }
+    networks: [edge, internal]
+    read_only: true
+    tmpfs: [/tmp]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+
+  # Jobs, schedules and the release controller (renders the Caddy config and asks Caddy to load it).
+  worker:
+    image: ghcr.io/${IMAGE_OWNER}/lokmangal-api:${TAG}
+    restart: unless-stopped
+    command: ["worker"]
+    environment:
+      <<: *api-env
+      RUN_MIGRATIONS: "false"
+    volumes:
+      - ./caddy/Caddyfile.template:/etc/lokmangal/Caddyfile.template:ro
+      - state:/srv/state
+      - media:/srv/media:ro
+      - private:/srv/private
+      - releases:/srv/releases
+      - previews:/srv/previews
+    depends_on:
+      db: { condition: service_healthy }
+      api: { condition: service_healthy }
+    networks: [edge, internal]
+    read_only: true
+    tmpfs: [/tmp]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    healthcheck:
+      disable: true
+
+  builder:
+    image: ghcr.io/${IMAGE_OWNER}/lokmangal-site-builder:${TAG}
+    restart: unless-stopped
+    environment:
+      BUILD_SERVICE_TOKEN: ${BUILD_SERVICE_TOKEN}
+      API_INTERNAL_URL: http://api:8001
+      BUILD_TIMEOUT_SECONDS: ${BUILD_TIMEOUT_SECONDS:-300}
+    volumes:
+      - releases:/srv/releases
+      - previews:/srv/previews
+      - media:/srv/media:ro
+    networks: [internal]
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    deploy:
+      resources:
+        limits: { memory: 1536m, cpus: "1.5" }
+
+  admin:
+    image: ghcr.io/${IMAGE_OWNER}/lokmangal-admin:${TAG}
+    restart: unless-stopped
+    networks: [internal]
+    read_only: true
+    tmpfs: [/config, /data]
+
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: lokmangal
+      POSTGRES_USER: lokmangal
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lokmangal -d lokmangal"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks: [internal]
+    shm_size: 256m
+
+  backup:
+    build: ./backup
+    restart: unless-stopped
+    environment:
+      PGHOST: db
+      PGUSER: lokmangal
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      PGDATABASE: lokmangal
+      RESTIC_REPOSITORY: ${BACKUP_REPOSITORY}
+      RESTIC_PASSWORD: ${BACKUP_PASSWORD}
+      AWS_ACCESS_KEY_ID: ${BACKUP_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${BACKUP_SECRET_ACCESS_KEY}
+      BACKUP_AT: ${BACKUP_AT:-01:30}
+    volumes:
+      - media:/data/media:ro
+      - private:/data/private:ro
+      - state:/data/state:ro
+    depends_on:
+      db: { condition: service_healthy }
+    networks: [edge, internal]
+
+volumes:
+  pgdata: {}
+  media: {}
+  private: {}
+  releases: {}
+  previews: {}
+  state: {}
+  caddy_data: {}
+  caddy_config: {}
+
+networks:
+  edge: {}
+  internal:
+    internal: true

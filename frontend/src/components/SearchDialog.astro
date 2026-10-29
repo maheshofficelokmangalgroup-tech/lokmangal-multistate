@@ -1,55 +1,59 @@
 ---
 import Icon from './Icon.astro';
+import { getLang, localePath } from '../i18n';
+import { useT } from '../i18n/ui';
 
+const lang = getLang(Astro);
+const t = useT(lang);
 const quick = [
-  { label: 'Open an account', href: '/open-an-account/', icon: 'user-plus' },
-  { label: 'Book a fixed deposit', href: '/apply-for-deposits/', icon: 'piggy-bank' },
-  { label: 'Interest rates', href: '/interest-rates/', icon: 'percent' },
-  { label: 'Apply for a loan', href: '/apply-loan/', icon: 'hand-coins' },
-  { label: 'Find a branch', href: '/branches/', icon: 'map-pin' },
-  { label: 'Calculators', href: '/calculators/', icon: 'calculator' },
+  { label: t('search.q.account'), href: localePath('/open-an-account/', lang), icon: 'user-plus' },
+  { label: t('search.q.fd'), href: localePath('/apply-for-deposits/', lang), icon: 'piggy-bank' },
+  { label: t('search.q.rates'), href: localePath('/interest-rates/', lang), icon: 'percent' },
+  { label: t('search.q.loan'), href: localePath('/apply-loan/', lang), icon: 'hand-coins' },
+  { label: t('search.q.branch'), href: localePath('/branches/', lang), icon: 'map-pin' },
+  { label: t('search.q.calc'), href: localePath('/calculators/', lang), icon: 'calculator' },
 ];
 ---
 
-<dialog class="search" data-search aria-label="Search the website">
+<dialog class="search" data-search aria-label={t('search.site')}>
   <div class="search__panel">
     <div class="search__bar">
       <Icon name="search" size={20} />
       <input
         type="search"
         class="search__input"
-        placeholder="Search schemes, loans, branches, FAQs…"
+        placeholder={t('search.placeholder')}
         autocomplete="off"
         spellcheck="false"
         role="combobox"
         aria-expanded="false"
         aria-controls="search-results"
         aria-autocomplete="list"
-        aria-label="Search"
+        aria-label={t('search')}
         data-search-input
       />
-      <button class="search__close" data-search-close aria-label="Close search"><kbd>Esc</kbd></button>
+      <button class="search__close" data-search-close aria-label={t('search.close')}><kbd>Esc</kbd></button>
     </div>
 
     <div class="search__body">
       <div class="search__quick" data-search-quick>
-        <p class="search__label">Quick links</p>
+        <p class="search__label">{t('search.quick')}</p>
         <div class="search__quick-grid">
           {quick.map((q) => (
             <a href={q.href} class="search__quick-link"><Icon name={q.icon} size={18} /> {q.label}</a>
           ))}
         </div>
       </div>
-      <ul class="search__results" id="search-results" role="listbox" aria-label="Search results" data-search-results hidden></ul>
+      <ul class="search__results" id="search-results" role="listbox" aria-label={t('search.results')} data-search-results hidden></ul>
       <p class="search__empty" data-search-empty hidden>
-        No results. Try a town name, a scheme like “Lakshadish”, or call <a href="tel:+919923203322">+91 99232 03322</a>.
+        {t('search.empty')} <a href="tel:+919923203322">+91 99232 03322</a>.
       </p>
     </div>
 
     <div class="search__foot" aria-hidden="true">
-      <span><kbd>↑</kbd><kbd>↓</kbd> to move</span>
-      <span><kbd>Enter</kbd> to open</span>
-      <span><kbd>Esc</kbd> to close</span>
+      <span><kbd>↑</kbd><kbd>↓</kbd> {t('search.move')}</span>
+      <span><kbd>Enter</kbd> {t('search.open')}</span>
+      <span><kbd>Esc</kbd> {t('search.esc')}</span>
     </div>
     <p class="sr-only" role="status" aria-live="polite" data-search-status></p>
   </div>

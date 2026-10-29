@@ -1,0 +1,86 @@
+@import 'tailwindcss';
+@import '@fontsource/poppins/400.css';
+@import '@fontsource/poppins/500.css';
+@import '@fontsource/poppins/600.css';
+@import '@fontsource/mukta/400.css';
+@import '@fontsource/mukta/600.css';
+
+/* Design tokens (specification §4.2). Status colours are always paired with text or an icon. */
+@theme {
+  --color-brand-primary: #c2410c;
+  --color-brand-hover: #9a3412;
+  --color-brand-accent: #ea580c;
+  --color-brand-soft: #fff7ed;
+  --color-canvas: #f7f8fa;
+  --color-surface: #ffffff;
+  --color-text-primary: #18181b;
+  --color-text-secondary: #52525b;
+  --color-line: #e4e4e7;
+  --color-line-subtle: #f4f4f5;
+  --color-success: #166534;
+  --color-success-soft: #f0fdf4;
+  --color-warning: #92400e;
+  --color-warning-soft: #fffbeb;
+  --color-danger: #b91c1c;
+  --color-danger-soft: #fef2f2;
+  --color-neutral: #52525b;
+  --color-neutral-soft: #f4f4f5;
+  --color-info: #1d4ed8;
+  --color-info-soft: #eff6ff;
+
+  --font-sans: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-marathi: 'Mukta', 'Poppins', sans-serif;
+
+  --radius-panel: 10px;
+  --radius-control: 8px;
+  --shadow-menu: 0 8px 24px -6px rgb(24 24 27 / 0.18), 0 2px 6px -2px rgb(24 24 27 / 0.08);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-canvas);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  :lang(mr),
+  .font-marathi {
+    font-family: var(--font-marathi);
+    font-size: max(1em, 16px);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brand-primary);
+    outline-offset: 2px;
+  }
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+  ::selection {
+    background: var(--color-brand-soft);
+    color: var(--color-brand-hover);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Rich text editor content */
+.prose-admin p { margin: 0.4em 0; }
+.prose-admin ul { list-style: disc; padding-left: 1.4em; }
+.prose-admin ol { list-style: decimal; padding-left: 1.4em; }
+.prose-admin h2 { font-size: 1.15em; font-weight: 600; margin: 0.6em 0 0.3em; }
+.prose-admin h3 { font-size: 1.05em; font-weight: 600; margin: 0.6em 0 0.3em; }
+.prose-admin a { color: var(--color-brand-primary); text-decoration: underline; }
+.prose-admin blockquote { border-left: 3px solid var(--color-line); padding-left: 0.8em; color: var(--color-text-secondary); }
+.ProseMirror { outline: none; min-height: 140px; }

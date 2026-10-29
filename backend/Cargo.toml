@@ -1,0 +1,65 @@
+[package]
+name = "lokmangal-backend"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "Rust API, worker and release controller for the Lokmangal Multistate website and admin panel"
+publish = false
+default-run = "lokmangal-server"
+
+[lib]
+name = "lokmangal"
+path = "src/lib.rs"
+
+[[bin]]
+name = "lokmangal-server"
+path = "src/main.rs"
+
+[[bin]]
+name = "lokmangal-cli"
+path = "src/bin/cli.rs"
+
+[dependencies]
+ammonia = "4"
+anyhow = "1"
+argon2 = { version = "0.5", features = ["std"] }
+axum = { version = "0.8", features = ["multipart", "macros"] }
+base64 = "0.22"
+bytes = "1"
+chacha20poly1305 = "0.10"
+chrono = { version = "0.4", features = ["serde"] }
+chrono-tz = "0.10"
+csv = "1"
+dotenvy = "0.15"
+hex = "0.4"
+hmac = "0.12"
+image = { version = "0.25", default-features = false, features = ["jpeg", "png", "webp"] }
+infer = "0.19"
+lettre = { version = "0.11", default-features = false, features = ["builder", "hostname", "smtp-transport", "tokio1", "tokio1-rustls-tls", "pool"] }
+rand = "0.8"
+regex = "1"
+reqwest = { version = "0.12", default-features = false, features = ["json"] }
+rust_decimal = { version = "1", features = ["serde-with-str"] }
+rust_xlsxwriter = "0.90"
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+sha2 = "0.10"
+sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio", "postgres", "macros", "migrate", "uuid", "chrono", "json", "rust_decimal", "ipnetwork"] }
+thiserror = "2"
+tokio = { version = "1", features = ["full"] }
+tokio-util = { version = "0.7", features = ["io"] }
+totp-rs = "5"
+tower = { version = "0.5", features = ["util"] }
+tower-http = { version = "0.6", features = ["trace", "limit", "request-id", "set-header", "timeout", "fs", "sensitive-headers", "util"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+url = "2"
+uuid = { version = "1", features = ["v4", "serde"] }
+webp = "0.3"
+
+[dev-dependencies]
+http-body-util = "0.1"
+
+[profile.release]
+lto = "thin"
+codegen-units = 4

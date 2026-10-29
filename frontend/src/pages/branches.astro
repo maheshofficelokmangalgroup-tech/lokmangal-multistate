@@ -10,12 +10,12 @@ const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
 const maps = (q: string) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
 ---
 
-<Base title="Branches" description={`Find a Lokmangal Multistate branch near you — ${branchCount} branches across Pune, Solapur, Dharashiv, Latur, Kolhapur, Parbhani, Belgaum and more in Maharashtra & Karnataka.`}>
+<Base title="Branches" description={`Find a Lokmangal Multistate branch near you: ${branchCount} branches across Pune, Solapur, Dharashiv, Latur, Kolhapur, Parbhani, Belgaum and more in Maharashtra & Karnataka.`}>
   <PageHero
     title="Find a branch"
     accent="near you"
     eyebrow="Our network"
-    subtitle="Branches across the rural–urban divide of Maharashtra and Karnataka — search by town, address or division."
+    subtitle="Branches across the towns and villages of Maharashtra and Karnataka, search by town, address or division."
     crumbs={[{ label: 'Branches' }]}
   >
     <div slot="aside" class="br-stats">
@@ -85,7 +85,7 @@ const maps = (q: string) => `https://www.google.com/maps/search/?api=1&query=${e
     </div>
   </section>
 
-  <CtaBand title="Visit us at a branch" accent="near you" text="Open an account, book a deposit or apply for a loan at any Lokmangal branch — our team will be happy to help." />
+  <CtaBand title="Visit us at a branch" accent="near you" text="Open an account, book a deposit or apply for a loan at any Lokmangal branch. Our team will be happy to help." />
 </Base>
 
 <style>

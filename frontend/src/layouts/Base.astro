@@ -1,17 +1,25 @@
 ---
-import '@fontsource-variable/plus-jakarta-sans';
-import '@fontsource-variable/fraunces/wght-italic.css';
-import '@fontsource/mukta/400.css';
-import '@fontsource/mukta/600.css';
-import '@fontsource/mukta/700.css';
+import '@fontsource/poppins/latin-400.css';
+import '@fontsource/poppins/latin-500.css';
+import '@fontsource/poppins/latin-600.css';
+import '@fontsource/poppins/latin-700.css';
+import '@fontsource/poppins/latin-800.css';
+import '@fontsource/poppins/devanagari-400.css';
+import '@fontsource/poppins/devanagari-500.css';
+import '@fontsource/poppins/devanagari-600.css';
+import '@fontsource/poppins/devanagari-700.css';
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
-import jakartaWoff2 from '@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2?url';
+import poppins400 from '@fontsource/poppins/files/poppins-latin-400-normal.woff2?url';
+import poppins600 from '@fontsource/poppins/files/poppins-latin-600-normal.woff2?url';
 import Header from '../components/Header.astro';
 import SearchDialog from '../components/SearchDialog.astro';
 import Footer from '../components/Footer.astro';
 import Icon from '../components/Icon.astro';
-import { site } from '../data/site';
+import { siteData } from '../data/site';
+import { isPreview, ratesExpired, ratesLastValidDayFor, ratesValidUntil } from '../lib/content';
+import { getLang, hasMarathi, langTags, ogLocales, stripLang } from '../i18n';
+import { runtimeStrings, useT } from '../i18n/ui';
 
 interface Props {
   title?: string;
@@ -20,8 +28,13 @@ interface Props {
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   noindex?: boolean;
 }
+const lang = getLang(Astro);
+const t = useT(lang);
+const { site } = siteData(lang);
 const { title, description = site.description, image = '/images/brand/og-icon.png', jsonLd, noindex = false } = Astro.props;
-const fullTitle = title ? `${title} | ${site.name}` : `${site.name} — Co-operative Society in Solapur | Deposits up to 10% & Loans`;
+const fullTitle = title ? `${title} | ${site.name}` : t('title.home', { name: site.name });
+const bare = stripLang(Astro.url.pathname);
+const alternates = hasMarathi(bare) ? [['en-IN', bare], ['mr-IN', bare === '/' ? '/mr/' : `/mr${bare}`], ['x-default', bare]] : [];
 const canonical = new URL(Astro.url.pathname, site.url).href;
 const ogImage = new URL(image, site.url).href;
 
@@ -52,16 +65,18 @@ const ld = [orgLd, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang} data-rates-valid-until={ratesValidUntil} data-rates-expired={ratesExpired ? "true" : undefined}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex" />}
+    {alternates.map(([hl, href]) => <link rel="alternate" hreflang={hl} href={new URL(href, site.url).href} />)}
+    {(noindex || isPreview) && <meta name="robots" content="noindex, nofollow" />}
     <meta name="theme-color" content="#083822" />
-    <link rel="preload" href={jakartaWoff2} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={poppins400} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={poppins600} as="font" type="font/woff2" crossorigin />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -72,18 +87,25 @@ const ld = [orgLd, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:locale" content="en_IN" />
+    <meta property="og:locale" content={ogLocales[lang]} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@LMCSOfficial" />
 
     <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+    <script type="application/json" id="i18n" set:html={JSON.stringify(runtimeStrings(lang))} />
     <script is:inline>document.documentElement.classList.add('js');</script>
     <ClientRouter />
   </head>
   <body>
-    <a href="#main" class="skip-link">Skip to content</a>
+    <a href="#main" class="skip-link">{t('skip')}</a>
     <div class="scroll-progress" data-progress aria-hidden="true"></div>
 
+    {isPreview && (
+      <div class="site-flag site-flag--preview" role="note">{t('preview')}</div>
+    )}
+    <div class="site-flag site-flag--rates" role="status" data-rates-notice hidden={!ratesExpired}>
+      {t('rates.expired', { date: ratesLastValidDayFor(lang), phone: site.phone })}
+    </div>
     <Header />
     <main id="main" tabindex="-1">
       <slot />
@@ -91,23 +113,23 @@ const ld = [orgLd, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
     <Footer />
 
     <div class="fab" data-fab>
-      <a href={site.phoneHref} class="fab__btn fab__call" aria-label={`Call ${site.phone}`}>
+      <a href={site.phoneHref} class="fab__btn fab__call" aria-label={t('fab.call', { phone: site.phone })}>
         <Icon name="phone" size={20} />
       </a>
-      <button class="fab__btn fab__top" data-to-top aria-label="Back to top">
+      <button class="fab__btn fab__top" data-to-top aria-label={t('fab.top')}>
         <svg viewBox="0 0 48 48" class="fab__ring" aria-hidden="true"><circle cx="24" cy="24" r="22" pathLength="100" data-top-ring></circle></svg>
         <Icon name="arrow-up" size={20} />
       </button>
     </div>
 
-    <dialog class="lightbox" data-lightbox aria-label="Image viewer">
-      <button class="lightbox__close" data-lightbox-close aria-label="Close"><Icon name="x" size={24} /></button>
-      <button class="lightbox__nav lightbox__prev" data-lightbox-prev aria-label="Previous image"><Icon name="chevron-left" size={26} /></button>
+    <dialog class="lightbox" data-lightbox aria-label={t('lightbox')}>
+      <button class="lightbox__close" data-lightbox-close aria-label={t('lightbox.close')}><Icon name="x" size={24} /></button>
+      <button class="lightbox__nav lightbox__prev" data-lightbox-prev aria-label={t('lightbox.prev')}><Icon name="chevron-left" size={26} /></button>
       <figure class="lightbox__figure">
         <img src="" alt="" data-lightbox-img />
         <figcaption data-lightbox-caption></figcaption>
       </figure>
-      <button class="lightbox__nav lightbox__next" data-lightbox-next aria-label="Next image"><Icon name="chevron-right" size={26} /></button>
+      <button class="lightbox__nav lightbox__next" data-lightbox-next aria-label={t('lightbox.next')}><Icon name="chevron-right" size={26} /></button>
     </dialog>
 
     <SearchDialog />
@@ -140,7 +162,7 @@ const ld = [orgLd, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
     position: relative; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%;
     box-shadow: var(--shadow); transition: transform 0.45s var(--ease-spring), opacity 0.3s, background 0.25s;
   }
-  .fab__call { background: var(--o-500); color: #fff; animation: fab-ring 3s ease-in-out infinite; }
+  .fab__call { background: var(--o-500); color: #fff; }
   .fab__call:hover { background: var(--o-600); transform: scale(1.08) rotate(-12deg); }
   @keyframes fab-ring { 0%, 100% { box-shadow: var(--shadow), 0 0 0 0 rgb(236 106 30 / 0.45); } 50% { box-shadow: var(--shadow), 0 0 0 12px rgb(236 106 30 / 0); } }
   .fab__top { background: #fff; color: var(--g-800); opacity: 0; transform: translateY(16px) scale(0.8); pointer-events: none; }

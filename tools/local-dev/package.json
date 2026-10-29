@@ -1,0 +1,14 @@
+{
+  "name": "lokmangal-local-dev",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Runs the whole system on one computer without Docker (development only).",
+  "scripts": {
+    "start": "node start.mjs"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "0.5.12",
+    "@electric-sql/pglite-socket": "0.2.15"
+  }
+}

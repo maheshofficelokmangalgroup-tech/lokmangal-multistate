@@ -1,0 +1,22 @@
+# Local development services. The API, admin and website run from source (see README.md).
+#   docker compose up -d
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: lokmangal
+      POSTGRES_USER: lokmangal
+      POSTGRES_PASSWORD: lokmangal
+    ports: ["127.0.0.1:5432:5432"]
+    volumes: [devdb:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lokmangal"]
+      interval: 5s
+
+  # Catches every email the API sends: http://localhost:8025
+  mailpit:
+    image: axllent/mailpit:v1.27
+    ports: ["127.0.0.1:1025:1025", "127.0.0.1:8025:8025"]
+
+volumes:
+  devdb: {}

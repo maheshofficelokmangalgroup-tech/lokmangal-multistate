@@ -1,0 +1,48 @@
+# First-start configuration, used only until the first release is activated (after that Caddy resumes the
+# configuration the release controller loaded). The public site shows a short holding page; the admin
+# panel and API work normally so staff can sign in and publish.
+
+{
+	email {$ACME_EMAIL}
+	admin 0.0.0.0:2019 {
+		origins caddy:2019
+	}
+}
+
+{$PUBLIC_HOST}, www.{$PUBLIC_HOST} {
+	@forms path /api/v1/enquiries /api/v1/applications /api/v1/health
+	handle @forms {
+		reverse_proxy api:8000
+	}
+	handle {
+		root * /srv/bootstrap
+		try_files /index.html
+		file_server
+	}
+}
+
+{$ADMIN_HOST} {
+	header X-Robots-Tag "noindex, nofollow"
+	handle /api/admin/* {
+		reverse_proxy api:8000
+	}
+	handle {
+		reverse_proxy admin:8080
+	}
+}
+
+{$PREVIEW_HOST} {
+	handle /api/preview/* {
+		reverse_proxy api:8000
+	}
+	handle {
+		request_header -X-Preview-Release
+		forward_auth api:8000 {
+			uri /api/preview/check
+			copy_headers X-Preview-Release
+		}
+		root * /srv/previews/{http.request.header.X-Preview-Release}
+		try_files {path} {path}/index.html
+		file_server
+	}
+}

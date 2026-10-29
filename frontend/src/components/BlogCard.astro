@@ -1,12 +1,16 @@
 ---
 import Icon from './Icon.astro';
+import { getLang, localePath } from '../i18n';
+import { useT } from '../i18n/ui';
 
 interface Props {
   post: { id: number; slug: string; title: string; date: string; image: string | null; excerpt: string };
 }
 const { post } = Astro.props;
-const href = `/blog/${post.slug}/`;
-const date = new Date(post.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+const lang = getLang(Astro);
+const t = useT(lang);
+const href = localePath(`/blog/${post.slug}/`, lang);
+const date = new Date(post.date).toLocaleDateString(lang === 'mr' ? 'mr-IN' : 'en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
 const isMarathi = /[ऀ-ॿ]/.test(post.title);
 ---
 
@@ -18,7 +22,7 @@ const isMarathi = /[ऀ-ॿ]/.test(post.title);
   <div class="post__body">
     <h3 class="post__title" lang={isMarathi ? 'mr' : undefined}><a href={href}>{post.title}</a></h3>
     <p class="post__excerpt" lang={isMarathi ? 'mr' : undefined}>{post.excerpt}</p>
-    <span class="link-arrow">Read story <Icon name="arrow-right" size={16} /></span>
+    <span class="link-arrow">{t('btn.readStory')} <Icon name="arrow-right" size={16} /></span>
   </div>
 </article>
 
