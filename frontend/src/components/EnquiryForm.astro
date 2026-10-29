@@ -1,0 +1,204 @@
+---
+import Icon from './Icon.astro';
+import { jobOpenings, site } from '../data/site';
+import { schemes } from '../data/deposits';
+import { loanTypesForForm } from '../data/loans';
+
+type Variant = 'account' | 'deposit' | 'loan' | 'contact' | 'callback' | 'service' | 'career';
+interface Props {
+  variant: Variant;
+  title?: string;
+  subtitle?: string;
+  submitLabel?: string;
+  preset?: string;
+  dark?: boolean;
+}
+const { variant, title, subtitle, submitLabel = 'Submit', preset, dark = false } = Astro.props;
+const id = `f-${variant}-${Math.random().toString(36).slice(2, 7)}`;
+const depositOptions = schemes.map((s) => s.name);
+---
+
+<div class:list={['form-card', { 'form-card--dark': dark }]} data-form-card>
+  {title && (
+    <div class="form-card__head">
+      <h2 class="h3">{title}</h2>
+      {subtitle && <p class="muted">{subtitle}</p>}
+    </div>
+  )}
+
+  <form class="form" action={site.formEndpoint} method="post" data-enquiry novalidate={false}>
+    <input type="hidden" name="form" value={variant} />
+    <input type="hidden" name="page" value={Astro.url.pathname} />
+    <input type="hidden" name="ts" value="" data-ts />
+    <div class="hp" aria-hidden="true">
+      <label for={`${id}-website`}>Website</label>
+      <input type="text" id={`${id}-website`} name="website" tabindex="-1" autocomplete="off" />
+    </div>
+
+    {(variant === 'account' || variant === 'deposit') && (
+      <>
+        <div class="form-grid">
+          <div class="field"><label for={`${id}-fn`}>First name <span class="req">*</span></label><input id={`${id}-fn`} name="first_name" required autocomplete="given-name" /></div>
+          <div class="field"><label for={`${id}-mn`}>Middle name</label><input id={`${id}-mn`} name="middle_name" autocomplete="additional-name" /></div>
+          <div class="field"><label for={`${id}-ln`}>Last name <span class="req">*</span></label><input id={`${id}-ln`} name="last_name" required autocomplete="family-name" /></div>
+        </div>
+        <div class="form-grid">
+          <div class="field"><label for={`${id}-ph`}>Contact number <span class="req">*</span></label><input id={`${id}-ph`} name="phone" type="tel" inputmode="tel" pattern="[0-9+\\s-]{10,15}" required autocomplete="tel" /></div>
+          <div class="field"><label for={`${id}-em`}>Email <span class="req">*</span></label><input id={`${id}-em`} name="email" type="email" required autocomplete="email" /></div>
+          <div class="field"><label for={`${id}-ct`}>City <span class="req">*</span></label><input id={`${id}-ct`} name="city" required autocomplete="address-level2" /></div>
+        </div>
+        {variant === 'account' ? (
+          <div class="field">
+            <label for={`${id}-type`}>Account type you would like to open <span class="req">*</span></label>
+            <select id={`${id}-type`} name="account_type" required>
+              {['Savings Account', 'Current Account', 'Recurring Deposit'].map((o) => <option selected={o === preset}>{o}</option>)}
+            </select>
+          </div>
+        ) : (
+          <div class="field">
+            <label for={`${id}-type`}>Which deposit would you like to open? <span class="req">*</span></label>
+            <select id={`${id}-type`} name="deposit_type" required>
+              {depositOptions.map((o) => <option selected={o === preset}>{o}</option>)}
+            </select>
+          </div>
+        )}
+        <div class="field"><label for={`${id}-msg`}>Message</label><textarea id={`${id}-msg`} name="message" rows="4"></textarea></div>
+      </>
+    )}
+
+    {variant === 'loan' && (
+      <>
+        <div class="form-grid">
+          <div class="field"><label for={`${id}-nm`}>Full name <span class="req">*</span></label><input id={`${id}-nm`} name="name" required autocomplete="name" /></div>
+          <div class="field"><label for={`${id}-ph`}>Contact number <span class="req">*</span></label><input id={`${id}-ph`} name="phone" type="tel" inputmode="tel" pattern="[0-9+\\s-]{10,15}" required autocomplete="tel" /></div>
+        </div>
+        <div class="form-grid">
+          <div class="field"><label for={`${id}-em`}>Email <span class="req">*</span></label><input id={`${id}-em`} name="email" type="email" required autocomplete="email" /></div>
+          <div class="field"><label for={`${id}-ct`}>Resident city <span class="req">*</span></label><input id={`${id}-ct`} name="city" required autocomplete="address-level2" /></div>
+        </div>
+        <div class="form-grid">
+          <div class="field">
+            <label for={`${id}-type`}>Loan type <span class="req">*</span></label>
+            <select id={`${id}-type`} name="loan_type" required data-loan-select>
+              <option value="">Choose loan type</option>
+              {loanTypesForForm.map((o) => <option selected={o === preset}>{o}</option>)}
+            </select>
+          </div>
+          <div class="field"><label for={`${id}-amt`}>Required loan amount (₹) <span class="req">*</span></label><input id={`${id}-amt`} name="amount" type="number" min="1000" step="1" inputmode="numeric" required /></div>
+        </div>
+        <div class="field"><label for={`${id}-msg`}>Message</label><textarea id={`${id}-msg`} name="message" rows="4"></textarea></div>
+      </>
+    )}
+
+    {(variant === 'contact' || variant === 'service') && (
+      <>
+        <div class="form-grid">
+          <div class="field"><label for={`${id}-nm`}>Full name <span class="req">*</span></label><input id={`${id}-nm`} name="name" required autocomplete="name" /></div>
+          <div class="field"><label for={`${id}-ph`}>Phone number <span class="req">*</span></label><input id={`${id}-ph`} name="phone" type="tel" inputmode="tel" pattern="[0-9+\\s-]{10,15}" required autocomplete="tel" /></div>
+        </div>
+        <div class="form-grid">
+          <div class="field"><label for={`${id}-em`}>Email <span class="req">*</span></label><input id={`${id}-em`} name="email" type="email" required autocomplete="email" /></div>
+          {variant === 'service' && <div class="field"><label for={`${id}-loc`}>Location <span class="req">*</span></label><input id={`${id}-loc`} name="city" required autocomplete="address-level2" /></div>}
+        </div>
+        <div class="field"><label for={`${id}-msg`}>How can we help? {variant === 'contact' && <span class="req">*</span>}</label><textarea id={`${id}-msg`} name="message" rows="5" required={variant === 'contact'}></textarea></div>
+      </>
+    )}
+
+    {variant === 'callback' && (
+      <>
+        <div class="field"><label for={`${id}-nm`}>Full name <span class="req">*</span></label><input id={`${id}-nm`} name="name" required autocomplete="name" /></div>
+        <div class="field"><label for={`${id}-ph`}>Contact number <span class="req">*</span></label><input id={`${id}-ph`} name="phone" type="tel" inputmode="tel" pattern="[0-9+\\s-]{10,15}" required autocomplete="tel" /></div>
+        <div class="field"><label for={`${id}-em`}>Email <span class="req">*</span></label><input id={`${id}-em`} name="email" type="email" required autocomplete="email" /></div>
+        <div class="field"><label for={`${id}-loc`}>Your location <span class="req">*</span></label><input id={`${id}-loc`} name="city" required autocomplete="address-level2" /></div>
+        {preset && <input type="hidden" name="interest" value={preset} />}
+      </>
+    )}
+
+    {variant === 'career' && (
+      <>
+        <div class="form-grid">
+          <div class="field"><label for={`${id}-nm`}>Full name <span class="req">*</span></label><input id={`${id}-nm`} name="name" required autocomplete="name" /></div>
+          <div class="field"><label for={`${id}-ph`}>Phone number <span class="req">*</span></label><input id={`${id}-ph`} name="phone" type="tel" inputmode="tel" pattern="[0-9+\\s-]{10,15}" required autocomplete="tel" /></div>
+        </div>
+        <div class="form-grid">
+          <div class="field"><label for={`${id}-em`}>Email <span class="req">*</span></label><input id={`${id}-em`} name="email" type="email" required autocomplete="email" /></div>
+          <div class="field">
+            <label for={`${id}-pos`}>Position <span class="req">*</span></label>
+            <select id={`${id}-pos`} name="position" required>
+              {jobOpenings.map((j) => <option>{j.title}</option>)}
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="field"><label for={`${id}-exp`}>Experience (years)</label><input id={`${id}-exp`} name="experience" type="number" min="0" max="50" inputmode="numeric" /></div>
+          <div class="field"><label for={`${id}-ct`}>Current city <span class="req">*</span></label><input id={`${id}-ct`} name="city" required autocomplete="address-level2" /></div>
+        </div>
+        <div class="field"><label for={`${id}-msg`}>Tell us about yourself</label><textarea id={`${id}-msg`} name="message" rows="4"></textarea></div>
+        <p class="form__note">Please also email your résumé to <a href={`mailto:${site.hrEmail}`}>{site.hrEmail}</a>.</p>
+      </>
+    )}
+
+    <label class="consent">
+      <input type="checkbox" name="consent" required />
+      <span>I agree to be contacted by Lokmangal Multistate about my enquiry.</span>
+    </label>
+
+    <button type="submit" class="btn btn--primary btn--lg btn--block" data-submit>
+      <span data-submit-label>{submitLabel}</span>
+      <Icon name="arrow-right" size={18} class="icon--arrow" />
+      <span class="spinner" aria-hidden="true"></span>
+    </button>
+    <p class="form__status" role="status" aria-live="polite" data-status></p>
+  </form>
+
+  <div class="form-success" data-success hidden>
+    <svg class="form-success__check" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24" /><path d="M15 27l7 7 15-16" /></svg>
+    <h3 class="h3">Thank you!</h3>
+    <p class="muted">We have received your details. Our team will get in touch with you shortly.</p>
+    <a href={site.phoneHref} class="link-arrow">Need help right away? Call {site.phone} <Icon name="arrow-right" size={16} /></a>
+  </div>
+</div>
+
+<style>
+  .form-card {
+    position: relative;
+    background: var(--surface);
+    border-radius: var(--r-xl);
+    padding: clamp(24px, 3.5vw, 40px);
+    border: 1px solid var(--line-2);
+    box-shadow: var(--shadow);
+  }
+  .form-card__head { margin-bottom: 22px; }
+  .form-card__head > * + * { margin-top: 8px; }
+  .form-card--dark { background: rgb(255 255 255 / 0.04); border-color: rgb(255 255 255 / 0.12); box-shadow: none; backdrop-filter: blur(10px); }
+  .form-card--dark h2 { color: #fff; }
+  .form-card--dark .muted, .form-card--dark .consent { color: rgb(255 255 255 / 0.7); }
+  .form-card--dark :global(.field label) { color: #fff; }
+  .form-card--dark :global(.field input), .form-card--dark :global(.field select), .form-card--dark :global(.field textarea) {
+    background: rgb(255 255 255 / 0.06); border-color: rgb(255 255 255 / 0.16); color: #fff;
+  }
+  .form-card--dark :global(.field select option) { color: var(--ink); }
+
+  .consent { display: flex; align-items: flex-start; gap: 10px; font-size: 0.86rem; color: var(--muted); cursor: pointer; }
+  .consent input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--g-600); flex: none; }
+
+  [data-submit] .spinner {
+    display: none; width: 18px; height: 18px; border-radius: 50%;
+    border: 2.5px solid rgb(255 255 255 / 0.35); border-top-color: #fff; animation: spin 0.8s linear infinite;
+  }
+  [data-submit].is-loading .spinner { display: inline-block; }
+  [data-submit].is-loading :global(.icon) { display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .form__status:empty { display: none; }
+  .form__status { padding: 12px 14px; border-radius: 12px; background: #fdecec; color: #9b2c2c; font-size: 0.9rem; }
+  .form__status :global(a) { font-weight: 700; text-decoration: underline; }
+
+  .form-success { text-align: center; display: grid; gap: 12px; justify-items: center; padding: 24px 0; }
+  .form-success[hidden] { display: none; }
+  .form-success__check { width: 84px; height: 84px; }
+  .form-success__check circle { fill: var(--g-100); stroke: var(--g-500); stroke-width: 2; stroke-dasharray: 160; stroke-dashoffset: 160; animation: draw 0.8s var(--ease-out) forwards; }
+  .form-success__check path { fill: none; stroke: var(--g-600); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 40; stroke-dashoffset: 40; animation: draw 0.5s 0.6s var(--ease-out) forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+</style>

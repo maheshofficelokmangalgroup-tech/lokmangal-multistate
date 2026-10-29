@@ -3,21 +3,21 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Website for Lokmangal Multistate Co-operative Society Ltd., Solapur",
+  "description": "Lokmangal Multistate: public website (Astro), admin panel (React) and shared packages. The Rust API lives in backend/.",
   "engines": {
     "node": ">=22.12.0"
   },
+  "workspaces": [
+    "packages/*",
+    "frontend",
+    "admin"
+  ],
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "import:blog": "node scripts/import-blog.mjs"
-  },
-  "dependencies": {
-    "@astrojs/sitemap": "3.7.4",
-    "@fontsource-variable/fraunces": "5.3.0",
-    "@fontsource-variable/plus-jakarta-sans": "5.3.0",
-    "@fontsource/mukta": "5.3.0",
-    "astro": "7.3.8"
+    "dev:site": "npm run dev -w @lokmangal/frontend",
+    "dev:admin": "npm run dev -w @lokmangal/admin",
+    "build:site:seed": "npm run build:seed -w @lokmangal/frontend",
+    "build:admin": "npm run build -w @lokmangal/admin",
+    "test:finance": "npm test -w @lokmangal/finance",
+    "test": "npm test -w @lokmangal/finance && npm test -w @lokmangal/admin --if-present"
   }
 }

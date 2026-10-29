@@ -1,0 +1,14 @@
+{
+  "name": "@lokmangal/finance",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Versioned deposit and loan calculation rules shared by the public website and the admin panel.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./tokens": "./src/tokens.ts"
+  },
+  "scripts": {
+    "test": "node --test \"test/**/*.test.ts\""
+  }
+}

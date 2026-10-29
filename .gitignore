@@ -4,3 +4,13 @@ dist/
 .DS_Store
 *.log
 .env
+.env.*
+!.env.example
+# Rust
+backend/target/
+# Local release/preview output and uploads
+var/
+*.local
+coverage/
+playwright-report/
+test-results/

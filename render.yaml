@@ -1,11 +1,12 @@
-# Render Blueprint — deploys the website as a static site.
+# Render Blueprint — interim static hosting of the public website, built from frontend/seed/snapshot.json.
+# The full system (admin panel, Rust API, releases) runs with Docker: see deploy/ and README.md.
 # In Render: New + → Blueprint → choose this GitHub repo → Apply.
 services:
   - type: web
     name: lokmangal-multistate
     runtime: static
-    buildCommand: npm ci && npm run build
-    staticPublishPath: ./dist
+    buildCommand: npm ci && npm run build:site:seed
+    staticPublishPath: ./frontend/dist
     envVars:
       - key: NODE_VERSION
         value: 24.11.1
@@ -22,3 +23,74 @@ services:
       - path: /*
         name: X-Frame-Options
         value: SAMEORIGIN
+    # Legacy WordPress URLs, answered with real HTTP 301 redirects (same list as the seed snapshot).
+    routes:
+      - type: redirect
+        source: /top-banks-in-pune
+        destination: /about-us/
+      - type: redirect
+        source: /home-loan-in-solapur
+        destination: /social-responsibility/
+      - type: redirect
+        source: /investment-schemes-in-osmanabad
+        destination: /deposits/
+      - type: redirect
+        source: /deposit
+        destination: /deposits/
+      - type: redirect
+        source: /landing
+        destination: /deposits/
+      - type: redirect
+        source: /interest-rates-on-fixed-deposits
+        destination: /interest-rates/
+      - type: redirect
+        source: /agriculture-loan-in-solapur
+        destination: /loans/
+      - type: redirect
+        source: /salary-account-in-pune
+        destination: /other-services/
+      - type: redirect
+        source: /bank-in-solapur
+        destination: /faq/
+      - type: redirect
+        source: /bank-in-belgaon
+        destination: /branches/
+      - type: redirect
+        source: /top-banks-in-pimpri-chinchwad
+        destination: /branches/
+      - type: redirect
+        source: /marathi
+        destination: /branches/
+      - type: redirect
+        source: /cooperative-banks-in-osmanabad
+        destination: /contact-us/
+      - type: redirect
+        source: /fd-plans-in-pune
+        destination: /blog/
+      - type: redirect
+        source: /category/blog
+        destination: /blog/
+      - type: redirect
+        source: /fixed-deposit-interest-rates-in-solapur
+        destination: /careers/
+      - type: redirect
+        source: /housing-loan
+        destination: /terms-of-use/
+      - type: redirect
+        source: /savings-account-in-hingoli
+        destination: /privacy-policy/
+      - type: redirect
+        source: /top-banks-in-tuljapur
+        destination: /open-an-account/
+      - type: redirect
+        source: /fd-plans-in-osmanabad
+        destination: /apply-for-deposits/
+      - type: redirect
+        source: /personal-loan-in-solapur
+        destination: /apply-loan/
+      - type: redirect
+        source: /photo-gallery
+        destination: /gallery/
+      - type: redirect
+        source: /deposits/millionaire-fixed-deposit
+        destination: /deposits/lakshadish-deposit-scheme-1/

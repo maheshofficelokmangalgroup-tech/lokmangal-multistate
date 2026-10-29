@@ -1,0 +1,4330 @@
+{
+  "schemaVersion": 1,
+  "release": {
+    "id": "seed",
+    "kind": "seed",
+    "createdAt": "2026-10-27T00:00:00Z",
+    "financePolicy": "lmcs-fin-2026.1",
+    "contentHash": null
+  },
+  "rateSet": {
+    "id": "seed-2026-27",
+    "label": "2026–27",
+    "validFrom": "2026-04-01",
+    "validUntil": "2027-04-01",
+    "timezone": "Asia/Kolkata",
+    "entries": [
+      {
+        "key": "fd.7-30.regular",
+        "section": "fd_slab",
+        "label": "FD 7 – 30 days — general",
+        "value": "3.50",
+        "unit": "percent",
+        "category": "regular",
+        "minDays": 7,
+        "maxDays": 30
+      },
+      {
+        "key": "fd.7-30.special",
+        "section": "fd_slab",
+        "label": "FD 7 – 30 days — special categories",
+        "value": "4.00",
+        "unit": "percent",
+        "category": "special",
+        "minDays": 7,
+        "maxDays": 30
+      },
+      {
+        "key": "fd.31-90.regular",
+        "section": "fd_slab",
+        "label": "FD 31 – 90 days — general",
+        "value": "5.00",
+        "unit": "percent",
+        "category": "regular",
+        "minDays": 31,
+        "maxDays": 90
+      },
+      {
+        "key": "fd.31-90.special",
+        "section": "fd_slab",
+        "label": "FD 31 – 90 days — special categories",
+        "value": "5.50",
+        "unit": "percent",
+        "category": "special",
+        "minDays": 31,
+        "maxDays": 90
+      },
+      {
+        "key": "fd.91-180.regular",
+        "section": "fd_slab",
+        "label": "FD 91 – 180 days — general",
+        "value": "7.00",
+        "unit": "percent",
+        "category": "regular",
+        "minDays": 91,
+        "maxDays": 180
+      },
+      {
+        "key": "fd.91-180.special",
+        "section": "fd_slab",
+        "label": "FD 91 – 180 days — special categories",
+        "value": "7.50",
+        "unit": "percent",
+        "category": "special",
+        "minDays": 91,
+        "maxDays": 180
+      },
+      {
+        "key": "fd.181-364.regular",
+        "section": "fd_slab",
+        "label": "FD 181 – 364 days — general",
+        "value": "8.00",
+        "unit": "percent",
+        "category": "regular",
+        "minDays": 181,
+        "maxDays": 364
+      },
+      {
+        "key": "fd.181-364.special",
+        "section": "fd_slab",
+        "label": "FD 181 – 364 days — special categories",
+        "value": "8.50",
+        "unit": "percent",
+        "category": "special",
+        "minDays": 181,
+        "maxDays": 364
+      },
+      {
+        "key": "fd.365-plus.regular",
+        "section": "fd_slab",
+        "label": "FD 365 days & above — general",
+        "value": "10.00",
+        "unit": "percent",
+        "category": "regular",
+        "minDays": 365,
+        "maxDays": null
+      },
+      {
+        "key": "fd.365-plus.special",
+        "section": "fd_slab",
+        "label": "FD 365 days & above — special categories",
+        "value": "10.00",
+        "unit": "percent",
+        "category": "special",
+        "minDays": 365,
+        "maxDays": null
+      },
+      {
+        "key": "fd.special-premium",
+        "section": "deposit",
+        "label": "Extra rate for special categories (shown on scheme highlights)",
+        "value": "0.50",
+        "unit": "percent"
+      },
+      {
+        "key": "deposit.vishwamangal-monthly",
+        "section": "deposit",
+        "label": "Vishwamangal Monthly Interest",
+        "value": "9.75",
+        "unit": "percent"
+      },
+      {
+        "key": "deposit.vishwamangal-rd",
+        "section": "deposit",
+        "label": "Vishwamangal Recurring Deposit",
+        "value": "9.50",
+        "unit": "percent"
+      },
+      {
+        "key": "deposit.lakshadish",
+        "section": "deposit",
+        "label": "Lakshadish (RD) — all variants",
+        "value": "9.25",
+        "unit": "percent"
+      },
+      {
+        "key": "deposit.vishwamangal-12m",
+        "section": "deposit",
+        "label": "Vishwamangal 12-Month Fixed Deposit",
+        "value": "10.00",
+        "unit": "percent"
+      },
+      {
+        "key": "doubling.general.months",
+        "section": "doubling",
+        "label": "Daam Duppat — doubling period, general depositors",
+        "value": "88",
+        "unit": "months"
+      },
+      {
+        "key": "doubling.special.months",
+        "section": "doubling",
+        "label": "Daam Duppat — doubling period, special categories",
+        "value": "86",
+        "unit": "months"
+      },
+      {
+        "key": "doubling.illustrative-rate",
+        "section": "doubling",
+        "label": "Daam Duppat — illustrative annual rate used by the calculator",
+        "value": "9.67",
+        "unit": "percent"
+      },
+      {
+        "key": "loan.agriculture.up-to-25000",
+        "section": "loan",
+        "label": "Agriculture Term Loan — up to ₹25,000",
+        "value": "16.00",
+        "unit": "percent"
+      },
+      {
+        "key": "loan.agriculture.above-25000",
+        "section": "loan",
+        "label": "Agriculture Term Loan — above ₹25,000",
+        "value": "15.00",
+        "unit": "percent"
+      },
+      {
+        "key": "loan.housing",
+        "section": "loan",
+        "label": "Housing Loan",
+        "value": "12.00",
+        "unit": "percent"
+      },
+      {
+        "key": "loan.vehicle",
+        "section": "loan",
+        "label": "Vehicle Loan",
+        "value": "13.00",
+        "unit": "percent"
+      },
+      {
+        "key": "loan.personal",
+        "section": "loan",
+        "label": "Personal Loan",
+        "value": "15.00",
+        "unit": "percent"
+      },
+      {
+        "key": "loan.warehouse",
+        "section": "loan",
+        "label": "Warehouse Loan",
+        "value": "18.00",
+        "unit": "percent"
+      },
+      {
+        "key": "loan.mortgage.up-to-90000",
+        "section": "loan",
+        "label": "Land / Property Mortgage Loan — up to ₹90,000",
+        "value": "18.00",
+        "unit": "percent"
+      },
+      {
+        "key": "loan.mortgage.above-90000",
+        "section": "loan",
+        "label": "Land / Property Mortgage Loan — above ₹90,000",
+        "value": "17.00",
+        "unit": "percent"
+      },
+      {
+        "key": "loan.microfinance",
+        "section": "loan",
+        "label": "Microfinance",
+        "value": "24.00",
+        "unit": "percent"
+      },
+      {
+        "key": "loan.bachat-gat",
+        "section": "loan",
+        "label": "Bachat Gat (SHG) Loan",
+        "value": "24.00",
+        "unit": "percent"
+      }
+    ]
+  },
+  "singletons": {
+    "settings": {
+      "name": "Lokmangal Multistate",
+      "legalName": "Lokmangal Multistate Co-operative Society Ltd.",
+      "nameMr": "लोकमंगल मल्टीस्टेट",
+      "tagline": "Success Through Total Dedication",
+      "taglineMr": "अखंड गतीतून सार्थकता",
+      "url": "https://lokmangalmultistate.com",
+      "description": "Lokmangal Multistate Co-operative Society Ltd., Solapur — savings, fixed & recurring deposits up to 10% p.a., agriculture, housing, vehicle and business loans through 60 branches across Maharashtra & Karnataka.",
+      "registration": "MSCS/CR.216/2004",
+      "act": "Multi-State Co-operative Societies Act, 2002",
+      "founded": 2004,
+      "operationsSince": 2008,
+      "ifsc": "ICIC0000104",
+      "phone": "+91 99232 03322",
+      "phoneHref": "tel:+919923203322",
+      "email": "emailus@lokmangal.co.in",
+      "hrEmail": "hr@lokmangal.in",
+      "address": {
+        "line1": "Plot No. 94, Mitra Nagar",
+        "line2": "Near Rabbi Research Center, Shelgi",
+        "city": "Solapur",
+        "pin": "413002",
+        "state": "Maharashtra"
+      },
+      "mapEmbed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3801.1439486273434!2d75.92524566419183!3d17.690658748645436!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc5daed8b2f1d45%3A0xe1a59e54246a2bac!2sLokmanagal+Multistate!5e0!3m2!1sen!2sin!4v1563183952766!5m2!1sen!2sin",
+      "mapLink": "https://www.google.com/maps/search/?api=1&query=Lokmangal+Multistate+Shelgi+Solapur",
+      "appUrl": "https://play.google.com/store/apps/details?id=com.vgipl.lokmangalmobilebankingapp258596",
+      "aboutVideo": "https://www.youtube.com/embed/M0NGS7ZUNYY",
+      "foundationUrl": "http://lokmangalfoundation.com/",
+      "social": [
+        {
+          "label": "Facebook",
+          "icon": "facebook",
+          "href": "https://www.facebook.com/LMCSOfficial/"
+        },
+        {
+          "label": "Twitter",
+          "icon": "twitter",
+          "href": "https://twitter.com/LMCSOfficial"
+        },
+        {
+          "label": "Instagram",
+          "icon": "instagram",
+          "href": "https://www.instagram.com/LMCSOfficial/"
+        },
+        {
+          "label": "LinkedIn",
+          "icon": "linkedin",
+          "href": "https://www.linkedin.com/company/lmcsofficial/"
+        }
+      ],
+      "headOfficeCode": "HO"
+    },
+    "home": {
+      "stats": [
+        {
+          "value": 60,
+          "prefix": "",
+          "suffix": "",
+          "label": "Branches",
+          "sub": "across Maharashtra & Karnataka"
+        },
+        {
+          "value": 751,
+          "prefix": "₹",
+          "suffix": "+ Cr",
+          "label": "Total deposits",
+          "sub": "entrusted by our members"
+        },
+        {
+          "value": 1195,
+          "prefix": "₹",
+          "suffix": "+ Cr",
+          "label": "Total business",
+          "sub": "and growing every year"
+        },
+        {
+          "value": 6,
+          "prefix": "",
+          "suffix": " Lakh+",
+          "label": "Happy members",
+          "sub": "part of the Lokmangal family"
+        }
+      ],
+      "announcement": {
+        "enabled": true,
+        "label": "Election 2025:",
+        "text": "Board of Directors & Office Bearers election notices are published.",
+        "href": "/notices/",
+        "linkText": "View notices"
+      }
+    },
+    "navigation": {
+      "nav": [
+        {
+          "label": "Home",
+          "href": "/"
+        },
+        {
+          "label": "About Us",
+          "href": "/about-us/",
+          "children": [
+            {
+              "label": "About Lokmangal",
+              "href": "/about-us/",
+              "desc": "Our journey since 2004",
+              "icon": "landmark"
+            },
+            {
+              "label": "Chairman's Message",
+              "href": "/chairman-message/",
+              "desc": "A word from our chairman",
+              "icon": "quote"
+            },
+            {
+              "label": "Board of Directors",
+              "href": "/board-of-directors/",
+              "desc": "The people who lead us",
+              "icon": "users"
+            },
+            {
+              "label": "Social Responsibility",
+              "href": "/social-responsibility/",
+              "desc": "Lokmangal Foundation initiatives",
+              "icon": "heart"
+            },
+            {
+              "label": "Annual Reports",
+              "href": "/annual-reports/",
+              "desc": "Performance & disclosures",
+              "icon": "file-text"
+            },
+            {
+              "label": "Photo Gallery",
+              "href": "/gallery/",
+              "desc": "Moments from our journey",
+              "icon": "image"
+            }
+          ]
+        },
+        {
+          "label": "Our Products",
+          "href": "/deposits/",
+          "mega": true
+        },
+        {
+          "label": "Other Services",
+          "href": "/other-services/"
+        },
+        {
+          "label": "Rural Wealth Manager",
+          "href": "/rural-wealth-manager/"
+        },
+        {
+          "label": "FAQ",
+          "href": "/faq/"
+        },
+        {
+          "label": "Branches",
+          "href": "/branches/"
+        }
+      ],
+      "footerLinks": {
+        "quick": [
+          {
+            "label": "Home",
+            "href": "/"
+          },
+          {
+            "label": "About Us",
+            "href": "/about-us/"
+          },
+          {
+            "label": "Fixed Deposits",
+            "href": "/deposits/"
+          },
+          {
+            "label": "Loans",
+            "href": "/loans/"
+          },
+          {
+            "label": "Interest Rates",
+            "href": "/interest-rates/"
+          },
+          {
+            "label": "FAQ",
+            "href": "/faq/"
+          },
+          {
+            "label": "Our Branches",
+            "href": "/branches/"
+          }
+        ],
+        "other": [
+          {
+            "label": "Contact Us",
+            "href": "/contact-us/"
+          },
+          {
+            "label": "Blog",
+            "href": "/blog/"
+          },
+          {
+            "label": "Careers",
+            "href": "/careers/"
+          },
+          {
+            "label": "Notices",
+            "href": "/notices/"
+          },
+          {
+            "label": "Calculators",
+            "href": "/calculators/"
+          },
+          {
+            "label": "Terms of Use",
+            "href": "/terms-of-use/"
+          },
+          {
+            "label": "Privacy Policy",
+            "href": "/privacy-policy/"
+          },
+          {
+            "label": "Sitemap",
+            "href": "/sitemap/"
+          }
+        ]
+      }
+    },
+    "deposit_page": {
+      "specialCategories": "Senior citizens, persons with disabilities, ex-servicemen, single parents, widows aged 50 and above, and bulk deposits of ₹25 lakh & above (or institutions).",
+      "documents": [
+        "PAN card",
+        "Aadhaar card",
+        "Electricity bill (address proof)",
+        "Photo identity proof",
+        "Three passport-size photographs",
+        "Form 60 / 61 (if PAN is not available)"
+      ],
+      "benefits": [
+        {
+          "icon": "percent",
+          "title": "Up to 10% p.a.",
+          "text": "Among the most rewarding deposit rates in the co-operative sector."
+        },
+        {
+          "icon": "shield-check",
+          "title": "Safe & regulated",
+          "text": "Registered under the Multi-State Co-operative Societies Act, 2002."
+        },
+        {
+          "icon": "calendar",
+          "title": "Flexible tenures",
+          "text": "From 7 days to 88 months — choose what fits your goal."
+        },
+        {
+          "icon": "users",
+          "title": "Nomination facility",
+          "text": "Secure your family’s future with an easy nomination."
+        }
+      ]
+    },
+    "loan_page": {
+      "benefits": [
+        {
+          "icon": "percent",
+          "title": "Attractive interest rates",
+          "text": "Competitive pricing across every loan product."
+        },
+        {
+          "icon": "file-text",
+          "title": "Documentation made easy",
+          "text": "Minimal paperwork with guidance at every step."
+        },
+        {
+          "icon": "zap",
+          "title": "Quick & easy disbursal",
+          "text": "Fast processing so you get funds when you need them."
+        },
+        {
+          "icon": "handshake",
+          "title": "Efficient customer service",
+          "text": "A local branch team that understands your needs."
+        }
+      ],
+      "extraFormTypes": [
+        "Educational Loan",
+        "Gold Loan"
+      ]
+    },
+    "people": {
+      "chairman": {
+        "name": "Hon. Mr. Rohan Subhash Deshmukh",
+        "role": "Chairman, Lokmangal Multistate Co-operative Society Ltd.",
+        "photo": "/images/people/chairman.webp"
+      },
+      "mentor": {
+        "name": "Hon. Mr. Subhash (Bapu) Deshmukh",
+        "role": "Mentor & Founder"
+      },
+      "board": [
+        {
+          "name": "Mr. Rohan Subhash Deshmukh",
+          "role": "Chairman",
+          "photo": "/images/people/board-01.webp"
+        },
+        {
+          "name": "Mr. Avinash Laxman Mahagaonkar",
+          "role": "Director",
+          "photo": "/images/people/board-02.webp"
+        },
+        {
+          "name": "Mr. Shivaji Kalyanrao Patil",
+          "role": "Director",
+          "photo": "/images/people/board-03.webp"
+        },
+        {
+          "name": "Mr. Ramraje Rajesaheb Patil",
+          "role": "Director",
+          "photo": "/images/people/board-04.webp"
+        },
+        {
+          "name": "Mr. Bhimashankar Sidram Narasgonde",
+          "role": "Director",
+          "photo": "/images/people/board-05.webp"
+        },
+        {
+          "name": "Mr. Shilratna Chandrakant Gaikwad",
+          "role": "Director",
+          "photo": "/images/people/board-06.webp"
+        },
+        {
+          "name": "Mr. Nilesh Mahendrabhai Patel",
+          "role": "Director",
+          "photo": "/images/people/board-07.webp"
+        },
+        {
+          "name": "Mr. Abhimanyu Ashok Jadhav",
+          "role": "Director",
+          "photo": "/images/people/board-08.webp"
+        },
+        {
+          "name": "Mr. Deviprasad Sharadsharan Kulkarni",
+          "role": "Director",
+          "photo": "/images/people/board-09.webp"
+        },
+        {
+          "name": "Mrs. Vaishali Avinash Bhise",
+          "role": "Director",
+          "photo": "/images/people/board-10.webp"
+        },
+        {
+          "name": "Mrs. Ujjawala Dattajirao Suryawanshi",
+          "role": "Director",
+          "photo": "/images/people/board-11.webp"
+        }
+      ]
+    },
+    "faq": {
+      "items": [
+        {
+          "q": "What is Lokmangal Multistate Co-operative Society Ltd.?",
+          "a": "<p>Lokmangal Multistate is a multi-state co-operative society registered under the Multi-State Co-operative Societies Act, 2002 (Registration No. MSCS/CR.216/2004). It follows the Act strictly and carries out financial business among its members.</p>"
+        },
+        {
+          "q": "How does the society use the deposits it receives?",
+          "a": "<p>Funds are lent to members and invested as permitted by the Co-operative Societies Act, its rules and the society’s bye-laws. Most of our lending is in the form of small business loans and micro-finance.</p>"
+        },
+        {
+          "q": "Are my deposits safe and secure?",
+          "a": "<p>Yes. The Government of India has framed laws to protect deposits in multi-state co-operative societies, and Lokmangal follows every rule set by the Central Government. For example:</p><ul><li><strong>Rule 66</strong> restricts a society (other than a co-operative bank) from lending to a member against the security of their own shares or of a non-member.</li><li><strong>Rule 67</strong> limits the deposits and loans a society may raise in a financial year to ten times its subscribed share capital and accumulated reserves (after deducting accumulated losses).</li></ul><p>The wider Lokmangal Group’s turnover of over ₹1,000 crore is a further sign of the strength behind your deposits.</p>"
+        },
+        {
+          "q": "How is the society different from a finance company?",
+          "a": "<p>A co-operative society is not owned by an individual. It is a democratic organisation run by a Board of Directors elected by members at the Annual General Meeting, and decisions are taken collectively and transparently. The Department of Co-operation reviews the society’s functioning regularly, and its accounts are statutorily audited and submitted to the Government of India every year.</p><p>When you invest with Lokmangal you are not just a depositor — you become a member and shareholder of the Lokmangal Parivar.</p>"
+        },
+        {
+          "q": "Why does Lokmangal pay a higher rate of interest?",
+          "a": "<p>We believe in encouraging the habit of saving among our members. Higher savings lead to higher investment and a stronger economy — so we share more of our earnings with the people who make them possible.</p>"
+        },
+        {
+          "q": "How can the society offer better rates than commercial banks?",
+          "a": "<ul><li><strong>Tax efficiency:</strong> interest earned on loans to members is exempt under Section 80P of the Income Tax Act, and the board passes part of this saving on to members.</li><li><strong>No CRR or SLR:</strong> banks must park a portion of deposits as cash with the RBI and in low-yield securities. The society is exempt from both, so more of every rupee is put to productive use.</li><li><strong>Secured lending:</strong> our short- and medium-term loans to members are fully secured, keeping recoveries strong.</li><li><strong>Low operating costs:</strong> lean operations compared to banks and NBFCs mean more value returned to members.</li></ul>"
+        },
+        {
+          "q": "Who should invest with Lokmangal?",
+          "a": "<p>Anyone looking for better returns on short-, medium- or long-term deposits is welcome. Visit any of our branches or <a href=\"/contact-us/\">contact us</a> to get started.</p>"
+        },
+        {
+          "q": "Is TDS deducted on my interest?",
+          "a": "<p>TDS is applicable on interest earned on deposits, except for members of the society. If you do not have a PAN, submit Form 60/61 when opening your deposit.</p>"
+        },
+        {
+          "q": "Do senior citizens get a higher rate?",
+          "a": "<p>Yes. On Vishwamangal Fixed Deposits of up to 364 days, senior citizens, persons with disabilities, ex-servicemen, single parents, widows aged 50 and above, and bulk deposits of ₹25 lakh & above receive an additional 0.50% p.a. See the full <a href=\"/interest-rates/\">interest rate chart</a>.</p>"
+        }
+      ]
+    },
+    "services": {
+      "services": [
+        {
+          "icon": "globe",
+          "title": "Net Banking",
+          "image": "/images/services/net-banking.webp",
+          "text": "Bank securely from anywhere — check balances, view statements and manage your accounts online without visiting a branch."
+        },
+        {
+          "icon": "smartphone",
+          "title": "Mobile Banking",
+          "image": "/images/services/mobile-banking.webp",
+          "text": "Our mobile app works only on the registered device and SIM linked to your account, making it one of the most secure ways to bank on the go."
+        },
+        {
+          "icon": "zap",
+          "title": "IMPS & UPI",
+          "image": "/images/services/upi.webp",
+          "text": "Pay merchants online and offline, or send money instantly to any bank account — no card details or long account numbers needed."
+        },
+        {
+          "icon": "arrow-left-right",
+          "title": "NEFT / RTGS",
+          "image": "/images/services/neft-rtgs.webp",
+          "text": "Transfer funds to any Lokmangal account or any other bank in India through NEFT, RTGS or IMPS. Visit your nearest branch to get started."
+        },
+        {
+          "icon": "message",
+          "title": "SMS Banking",
+          "image": "/images/services/sms-banking.webp",
+          "text": "No internet? No problem. Get your balance, last three transactions, debit-card activation and PIN regeneration over simple SMS."
+        },
+        {
+          "icon": "lock",
+          "title": "Safe Deposit Lockers",
+          "image": "/images/services/locker.webp",
+          "text": "Keep jewellery, documents and valuables safe in high-security lockers at our branches. Allotment is subject to availability."
+        },
+        {
+          "icon": "receipt",
+          "title": "Utility Bill Payments",
+          "image": "/images/services/bill-payment.webp",
+          "text": "Pay electricity, mobile and other utility bills from home through online banking, or at the counter of your nearest branch."
+        }
+      ],
+      "rwmCategories": [
+        {
+          "icon": "piggy-bank",
+          "title": "Investments",
+          "titleMr": "गुंतवणूक",
+          "items": [
+            [
+              "Fixed deposits",
+              "मुदत ठेव"
+            ],
+            [
+              "Investment schemes",
+              "गुंतवणूक योजना"
+            ],
+            [
+              "Pension schemes",
+              "पेन्शन योजना"
+            ]
+          ]
+        },
+        {
+          "icon": "hand-coins",
+          "title": "Loan Facilities",
+          "titleMr": "कर्ज सुविधा",
+          "items": [
+            [
+              "Online loan facility",
+              "ऑनलाइन कर्ज सुविधा"
+            ],
+            [
+              "Instant gold loan",
+              "झटपट सोने तारण कर्ज"
+            ],
+            [
+              "Micro-finance loan",
+              "सूक्ष्म वित्त कर्ज"
+            ],
+            [
+              "Business loan",
+              "व्यवसाय कर्ज"
+            ]
+          ]
+        },
+        {
+          "icon": "line-chart",
+          "title": "Equity & Trading",
+          "titleMr": "इक्विटी आणि ट्रेडिंग",
+          "items": [
+            [
+              "Demat account",
+              "डीमॅट खाते"
+            ],
+            [
+              "Share trading",
+              "शेअर्स ट्रेडिंग"
+            ],
+            [
+              "Mutual funds",
+              "म्युच्युअल फंड"
+            ]
+          ]
+        },
+        {
+          "icon": "gem",
+          "title": "Commodities",
+          "titleMr": "कमोडिटी",
+          "items": [
+            [
+              "Online gold purchase",
+              "ऑनलाइन सोने खरेदी"
+            ],
+            [
+              "Online silver purchase",
+              "ऑनलाइन चांदीची खरेदी"
+            ]
+          ]
+        },
+        {
+          "icon": "umbrella",
+          "title": "Insurance",
+          "titleMr": "इन्शुरन्स",
+          "items": [
+            [
+              "Life insurance",
+              "लाइफ इन्शुरन्स"
+            ],
+            [
+              "Micro insurance",
+              "मायक्रो इन्शुरन्स"
+            ],
+            [
+              "General insurance",
+              "जनरल इन्शुरन्स"
+            ],
+            [
+              "Health insurance",
+              "हेल्थ इन्शुरन्स"
+            ]
+          ]
+        }
+      ]
+    },
+    "csr": {
+      "pillars": [
+        {
+          "icon": "trending-up",
+          "title": "Inclusive Growth & Development"
+        },
+        {
+          "icon": "users",
+          "title": "Community Outreach"
+        },
+        {
+          "icon": "handshake",
+          "title": "Collaborative Partnerships"
+        },
+        {
+          "icon": "sparkles",
+          "title": "Positive Impact on Society"
+        }
+      ],
+      "initiatives": [
+        {
+          "icon": "heart",
+          "title": "Annapoorna Yojana",
+          "stat": "500 elders fed, twice a day",
+          "text": "Free, nutritious meals delivered to the doorsteps of homeless and deprived elderly people — twice every day — so that no one in our community goes hungry.",
+          "link": "http://lokmangalfoundation.com/lokmangal-annapurna-yojana.php"
+        },
+        {
+          "icon": "sparkles",
+          "title": "Community Wedding Event",
+          "stat": "2,500+ weddings supported",
+          "text": "Weddings are increasingly expensive for farmers and labourers. Through the Sarvadharmiy Samudayik Vivah Sohala we have helped more than 2,500 daughters get married with dignity."
+        },
+        {
+          "icon": "droplet",
+          "title": "Water Conservation",
+          "stat": "Solapur & Dharashiv districts",
+          "text": "Rainwater harvesting, recharging of traditional water bodies, watershed development and afforestation. Streams, ponds and bunds in many villages were widened and deepened to raise water tables for farmers."
+        },
+        {
+          "icon": "heart-pulse",
+          "title": "Healthcare Camps",
+          "stat": "With Lokmangal Jeevak Hospital",
+          "image": "/images/csr/healthcare.webp",
+          "text": "Regular village health camps, organised with Lokmangal Jeevak Hospital & Research Centre, bring treatment and health awareness to families who need it most."
+        },
+        {
+          "icon": "tree",
+          "title": "Tree Plantation",
+          "stat": "Every year",
+          "image": "/images/csr/tree-plantation.webp",
+          "text": "An annual plantation drive in which our employees and their families plant saplings near branches, along roads and in schools — and encourage neighbours to nurture them."
+        },
+        {
+          "icon": "sparkles",
+          "title": "Cleaning Drives",
+          "stat": "Swachh Bharat Abhiyan",
+          "image": "/images/csr/cleaning-drive.webp",
+          "text": "In the spirit of Swachh Bharat, our teams clean up the neighbourhoods around our branches and spread awareness about everyday cleanliness."
+        },
+        {
+          "icon": "award",
+          "title": "District Level Youth Festival",
+          "stat": "Organised by Lokmangal Foundation",
+          "image": "/images/csr/youth-festival.webp",
+          "text": "Renowned speakers and youth icons share their journeys with rural and urban youth, inspiring the next generation to dream bigger."
+        }
+      ]
+    }
+  },
+  "collections": {
+    "deposit_scheme": [
+      {
+        "slug": "vishwamangal-fixed-deposit-scheme",
+        "data": {
+          "slug": "vishwamangal-fixed-deposit-scheme",
+          "name": "Vishwamangal Fixed Deposit",
+          "nameMr": "विश्वमंगल मुदत ठेव योजना",
+          "kind": "fd",
+          "rateNote": "p.a. for 365 days & above",
+          "pitch": "Lock in up to {rate:fd.365-plus.regular}% p.a. with tenures from just 7 days.",
+          "intro": "Grow idle savings with complete peace of mind. Vishwamangal Fixed Deposit offers some of the most attractive rates in the co-operative sector, with tenures from 7 days upward — ideal for goals like a child’s education, a new home or a wedding in the family.",
+          "facts": [
+            {
+              "label": "Scheme type",
+              "value": "Fixed Deposit"
+            },
+            {
+              "label": "7 – 30 days",
+              "value": "{rate2:fd.7-30.regular}% p.a."
+            },
+            {
+              "label": "31 – 90 days",
+              "value": "{rate2:fd.31-90.regular}% p.a."
+            },
+            {
+              "label": "91 – 180 days",
+              "value": "{rate2:fd.91-180.regular}% p.a."
+            },
+            {
+              "label": "181 – 364 days",
+              "value": "{rate2:fd.181-364.regular}% p.a."
+            },
+            {
+              "label": "365 days & above",
+              "value": "{rate2:fd.365-plus.regular}% p.a."
+            },
+            {
+              "label": "TDS",
+              "value": "Applicable on interest, except for society members"
+            }
+          ],
+          "highlight": [
+            {
+              "label": "Tenure",
+              "value": "7 days +"
+            },
+            {
+              "label": "Top rate",
+              "value": "{rate:fd.365-plus.regular}%"
+            },
+            {
+              "label": "Special rate",
+              "value": "+{rate2:fd.special-premium}%"
+            }
+          ],
+          "features": [
+            "Attractive interest rates",
+            "Flexible tenure",
+            "Ease and convenience",
+            "Stable, assured returns",
+            "Safety and liquidity",
+            "Nomination facility"
+          ],
+          "eligibility": "Any resident Indian individual or entity can open a Fixed Deposit — including senior citizens and Hindu Undivided Families (HUFs).",
+          "image": "/images/schemes/creative-fd.webp",
+          "featured": true,
+          "rateKey": "fd.365-plus.regular",
+          "calc": {
+            "mode": "fd",
+            "amount": 100000,
+            "months": 12,
+            "rateKey": "fd.365-plus.regular"
+          },
+          "order": 1
+        }
+      },
+      {
+        "slug": "vishvamangal-monthly-interest",
+        "data": {
+          "slug": "vishvamangal-monthly-interest",
+          "name": "Vishwamangal Monthly Interest",
+          "nameMr": "विश्वमंगल मासिक ठेव योजना",
+          "kind": "monthly",
+          "rateNote": "p.a., paid monthly",
+          "pitch": "A steady monthly income from your savings — {rate2:deposit.vishwamangal-monthly}% for every depositor.",
+          "intro": "Deposit a lump sum once and receive interest in your account every month. Vishwamangal Monthly Interest is designed for retirees, homemakers and anyone who wants a dependable monthly income without touching the principal.",
+          "facts": [
+            {
+              "label": "Scheme type",
+              "value": "Monthly Interest Scheme"
+            },
+            {
+              "label": "Interest rate",
+              "value": "{rate2:deposit.vishwamangal-monthly}% p.a. for all depositors"
+            },
+            {
+              "label": "Tenure",
+              "value": "12 months & above"
+            },
+            {
+              "label": "Example",
+              "value": "₹1,00,000 earns about {calc} every month"
+            },
+            {
+              "label": "TDS",
+              "value": "Applicable on interest, except for society members"
+            }
+          ],
+          "highlight": [
+            {
+              "label": "Deposit",
+              "value": "₹1,00,000"
+            },
+            {
+              "label": "Monthly",
+              "value": "{calc}"
+            },
+            {
+              "label": "Tenure",
+              "value": "12 mo +"
+            }
+          ],
+          "features": [
+            "Attractive interest rates",
+            "Flexible tenure",
+            "Ease and convenience",
+            "Stable, assured returns",
+            "Safety and liquidity",
+            "Nomination facility"
+          ],
+          "eligibility": "Any resident Indian individual or entity, including senior citizens and HUFs, can invest.",
+          "image": "/images/schemes/creative-monthly.webp",
+          "featured": true,
+          "rateKey": "deposit.vishwamangal-monthly",
+          "calc": {
+            "mode": "monthly",
+            "amount": 100000,
+            "months": 12,
+            "rateKey": "deposit.vishwamangal-monthly"
+          },
+          "order": 2
+        }
+      },
+      {
+        "slug": "vishvamangal-recurring-deposit",
+        "data": {
+          "slug": "vishvamangal-recurring-deposit",
+          "name": "Vishwamangal Recurring Deposit",
+          "nameMr": "विश्वमंगल रिकरिंग ठेव योजना",
+          "kind": "rd",
+          "rateNote": "p.a.",
+          "pitch": "Start saving from just ₹100 a month at {rate2:deposit.vishwamangal-rd}% p.a.",
+          "intro": "Build the saving habit one month at a time. Choose any tenure between 12 and 60 months, start with as little as ₹100 a month, and watch your money grow at {rate2:deposit.vishwamangal-rd}% p.a.",
+          "facts": [
+            {
+              "label": "Scheme type",
+              "value": "Recurring Deposit"
+            },
+            {
+              "label": "Interest rate",
+              "value": "{rate2:deposit.vishwamangal-rd}% p.a."
+            },
+            {
+              "label": "Tenure",
+              "value": "12 months to 60 months"
+            },
+            {
+              "label": "Minimum instalment",
+              "value": "₹100 per month"
+            },
+            {
+              "label": "TDS",
+              "value": "Applicable on interest, except for society members"
+            }
+          ],
+          "highlight": [
+            {
+              "label": "From",
+              "value": "₹100/mo"
+            },
+            {
+              "label": "Tenure",
+              "value": "12–60 mo"
+            },
+            {
+              "label": "Rate",
+              "value": "{rate2:deposit.vishwamangal-rd}%"
+            }
+          ],
+          "features": [
+            "Easy monthly instalments",
+            "Attractive interest rates",
+            "Build a significant corpus",
+            "Guaranteed maturity value",
+            "Convenient to operate",
+            "Safety and liquidity"
+          ],
+          "eligibility": "Any resident Indian individual or entity can open a Recurring Deposit, including minors through a guardian.",
+          "image": "/images/schemes/creative-recurring.webp",
+          "featured": true,
+          "rateKey": "deposit.vishwamangal-rd",
+          "calc": {
+            "mode": "rd",
+            "amount": 2000,
+            "months": 36,
+            "rateKey": "deposit.vishwamangal-rd"
+          },
+          "order": 3
+        }
+      },
+      {
+        "slug": "lakshadish-deposit-scheme-1",
+        "data": {
+          "slug": "lakshadish-deposit-scheme-1",
+          "name": "Lakshadish (RD) Deposit Scheme 1",
+          "nameMr": "लक्षदिश (रिकरिंग) ठेव योजना",
+          "kind": "rd",
+          "rateNote": "p.a.",
+          "pitch": "Save ₹3,800 a month and become a lakhpati in 24 months.",
+          "intro": "Lakshadish — also known as the Lakhpati Thev Yojana — turns a small, fixed monthly saving into a guaranteed lump sum of over one lakh rupees. Pick the instalment that suits your budget, deposit it every month, and collect your maturity amount at the end of the term.",
+          "facts": [
+            {
+              "label": "Scheme type",
+              "value": "Recurring Deposit"
+            },
+            {
+              "label": "Interest rate",
+              "value": "{rate2:deposit.lakshadish}% p.a."
+            },
+            {
+              "label": "Monthly instalment",
+              "value": "₹3,800"
+            },
+            {
+              "label": "Tenure",
+              "value": "24 months"
+            },
+            {
+              "label": "Maturity amount",
+              "value": "{calc}"
+            },
+            {
+              "label": "TDS",
+              "value": "Applicable on interest, except for society members"
+            }
+          ],
+          "highlight": [
+            {
+              "label": "Monthly",
+              "value": "₹3,800"
+            },
+            {
+              "label": "Tenure",
+              "value": "24 mo"
+            },
+            {
+              "label": "Maturity",
+              "value": "{calc}"
+            }
+          ],
+          "features": [
+            "Easy monthly instalments",
+            "Attractive interest rates",
+            "Build a significant corpus",
+            "Guaranteed maturity value",
+            "Convenient to operate",
+            "Safety and liquidity"
+          ],
+          "eligibility": "Individuals (single or joint), minors through a parent or guardian, HUFs, associations, societies, institutions, trusts and clubs can all invest in Lakshadish.",
+          "image": "/images/schemes/creative-rd.webp",
+          "featured": true,
+          "rateKey": "deposit.lakshadish",
+          "calc": {
+            "mode": "rd",
+            "amount": 3800,
+            "months": 24,
+            "rateKey": "deposit.lakshadish"
+          },
+          "order": 4
+        }
+      },
+      {
+        "slug": "lakshadish-deposit-scheme-2",
+        "data": {
+          "slug": "lakshadish-deposit-scheme-2",
+          "name": "Lakshadish (RD) Deposit Scheme 2",
+          "nameMr": "लक्षदिश (रिकरिंग) ठेव योजना",
+          "kind": "rd",
+          "rateNote": "p.a.",
+          "pitch": "Save ₹2,450 a month and become a lakhpati in 36 months.",
+          "intro": "Lakshadish — also known as the Lakhpati Thev Yojana — turns a small, fixed monthly saving into a guaranteed lump sum of over one lakh rupees. Pick the instalment that suits your budget, deposit it every month, and collect your maturity amount at the end of the term.",
+          "facts": [
+            {
+              "label": "Scheme type",
+              "value": "Recurring Deposit"
+            },
+            {
+              "label": "Interest rate",
+              "value": "{rate2:deposit.lakshadish}% p.a."
+            },
+            {
+              "label": "Monthly instalment",
+              "value": "₹2,450"
+            },
+            {
+              "label": "Tenure",
+              "value": "36 months"
+            },
+            {
+              "label": "Maturity amount",
+              "value": "{calc}"
+            },
+            {
+              "label": "TDS",
+              "value": "Applicable on interest, except for society members"
+            }
+          ],
+          "highlight": [
+            {
+              "label": "Monthly",
+              "value": "₹2,450"
+            },
+            {
+              "label": "Tenure",
+              "value": "36 mo"
+            },
+            {
+              "label": "Maturity",
+              "value": "{calc}"
+            }
+          ],
+          "features": [
+            "Easy monthly instalments",
+            "Attractive interest rates",
+            "Build a significant corpus",
+            "Guaranteed maturity value",
+            "Convenient to operate",
+            "Safety and liquidity"
+          ],
+          "eligibility": "Individuals (single or joint), minors through a parent or guardian, HUFs, associations, societies, institutions, trusts and clubs can all invest in Lakshadish.",
+          "image": "/images/schemes/creative-rd.webp",
+          "featured": false,
+          "rateKey": "deposit.lakshadish",
+          "calc": {
+            "mode": "rd",
+            "amount": 2450,
+            "months": 36,
+            "rateKey": "deposit.lakshadish"
+          },
+          "order": 5
+        }
+      },
+      {
+        "slug": "lakshadish-deposit-scheme-3",
+        "data": {
+          "slug": "lakshadish-deposit-scheme-3",
+          "name": "Lakshadish (RD) Deposit Scheme 3",
+          "nameMr": "लक्षदिश (रिकरिंग) ठेव योजना",
+          "kind": "rd",
+          "rateNote": "p.a.",
+          "pitch": "Save ₹1,750 a month and become a lakhpati in 48 months.",
+          "intro": "Lakshadish — also known as the Lakhpati Thev Yojana — turns a small, fixed monthly saving into a guaranteed lump sum of over one lakh rupees. Pick the instalment that suits your budget, deposit it every month, and collect your maturity amount at the end of the term.",
+          "facts": [
+            {
+              "label": "Scheme type",
+              "value": "Recurring Deposit"
+            },
+            {
+              "label": "Interest rate",
+              "value": "{rate2:deposit.lakshadish}% p.a."
+            },
+            {
+              "label": "Monthly instalment",
+              "value": "₹1,750"
+            },
+            {
+              "label": "Tenure",
+              "value": "48 months"
+            },
+            {
+              "label": "Maturity amount",
+              "value": "{calc}"
+            },
+            {
+              "label": "TDS",
+              "value": "Applicable on interest, except for society members"
+            }
+          ],
+          "highlight": [
+            {
+              "label": "Monthly",
+              "value": "₹1,750"
+            },
+            {
+              "label": "Tenure",
+              "value": "48 mo"
+            },
+            {
+              "label": "Maturity",
+              "value": "{calc}"
+            }
+          ],
+          "features": [
+            "Easy monthly instalments",
+            "Attractive interest rates",
+            "Build a significant corpus",
+            "Guaranteed maturity value",
+            "Convenient to operate",
+            "Safety and liquidity"
+          ],
+          "eligibility": "Individuals (single or joint), minors through a parent or guardian, HUFs, associations, societies, institutions, trusts and clubs can all invest in Lakshadish.",
+          "image": "/images/schemes/creative-rd.webp",
+          "featured": false,
+          "rateKey": "deposit.lakshadish",
+          "calc": {
+            "mode": "rd",
+            "amount": 1750,
+            "months": 48,
+            "rateKey": "deposit.lakshadish"
+          },
+          "order": 6
+        }
+      },
+      {
+        "slug": "lakshadish-deposit-scheme-4",
+        "data": {
+          "slug": "lakshadish-deposit-scheme-4",
+          "name": "Lakshadish (RD) Deposit Scheme 4",
+          "nameMr": "लक्षदिश (रिकरिंग) ठेव योजना",
+          "kind": "rd",
+          "rateNote": "p.a.",
+          "pitch": "Save ₹1,350 a month and become a lakhpati in 60 months.",
+          "intro": "Lakshadish — also known as the Lakhpati Thev Yojana — turns a small, fixed monthly saving into a guaranteed lump sum of over one lakh rupees. Pick the instalment that suits your budget, deposit it every month, and collect your maturity amount at the end of the term.",
+          "facts": [
+            {
+              "label": "Scheme type",
+              "value": "Recurring Deposit"
+            },
+            {
+              "label": "Interest rate",
+              "value": "{rate2:deposit.lakshadish}% p.a."
+            },
+            {
+              "label": "Monthly instalment",
+              "value": "₹1,350"
+            },
+            {
+              "label": "Tenure",
+              "value": "60 months"
+            },
+            {
+              "label": "Maturity amount",
+              "value": "{calc}"
+            },
+            {
+              "label": "TDS",
+              "value": "Applicable on interest, except for society members"
+            }
+          ],
+          "highlight": [
+            {
+              "label": "Monthly",
+              "value": "₹1,350"
+            },
+            {
+              "label": "Tenure",
+              "value": "60 mo"
+            },
+            {
+              "label": "Maturity",
+              "value": "{calc}"
+            }
+          ],
+          "features": [
+            "Easy monthly instalments",
+            "Attractive interest rates",
+            "Build a significant corpus",
+            "Guaranteed maturity value",
+            "Convenient to operate",
+            "Safety and liquidity"
+          ],
+          "eligibility": "Individuals (single or joint), minors through a parent or guardian, HUFs, associations, societies, institutions, trusts and clubs can all invest in Lakshadish.",
+          "image": "/images/schemes/creative-rd.webp",
+          "featured": true,
+          "rateKey": "deposit.lakshadish",
+          "calc": {
+            "mode": "rd",
+            "amount": 1350,
+            "months": 60,
+            "rateKey": "deposit.lakshadish"
+          },
+          "order": 7
+        }
+      },
+      {
+        "slug": "daam-duppat-yojna",
+        "data": {
+          "slug": "daam-duppat-yojna",
+          "name": "Daam Duppat Yojna",
+          "nameMr": "दाम दुप्पट ठेव योजना",
+          "kind": "double",
+          "rateNote": "Money doubles",
+          "pitch": "Double your money in {number:doubling.general.months} months — or {number:doubling.special.months} months for special categories.",
+          "intro": "A simple promise: deposit once and get twice the amount back at maturity. Daam Duppat doubles your deposit in {number:doubling.general.months} months, and even sooner — {number:doubling.special.months} months — for senior citizens, persons with disabilities, ex-servicemen, single parents and widows aged 50 and above.",
+          "facts": [
+            {
+              "label": "Scheme type",
+              "value": "Doubling Deposit"
+            },
+            {
+              "label": "General depositors",
+              "value": "Doubles in {number:doubling.general.months} months"
+            },
+            {
+              "label": "Special categories",
+              "value": "Doubles in {number:doubling.special.months} months"
+            },
+            {
+              "label": "Minimum deposit",
+              "value": "₹100 and above"
+            },
+            {
+              "label": "Example",
+              "value": "₹1,00,000 becomes ₹2,00,000"
+            },
+            {
+              "label": "TDS",
+              "value": "Applicable on interest, except for society members"
+            }
+          ],
+          "highlight": [
+            {
+              "label": "Deposit",
+              "value": "₹1,00,000"
+            },
+            {
+              "label": "Maturity",
+              "value": "₹2,00,000"
+            },
+            {
+              "label": "Tenure",
+              "value": "{number:doubling.special.months}–{number:doubling.general.months} mo"
+            }
+          ],
+          "features": [
+            "One-time deposit",
+            "Attractive interest rates",
+            "Build a significant corpus",
+            "Guaranteed maturity value",
+            "Convenient to operate",
+            "Safety and liquidity"
+          ],
+          "eligibility": "Any resident Indian individual or entity can invest; special categories enjoy the shorter {number:doubling.special.months}-month term.",
+          "image": "/images/schemes/creative-duppat.webp",
+          "featured": true,
+          "rateKey": null,
+          "calc": {
+            "mode": "fd",
+            "amount": 100000,
+            "months": 88,
+            "rateKey": "doubling.illustrative-rate"
+          },
+          "order": 8
+        }
+      },
+      {
+        "slug": "vishvamangal-fixed-deposit-scheme-2",
+        "data": {
+          "slug": "vishvamangal-fixed-deposit-scheme-2",
+          "name": "Vishwamangal 12-Month Fixed Deposit",
+          "nameMr": "विश्वमंगल मुदत ठेव योजना",
+          "kind": "fd",
+          "rateNote": "p.a. for 12 months",
+          "pitch": "Earn {calc:interest} on every ₹1 lakh in one year.",
+          "intro": "A straightforward one-year deposit at {rate:deposit.vishwamangal-12m}% p.a. Invest ₹1,00,000 today and receive {calc} after 12 months — a clear, predictable return for your short-term goals.",
+          "facts": [
+            {
+              "label": "Scheme type",
+              "value": "Fixed Deposit"
+            },
+            {
+              "label": "Interest rate",
+              "value": "{rate:deposit.vishwamangal-12m}% p.a."
+            },
+            {
+              "label": "Tenure",
+              "value": "12 months"
+            },
+            {
+              "label": "Example deposit",
+              "value": "₹1,00,000"
+            },
+            {
+              "label": "Interest earned",
+              "value": "{calc:interest}"
+            },
+            {
+              "label": "Maturity amount",
+              "value": "{calc}"
+            },
+            {
+              "label": "TDS",
+              "value": "Applicable on interest, except for society members"
+            }
+          ],
+          "highlight": [
+            {
+              "label": "Deposit",
+              "value": "₹1,00,000"
+            },
+            {
+              "label": "Maturity",
+              "value": "{calc}"
+            },
+            {
+              "label": "Tenure",
+              "value": "12 mo"
+            }
+          ],
+          "features": [
+            "Attractive interest rates",
+            "Flexible tenure",
+            "Ease and convenience",
+            "Stable, assured returns",
+            "Safety and liquidity",
+            "Nomination facility"
+          ],
+          "eligibility": "Any resident Indian individual or entity, including senior citizens and HUFs, can invest.",
+          "image": "/images/schemes/creative-vfd.webp",
+          "rateKey": "deposit.vishwamangal-12m",
+          "calc": {
+            "mode": "fd",
+            "amount": 100000,
+            "months": 12,
+            "rateKey": "deposit.vishwamangal-12m"
+          },
+          "order": 9
+        }
+      }
+    ],
+    "loan": [
+      {
+        "slug": "agriculture-term-loan",
+        "data": {
+          "slug": "agriculture-term-loan",
+          "name": "Agriculture Term Loan",
+          "icon": "wheat",
+          "image": "/images/loans/agriculture.webp",
+          "rate": "{rate:loan.agriculture.above-25000}% – {rate:loan.agriculture.up-to-25000}%",
+          "amount": "Up to ₹90 lakh",
+          "summary": "Finance for farm equipment, irrigation, land development and allied agricultural activities.",
+          "details": [
+            {
+              "label": "Loan amount",
+              "value": "Up to ₹90 lakh"
+            },
+            {
+              "label": "Rate of interest",
+              "value": "{rate:loan.agriculture.up-to-25000}% up to ₹25,000 · {rate:loan.agriculture.above-25000}% above ₹25,000"
+            },
+            {
+              "label": "Margin",
+              "value": "25% of profit"
+            },
+            {
+              "label": "Guarantors",
+              "value": "2"
+            },
+            {
+              "label": "Membership",
+              "value": "Member / Nominal"
+            },
+            {
+              "label": "Security",
+              "value": "Land 7/12 mortgage"
+            },
+            {
+              "label": "Documents",
+              "value": "Valuation, mortgage, factory guarantee, photo, ration card, property 7/12"
+            }
+          ],
+          "rateKey": "loan.agriculture.above-25000",
+          "showInForm": true,
+          "order": 1
+        }
+      },
+      {
+        "slug": "housing-loan",
+        "data": {
+          "slug": "housing-loan",
+          "name": "Housing Loan",
+          "icon": "home",
+          "image": "/images/loans/housing.webp",
+          "rate": "{rate:loan.housing}%",
+          "amount": "Up to ₹90 lakh",
+          "summary": "Buy, build or extend your dream home with affordable rates and a comfortable repayment plan.",
+          "details": [
+            {
+              "label": "Loan amount",
+              "value": "Up to ₹90 lakh, as per housing project"
+            },
+            {
+              "label": "Rate of interest",
+              "value": "{rate:loan.housing}%"
+            },
+            {
+              "label": "Margin",
+              "value": "1/4 of the estimate"
+            },
+            {
+              "label": "Guarantors",
+              "value": "Minimum 2"
+            },
+            {
+              "label": "Membership",
+              "value": "Member / Nominal"
+            },
+            {
+              "label": "Security",
+              "value": "Land and building"
+            },
+            {
+              "label": "Documents",
+              "value": "Valuation, search report, current 7/12, purchase papers, construction permission, income proof, photo, address proof, map"
+            }
+          ],
+          "rateKey": "loan.housing",
+          "showInForm": true,
+          "order": 2
+        }
+      },
+      {
+        "slug": "vehicle-loan",
+        "data": {
+          "slug": "vehicle-loan",
+          "name": "Vehicle Loan",
+          "icon": "car",
+          "image": "/images/loans/vehicle.webp",
+          "rate": "{rate:loan.vehicle}%",
+          "amount": "As per quotation",
+          "summary": "Drive home a new car, two-wheeler or commercial vehicle — anyone can apply.",
+          "details": [
+            {
+              "label": "Loan amount",
+              "value": "As per quotation"
+            },
+            {
+              "label": "Rate of interest",
+              "value": "{rate:loan.vehicle}%"
+            },
+            {
+              "label": "Margin",
+              "value": "1/4 (25%)"
+            },
+            {
+              "label": "Guarantors",
+              "value": "2"
+            },
+            {
+              "label": "Membership",
+              "value": "Member / Nominal"
+            },
+            {
+              "label": "Security",
+              "value": "Vehicle RC book (hypothecation)"
+            },
+            {
+              "label": "Documents",
+              "value": "Quotation, income certificate, income tax returns"
+            }
+          ],
+          "rateKey": "loan.vehicle",
+          "showInForm": true,
+          "order": 3
+        }
+      },
+      {
+        "slug": "personal-loan",
+        "data": {
+          "slug": "personal-loan",
+          "name": "Personal Loan",
+          "icon": "wallet",
+          "image": "/images/loans/personal.webp",
+          "rate": "{rate:loan.personal}%",
+          "amount": "Up to ₹1 lakh",
+          "summary": "Quick funds for weddings, medical needs, travel or any personal requirement.",
+          "details": [
+            {
+              "label": "Loan amount",
+              "value": "Up to ₹1 lakh"
+            },
+            {
+              "label": "Rate of interest",
+              "value": "{rate:loan.personal}%"
+            },
+            {
+              "label": "Guarantors",
+              "value": "2"
+            },
+            {
+              "label": "Membership",
+              "value": "Member / Nominal"
+            },
+            {
+              "label": "Security",
+              "value": "Guarantee letter / cheque book"
+            },
+            {
+              "label": "Documents",
+              "value": "Photo, ration card, salary certificate or income proof"
+            }
+          ],
+          "rateKey": "loan.personal",
+          "showInForm": true,
+          "order": 4
+        }
+      },
+      {
+        "slug": "warehouse-loan",
+        "data": {
+          "slug": "warehouse-loan",
+          "name": "Warehouse Loan",
+          "icon": "warehouse",
+          "image": "/images/loans/warehouse.webp",
+          "rate": "{rate:loan.warehouse}%",
+          "amount": "As per valuation",
+          "summary": "Unlock the value of stored produce and goods with convenient monthly instalments.",
+          "details": [
+            {
+              "label": "Rate of interest",
+              "value": "{rate:loan.warehouse}%"
+            },
+            {
+              "label": "Instalment",
+              "value": "Monthly"
+            },
+            {
+              "label": "Guarantors",
+              "value": "2"
+            },
+            {
+              "label": "Documents",
+              "value": "Valuation, mortgage, guarantee, photo, ID proof, address proof"
+            }
+          ],
+          "rateKey": "loan.warehouse",
+          "showInForm": true,
+          "order": 5
+        }
+      },
+      {
+        "slug": "cash-credit",
+        "data": {
+          "slug": "cash-credit",
+          "name": "Cash Credit",
+          "icon": "banknote",
+          "image": "/images/loans/cash-credit.webp",
+          "rate": "As agri term loan",
+          "amount": "Up to ₹90 lakh",
+          "summary": "A flexible working-capital limit for traders and businesses — pay interest only on what you use.",
+          "details": [
+            {
+              "label": "Loan amount",
+              "value": "Up to ₹90 lakh"
+            },
+            {
+              "label": "Rate of interest",
+              "value": "Same as Agriculture Term Loan"
+            },
+            {
+              "label": "Guarantors",
+              "value": "Minimum 2"
+            },
+            {
+              "label": "Membership",
+              "value": "Member / Nominal"
+            },
+            {
+              "label": "Security",
+              "value": "Property mortgage"
+            },
+            {
+              "label": "Documents",
+              "value": "Current 7/12, valuation, search report, income proof, address proof"
+            }
+          ],
+          "rateKey": "loan.agriculture.above-25000",
+          "showInForm": true,
+          "order": 6
+        }
+      },
+      {
+        "slug": "hypothecation-loan",
+        "data": {
+          "slug": "hypothecation-loan",
+          "name": "Hypothecation Loan",
+          "icon": "store",
+          "image": "/images/loans/hypothecation.webp",
+          "rate": "As agri term loan",
+          "amount": "Up to ₹90 lakh",
+          "summary": "Finance against your business stock and assets to keep operations running smoothly.",
+          "details": [
+            {
+              "label": "Loan amount",
+              "value": "Up to ₹90 lakh"
+            },
+            {
+              "label": "Rate of interest",
+              "value": "Same as Agriculture Term Loan"
+            },
+            {
+              "label": "Guarantors",
+              "value": "Minimum 2"
+            },
+            {
+              "label": "Membership",
+              "value": "Member / Nominal"
+            },
+            {
+              "label": "Security",
+              "value": "Shop Act licence, property, balance sheet"
+            },
+            {
+              "label": "Documents",
+              "value": "Photo, address proof, income proof, search report, valuation, mortgage, Shop Act, balance sheet"
+            }
+          ],
+          "rateKey": "loan.agriculture.above-25000",
+          "showInForm": true,
+          "order": 7
+        }
+      },
+      {
+        "slug": "land-mortgage-loan",
+        "data": {
+          "slug": "land-mortgage-loan",
+          "name": "Land Mortgage Loan",
+          "icon": "map-pin",
+          "image": "/images/loans/land-mortgage.webp",
+          "rate": "{rate:loan.mortgage.above-90000}% – {rate:loan.mortgage.up-to-90000}%",
+          "amount": "₹1 crore+",
+          "summary": "Large-ticket funding secured against agricultural or non-agricultural land.",
+          "details": [
+            {
+              "label": "Loan amount",
+              "value": "₹1 crore and above"
+            },
+            {
+              "label": "Rate of interest",
+              "value": "{rate:loan.mortgage.up-to-90000}% up to ₹90,000 · {rate:loan.mortgage.above-90000}% above ₹90,000"
+            },
+            {
+              "label": "Guarantors",
+              "value": "2"
+            },
+            {
+              "label": "Membership",
+              "value": "Member / Nominal"
+            },
+            {
+              "label": "Security",
+              "value": "Land 7/12 mortgage"
+            },
+            {
+              "label": "Documents",
+              "value": "Land guarantee, photo, ration card, 7/12 mortgage"
+            }
+          ],
+          "rateKey": "loan.mortgage.above-90000",
+          "showInForm": true,
+          "order": 8
+        }
+      },
+      {
+        "slug": "property-mortgage-loan",
+        "data": {
+          "slug": "property-mortgage-loan",
+          "name": "Property Mortgage Loan",
+          "icon": "building",
+          "image": "/images/loans/house-mortgage.webp",
+          "rate": "{rate:loan.mortgage.above-90000}% – {rate:loan.mortgage.up-to-90000}%",
+          "amount": "₹1 crore+",
+          "summary": "Raise funds for business or personal needs against your house or commercial property.",
+          "details": [
+            {
+              "label": "Loan amount",
+              "value": "₹1 crore and above"
+            },
+            {
+              "label": "Rate of interest",
+              "value": "{rate:loan.mortgage.up-to-90000}% up to ₹90,000 · {rate:loan.mortgage.above-90000}% above ₹90,000"
+            },
+            {
+              "label": "Guarantors",
+              "value": "2"
+            },
+            {
+              "label": "Membership",
+              "value": "Member / Nominal"
+            },
+            {
+              "label": "Security",
+              "value": "Land and building"
+            },
+            {
+              "label": "Documents",
+              "value": "Current 7/12, income proof, photo, address proof, purchase papers"
+            }
+          ],
+          "rateKey": "loan.mortgage.above-90000",
+          "showInForm": true,
+          "order": 9
+        }
+      },
+      {
+        "slug": "microfinance",
+        "data": {
+          "slug": "microfinance",
+          "name": "Microfinance",
+          "icon": "hand-coins",
+          "image": "/images/loans/microfinance.webp",
+          "rate": "{rate:loan.microfinance}%",
+          "amount": "Up to ₹1 lakh",
+          "summary": "Small, short-term credit that helps micro-entrepreneurs grow their livelihoods.",
+          "details": [
+            {
+              "label": "Loan amount",
+              "value": "Up to ₹1 lakh"
+            },
+            {
+              "label": "Rate of interest",
+              "value": "{rate:loan.microfinance}%"
+            },
+            {
+              "label": "Period",
+              "value": "100 days"
+            }
+          ],
+          "rateKey": "loan.microfinance",
+          "showInForm": true,
+          "order": 10
+        }
+      },
+      {
+        "slug": "bachat-gat-loan",
+        "data": {
+          "slug": "bachat-gat-loan",
+          "name": "Bachat Gat (SHG) Loan",
+          "icon": "users",
+          "image": "/images/loans/bachat-gat.webp",
+          "rate": "{rate:loan.bachat-gat}%",
+          "amount": "Up to ₹1 lakh",
+          "summary": "Group credit for women’s self-help groups (bachat gat) to start and scale small enterprises.",
+          "details": [
+            {
+              "label": "Loan amount",
+              "value": "Up to ₹1 lakh"
+            },
+            {
+              "label": "Rate of interest",
+              "value": "{rate:loan.bachat-gat}%"
+            },
+            {
+              "label": "Period",
+              "value": "100 days"
+            }
+          ],
+          "rateKey": "loan.bachat-gat",
+          "showInForm": true,
+          "order": 11
+        }
+      }
+    ],
+    "branch": [
+      {
+        "slug": "ho",
+        "data": {
+          "code": "HO",
+          "name": "Head Office — Shelgi, Solapur",
+          "region": "Head Office",
+          "headOffice": true,
+          "address": "Plot No. 94, Mitra Nagar, Near Rabbi Research Center, Shelgi, Solapur – 413002",
+          "phones": [
+            "+91 99232 03322"
+          ],
+          "active": true,
+          "order": 0,
+          "regionOrder": 0
+        }
+      },
+      {
+        "slug": "br001",
+        "data": {
+          "code": "BR001",
+          "name": "Mandai",
+          "region": "Pune Region",
+          "headOffice": false,
+          "address": "Kubera Chambers, 1st Floor, In Front of Sancheti Hospital, Near Meet Con, Shivaji Nagar Pune 411005",
+          "phones": [
+            "+91 99232 09425"
+          ],
+          "active": true,
+          "order": 1,
+          "regionOrder": 1
+        }
+      },
+      {
+        "slug": "br002",
+        "data": {
+          "code": "BR002",
+          "name": "Bhor",
+          "region": "Pune Region",
+          "headOffice": false,
+          "address": "Vetal Peth, Bhor Tal, Bhor, Dist. Pune, Pin code – 412206",
+          "phones": [
+            "+91 75079 99474"
+          ],
+          "active": true,
+          "order": 2,
+          "regionOrder": 1
+        }
+      },
+      {
+        "slug": "br003",
+        "data": {
+          "code": "BR003",
+          "name": "Sangavi",
+          "region": "Pune Region",
+          "headOffice": false,
+          "address": "Nisarg Nivas, opp. Famous katta Cafe, Famous Chowk, New Sangavi, Pune",
+          "phones": [
+            "+91 99232 09415"
+          ],
+          "active": true,
+          "order": 3,
+          "regionOrder": 1
+        }
+      },
+      {
+        "slug": "br004",
+        "data": {
+          "code": "BR004",
+          "name": "Talegaon Dabhade",
+          "region": "Pune Region",
+          "headOffice": false,
+          "address": "Plot no. 2, Shop no. 3, vaidya Colony, Shri Swami Samarth Complex",
+          "phones": [
+            "+91 75079 99475"
+          ],
+          "active": true,
+          "order": 4,
+          "regionOrder": 1
+        }
+      },
+      {
+        "slug": "br005",
+        "data": {
+          "code": "BR005",
+          "name": "Itkal",
+          "region": "Andur Division",
+          "headOffice": false,
+          "address": "Ganesh Nagar S.T.Stand Itkal Tal.Tuljapur Dist Osmanabad",
+          "phones": [
+            "+91 99231 28047"
+          ],
+          "active": true,
+          "order": 5,
+          "regionOrder": 2
+        }
+      },
+      {
+        "slug": "br006",
+        "data": {
+          "code": "BR006",
+          "name": "Katgaon",
+          "region": "Andur Division",
+          "headOffice": false,
+          "address": "AT Post Katgaon Tal.Osmanabad Fular Wadi Betkar Nivas 413603",
+          "phones": [
+            "+91 98347 38795"
+          ],
+          "active": true,
+          "order": 6,
+          "regionOrder": 2
+        }
+      },
+      {
+        "slug": "br007",
+        "data": {
+          "code": "BR007",
+          "name": "Andur",
+          "region": "Andur Division",
+          "headOffice": false,
+          "address": "Near Grampanchayat Office, Andur",
+          "phones": [
+            "+91 99236 59445"
+          ],
+          "active": true,
+          "order": 7,
+          "regionOrder": 2
+        }
+      },
+      {
+        "slug": "br008",
+        "data": {
+          "code": "BR008",
+          "name": "Jalkot",
+          "region": "Andur Division",
+          "headOffice": false,
+          "address": "Neni Complex, Near Petrol pump, National Highway no. 65, Jalkot, Tal. – Tuljapur, Dist.- Dharashiv",
+          "phones": [
+            "+91 99705 25687"
+          ],
+          "active": true,
+          "order": 8,
+          "regionOrder": 2
+        }
+      },
+      {
+        "slug": "br009",
+        "data": {
+          "code": "BR009",
+          "name": "Naldurg",
+          "region": "Andur Division",
+          "headOffice": false,
+          "address": "Hotel Shivraj near gramin bank Tal.Tuljapur Dist Osmanabad",
+          "phones": [
+            "+91 99236 59449"
+          ],
+          "active": true,
+          "order": 9,
+          "regionOrder": 2
+        }
+      },
+      {
+        "slug": "br010",
+        "data": {
+          "code": "BR010",
+          "name": "Tamalwadi",
+          "region": "Andur Division",
+          "headOffice": false,
+          "address": "Police Station Backside, Tal. Tuljapur, Dist. Osmanabad",
+          "phones": [
+            "+91 77220 46522"
+          ],
+          "active": true,
+          "order": 10,
+          "regionOrder": 2
+        }
+      },
+      {
+        "slug": "br011",
+        "data": {
+          "code": "BR011",
+          "name": "Junction",
+          "region": "Shelgaon Division",
+          "headOffice": false,
+          "address": "At-Junction (Sainagar), Po-lasurne, Tal-Indapur, Dist-Pune",
+          "phones": [
+            "+91 99236 59451"
+          ],
+          "active": true,
+          "order": 11,
+          "regionOrder": 3
+        }
+      },
+      {
+        "slug": "br012",
+        "data": {
+          "code": "BR012",
+          "name": "Shelgaon",
+          "region": "Shelgaon Division",
+          "headOffice": false,
+          "address": "A/p-Shelgaon Tal Indapur Dist-Pune",
+          "phones": [
+            "+91 99238 00403"
+          ],
+          "active": true,
+          "order": 12,
+          "regionOrder": 3
+        }
+      },
+      {
+        "slug": "br013",
+        "data": {
+          "code": "BR013",
+          "name": "Indapur",
+          "region": "Shelgaon Division",
+          "headOffice": false,
+          "address": "Nagar Palika Road Juni Baramati Sah. Bank Indapur Dist., Pune",
+          "phones": [
+            "+91 99232 09448"
+          ],
+          "active": true,
+          "order": 13,
+          "regionOrder": 3
+        }
+      },
+      {
+        "slug": "br014",
+        "data": {
+          "code": "BR014",
+          "name": "Loni",
+          "region": "Shelgaon Division",
+          "headOffice": false,
+          "address": "Rajmata Chowk, Near Highway Breeze Loni Deokar Tal – Indapur Dist – Pune 413132",
+          "phones": [
+            "+91 90227 76191",
+            "+91 97668 66119"
+          ],
+          "active": true,
+          "order": 14,
+          "regionOrder": 3
+        }
+      },
+      {
+        "slug": "br015",
+        "data": {
+          "code": "BR015",
+          "name": "Bhoom",
+          "region": "Paranda Division",
+          "headOffice": false,
+          "address": "Paul Nivas, Vetala Road, Bhoom",
+          "phones": [
+            "+91 99236 59455"
+          ],
+          "active": true,
+          "order": 15,
+          "regionOrder": 4
+        }
+      },
+      {
+        "slug": "br016",
+        "data": {
+          "code": "BR016",
+          "name": "Washi",
+          "region": "Paranda Division",
+          "headOffice": false,
+          "address": "Laxmi Road Shinde Complex, Near DCC Bank, Washi, Tq. washi, Dist. dharashive",
+          "phones": [
+            "+91 93598 53036"
+          ],
+          "active": true,
+          "order": 16,
+          "regionOrder": 4
+        }
+      },
+      {
+        "slug": "br017",
+        "data": {
+          "code": "BR017",
+          "name": "Mankeshwar",
+          "region": "Paranda Division",
+          "headOffice": false,
+          "address": "At Post Mankeshwar, Tal Bhoom, Dist Dharashiv 413504",
+          "phones": [
+            "+91 77740 74789"
+          ],
+          "active": true,
+          "order": 17,
+          "regionOrder": 4
+        }
+      },
+      {
+        "slug": "br018",
+        "data": {
+          "code": "BR018",
+          "name": "Jawala Ni",
+          "region": "Paranda Division",
+          "headOffice": false,
+          "address": "At Post Jawala Ni Tal. Paranda Dist. Osmanabad",
+          "phones": [
+            "+91 93591 45857"
+          ],
+          "active": true,
+          "order": 18,
+          "regionOrder": 4
+        }
+      },
+      {
+        "slug": "br019",
+        "data": {
+          "code": "BR019",
+          "name": "Paranda",
+          "region": "Paranda Division",
+          "headOffice": false,
+          "address": "Shivaji Chowk, Police station Samor Sadekar Complex, At. Post. Paranda, Dist. Dharashiv",
+          "phones": [
+            "+91 99236 59440"
+          ],
+          "active": true,
+          "order": 19,
+          "regionOrder": 4
+        }
+      },
+      {
+        "slug": "br020",
+        "data": {
+          "code": "BR020",
+          "name": "Anala",
+          "region": "Paranda Division",
+          "headOffice": false,
+          "address": "At Post Anala Shivaji Chowk Bajar Road Tal Paranda Dist osmanabad",
+          "phones": [
+            "+91 75079 99463"
+          ],
+          "active": true,
+          "order": 20,
+          "regionOrder": 4
+        }
+      },
+      {
+        "slug": "br021",
+        "data": {
+          "code": "BR021",
+          "name": "Walwad",
+          "region": "Paranda Division",
+          "headOffice": false,
+          "address": "At Post Patrud Rod Walwad Tal. Bhoom Dist. Dharashiv",
+          "phones": [
+            "+91 77740 74796"
+          ],
+          "active": true,
+          "order": 21,
+          "regionOrder": 4
+        }
+      },
+      {
+        "slug": "br022",
+        "data": {
+          "code": "BR022",
+          "name": "Kalamb",
+          "region": "Dhoki Division",
+          "headOffice": false,
+          "address": "At Post Kalamb, Tq – Kalamb, Dist – Dharashiv",
+          "phones": [
+            "+91 94046 76030"
+          ],
+          "active": true,
+          "order": 22,
+          "regionOrder": 5
+        }
+      },
+      {
+        "slug": "br023",
+        "data": {
+          "code": "BR023",
+          "name": "Murud",
+          "region": "Dhoki Division",
+          "headOffice": false,
+          "address": "Janata Vidyalaya Shopping Complex, S.T. Stand, Murud, Dist. Latur",
+          "phones": [
+            "+91 99232 09417"
+          ],
+          "active": true,
+          "order": 23,
+          "regionOrder": 5
+        }
+      },
+      {
+        "slug": "br024",
+        "data": {
+          "code": "BR024",
+          "name": "Bembali",
+          "region": "Dhoki Division",
+          "headOffice": false,
+          "address": "Bajar Chowk Bembali Tal., Osmanabad Dist., Osmanabad",
+          "phones": [
+            "+91 95615 52472"
+          ],
+          "active": true,
+          "order": 24,
+          "regionOrder": 5
+        }
+      },
+      {
+        "slug": "br025",
+        "data": {
+          "code": "BR025",
+          "name": "Dhoki",
+          "region": "Dhoki Division",
+          "headOffice": false,
+          "address": "At Post Dhoki, Near SBI Bank, Rajesh Nagar Dhoki Tq & Dist Dharshiv",
+          "phones": [
+            "+91 77740 74793",
+            "+91 98340 80305"
+          ],
+          "active": true,
+          "order": 25,
+          "regionOrder": 5
+        }
+      },
+      {
+        "slug": "br026",
+        "data": {
+          "code": "BR026",
+          "name": "Jagji",
+          "region": "Dhoki Division",
+          "headOffice": false,
+          "address": "At Post Jagji Tal, Dist. Osmanabad",
+          "phones": [
+            "+91 70664 43090"
+          ],
+          "active": true,
+          "order": 26,
+          "regionOrder": 5
+        }
+      },
+      {
+        "slug": "br027",
+        "data": {
+          "code": "BR027",
+          "name": "Kond",
+          "region": "Dhoki Division",
+          "headOffice": false,
+          "address": "At Post Kond Tal Dist Osmanabad",
+          "phones": [
+            "+91 74994 25193"
+          ],
+          "active": true,
+          "order": 27,
+          "regionOrder": 5
+        }
+      },
+      {
+        "slug": "br028",
+        "data": {
+          "code": "BR028",
+          "name": "Wagholi",
+          "region": "Dhoki Division",
+          "headOffice": false,
+          "address": "At Post Wagholi Gandhi Chowk Tal Osmanabad Dist osmanabad",
+          "phones": [
+            "+91 82083 19986"
+          ],
+          "active": true,
+          "order": 28,
+          "regionOrder": 5
+        }
+      },
+      {
+        "slug": "br029",
+        "data": {
+          "code": "BR029",
+          "name": "Keshegaon",
+          "region": "Dhoki Division",
+          "headOffice": false,
+          "address": "Keshegaon, Ta & Dist Dharashiv",
+          "phones": [
+            "+91 92840 45791"
+          ],
+          "active": true,
+          "order": 29,
+          "regionOrder": 5
+        }
+      },
+      {
+        "slug": "br030",
+        "data": {
+          "code": "BR030",
+          "name": "Ujani",
+          "region": "Dhoki Division",
+          "headOffice": false,
+          "address": "UJANI. Kamalpur Road, Ujani Mod, Ta. Ausa Dist. Latur",
+          "phones": [
+            "+91 77740 74794"
+          ],
+          "active": true,
+          "order": 30,
+          "regionOrder": 5
+        }
+      },
+      {
+        "slug": "br031",
+        "data": {
+          "code": "BR031",
+          "name": "Kolhapur",
+          "region": "Kolhapur Division",
+          "headOffice": false,
+          "address": "Shri Gajanan Building, 1210 A Ward, Ardha Shivaji Putla, In front of Daulatrao Bhosale High School, Shivaji Peth, Kolhapur – 416012",
+          "phones": [
+            "+91 99238 00170"
+          ],
+          "active": true,
+          "order": 31,
+          "regionOrder": 6
+        }
+      },
+      {
+        "slug": "br032",
+        "data": {
+          "code": "BR032",
+          "name": "Ratnagiri",
+          "region": "Kolhapur Division",
+          "headOffice": false,
+          "address": "gala no. 19, Paras Plaza, K. J. Jain Nagar, Ratnagiri 415612",
+          "phones": [
+            "+91 85520 00130"
+          ],
+          "active": true,
+          "order": 32,
+          "regionOrder": 6
+        }
+      },
+      {
+        "slug": "br033",
+        "data": {
+          "code": "BR033",
+          "name": "Murgud",
+          "region": "Kolhapur Division",
+          "headOffice": false,
+          "address": "Sir Piraji Road near Bank Of India Tal.kagal Murgud",
+          "phones": [
+            "+91 85520 00130"
+          ],
+          "active": true,
+          "order": 33,
+          "regionOrder": 6
+        }
+      },
+      {
+        "slug": "br034",
+        "data": {
+          "code": "BR034",
+          "name": "Bhogawati",
+          "region": "Kolhapur Division",
+          "headOffice": false,
+          "address": "At Post Shahu nagar Parite (Bhogavati) Sugar Factory, Dist. Kolhapur",
+          "phones": [
+            "+91 82088 59496"
+          ],
+          "active": true,
+          "order": 34,
+          "regionOrder": 6
+        }
+      },
+      {
+        "slug": "br035",
+        "data": {
+          "code": "BR035",
+          "name": "Jaysingpur",
+          "region": "Kolhapur Division",
+          "headOffice": false,
+          "address": "9th Galli, Netaji Chowk, Near Ratnakar Bank, Jaysingpur, Tal. Shirol, Dist. Kolhapur",
+          "phones": [
+            "+91 75079 99431"
+          ],
+          "active": true,
+          "order": 35,
+          "regionOrder": 6
+        }
+      },
+      {
+        "slug": "br036",
+        "data": {
+          "code": "BR036",
+          "name": "Ashta",
+          "region": "Kolhapur Division",
+          "headOffice": false,
+          "address": "Sathe Complex Near State Bank, Astha Tal, Valva Dist, Sangli",
+          "phones": [
+            "+91 85520 00131"
+          ],
+          "active": true,
+          "order": 36,
+          "regionOrder": 6
+        }
+      },
+      {
+        "slug": "br037",
+        "data": {
+          "code": "BR037",
+          "name": "Belgaum",
+          "region": "Belgaon Region",
+          "headOffice": false,
+          "address": "CTS No. 1834/1/2, Maiti Corner, 2nd Floor, Kadolkar Galli, Bapat Galli Corner, Belgaum-590001",
+          "phones": [
+            "+91 91759 24531"
+          ],
+          "active": true,
+          "order": 37,
+          "regionOrder": 7
+        }
+      },
+      {
+        "slug": "br038",
+        "data": {
+          "code": "BR038",
+          "name": "Nipani",
+          "region": "Belgaon Region",
+          "headOffice": false,
+          "address": "Lad Complex, Old P.B. Road, Sakharwadi, Nipani – 591237",
+          "phones": [
+            "+91 91759 32539"
+          ],
+          "active": true,
+          "order": 38,
+          "regionOrder": 7
+        }
+      },
+      {
+        "slug": "br039",
+        "data": {
+          "code": "BR039",
+          "name": "Gadhinglaj",
+          "region": "Belgaon Region",
+          "headOffice": false,
+          "address": "Nehru Chowk State Bank, Tal. Gadhinglaj, Dist. Kolhapur 416502",
+          "phones": [
+            "+91 91750 97213"
+          ],
+          "active": true,
+          "order": 39,
+          "regionOrder": 7
+        }
+      },
+      {
+        "slug": "br040",
+        "data": {
+          "code": "BR040",
+          "name": "Omerga",
+          "region": "Omerga Division",
+          "headOffice": false,
+          "address": "Mane Complex Main Road, Omerga",
+          "phones": [
+            "+91 70660 47594"
+          ],
+          "active": true,
+          "order": 40,
+          "regionOrder": 8
+        }
+      },
+      {
+        "slug": "br041",
+        "data": {
+          "code": "BR041",
+          "name": "Lohara",
+          "region": "Omerga Division",
+          "headOffice": false,
+          "address": "Shivaji Chowk Jatte Complex Gala No. 4, 5 tal Lohara Dist., Osmanabad",
+          "phones": [
+            "+91 77740 44508"
+          ],
+          "active": true,
+          "order": 41,
+          "regionOrder": 8
+        }
+      },
+      {
+        "slug": "br042",
+        "data": {
+          "code": "BR042",
+          "name": "Narangwadi",
+          "region": "Omerga Division",
+          "headOffice": false,
+          "address": "At Post Narangwadi Pawar Complex Tal Omarga Dist Osmanabad",
+          "phones": [
+            "+91 77200 66225"
+          ],
+          "active": true,
+          "order": 42,
+          "regionOrder": 8
+        }
+      },
+      {
+        "slug": "br043",
+        "data": {
+          "code": "BR043",
+          "name": "Kasar Shirshi",
+          "region": "Omerga Division",
+          "headOffice": false,
+          "address": "Murtuja Complex, Nilanga Road, Kasar shirshi, Nilanga, Latur",
+          "phones": [
+            "+91 77740 44506"
+          ],
+          "active": true,
+          "order": 43,
+          "regionOrder": 8
+        }
+      },
+      {
+        "slug": "br044",
+        "data": {
+          "code": "BR044",
+          "name": "Turori",
+          "region": "Omerga Division",
+          "headOffice": false,
+          "address": "Near Hanuman Temple, Main Road, Turori",
+          "phones": [
+            "+91 77740 44505"
+          ],
+          "active": true,
+          "order": 44,
+          "regionOrder": 8
+        }
+      },
+      {
+        "slug": "br045",
+        "data": {
+          "code": "BR045",
+          "name": "Makni",
+          "region": "Omerga Division",
+          "headOffice": false,
+          "address": "Latur rode the Maharashtra Gramin Bank near Makani 413608 Makani, Maharashtra",
+          "phones": [
+            "+91 77740 44507"
+          ],
+          "active": true,
+          "order": 45,
+          "regionOrder": 8
+        }
+      },
+      {
+        "slug": "br046",
+        "data": {
+          "code": "BR046",
+          "name": "Jevali",
+          "region": "Omerga Division",
+          "headOffice": false,
+          "address": "At Post Jevali Bajar Road Main Road, Tal. Lohara, Dist. Osmanabad",
+          "phones": [
+            "+91 99238 00296"
+          ],
+          "active": true,
+          "order": 46,
+          "regionOrder": 8
+        }
+      },
+      {
+        "slug": "br047",
+        "data": {
+          "code": "BR047",
+          "name": "Murum",
+          "region": "Omerga Division",
+          "headOffice": false,
+          "address": "Basweshwar Chowk, Bank of Maharashtra ATM neyar Murum",
+          "phones": [
+            "+91 77200 96478"
+          ],
+          "active": true,
+          "order": 47,
+          "regionOrder": 8
+        }
+      },
+      {
+        "slug": "br048",
+        "data": {
+          "code": "BR048",
+          "name": "Tuljapur",
+          "region": "Tuljapur Division",
+          "headOffice": false,
+          "address": "In Front of Old Bus Stand, Near ICICI Bank, Hangargekar Complex,Tuljapur",
+          "phones": [
+            "+91 77200 96479"
+          ],
+          "active": true,
+          "order": 48,
+          "regionOrder": 9
+        }
+      },
+      {
+        "slug": "br049",
+        "data": {
+          "code": "BR049",
+          "name": "Osmanabad",
+          "region": "Tuljapur Division",
+          "headOffice": false,
+          "address": "Tirthkar Complex Police Nivas Yedshi Road Tal. Osmanabad Dist. Osmanabad",
+          "phones": [
+            "+91 99238 00149"
+          ],
+          "active": true,
+          "order": 49,
+          "regionOrder": 9
+        }
+      },
+      {
+        "slug": "br050",
+        "data": {
+          "code": "BR050",
+          "name": "Kakramba",
+          "region": "Tuljapur Division",
+          "headOffice": false,
+          "address": "Tuljapur-Latur Road, Kakramba",
+          "phones": [
+            "+91 77740 44509"
+          ],
+          "active": true,
+          "order": 50,
+          "regionOrder": 9
+        }
+      },
+      {
+        "slug": "br051",
+        "data": {
+          "code": "BR051",
+          "name": "Aarli",
+          "region": "Tuljapur Division",
+          "headOffice": false,
+          "address": "At Post Arali Near Grampanchayat Tal, Tuljapur Dist, Osmanabad",
+          "phones": [
+            "+91 99236 59435"
+          ],
+          "active": true,
+          "order": 51,
+          "regionOrder": 9
+        }
+      },
+      {
+        "slug": "br052",
+        "data": {
+          "code": "BR052",
+          "name": "Mangrul",
+          "region": "Tuljapur Division",
+          "headOffice": false,
+          "address": "At Post Mangrul B.S.N.L. Office, Tal. Tuljapur, Dist. Osmanabad",
+          "phones": [
+            "+91 75079 99460"
+          ],
+          "active": true,
+          "order": 52,
+          "regionOrder": 9
+        }
+      },
+      {
+        "slug": "br053",
+        "data": {
+          "code": "BR053",
+          "name": "Kati",
+          "region": "Tuljapur Division",
+          "headOffice": false,
+          "address": "S.T. Stand At Post Kati Tal, Tuljapur Dist., Osmanabad",
+          "phones": [
+            "+91 91758 96782"
+          ],
+          "active": true,
+          "order": 53,
+          "regionOrder": 9
+        }
+      },
+      {
+        "slug": "br054",
+        "data": {
+          "code": "BR054",
+          "name": "Sawargaon",
+          "region": "Tuljapur Division",
+          "headOffice": false,
+          "address": "Near ST Stand Tuljapur Road, Sawargaon, TQ Tuljapur Dist Dharashiv",
+          "phones": [
+            "+91 77740 44511"
+          ],
+          "active": true,
+          "order": 54,
+          "regionOrder": 9
+        }
+      },
+      {
+        "slug": "br055",
+        "data": {
+          "code": "BR055",
+          "name": "Karajkheda",
+          "region": "Tuljapur Division",
+          "headOffice": false,
+          "address": "Main Road, Tal. Osmanabad Dist., Osmanabad",
+          "phones": [
+            "+91 98230 27332"
+          ],
+          "active": true,
+          "order": 55,
+          "regionOrder": 9
+        }
+      },
+      {
+        "slug": "br056",
+        "data": {
+          "code": "BR056",
+          "name": "Shelgi",
+          "region": "Tuljapur Division",
+          "headOffice": false,
+          "address": "Near Rabbi Research Center, Shelagi, Solapur 413006",
+          "phones": [
+            "+91 99232 03322"
+          ],
+          "active": true,
+          "order": 56,
+          "regionOrder": 9
+        }
+      },
+      {
+        "slug": "br057",
+        "data": {
+          "code": "BR057",
+          "name": "Parbhani",
+          "region": "Parbhani Division",
+          "headOffice": false,
+          "address": "Sanjay Baburao Gaikwad Asthbhuja Devi Ground Sonai Building Station Road, Parbhani",
+          "phones": [
+            "+91 85520 00133"
+          ],
+          "active": true,
+          "order": 57,
+          "regionOrder": 10
+        }
+      },
+      {
+        "slug": "br058",
+        "data": {
+          "code": "BR058",
+          "name": "Aundha",
+          "region": "Parbhani Division",
+          "headOffice": false,
+          "address": "Nagnath Mandir Road Hedgevar Chowk Aunda Nagnath 431705",
+          "phones": [
+            "+91 75079 99436"
+          ],
+          "active": true,
+          "order": 58,
+          "regionOrder": 10
+        }
+      },
+      {
+        "slug": "br059",
+        "data": {
+          "code": "BR059",
+          "name": "Kalamnuri",
+          "region": "Parbhani Division",
+          "headOffice": false,
+          "address": "Near Old Police Station Kalamnuri Dist., Hingoli 431701",
+          "phones": [
+            "+91 75079 99437"
+          ],
+          "active": true,
+          "order": 59,
+          "regionOrder": 10
+        }
+      },
+      {
+        "slug": "br060",
+        "data": {
+          "code": "BR060",
+          "name": "Mudkhed",
+          "region": "Parbhani Division",
+          "headOffice": false,
+          "address": "Subhash Ganj Mondha Mudhkhed Dist., Nanded",
+          "phones": [
+            "+91 75079 99439"
+          ],
+          "active": true,
+          "order": 60,
+          "regionOrder": 10
+        }
+      },
+      {
+        "slug": "br061",
+        "data": {
+          "code": "BR061",
+          "name": "Latur",
+          "region": "Nilanga Region",
+          "headOffice": false,
+          "address": "Opposite Lifestyle building, near Gadade Hospital, Rajiv Gandhi Chowk, Latur 413531",
+          "phones": [
+            "+91 77220 39685"
+          ],
+          "active": true,
+          "order": 61,
+          "regionOrder": 11
+        }
+      },
+      {
+        "slug": "br062",
+        "data": {
+          "code": "BR062",
+          "name": "Nilanga",
+          "region": "Nilanga Region",
+          "headOffice": false,
+          "address": "Maharastra Shikshan Samiti Gala No. 9 Nilanga Dist Latur",
+          "phones": [
+            "+91 99236 59436"
+          ],
+          "active": true,
+          "order": 62,
+          "regionOrder": 11
+        }
+      },
+      {
+        "slug": "br063",
+        "data": {
+          "code": "BR063",
+          "name": "Aurad Shahajani",
+          "region": "Nilanga Region",
+          "headOffice": false,
+          "address": "Mahesh Urban Bank Side Main Road Market Yard Aurad",
+          "phones": [
+            "+91 85520 00141"
+          ],
+          "active": true,
+          "order": 63,
+          "regionOrder": 11
+        }
+      },
+      {
+        "slug": "br064",
+        "data": {
+          "code": "BR064",
+          "name": "Bhalki",
+          "region": "Nilanga Region",
+          "headOffice": false,
+          "address": "Near Seventh-day School, Gunj Road, Bhalki",
+          "phones": [
+            "+91 91751 89241"
+          ],
+          "active": true,
+          "order": 64,
+          "regionOrder": 11
+        }
+      },
+      {
+        "slug": "br065",
+        "data": {
+          "code": "BR065",
+          "name": "Ausa",
+          "region": "Nilanga Region",
+          "headOffice": false,
+          "address": "Hanuman chowk, main road, above maharaja collection, Ausa",
+          "phones": [
+            "+91 82375 15851",
+            "+91 80803 92887"
+          ],
+          "active": true,
+          "order": 65,
+          "regionOrder": 11
+        }
+      },
+      {
+        "slug": "br066",
+        "data": {
+          "code": "BR066",
+          "name": "Parli",
+          "region": "Nilanga Region",
+          "headOffice": false,
+          "address": "Gharnikar Road Deshmukh Complex Parli Vaijnath Dist. Beed, Maharashtra 431515",
+          "phones": [
+            "+91 97657 44777"
+          ],
+          "active": true,
+          "order": 66,
+          "regionOrder": 11
+        }
+      },
+      {
+        "slug": "br067",
+        "data": {
+          "code": "BR067",
+          "name": "Udgir",
+          "region": "Nilanga Region",
+          "headOffice": false,
+          "address": "opposite side of bus stand, near mahavir dryfruits, Tondchirkar Complex, Udgir 413517",
+          "phones": [
+            "+91 77448 63140"
+          ],
+          "active": true,
+          "order": 67,
+          "regionOrder": 11
+        }
+      }
+    ],
+    "post": [
+      {
+        "slug": "लोहारा-माकणी-नारंगवाडी-श",
+        "data": {
+          "id": 7227,
+          "slug": "लोहारा-माकणी-नारंगवाडी-श",
+          "title": "लोहारा माकणी नारंगवाडी शाखेतर्फे दहावी व बारावी उत्तीर्ण गुणवंत विद्यार्थ्यांचा सत्कार",
+          "date": "2022-08-02T06:36:38",
+          "image": "/images/blog/7227.jpg",
+          "excerpt": "आज दिनांक 1 ऑगस्ट 2022 रोजी भारत जुनियर कॉलेज माकणी येथे लोहारा माकणी नारंगवाडी शाखेतर्फे दहावी व बारावी उत्तीर्ण गुणवंत विद्यार्थ्यांचा सत्कार समारंभ आयोजित केला . कार्यक्रमाचे…",
+          "language": "mr",
+          "order": 1
+        }
+      },
+      {
+        "slug": "गुणवंत-विद्यार्थ्यी-व-ग्",
+        "data": {
+          "id": 7223,
+          "slug": "गुणवंत-विद्यार्थ्यी-व-ग्",
+          "title": "गुणवंत विद्यार्थ्यी व ग्रा.पं . कर्मचारी, आशा‌ कार्यकर्ते , यांचा सत्कार",
+          "date": "2022-08-02T05:49:48",
+          "image": "/images/blog/7223.jpg",
+          "excerpt": "आज आरळी शाखेत गुणवंत विद्यार्थ्यी व ग्रा.पं . कर्मचारी, आशा‌ कार्यकर्ते , यांचा सत्कार करण्यात आला , व आपल्या लोकमंगल मल्टिस्टेट को ऑप सो लि सोलापूर शाखा आरळी येथिल सोनं तारण कर्ज…",
+          "language": "mr",
+          "order": 2
+        }
+      },
+      {
+        "slug": "सोलापूर-शाखा-जवळा-नि-यांच",
+        "data": {
+          "id": 7218,
+          "slug": "सोलापूर-शाखा-जवळा-नि-यांच",
+          "title": "सोलापूर शाखा जवळा नि यांच्या वतीने इयत्ता दहावी उत्तीर्ण गुणवंत विद्यार्थी यांचा सत्कार",
+          "date": "2022-08-01T11:17:04",
+          "image": "/images/blog/7218.jpg",
+          "excerpt": "*परांडा रिजन शाखा:-जवळा नि.* आज रोजी लोकमंगल मल्टिस्टेट को.ऑप सो. लि. सोलापूर शाखा जवळा नि यांच्या वतीने इयत्ता दहावी उत्तीर्ण गुणवंत विद्यार्थी यांचा सत्कार करण्यात आला.…",
+          "language": "mr",
+          "order": 3
+        }
+      },
+      {
+        "slug": "digisafe-policy-marketing",
+        "data": {
+          "id": 7204,
+          "slug": "digisafe-policy-marketing",
+          "title": "Digisafe policy marketing",
+          "date": "2022-08-01T04:05:54",
+          "image": "/images/blog/7204.jpg",
+          "excerpt": "आज काटी शाखे अंतर्गत Digisafe policy marketing साठी बस स्थानक, बाजार चौक, येथे marketing केली व 5 policy काढण्यात आल्या",
+          "language": "en",
+          "order": 4
+        }
+      },
+      {
+        "slug": "ग्राहक-मेळावा-ढोकी",
+        "data": {
+          "id": 7196,
+          "slug": "ग्राहक-मेळावा-ढोकी",
+          "title": "ग्राहक मेळावा ढोकी",
+          "date": "2022-07-30T06:13:02",
+          "image": "/images/blog/7196.jpg",
+          "excerpt": "विभाग :- ढोकी शाखा :-परळी वैजनाथ आज परळी शाखेत ग्राहक मेळावा संपन्न झाला. मिटींग मधील विषय- 1) मोबाईल अँप 2) नवीन कर्ज वाटप 3) नवीन ठेव संदर्भात चर्चा 4) मायक्रो फायनान्स संदर्भात…",
+          "language": "mr",
+          "order": 5
+        }
+      },
+      {
+        "slug": "महिलांनी-पूर्वी-कर्ज-घेव",
+        "data": {
+          "id": 7192,
+          "slug": "महिलांनी-पूर्वी-कर्ज-घेव",
+          "title": "महिलांनी पूर्वी कर्ज घेवून चांगल्या पद्धतीने परतफेड",
+          "date": "2022-07-29T05:40:57",
+          "image": "/images/blog/7192.jpg",
+          "excerpt": "लोकमंगल मल्टीस्टेट को ऑप सोसायटी लि सोलापूर आज भोगावती शाखेमध्ये ज्या महिलांनी पूर्वी कर्ज घेवून चांगल्या पद्धतीने परतफेड केली होती अशा महिला कर्जदारांना बोलवून नवीन 7 कर्जाच्या…",
+          "language": "mr",
+          "order": 6
+        }
+      },
+      {
+        "slug": "सोलापूर-शाखा-भोगावतीच्या",
+        "data": {
+          "id": 7187,
+          "slug": "सोलापूर-शाखा-भोगावतीच्या",
+          "title": "सोलापूर शाखा भोगावतीच्यावतीने दहावी, बारावी विद्यार्थ्यांचा सत्कार",
+          "date": "2022-07-28T10:47:40",
+          "image": "/images/blog/7187.jpg",
+          "excerpt": "लोकमंगल मल्टिस्टेट को. ऑप. सोसायटी लि. सोलापूर शाखा भोगावतीच्यावतीने आज दहावी बारावी विद्यार्थ्यांचा सत्कार समारंभ घेण्यात आला. कार्यक्रमाला मुख्याध्यापक श्री. पी. जी. पाटील सर,…",
+          "language": "mr",
+          "order": 7
+        }
+      },
+      {
+        "slug": "ग्राहक-मेळावा-परांडा",
+        "data": {
+          "id": 7183,
+          "slug": "ग्राहक-मेळावा-परांडा",
+          "title": "ग्राहक मेळावा परांडा",
+          "date": "2022-07-28T10:24:19",
+          "image": "/images/blog/7183.jpg",
+          "excerpt": "विभाग :-परांडा, शाखा:-अनाळा आज रोजी अनाळा शाखेत ग्राहक मिटिंग संपन्न झाली. मिटींग मधील विषय- 1) डिजीसेफ विमा पॉलिसी 2) मोबाईल बँकिंग ॲप 3) सोने तारण 4) नवीन कर्ज वाटप 5) नवीन ठेव…",
+          "language": "mr",
+          "order": 8
+        }
+      },
+      {
+        "slug": "ग्राहक-मेळावा-तुळजापूर",
+        "data": {
+          "id": 7178,
+          "slug": "ग्राहक-मेळावा-तुळजापूर",
+          "title": "ग्राहक मेळावा तुळजापूर",
+          "date": "2022-07-28T07:03:03",
+          "image": "/images/blog/7178.jpg",
+          "excerpt": "विभाग :- तुळजापूर शाखा :-आनंद नगर उस्मानाबाद आज आनंद नगर शाखेत ग्राहक मेळावा संपन्न झाला. मिटींग मधील विषय- 1) मोबाईल अँप 2) नवीन कर्ज वाटप 3) नवीन ठेव संदर्भात चर्चा 4) मायक्रो…",
+          "language": "mr",
+          "order": 9
+        }
+      },
+      {
+        "slug": "परांडा-शाखे-अंतर्गत-मार्",
+        "data": {
+          "id": 7174,
+          "slug": "परांडा-शाखे-अंतर्गत-मार्",
+          "title": "परांडा शाखे अंतर्गत मार्केट मध्ये कॅम्प व मार्केटिंग",
+          "date": "2022-07-28T06:50:05",
+          "image": "/images/blog/7174.jpg",
+          "excerpt": "लोकमंगल मल्टीस्टेट को ऑप सोसायटी लि सोलापूर* रिजन-परंडा शाखा-परांडा आज परांडा शाखे अंतर्गत मार्केट मध्ये कॅम्प व मार्केटिंग करण्यात आली. परंडा डिव्हिजन शाखा :परांडा परांडा येथील…",
+          "language": "mr",
+          "order": 10
+        }
+      },
+      {
+        "slug": "नगर-पालिकेच्या-कर्मचारी",
+        "data": {
+          "id": 7170,
+          "slug": "नगर-पालिकेच्या-कर्मचारी",
+          "title": "नगर पालिकेच्या कर्मचारी यांचा सत्कार",
+          "date": "2022-07-28T06:36:17",
+          "image": "/images/blog/7170.jpg",
+          "excerpt": "लोकमंगल मल्टीस्टेट को ऑप सोसायटी लि सोलापूर तुळजापूर येथील नगर पालिकेच्या कर्मचारी यांचा सत्कार करण्यात आला, सदर कार्यक्रम ला उपस्थित न.प. चे कर्मचारी , संचालक आडगळे साहेब , RM…",
+          "language": "mr",
+          "order": 11
+        }
+      },
+      {
+        "slug": "आनंद-नगर-व-समता-नगर-येथील-द",
+        "data": {
+          "id": 7159,
+          "slug": "आनंद-नगर-व-समता-नगर-येथील-द",
+          "title": "आनंद नगर व समता नगर येथील दुकानांना भेटून बँकेतील सर्व योजनांची तसेच इंन्सुरन्सची माहीती देण्यात आली",
+          "date": "2022-07-28T06:23:00",
+          "image": "/images/blog/7159.jpg",
+          "excerpt": "लोकमंगल मल्टीस्टेट को ऑप सोसायटी लि सोलापूर*आज आनंद नगर व समता नगर येथील दुकानांना भेटून बँकेतील सर्व योजनांची तसेच इंन्सुरन्सची माहीती देण्यात आली.",
+          "language": "mr",
+          "order": 12
+        }
+      },
+      {
+        "slug": "मुरगूड-शाखा-सल्लागार-मिट",
+        "data": {
+          "id": 7154,
+          "slug": "मुरगूड-शाखा-सल्लागार-मिट",
+          "title": "मुरगूड शाखा सल्लागार मिटिंग संपन्न",
+          "date": "2022-07-27T04:36:27",
+          "image": "/images/blog/7154.jpg",
+          "excerpt": "मुरगूड शाखेची माहे जुलैची मासिक सभा आज संपन्न झाली. यावेळी डीजीसेफ विमा पॉलिसी, ठेव, कर्ज अशा विविध विषयावर चर्चा करण्यात आली. सूचना : 1) पोस्टाची नवीन विमा पॉलिसी 399 रुपयेची…",
+          "language": "mr",
+          "order": 13
+        }
+      },
+      {
+        "slug": "मुरगूड-शाखेच्यावतीने-मुर",
+        "data": {
+          "id": 7147,
+          "slug": "मुरगूड-शाखेच्यावतीने-मुर",
+          "title": "मुरगूड शाखेच्यावतीने मुरगूड आठवडा बाजारात मार्केटिंग कॅम्प संपन्न",
+          "date": "2022-07-26T12:38:03",
+          "image": "/images/blog/7147.jpg",
+          "excerpt": "आज मुरगूड शाखेच्या वतीने मुरगूड आठवडा बाजारात छत्री लावून मार्केटिंग कॅम्प घेण्यात आला. यावेळी बाजारातील लोकांना ठेव, बचत गट कर्ज, विमा आणि इतर सुविधा याविषयी माहिती सांगून…",
+          "language": "mr",
+          "order": 14
+        }
+      },
+      {
+        "slug": "आशा-वर्कर-यांचा-सत्कार",
+        "data": {
+          "id": 7135,
+          "slug": "आशा-वर्कर-यांचा-सत्कार",
+          "title": "आशा वर्कर यांचा सत्कार",
+          "date": "2022-07-26T11:48:12",
+          "image": "/images/blog/7135.jpg",
+          "excerpt": "ढोकी रिजन उजनी शाखेच्यावतीने आशा वर्कर यांचा शाल श्रीफळ गुलाब पुष्प व प्रमाणपञ देऊन सत्कार करण्यात आला. आशा वर्कर यांच्याशी संवाद साधून त्याना सर्व योजनांची व इंन्सुरन्सची माहीती…",
+          "language": "mr",
+          "order": 15
+        }
+      },
+      {
+        "slug": "उजनी-ग्रामपंचायत-सफाई-कर",
+        "data": {
+          "id": 7131,
+          "slug": "उजनी-ग्रामपंचायत-सफाई-कर",
+          "title": "उजनी ग्रामपंचायत सफाई कर्मचारी व गुणवंत विध्यार्थी यांचा शाल श्रीफळ गुलाब पुष्प व प्रमाणपञ देऊन सत्कार",
+          "date": "2022-07-26T06:13:53",
+          "image": "/images/blog/7131.jpg",
+          "excerpt": "ढोकी रिजन उजनी शाखेच्यावतीने उजनी ग्रामपंचायत सफाई कर्मचारी व गुणवंत विध्यार्थी यांचा शाल श्रीफळ गुलाब पुष्प व प्रमाणपञ देऊन सत्कार करण्यात आला. सफाई कर्मचारी यांच्याशी संवाद…",
+          "language": "mr",
+          "order": 16
+        }
+      },
+      {
+        "slug": "परभणी-शाखेच्या-वतीने-परभ",
+        "data": {
+          "id": 7126,
+          "slug": "परभणी-शाखेच्या-वतीने-परभ",
+          "title": "परभणी शाखेच्या वतीने परभणी महानगरपालिकेच्या सफाई कामगारांचा सत्कार",
+          "date": "2022-07-25T05:26:21",
+          "image": "/images/blog/7126.jpg",
+          "excerpt": "23-07-22 रोजी परभणी शाखेच्या वतीने परभणी महानगरपालिकेच्या सफाई कामगारांचा सत्कार व हँडग्लोजचे वाटप करण्यात आले. याप्रसंगी संस्थेची सल्लागार भानुदास पारसेवार विठ्ठलराव शहाणे…",
+          "language": "mr",
+          "order": 17
+        }
+      },
+      {
+        "slug": "लोकमंगल-तरफे-सफाई-कामगार",
+        "data": {
+          "id": 7123,
+          "slug": "लोकमंगल-तरफे-सफाई-कामगार",
+          "title": "लोकमंगल तरफे सफाई कामगारांचा सन्मान",
+          "date": "2022-07-25T05:04:50",
+          "image": "/images/blog/7123.jpg",
+          "excerpt": "",
+          "language": "mr",
+          "order": 18
+        }
+      },
+      {
+        "slug": "अंदुर-येथे-लोकमंगल-तरफे-ग",
+        "data": {
+          "id": 7113,
+          "slug": "अंदुर-येथे-लोकमंगल-तरफे-ग",
+          "title": "अंदुर येथे लोकमंगल तरफे गुणवंत विद्यार्थ्याचा सत्कार",
+          "date": "2022-07-23T11:56:40",
+          "image": "/images/blog/7113.jpg",
+          "excerpt": "",
+          "language": "mr",
+          "order": 19
+        }
+      },
+      {
+        "slug": "लोकमंगल-समूह-रौप्यमहोत्स",
+        "data": {
+          "id": 7106,
+          "slug": "लोकमंगल-समूह-रौप्यमहोत्स",
+          "title": "लोकमंगल समूह रौप्यमहोत्सवी वर्ष 10 वी 12वी गुणवंत विद्यार्थी सत्कार व सल्लागार नियुक्तीपत्रक कार्यक्रम",
+          "date": "2022-07-23T11:34:43",
+          "image": "/images/blog/7106.jpg",
+          "excerpt": "रिजन. अणदूर शाखा. अणदूर आज दि 21/07/22 रोजी लोकमंगल समूहाच्या रौप्यमहोत्सवी वर्षानिमित्त चालू असलेल्या उपक्रमांतर्गत अणदूर शाखेमार्फत यावर्षी 10 वी 12 वी ऊत्तीर्ण विद्यार्थ्यांना…",
+          "language": "mr",
+          "order": 20
+        }
+      },
+      {
+        "slug": "ग्राहक-मेळावा",
+        "data": {
+          "id": 7100,
+          "slug": "ग्राहक-मेळावा",
+          "title": "ग्राहक मेळावा",
+          "date": "2022-07-23T11:22:50",
+          "image": "/images/blog/7100.jpg",
+          "excerpt": "विभाग :- ढोकी शाखा :-औसा आज औसा शाखेत ग्राहक मेळावा संपन्न झाला. मिटींग मधील विषय- 1) मोबाईल अँप 2) नवीन कर्ज वाटप 3) नवीन ठेव संदर्भात चर्चा 4) मायक्रो फायनान्स संदर्भात चर्चा…",
+          "language": "mr",
+          "order": 21
+        }
+      },
+      {
+        "slug": "लोकमंगल-मल्टीस्टेट-को-ऑप",
+        "data": {
+          "id": 7092,
+          "slug": "लोकमंगल-मल्टीस्टेट-को-ऑप",
+          "title": "लोकमंगल मल्टीस्टेट को-ऑप क्रेडिट सोसायटी लिमिटेड सोलापूर शाखा जंकशन तर्फे",
+          "date": "2022-07-23T11:06:06",
+          "image": "/images/blog/7092.jpg",
+          "excerpt": "आज दिनांक 22.07.22 रोजी जंकशन परिसरातील आशा सेविका, स्मिता महामुनी,मिनाक्षी सुतार,कालीदी जाधव,विद्या वाबोरीकर,वनिता होले, शिवलीला मांढरे यांचा सत्कार करण्यात आला.तसेच 10 वी व 12…",
+          "language": "mr",
+          "order": 22
+        }
+      },
+      {
+        "slug": "कामकाज-केल्या-बद्दल-श्री",
+        "data": {
+          "id": 6933,
+          "slug": "कामकाज-केल्या-बद्दल-श्री",
+          "title": "कामकाज केल्या बद्दल श्री. कदम आणि श्री. अंधारे यांचे मा. Chairman सर यांच्या हस्ते सत्कार",
+          "date": "2022-07-09T10:31:22",
+          "image": "/images/blog/6933.jpg",
+          "excerpt": "",
+          "language": "mr",
+          "order": 23
+        }
+      },
+      {
+        "slug": "यशोगाथा-संचालक-सचिन-अडगळ",
+        "data": {
+          "id": 6440,
+          "slug": "यशोगाथा-संचालक-सचिन-अडगळ",
+          "title": "यशोगाथा संचालक सचिन अडगळे",
+          "date": "2021-12-06T08:40:38",
+          "image": "/images/blog/6440.jpg",
+          "excerpt": "अतिसामान्य माणसाला लोकमंगल मल्टीस्टेट मुळे मिळाली प्रतिष्ठा सोलापूर – ” सहकार चळवळीमुळे सामान्य माणसाला प्रतिष्ठा मिळते असे म्हटले जाते परंतु मला लोकमंगल मल्टीस्टेट मुळे मिळालेली…",
+          "language": "mr",
+          "order": 24
+        }
+      },
+      {
+        "slug": "कर्जदार-यशोगाथा-श्री-विक",
+        "data": {
+          "id": 6396,
+          "slug": "कर्जदार-यशोगाथा-श्री-विक",
+          "title": "कर्जदार यशोगाथा श्री विक्रांत रोकडे",
+          "date": "2021-11-24T11:26:45",
+          "image": "/images/blog/6396.jpg",
+          "excerpt": "दि. 16 नोव्हेंबर 2021 लोकमंगलच्या कर्जामुळे द्राक्ष बागायतीला नवी दिशा “द्राक्ष बागायती हे पैसा कमावण्याचे चांगले साधन आहे असे लोकांंना वाटत असते पण द्राक्ष बागायतदाराला किती…",
+          "language": "mr",
+          "order": 25
+        }
+      },
+      {
+        "slug": "अनुभवाच्या-देवाणघेवाणीत",
+        "data": {
+          "id": 6361,
+          "slug": "अनुभवाच्या-देवाणघेवाणीत",
+          "title": "अनुभवाच्या देवाणघेवाणीतून कामा मध्ये सुधारणा करत गेलो आणि लिपिक ते रिजनल मॅनेजर पदापर्यंत पोहोचलो",
+          "date": "2021-10-20T09:49:08",
+          "image": "/images/blog/6361.jpg",
+          "excerpt": "सोलापूर – एखादी संस्था शून्यातून सुरूवात करते तेव्हा तिला व्यवस्थापन तज्ञांचे मार्गदर्शन मिळेलच असे नाही. अशा वेळी काही कर्मचारी स्वत:च स्वत:ची वाट तयार करतात. अनुभव घेत घेत पुढे…",
+          "language": "mr",
+          "order": 26
+        }
+      },
+      {
+        "slug": "आकर्षक-व्याजदर-असणारी",
+        "data": {
+          "id": 6349,
+          "slug": "आकर्षक-व्याजदर-असणारी",
+          "title": "आकर्षक व्याजदर असणारी मुदत ठेव योजना",
+          "date": "2021-10-13T09:04:01",
+          "image": "/images/blog/6349.jpg",
+          "excerpt": "पैशावर विश्वास ठेवण्यापेक्षा विश्वासावर पैसा ठेवा या प्रमाणे आपल्या प्रत्येक पैश्याची जबाबदारी घेवून त्याचा योग्य मोबदला मिळावा या हेतूने ग्राहक हिताचा विचार करून लोकमंगल मल्टी…",
+          "language": "mr",
+          "order": 27
+        }
+      },
+      {
+        "slug": "लोकमंगल-मल्टीस्टेटच्या",
+        "data": {
+          "id": 6347,
+          "slug": "लोकमंगल-मल्टीस्टेटच्या",
+          "title": "लोकमंगल मल्टीस्टेटच्या सहकार्याने समाजाची सेवा करण्याची संधी",
+          "date": "2021-10-13T08:48:45",
+          "image": "/images/blog/6347.jpg",
+          "excerpt": "खरंतर मी सिव्हिल इंजिनिअरिंग चा डिप्लोमा घेतलेला आहे परंतु काही दिवस अभियंता म्हणून नोकरी मिळवण्याचा प्रयत्न करून पाहिला आणि यश येईना तेव्हा उपजीविकेचे साधन म्हणून पूर्णपणे नवा…",
+          "language": "mr",
+          "order": 28
+        }
+      },
+      {
+        "slug": "व्यवसाय-छोटा-पण-सचोटी-मोठ",
+        "data": {
+          "id": 6335,
+          "slug": "व्यवसाय-छोटा-पण-सचोटी-मोठ",
+          "title": "व्यवसाय छोटा पण सचोटी मोठी",
+          "date": "2021-10-08T04:08:42",
+          "image": "/images/blog/6335.jpg",
+          "excerpt": "पाटोद्याचे कर्जदार अमोल क्षीरसागर यांची यशोगाथा खरे म्हणजे अमोल क्षीरसागर रा. पाटोदा, ता. पाटोदा, जि. बीड हे लोकमंगल मल्टीस्टेट चे त्याअर्थाने फार छोटे कर्जदार आहेत. त्यांनी…",
+          "language": "mr",
+          "order": 29
+        }
+      },
+      {
+        "slug": "यशोगाथा-संतोष-माळी-साहेब",
+        "data": {
+          "id": 6322,
+          "slug": "यशोगाथा-संतोष-माळी-साहेब",
+          "title": "यशोगाथा संतोष माळी साहेब",
+          "date": "2021-10-04T04:14:05",
+          "image": "/images/blog/6322.jpg",
+          "excerpt": "प्रामाणिकपणा आणि अविरत सेवा या गुणांच्या जोरावर डे. जन. मॅनेजरपदापर्यंत वाटचाल मी आज लोकमंगल मल्टीस्टेट मध्ये डेप्युटी जनरल मॅनेजरपदावर कार्यरत आहे आणि आता माझ्याकडे १०० शाखांची…",
+          "language": "mr",
+          "order": 30
+        }
+      },
+      {
+        "slug": "सोयाबीन-खरेदीत-पदार्पण",
+        "data": {
+          "id": 6284,
+          "slug": "सोयाबीन-खरेदीत-पदार्पण",
+          "title": "लोकमंगल मल्टीस्टेटचे सोयाबीन खरेदीत पदार्पण",
+          "date": "2021-09-30T10:00:52",
+          "image": "/images/blog/6284.jpg",
+          "excerpt": "लोकमंगल मल्टीस्टेट को ऑपरेटिव्ह सोसायटीने तुळजा भवानी ट्रेडिंग कंपनी च्या माध्यमातून तुळजापूर येथे सोयाबीन खरेदी केंद्र सुरू केले आहे. लोकमंगल मल्टीस्टेटने अशा रीतीने…",
+          "language": "mr",
+          "order": 31
+        }
+      },
+      {
+        "slug": "लोकमंगल-मल्टीस्टेट",
+        "data": {
+          "id": 6266,
+          "slug": "लोकमंगल-मल्टीस्टेट",
+          "title": "लोकमंगल मल्टीस्टेट च्या वतीने तुळजापूर येथे सोयाबीन खरेदी केंद्र सुरुवात",
+          "date": "2021-09-27T11:30:34",
+          "image": "/images/blog/6266.jpg",
+          "excerpt": "लोकमंगल मल्टीस्टेट को ऑपरेटिव्ह सोसायटीने तुळजा भवानी ट्रेडिंग कंपनी च्या माध्यमातून तुळजापूर येथे सोयाबीन खरेदी केंद्र सुरू केले आहे. लोकमंगल मल्टीस्टेटने अशा रीतीने…",
+          "language": "mr",
+          "order": 32
+        }
+      },
+      {
+        "slug": "शिवाजी-महाराजांच्या-आदर्",
+        "data": {
+          "id": 6259,
+          "slug": "शिवाजी-महाराजांच्या-आदर्",
+          "title": "शिवाजी महाराजांच्या आदर्शावर चालतो",
+          "date": "2021-09-25T11:00:29",
+          "image": "/images/blog/6259.jpg",
+          "excerpt": "पिग्मी ते विभागीय अधिकारी सागर देशमुख यांचा प्रवास. ‘‘औरंगजेबाला शिवाजी महाराजांपेक्षा जास्त आयुष्य लाभले. त्याचे साम्राज्यही आकाराने मोठे होते पण आज या जगात, मी औरंगजेबाचा…",
+          "language": "mr",
+          "order": 33
+        }
+      },
+      {
+        "slug": "लोकमंगल-कॉलेजचा-अभूतपूर्",
+        "data": {
+          "id": 6262,
+          "slug": "लोकमंगल-कॉलेजचा-अभूतपूर्",
+          "title": "लोकमंगल कॉलेजचा अभूतपूर्व कृषि पर्यटन दिन",
+          "date": "2021-09-24T11:18:10",
+          "image": "/images/blog/6262.jpg",
+          "excerpt": "सोमवार दि. २७ सप्टेंबर हा जागतिक पर्यटन दिन आहे. या दिवशी वडाळा ता. उत्तर सोलापूर येथील लोकमंगल कॉलेजच्या परिसरात कृषि पर्यटन दिन साजरा करण्यात येणार असून त्यात सहभागी होणारांना…",
+          "language": "mr",
+          "order": 34
+        }
+      },
+      {
+        "slug": "कर्जासाठीचेे-पाच-सी-सम",
+        "data": {
+          "id": 6156,
+          "slug": "कर्जासाठीचेे-पाच-सी-सम",
+          "title": "कर्जासाठीचेे पाच ‘सी’",
+          "date": "2021-09-18T09:57:41",
+          "image": "/images/blog/6156.jpg",
+          "excerpt": "कोणत्याही उद्योजकाला किंवा कर्जदाराला कर्ज मागण्यासाठी कर्जदार संस्थेपुढे उभे राहताना ‘क्रेडिट’ साठीचे पाच ‘सी’ ज्ञात असतील तर तो सक्षमतेने आपले प्रकरण पुढे रेटू शकतो. हे पाच ‘सी’…",
+          "language": "mr",
+          "order": 35
+        }
+      },
+      {
+        "slug": "कर्मचारी-यशोगाथा",
+        "data": {
+          "id": 6135,
+          "slug": "कर्मचारी-यशोगाथा",
+          "title": "कर्मचारी यशोगाथा",
+          "date": "2021-09-16T07:21:43",
+          "image": "/images/blog/6135.jpg",
+          "excerpt": "खातेदारांना रिस्पेक्ट देण्याने यशस्वी झालो – रामचंद्र बेनके बेळगाव – आपली संस्था खातेदार, कर्जदार, ठेवीदार यांच्याच जोरावर चालत असते. त्यामुळे त्यांना सन्मान देऊन व्यवहार केला तर…",
+          "language": "mr",
+          "order": 36
+        }
+      },
+      {
+        "slug": "यशस्वी-कर्जदार-keshegaon-शाखा",
+        "data": {
+          "id": 6140,
+          "slug": "यशस्वी-कर्जदार-keshegaon-शाखा",
+          "title": "यशस्वी कर्जदार keshegaon शाखा",
+          "date": "2021-09-13T08:37:25",
+          "image": "/images/blog/6140.jpg",
+          "excerpt": "बापूंनी प्रेरणा दिली, कर्जही दिले आणि संकटातून बाहेर पडलो ‘‘ मराठी माणसे व्यवसायात पडण्यास कचरतात पण मी त्या बाबत धाडस केेले. चाचपडत वाटचाल होत होती पण कोरोेनाने मोठा धक्का बसला.…",
+          "language": "mr",
+          "order": 37
+        }
+      },
+      {
+        "slug": "सीआयबीआयएल-सीबील-स्कोअर",
+        "data": {
+          "id": 6119,
+          "slug": "सीआयबीआयएल-सीबील-स्कोअर",
+          "title": "सीआयबीआयएल (सीबील) स्कोअर म्हणजे काय ?",
+          "date": "2021-09-08T11:36:54",
+          "image": "/images/blog/6119.jpg",
+          "excerpt": "क्रेडिट इन्फर्मेशन ब्यूरो (इंडिया) लिमिटेड (CIBIL) एक क्रेडिट ब्यूरो किंवा क्रेडिट इन्फर्मेशन कंपनी आहे, जी क्रेडिट कार्ड आणि कर्जासह कंपन्या तसेच व्यक्तींच्या सर्व…",
+          "language": "mr",
+          "order": 38
+        }
+      },
+      {
+        "slug": "सोशल-फाउंडेशन-तर्फे-उद्य",
+        "data": {
+          "id": 6000,
+          "slug": "सोशल-फाउंडेशन-तर्फे-उद्य",
+          "title": "सोशल फाउंडेशन तर्फे उद्योग विषयक मार्गदर्शन",
+          "date": "2021-04-06T10:35:47",
+          "image": "/images/blog/6000.jpg",
+          "excerpt": "सोलापूर :- नोकरीच्या मागे न लागता आपण आपला स्वतंत्र व्यवसाय उभा करण्याची प्रवृत्ती सोलापूर जिल्ह्यातील युवकांत वाढत आहे पण त्यांना मार्गदर्शन करण्यास कोणी पुढे येत नाही.ही उणीव…",
+          "language": "mr",
+          "order": 39
+        }
+      },
+      {
+        "slug": "सरपंचांनी-आपल्या-गावाचे",
+        "data": {
+          "id": 5994,
+          "slug": "सरपंचांनी-आपल्या-गावाचे",
+          "title": "सरपंचांनी आपल्या गावाचे मार्केटिंग करावे मा. सुभाषबापू देशमुख यांचे सरपंच परिषदेत आवाहन",
+          "date": "2021-04-06T09:57:11",
+          "image": "/images/blog/5994.jpg",
+          "excerpt": "सोलापूर ः नव्याने निवडून आलेल्या सरपंचांनी आपल्या गावातले उद्योगधंदे वाढवून लोकांच्या हाताला काम मिळावे यासाठी गावाचे मार्केटिंग करण्याचा प्रयत्न करावा, असे आवाहन माननीय आ.…",
+          "language": "mr",
+          "order": 40
+        }
+      },
+      {
+        "slug": "लोकमंगल-अन्नपूर्णा-योजने",
+        "data": {
+          "id": 5992,
+          "slug": "लोकमंगल-अन्नपूर्णा-योजने",
+          "title": "लोकमंगल अन्नपूर्णा योजनेने चालायला पाय दिले",
+          "date": "2021-04-06T09:45:57",
+          "image": "/images/blog/5992.png",
+          "excerpt": "सोलापूर – लोकमंगल अन्नपूर्णा योजनेतून सोलापूर शहरातील ५०० निराधार, गरीब वृध्दांना दोन वेळा पुरेल एवढा जेवणाचा डबा देण्याचा उपक्रम गेल्या आठ वर्षांपासून जारी आहे. या योजनेतून अनेक…",
+          "language": "mr",
+          "order": 41
+        }
+      },
+      {
+        "slug": "अण्णासाहेब-देशमुख-यांची",
+        "data": {
+          "id": 5990,
+          "slug": "अण्णासाहेब-देशमुख-यांची",
+          "title": "अण्णासाहेब देशमुख यांची गरुडझेप",
+          "date": "2021-04-06T08:22:26",
+          "image": "/images/blog/5990.jpg",
+          "excerpt": "* पारदर्शक व्यवहारातून लाखापासून कोटीपर्यंतची वाटचाल परांडा ः परांडा तालुक्यातील कंडारी गावचे अल्पभूधारक शेतकरी अण्णासाहेब देशमुख यांनी जमीन कमी असल्यामुळे उपजीविकेसाठी उद्योग…",
+          "language": "mr",
+          "order": 42
+        }
+      },
+      {
+        "slug": "इटकळच्या-उमेश-बंडगरची-आग",
+        "data": {
+          "id": 5985,
+          "slug": "इटकळच्या-उमेश-बंडगरची-आग",
+          "title": "इटकळच्या उमेश बंडगरची आगळीवेगळी सक्सेस स्टोरी लोकमंगल मल्टीस्टेटच्या सहाय्याने उभे केले चिकन सेंटर Bank In Belgaon",
+          "date": "2021-04-06T05:28:10",
+          "image": "/images/blog/5985.jpg",
+          "excerpt": "सोलापूर ः उस्मानाबाद जिल्ह्यातील तुळजापूर तालुक्यातल्या इटकळसारख्या खेड्यामध्ये विज्ञान शाखेचे बारावीपर्यंतचे शिक्षण घेतलेल्या उमेश अंकुश बंडगर याने नोकरीच्या मागे न लागता लोकमंगल…",
+          "language": "mr",
+          "order": 43
+        }
+      },
+      {
+        "slug": "पिग्मी-एजंट-ते-वित्त-संस्",
+        "data": {
+          "id": 5983,
+          "slug": "पिग्मी-एजंट-ते-वित्त-संस्",
+          "title": "पिग्मी एजंट ते वित्त संस्थेचा संस्थापक पाटोद्याच्या सचिन ढाकणे यांची झेप",
+          "date": "2021-04-06T05:22:51",
+          "image": "/images/blog/5983.jpg",
+          "excerpt": "सोलापूर – बीड जिल्ह्याच्या पाटोदा या तालुक्याच्या ठिकाणी लोक मंगल मल्टीस्टेटचा पिग्मी एजंट म्हणून काम करणार्‍या सचिन नारायण ढाकणे यांनी हे काम करीत करीतच स्वत:ची वित्त संस्था…",
+          "language": "mr",
+          "order": 44
+        }
+      },
+      {
+        "slug": "मल्टीस्टेटच्या-शाखा-व्यव",
+        "data": {
+          "id": 5980,
+          "slug": "मल्टीस्टेटच्या-शाखा-व्यव",
+          "title": "मल्टीस्टेटच्या शाखा व्यवस्थापकांत प्रशिक्षणाने संचरला उत्साह",
+          "date": "2021-04-06T05:11:11",
+          "image": "/images/blog/5980.jpg",
+          "excerpt": "सोलापूर ः लोकमंगल मल्टीस्टेटच्या २८ शाखा व्यवस्थापकांनी सहा दिवसाच्या निवासी आणि दर्जेदार प्रशिक्षणाचा असा अनुभव घेतला की ते प्रशिक्षणाने केवळ प्रशिक्षित न होता उत्साहितही झाले…",
+          "language": "mr",
+          "order": 45
+        }
+      },
+      {
+        "slug": "लोकमंगल-कनिष्ठ-महाविद्या",
+        "data": {
+          "id": 5996,
+          "slug": "लोकमंगल-कनिष्ठ-महाविद्या",
+          "title": "लोकमंगल कनिष्ठ महाविद्यालयात विविध क्षेत्रातील महिलांचा गौरव",
+          "date": "2021-03-03T10:10:41",
+          "image": "/images/blog/5996.jpg",
+          "excerpt": "सोलापूर ः स्त्री-पुरुष विषमता कमी झाली पाहिजे आणि त्यासाठी लहानपणापासून मुलामुलींमध्ये परस्परांचा सन्मान करण्याचा संस्कार रुजवला पाहिजे, असे प्रतिपादन सोलापुरातील निरामय आरोग्य…",
+          "language": "mr",
+          "order": 46
+        }
+      },
+      {
+        "slug": "सौजन्य-मूर्ती-रोहन-भय्या",
+        "data": {
+          "id": 5987,
+          "slug": "सौजन्य-मूर्ती-रोहन-भय्या",
+          "title": "सौजन्य मूर्ती : रोहन भय्या",
+          "date": "2020-12-12T08:04:09",
+          "image": "/images/blog/5987.jpg",
+          "excerpt": "आज लोकमंगल मल्टीस्टेटचे चेअरमन असलेले आणि अनेक संस्था चालवणारे रोहन भय्या यांच्याशी आपण बोलतो तेव्हा पटकन जाणवतो तो त्यांचा सौजन्यशील स्वभाव. माझा त्यांचा पहिल्यांदा संबंध आला…",
+          "language": "mr",
+          "order": 47
+        }
+      },
+      {
+        "slug": "what-is-a-traimasik-interest-scheme",
+        "data": {
+          "id": 2701,
+          "slug": "what-is-a-traimasik-interest-scheme",
+          "title": "What is a Traimasik (Quarterly) Interest Scheme?",
+          "date": "2019-09-07T13:02:51",
+          "image": "/images/blog/2701.jpg",
+          "excerpt": "This deposit scheme where the interest earned is credited to the bank every quarterly. For example, you need to make a one-time investment of 1 lakh for 24 months and get an…",
+          "language": "en",
+          "order": 48
+        }
+      },
+      {
+        "slug": "fixed-deposit-scheme",
+        "data": {
+          "id": 2699,
+          "slug": "fixed-deposit-scheme",
+          "title": "Everything You Should Know About Fixed Deposits",
+          "date": "2019-09-07T13:01:51",
+          "image": "/images/blog/2699.jpg",
+          "excerpt": "If your hard earned money is not being saved or you are unable to save it then you can enroll in a fixed deposit scheme. Lokmangal Finance offers a beneficial fixed deposit scheme…",
+          "language": "en",
+          "order": 49
+        }
+      },
+      {
+        "slug": "salary-loan-super-dhamaka-offer",
+        "data": {
+          "id": 2697,
+          "slug": "salary-loan-super-dhamaka-offer",
+          "title": "Salary Loan — Super Dhamaka Offer",
+          "date": "2019-09-07T13:00:45",
+          "image": "/images/blog/2697.jpg",
+          "excerpt": "Are you a salaried person working in an organization? Are you in need of surplus amount for reasons like house renovation, travel, medical care, repayment of debts and others then…",
+          "language": "en",
+          "order": 50
+        }
+      },
+      {
+        "slug": "mortgage-loan-2",
+        "data": {
+          "id": 2695,
+          "slug": "mortgage-loan-2",
+          "title": "Mortgage Loan",
+          "date": "2019-09-07T12:59:37",
+          "image": "/images/blog/2695.jpg",
+          "excerpt": "One of the biggest achievements in the current life is owning a property. A property is regarded as an asset where the value never fails in providing solutions to various issues.…",
+          "language": "en",
+          "order": 51
+        }
+      },
+      {
+        "slug": "hypothecation-loan-2",
+        "data": {
+          "id": 2693,
+          "slug": "hypothecation-loan-2",
+          "title": "Hypothecation Loan",
+          "date": "2019-09-07T12:58:23",
+          "image": "/images/blog/2693.png",
+          "excerpt": "We provide this type of loan especially for the growth of your firm or organization. They can be considered for SSI, processing industrial unit and another manufacturing unit for…",
+          "language": "en",
+          "order": 52
+        }
+      },
+      {
+        "slug": "home-loan-offer-2",
+        "data": {
+          "id": 2691,
+          "slug": "home-loan-offer-2",
+          "title": "Home Loan Offer",
+          "date": "2019-09-07T12:57:24",
+          "image": "/images/blog/2691.jpg",
+          "excerpt": "Are you staying in a rented flat or accommodation? Are your children’s lacking place to play because of lack of ownership? Are you interested in owning an independent flat but…",
+          "language": "en",
+          "order": 53
+        }
+      },
+      {
+        "slug": "cash-credit-loan-2",
+        "data": {
+          "id": 2689,
+          "slug": "cash-credit-loan-2",
+          "title": "Cash Credit Loan",
+          "date": "2018-12-08T12:55:22",
+          "image": "/images/blog/2689.png",
+          "excerpt": "What is Cash Credit Loan? This is a short-term source of finance and the repayment tenure is generally up to a year. We offer a loan amount of certain limit depending on the…",
+          "language": "en",
+          "order": 54
+        }
+      }
+    ],
+    "notice": [
+      {
+        "slug": "election-2025",
+        "data": {
+          "title": "Board of Directors & Office Bearers Election 2025",
+          "category": "election",
+          "date": "2025-05-30",
+          "pinned": true,
+          "items": [
+            {
+              "label": "Board of Directors & Office Bearers Election 2025 — Programme",
+              "href": "/docs/election-2025-programme.pdf",
+              "kind": "pdf"
+            },
+            {
+              "label": "Provisional List of Members / Delegates Eligible to Vote",
+              "href": "/list-of-members/",
+              "kind": "page"
+            },
+            {
+              "label": "Final List of Members / Delegates Eligible to Vote",
+              "href": "https://drive.google.com/file/d/16sGKu0z6eZ56rZlJmiRT-sOvVFAKL20-/view?usp=drive_link",
+              "kind": "drive"
+            },
+            {
+              "label": "Final List of Members — Dharashiv District",
+              "href": "https://drive.google.com/file/d/1JtRnQ2VRJaHbzqJTJT_6QL1h6MBYf-Px/view?usp=drive_link",
+              "kind": "drive"
+            },
+            {
+              "label": "List of Total Nominations Received by RO",
+              "href": "/docs/total-nominations-received-2025.pdf",
+              "kind": "pdf"
+            },
+            {
+              "label": "List of Valid Nominations — Board of Directors",
+              "href": "/docs/valid-nominations-2025.pdf",
+              "kind": "pdf"
+            },
+            {
+              "label": "Final List of Contesting Candidates",
+              "href": "/docs/final-contesting-candidates-2025.pdf",
+              "kind": "pdf"
+            },
+            {
+              "label": "Approval of Election Result — Board of Directors (29.05.2025)",
+              "href": "/docs/approval-of-election-result-2025.pdf",
+              "kind": "pdf"
+            },
+            {
+              "label": "RR-17 Meeting Agenda (30.05.2025)",
+              "href": "/docs/rr-17-meeting-agenda-2025.pdf",
+              "kind": "pdf"
+            },
+            {
+              "label": "Election Programme of Office Bearers",
+              "href": "/docs/office-bearers-election-programme-2025.pdf",
+              "kind": "pdf"
+            }
+          ],
+          "order": 1
+        }
+      }
+    ],
+    "document": [
+      {
+        "slug": "annual-report-2016-2017",
+        "data": {
+          "category": "annual-report",
+          "title": "2016–2017",
+          "year": "2016–2017",
+          "cover": "/images/reports/annual-2017.webp",
+          "href": null,
+          "sizeMb": null,
+          "order": 1
+        }
+      },
+      {
+        "slug": "annual-report-2017-2018",
+        "data": {
+          "category": "annual-report",
+          "title": "2017–2018",
+          "year": "2017–2018",
+          "cover": null,
+          "href": null,
+          "sizeMb": null,
+          "order": 2
+        }
+      },
+      {
+        "slug": "annual-report-2018-2019",
+        "data": {
+          "category": "annual-report",
+          "title": "2018–2019",
+          "year": "2018–2019",
+          "cover": null,
+          "href": null,
+          "sizeMb": null,
+          "order": 3
+        }
+      },
+      {
+        "slug": "member-list-solapur",
+        "data": {
+          "category": "member-list",
+          "title": "Solapur",
+          "year": "2025",
+          "cover": null,
+          "href": "https://lokmangalmultistate.com/wp-content/uploads/2025/04/SOLAPUR.pdf",
+          "sizeMb": 41,
+          "order": 1
+        }
+      },
+      {
+        "slug": "member-list-pune",
+        "data": {
+          "category": "member-list",
+          "title": "Pune",
+          "year": "2025",
+          "cover": null,
+          "href": "https://lokmangalmultistate.com/wp-content/uploads/2025/04/PUNE.pdf",
+          "sizeMb": 76,
+          "order": 2
+        }
+      },
+      {
+        "slug": "member-list-ratnagiri",
+        "data": {
+          "category": "member-list",
+          "title": "Ratnagiri",
+          "year": "2025",
+          "cover": null,
+          "href": "https://lokmangalmultistate.com/wp-content/uploads/2025/04/RATNAGIRI.pdf",
+          "sizeMb": 8,
+          "order": 3
+        }
+      },
+      {
+        "slug": "member-list-shelgi",
+        "data": {
+          "category": "member-list",
+          "title": "Shelgi",
+          "year": "2025",
+          "cover": null,
+          "href": "https://lokmangalmultistate.com/wp-content/uploads/2025/04/SHELGI.pdf",
+          "sizeMb": 13,
+          "order": 4
+        }
+      },
+      {
+        "slug": "member-list-latur",
+        "data": {
+          "category": "member-list",
+          "title": "Latur",
+          "year": "2025",
+          "cover": null,
+          "href": "https://lokmangalmultistate.com/wp-content/uploads/2025/04/LATUR.pdf",
+          "sizeMb": 88,
+          "order": 5
+        }
+      },
+      {
+        "slug": "member-list-nanded",
+        "data": {
+          "category": "member-list",
+          "title": "Nanded",
+          "year": "2025",
+          "cover": null,
+          "href": "https://lokmangalmultistate.com/wp-content/uploads/2025/04/NANDED.pdf",
+          "sizeMb": 22,
+          "order": 6
+        }
+      },
+      {
+        "slug": "member-list-parbhani",
+        "data": {
+          "category": "member-list",
+          "title": "Parbhani",
+          "year": "2025",
+          "cover": null,
+          "href": "https://lokmangalmultistate.com/wp-content/uploads/2025/04/PARBHANI.pdf",
+          "sizeMb": 14,
+          "order": 7
+        }
+      },
+      {
+        "slug": "member-list-kolhapur",
+        "data": {
+          "category": "member-list",
+          "title": "Kolhapur",
+          "year": "2025",
+          "cover": null,
+          "href": "https://lokmangalmultistate.com/wp-content/uploads/2025/04/KOLHAPUR.pdf",
+          "sizeMb": 52,
+          "order": 8
+        }
+      },
+      {
+        "slug": "member-list-dharashiv",
+        "data": {
+          "category": "member-list",
+          "title": "Dharashiv",
+          "year": "2025",
+          "cover": null,
+          "href": "https://lokmangalmultistate.com/wp-content/uploads/2025/04/DHARASHIV.pdf",
+          "sizeMb": 127,
+          "order": 9
+        }
+      },
+      {
+        "slug": "member-list-hingoli",
+        "data": {
+          "category": "member-list",
+          "title": "Hingoli",
+          "year": "2025",
+          "cover": null,
+          "href": "https://lokmangalmultistate.com/wp-content/uploads/2025/04/HINGOLI.pdf",
+          "sizeMb": 28,
+          "order": 10
+        }
+      },
+      {
+        "slug": "member-list-belgaon",
+        "data": {
+          "category": "member-list",
+          "title": "Belgaon",
+          "year": "2025",
+          "cover": null,
+          "href": "https://lokmangalmultistate.com/wp-content/uploads/2025/04/BELGAON.pdf",
+          "sizeMb": 26,
+          "order": 11
+        }
+      },
+      {
+        "slug": "member-list-bidar",
+        "data": {
+          "category": "member-list",
+          "title": "Bidar",
+          "year": "2025",
+          "cover": null,
+          "href": "https://lokmangalmultistate.com/wp-content/uploads/2025/04/BIDAR.pdf",
+          "sizeMb": 5,
+          "order": 12
+        }
+      },
+      {
+        "slug": "member-list-beed",
+        "data": {
+          "category": "member-list",
+          "title": "Beed",
+          "year": "2025",
+          "cover": null,
+          "href": "https://lokmangalmultistate.com/wp-content/uploads/2025/04/BEED.pdf",
+          "sizeMb": 31,
+          "order": 13
+        }
+      }
+    ],
+    "gallery_album": [
+      {
+        "slug": "lokmangal-moments",
+        "data": {
+          "title": "Lokmangal moments",
+          "date": null,
+          "description": "",
+          "images": [
+            {
+              "src": "/images/gallery/gallery-01.webp",
+              "caption": "Lokmangal moments, 2017–18"
+            },
+            {
+              "src": "/images/gallery/gallery-02.webp",
+              "caption": "Lokmangal moments, 2017–18"
+            },
+            {
+              "src": "/images/gallery/gallery-03.webp",
+              "caption": "Lokmangal moments, 2017–18"
+            },
+            {
+              "src": "/images/gallery/gallery-04.webp",
+              "caption": "Lokmangal moments, 2017–18"
+            },
+            {
+              "src": "/images/gallery/gallery-05.webp",
+              "caption": "Lokmangal moments, 2016–17"
+            },
+            {
+              "src": "/images/gallery/gallery-06.webp",
+              "caption": "Independence Day, 15 August 2016"
+            },
+            {
+              "src": "/images/gallery/gallery-07.webp",
+              "caption": "Yashwant Raut felicitation"
+            },
+            {
+              "src": "/images/gallery/gallery-08.webp",
+              "caption": "Swachhata Abhiyan"
+            },
+            {
+              "src": "/images/gallery/gallery-09.webp",
+              "caption": "SUS function, 2013"
+            },
+            {
+              "src": "/images/gallery/gallery-10.webp",
+              "caption": "Chhatrapati Shivaji Maharaj statue"
+            },
+            {
+              "src": "/images/gallery/gallery-11.webp",
+              "caption": "Lokmangal moments"
+            },
+            {
+              "src": "/images/gallery/gallery-12.webp",
+              "caption": "Lokmangal moments"
+            }
+          ],
+          "order": 1
+        }
+      }
+    ],
+    "job_opening": [
+      {
+        "slug": "business-development-executive",
+        "data": {
+          "icon": "trending-up",
+          "title": "Business Development Executive",
+          "text": "Grow our member base and deposit portfolio across your region.",
+          "location": "",
+          "open": true,
+          "order": 1
+        }
+      },
+      {
+        "slug": "account-manager",
+        "data": {
+          "icon": "briefcase",
+          "title": "Account Manager",
+          "text": "Look after member relationships and day-to-day account servicing.",
+          "location": "",
+          "open": true,
+          "order": 2
+        }
+      },
+      {
+        "slug": "relationship-manager",
+        "data": {
+          "icon": "users",
+          "title": "Relationship Manager",
+          "text": "Deposits & account opening, loan disbursement, or insurance & demat — one specialist per division.",
+          "location": "",
+          "open": true,
+          "order": 3
+        }
+      },
+      {
+        "slug": "edp-it-staff",
+        "data": {
+          "icon": "globe",
+          "title": "EDP / IT Staff",
+          "text": "Support our core banking, digital channels and branch technology at the head office.",
+          "location": "",
+          "open": true,
+          "order": 4
+        }
+      }
+    ],
+    "redirect": [
+      {
+        "slug": "top-banks-in-pune",
+        "data": {
+          "from": "/top-banks-in-pune",
+          "to": "/about-us/",
+          "status": 301,
+          "reason": "Legacy WordPress URL",
+          "order": 1
+        }
+      },
+      {
+        "slug": "home-loan-in-solapur",
+        "data": {
+          "from": "/home-loan-in-solapur",
+          "to": "/social-responsibility/",
+          "status": 301,
+          "reason": "Legacy WordPress URL",
+          "order": 2
+        }
+      },
+      {
+        "slug": "investment-schemes-in-osmanabad",
+        "data": {
+          "from": "/investment-schemes-in-osmanabad",
+          "to": "/deposits/",
+          "status": 301,
+          "reason": "Legacy WordPress URL",
+          "order": 3
+        }
+      },
+      {
+        "slug": "deposit",
+        "data": {
+          "from": "/deposit",
+          "to": "/deposits/",
+          "status": 301,
+          "reason": "Legacy WordPress URL",
+          "order": 4
+        }
+      },
+      {
+        "slug": "landing",
+        "data": {
+          "from": "/landing",
+          "to": "/deposits/",
+          "status": 301,
+          "reason": "Legacy WordPress URL",
+          "order": 5
+        }
+      },
+      {
+        "slug": "interest-rates-on-fixed-deposits",
+        "data": {
+          "from": "/interest-rates-on-fixed-deposits",
+          "to": "/interest-rates/",
+          "status": 301,
+          "reason": "Legacy WordPress URL",
+          "order": 6
+        }
+      },
+      {
+        "slug": "agriculture-loan-in-solapur",
+        "data": {
+          "from": "/agriculture-loan-in-solapur",
+          "to": "/loans/",
+          "status": 301,
+          "reason": "Legacy WordPress URL",
+          "order": 7
+        }
+      },
+      {
+        "slug": "salary-account-in-pune",
+        "data": {
+          "from": "/salary-account-in-pune",
+          "to": "/other-services/",
+          "status": 301,
+          "reason": "Legacy WordPress URL",
+          "order": 8
+        }
+      },
+      {
+        "slug": "bank-in-solapur",
+        "data": {
+          "from": "/bank-in-solapur",
+          "to": "/faq/",
+          "status": 301,
+          "reason": "Legacy WordPress URL",
+          "order": 9
+        }
+      },
+      {
+        "slug": "bank-in-belgaon",
+        "data": {
+          "from": "/bank-in-belgaon",
+          "to": "/branches/",
+          "status": 301,
+          "reason": "Legacy WordPress URL",
+          "order": 10
+        }
+      },
+      {
+        "slug": "top-banks-in-pimpri-chinchwad",
+        "data": {
+          "from": "/top-banks-in-pimpri-chinchwad",
+          "to": "/branches/",
+          "status": 301,
+          "reason": "Legacy WordPress URL",
+          "order": 11
+        }
+      },
+      {
+        "slug": "marathi",
+        "data": {
+          "from": "/marathi",
+          "to": "/branches/",
+          "status": 301,
+          "reason": "Legacy WordPress URL",
+          "order": 12
+        }
+      },
+      {
+        "slug": "cooperative-banks-in-osmanabad",
+        "data": {
+          "from": "/cooperative-banks-in-osmanabad",
+          "to": "/contact-us/",
+          "status": 301,
+          "reason": "Legacy WordPress URL",
+          "order": 13
+        }
+      },
+      {
+        "slug": "fd-plans-in-pune",
+        "data": {
+          "from": "/fd-plans-in-pune",
+          "to": "/blog/",
+          "status": 301,
+          "reason": "Legacy WordPress URL",
+          "order": 14
+        }
+      },
+      {
+        "slug": "category-blog",
+        "data": {
+          "from": "/category/blog",
+          "to": "/blog/",
+          "status": 301,
+          "reason": "Legacy WordPress URL",
+          "order": 15
+        }
+      },
+      {
+        "slug": "fixed-deposit-interest-rates-in-solapur",
+        "data": {
+          "from": "/fixed-deposit-interest-rates-in-solapur",
+          "to": "/careers/",
+          "status": 301,
+          "reason": "Legacy WordPress URL",
+          "order": 16
+        }
+      },
+      {
+        "slug": "housing-loan",
+        "data": {
+          "from": "/housing-loan",
+          "to": "/terms-of-use/",
+          "status": 301,
+          "reason": "Legacy WordPress URL",
+          "order": 17
+        }
+      },
+      {
+        "slug": "savings-account-in-hingoli",
+        "data": {
+          "from": "/savings-account-in-hingoli",
+          "to": "/privacy-policy/",
+          "status": 301,
+          "reason": "Legacy WordPress URL",
+          "order": 18
+        }
+      },
+      {
+        "slug": "top-banks-in-tuljapur",
+        "data": {
+          "from": "/top-banks-in-tuljapur",
+          "to": "/open-an-account/",
+          "status": 301,
+          "reason": "Legacy WordPress URL",
+          "order": 19
+        }
+      },
+      {
+        "slug": "fd-plans-in-osmanabad",
+        "data": {
+          "from": "/fd-plans-in-osmanabad",
+          "to": "/apply-for-deposits/",
+          "status": 301,
+          "reason": "Legacy WordPress URL",
+          "order": 20
+        }
+      },
+      {
+        "slug": "personal-loan-in-solapur",
+        "data": {
+          "from": "/personal-loan-in-solapur",
+          "to": "/apply-loan/",
+          "status": 301,
+          "reason": "Legacy WordPress URL",
+          "order": 21
+        }
+      },
+      {
+        "slug": "photo-gallery",
+        "data": {
+          "from": "/photo-gallery",
+          "to": "/gallery/",
+          "status": 301,
+          "reason": "Legacy WordPress URL",
+          "order": 22
+        }
+      },
+      {
+        "slug": "deposits-millionaire-fixed-deposit",
+        "data": {
+          "from": "/deposits/millionaire-fixed-deposit",
+          "to": "/deposits/lakshadish-deposit-scheme-1/",
+          "status": 301,
+          "reason": "Legacy WordPress URL",
+          "order": 23
+        }
+      }
+    ]
+  }
+}

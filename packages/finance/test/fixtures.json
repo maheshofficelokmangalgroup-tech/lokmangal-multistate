@@ -1,0 +1,15 @@
+{
+  "policy": "lmcs-fin-2026.1",
+  "source": "Lokmangal 2026–27 scheme leaflets, as reproduced on the current website (frontend/seed/snapshot.json). Verify against the printed leaflets before changing.",
+  "cases": [
+    { "name": "Lakshadish 1 maturity", "mode": "rd", "amount": 3800, "rate": 9.25, "months": 24, "result": 100344 },
+    { "name": "Lakshadish 2 maturity", "mode": "rd", "amount": 2450, "rate": 9.25, "months": 36, "result": 101705 },
+    { "name": "Lakshadish 3 maturity", "mode": "rd", "amount": 1750, "rate": 9.25, "months": 48, "result": 101583 },
+    { "name": "Lakshadish 4 maturity", "mode": "rd", "amount": 1350, "rate": 9.25, "months": 60, "result": 102799 },
+    { "name": "Vishwamangal 12-month FD", "mode": "fd", "amount": 100000, "rate": 10, "months": 12, "result": 110000, "b2": 10000 },
+    { "name": "FD 6 months, simple interest", "mode": "fd", "amount": 100000, "rate": 8, "months": 6, "result": 104000 },
+    { "name": "Monthly interest on 1 lakh", "mode": "monthly", "amount": 100000, "rate": 9.75, "months": 12, "result": 813 },
+    { "name": "Loan EMI 5 lakh, 12%, 60 months", "mode": "emi", "amount": 500000, "rate": 12, "months": 60, "result": 11122 },
+    { "name": "Loan EMI at 0%", "mode": "emi", "amount": 120000, "rate": 0, "months": 12, "result": 10000, "b2": 0 }
+  ]
+}
