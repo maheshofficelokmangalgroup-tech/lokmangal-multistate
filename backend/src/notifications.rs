@@ -168,25 +168,25 @@ pub async fn daily(state: &AppState) -> anyhow::Result<()> {
     )
     .fetch_one(&mut *conn)
     .await?;
-    if let Some(d) = days_left.filter(|d| [30, 7, 1, 0].contains(d) || *d < 0) {
-        if !replacement {
-            let title = if d <= 0 {
-                "Published interest rates have expired".to_owned()
-            } else {
-                format!("Published interest rates expire in {d} days")
-            };
-            for p in ["rates.edit", "financial.approve"] {
-                to_permission(
-                    &mut conn,
-                    p,
-                    "rate_expiry",
-                    &title,
-                    "Prepare and approve the next rate set.",
-                    Some("/products/rates"),
-                    None,
-                )
-                .await?;
-            }
+    if let Some(d) = days_left.filter(|d| [30, 7, 1, 0].contains(d) || *d < 0)
+        && !replacement
+    {
+        let title = if d <= 0 {
+            "Published interest rates have expired".to_owned()
+        } else {
+            format!("Published interest rates expire in {d} days")
+        };
+        for p in ["rates.edit", "financial.approve"] {
+            to_permission(
+                &mut conn,
+                p,
+                "rate_expiry",
+                &title,
+                "Prepare and approve the next rate set.",
+                Some("/products/rates"),
+                None,
+            )
+            .await?;
         }
     }
     Ok(())

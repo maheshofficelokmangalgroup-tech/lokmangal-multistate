@@ -80,10 +80,11 @@ pub fn policy_problem(password: &str, email: &str) -> Option<&'static str> {
     {
         return Some("This password is too common. Choose something harder to guess.");
     }
-    if let Some((local, _)) = email.split_once('@') {
-        if local.len() >= 4 && lower.contains(&local.to_lowercase()) {
-            return Some("Do not include your email address in the password.");
-        }
+    if let Some((local, _)) = email.split_once('@')
+        && local.len() >= 4
+        && lower.contains(&local.to_lowercase())
+    {
+        return Some("Do not include your email address in the password.");
     }
     if password
         .chars()

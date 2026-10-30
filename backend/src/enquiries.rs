@@ -246,10 +246,10 @@ fn validate(
         _ => (None, None),
     };
     let branch_code = form.opt("branch").map(|b| b.to_uppercase());
-    if let (Some(code), Some(o)) = (&branch_code, options) {
-        if !o.branch_codes.iter().any(|b| b == code) {
-            errors.add("branch", retired);
-        }
+    if let (Some(code), Some(o)) = (&branch_code, options)
+        && !o.branch_codes.iter().any(|b| b == code)
+    {
+        errors.add("branch", retired);
     }
     errors.into_result()?;
     Ok(NewEnquiry {
@@ -834,13 +834,13 @@ async fn update(
             if !ok {
                 return Err(AppError::field("branch_id", "Choose an active branch."));
             }
-            if let Scope::Branches(ids) = scope(&user)? {
-                if !ids.contains(&b) {
-                    return Err(AppError::field(
-                        "branch_id",
-                        "You can only move enquiries between your own branches.",
-                    ));
-                }
+            if let Scope::Branches(ids) = scope(&user)?
+                && !ids.contains(&b)
+            {
+                return Err(AppError::field(
+                    "branch_id",
+                    "You can only move enquiries between your own branches.",
+                ));
             }
         }
         sqlx::query("update enquiries set branch_id = $2, updated_at = now() where id = $1")

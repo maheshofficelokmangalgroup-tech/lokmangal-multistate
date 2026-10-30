@@ -141,10 +141,10 @@ pub async fn submit_from_form(
         );
     }
     let resume = form.files.iter().find(|f| f.field == "resume");
-    if let Some(r) = resume {
-        if let Err(msg) = check_pdf(&r.bytes) {
-            errors.add("resume", msg);
-        }
+    if let Some(r) = resume
+        && let Err(msg) = check_pdf(&r.bytes)
+    {
+        errors.add("resume", msg);
     }
     errors.into_result()?;
 

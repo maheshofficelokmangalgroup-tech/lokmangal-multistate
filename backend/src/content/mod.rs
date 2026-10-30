@@ -465,13 +465,13 @@ async fn save_draft(
         .await?
         .ok_or_else(AppError::not_found)?;
     let slug: String = item.get("slug");
-    if let Some(natural) = collections::natural_slug(def.name, &data) {
-        if natural != slug {
-            return Err(AppError::field(
-                "slug",
-                "The web address cannot be changed after creation. Create a new item and a redirect instead.",
-            ));
-        }
+    if let Some(natural) = collections::natural_slug(def.name, &data)
+        && natural != slug
+    {
+        return Err(AppError::field(
+            "slug",
+            "The web address cannot be changed after creation. Create a new item and a redirect instead.",
+        ));
     }
     let draft_id: Uuid = item.get("draft_revision_id");
     let (status, lock, revision): (String, i32, i32) = sqlx::query_as(

@@ -1069,10 +1069,10 @@ impl Check for Branch {
                     .add("phones", format!("{p} is not a valid phone number."));
             }
         }
-        if let Some(e) = &self.email {
-            if !crate::text::valid_email(e) {
-                cx.errors.add("email", "Enter a valid email address.");
-            }
+        if let Some(e) = &self.email
+            && !crate::text::valid_email(e)
+        {
+            cx.errors.add("email", "Enter a valid email address.");
         }
         if let Some(m) = &self.map {
             // India's bounding box, roughly.

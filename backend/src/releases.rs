@@ -263,13 +263,13 @@ pub async fn plan_snapshot(
             warnings.push(msg)
         }
     }
-    if let Some(branches) = lists.get("branch") {
-        if !branches.iter().any(|(_, _, d)| {
+    if let Some(branches) = lists.get("branch")
+        && !branches.iter().any(|(_, _, d)| {
             d.get("headOffice") == Some(&Value::Bool(true))
                 && d.get("active") != Some(&Value::Bool(false))
-        }) {
-            errors.push("No active head office branch is published.".into());
-        }
+        })
+    {
+        errors.push("No active head office branch is published.".into());
     }
     if !errors.is_empty() {
         return Err(AppError::unprocessable(
@@ -566,27 +566,26 @@ async fn create_live(
 ) -> AppResult<(StatusCode, Json<Value>)> {
     user.require("site.publish")?;
     let mut tx = state.db.begin().await?;
-    if let Some(key) = b.idempotency_key.as_deref() {
-        if let Some((id, status)) = sqlx::query_as::<_, (Uuid, String)>(
+    if let Some(key) = b.idempotency_key.as_deref()
+        && let Some((id, status)) = sqlx::query_as::<_, (Uuid, String)>(
             "select id, status from releases where idempotency_key = $1",
         )
         .bind(key)
         .fetch_optional(&mut *tx)
         .await?
-        {
-            return Ok((
-                StatusCode::OK,
-                Json(json!({ "data": { "id": id, "status": status } })),
-            ));
-        }
+    {
+        return Ok((
+            StatusCode::OK,
+            Json(json!({ "data": { "id": id, "status": status } })),
+        ));
     }
-    if let Some(at) = b.schedule_at {
-        if at <= Utc::now() {
-            return Err(AppError::field(
-                "schedule_at",
-                "Choose a time in the future.",
-            ));
-        }
+    if let Some(at) = b.schedule_at
+        && at <= Utc::now()
+    {
+        return Err(AppError::field(
+            "schedule_at",
+            "Choose a time in the future.",
+        ));
     }
     let selected: BTreeSet<Uuid> = b.revision_ids.into_iter().collect();
     let mut plan = plan_snapshot(
@@ -1024,17 +1023,18 @@ async fn internal_status(
             .await?;
         }
     }
-    if next == "ready" && kind == "preview" {
-        if let Some(u) = requested_by {
-            notifications::to_user(
-                &mut tx,
-                u,
-                "preview_ready",
-                "Your preview is ready",
-                Some(&format!("/publish/releases/{id}")),
-            )
-            .await?;
-        }
+    if next == "ready"
+        && kind == "preview"
+        && let Some(u) = requested_by
+    {
+        notifications::to_user(
+            &mut tx,
+            u,
+            "preview_ready",
+            "Your preview is ready",
+            Some(&format!("/publish/releases/{id}")),
+        )
+        .await?;
     }
     audit::record(
         &mut *tx,
@@ -1210,12 +1210,11 @@ async fn activate_locked(
         }
         Err(e) => {
             // Put the previous release back in front of visitors if the new one was (partly) applied.
-            if let Some(prev) = previous {
-                if let Ok(redirects) = redirects_of(conn, prev).await {
-                    if let Err(e2) = activation::activate(state, prev, &redirects).await {
-                        tracing::error!(error = %e2, "could not restore the previous release");
-                    }
-                }
+            if let Some(prev) = previous
+                && let Ok(redirects) = redirects_of(conn, prev).await
+                && let Err(e2) = activation::activate(state, prev, &redirects).await
+            {
+                tracing::error!(error = %e2, "could not restore the previous release");
             }
             fail_activation(conn, id, actor, &format!("Activation failed: {e:#}")).await?;
             Ok(false)

@@ -193,12 +193,11 @@ fn check_csrf(state: &AppState, parts: &Parts, expected: &str) -> AppResult<()> 
         .headers
         .get(header::ORIGIN)
         .and_then(|v| v.to_str().ok())
+        && origin != state.config.admin_origin()
     {
-        if origin != state.config.admin_origin() {
-            return Err(AppError::forbidden(
-                "This request did not come from the admin panel.",
-            ));
-        }
+        return Err(AppError::forbidden(
+            "This request did not come from the admin panel.",
+        ));
     }
     let sent = parts
         .headers
