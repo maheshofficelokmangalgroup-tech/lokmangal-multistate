@@ -129,7 +129,7 @@ res = await fetch(`${PREVIEW}${grantUrl.pathname}${grantUrl.search}`, { redirect
 check('grant cannot be reused', res.status === 401);
 res = await fetch(`${PREVIEW}/`, { headers: { Cookie: previewCookie } });
 const previewHtml = await res.text();
-check('preview served with noindex and forms off', res.ok && previewHtml.includes('noindex') && previewHtml.includes('Preview — not public'));
+check('preview served with noindex and forms off', res.ok && previewHtml.includes('noindex') && previewHtml.includes('Preview, not public'));
 
 console.log(`\n${results.filter((x) => x.ok).length}/${results.length} checks passed`);
 console.log(`SESSION_COOKIE=${cookie}`);
