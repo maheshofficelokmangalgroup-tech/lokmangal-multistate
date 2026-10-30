@@ -29,8 +29,9 @@ describe('content forms cover the published data', () => {
     const ui = COLLECTION_UI[name];
     expect(ui, `no form for ${name}`).toBeDefined();
     const keys = editableKeys(ui.fields);
-    // Identifiers kept automatically are not edited by hand.
-    const missing = Object.keys(data).filter((k) => !keys.has(k) && !['id', 'order', 'regionOrder'].includes(k) && !(name === 'post' && k === 'order'));
+    // Identifiers kept automatically are not edited by hand. "mr" is the Marathi overlay: it is written by
+    // frontend/scripts/apply-marathi.mjs, has no form yet, and the editor keeps it unchanged when staff save.
+    const missing = Object.keys(data).filter((k) => !keys.has(k) && !['id', 'order', 'regionOrder', 'mr'].includes(k) && !(name === 'post' && k === 'order'));
     expect(missing).toEqual([]);
   });
 });

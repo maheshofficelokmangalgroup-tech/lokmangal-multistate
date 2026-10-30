@@ -1,0 +1,256 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import { depositsData } from '../../data/deposits';
+import { loansData } from '../../data/loans';
+import { getLang, langPaths, localePath } from '../../i18n';
+import { pageCopy, useT } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+
+const lang = getLang(Astro);
+const t = useT(lang);
+const l = (p: string) => localePath(p, lang);
+const mr = lang === 'mr';
+const { schemes } = depositsData(lang);
+const { loans } = loansData(lang);
+const schemesEn = depositsData('en').schemes;
+const loansEn = loansData('en').loans;
+
+const c = pageCopy(
+  lang,
+  'sitemap',
+  {
+    metaTitle: 'Sitemap',
+    metaDescription: 'All pages on the Lokmangal Multistate website.',
+    eyebrow: 'All pages',
+    title: 'Every page,',
+    accent: 'in one map',
+    lead: 'The whole website at a glance. Search for a page, or follow a branch of the map.',
+    pages: 'pages',
+    groups: 'sections',
+    searchLabel: 'Search pages',
+    searchPh: 'Search a page, like loans or FAQ',
+    none: 'No page matches your search.',
+  },
+  {
+    metaTitle: 'साइटमॅप',
+    metaDescription: 'लोकमंगल मल्टीस्टेट संकेतस्थळावरील सर्व पाने.',
+    eyebrow: 'सर्व पाने',
+    title: 'संपूर्ण संकेतस्थळ,',
+    accent: 'एका नकाशात',
+    lead: 'संपूर्ण संकेतस्थळ एका नजरेत. पान शोधा, किंवा नकाशाच्या फांदीवरून पुढे जा.',
+    pages: 'पाने',
+    groups: 'विभाग',
+    searchLabel: 'पान शोधा',
+    searchPh: 'पान शोधा, उदा. कर्ज किंवा प्रश्नोत्तरे',
+    none: 'तुमच्या शोधाशी जुळणारे पान नाही.',
+  },
+);
+
+// [English, Marathi, path]. Labels follow the menu; scheme and loan names come from the content.
+type Link = { label: string; other: string; href: string };
+const link = (en: string, mrLabel: string, href: string): Link => ({ label: mr ? mrLabel : en, other: mr ? en : mrLabel, href: l(href) });
+const groups = [
+  {
+    title: mr ? 'आमच्याबद्दल' : 'About',
+    links: [
+      link('Home', 'मुख्यपृष्ठ', '/'),
+      link('About Us', 'लोकमंगलबद्दल', '/about-us/'),
+      link("Chairman's Message", 'अध्यक्षांचा संदेश', '/chairman-message/'),
+      link('Board of Directors', 'संचालक मंडळ', '/board-of-directors/'),
+      link('Social Responsibility', 'सामाजिक बांधिलकी', '/social-responsibility/'),
+      link('Annual Reports', 'वार्षिक अहवाल', '/annual-reports/'),
+      link('Photo Gallery', 'छायाचित्रे', '/gallery/'),
+    ],
+  },
+  {
+    title: mr ? 'ठेवी' : 'Deposits',
+    links: [
+      link('All deposit schemes', 'सर्व ठेव योजना', '/deposits/'),
+      ...schemes.map((s, i) => ({ label: s.name, other: mr ? (schemesEn[i]?.name ?? '') : '', href: l(`/deposits/${s.slug}/`) })),
+      link('Interest Rates', 'व्याजदर', '/interest-rates/'),
+      link('Apply for a Deposit', 'ठेवीसाठी अर्ज', '/apply-for-deposits/'),
+    ],
+  },
+  {
+    title: mr ? 'कर्ज' : 'Loans',
+    links: [
+      link('All loans', 'सर्व कर्ज', '/loans/'),
+      ...loans.map((x, i) => ({ label: x.name, other: mr ? (loansEn[i]?.name ?? '') : '', href: l(`/loans/#${x.slug}`) })),
+      link('Apply for a Loan', 'कर्जासाठी अर्ज करा', '/apply-loan/'),
+    ],
+  },
+  {
+    title: mr ? 'सेवा व मदत' : 'Services & help',
+    links: [
+      link('Open an Account', 'खाते उघडा', '/open-an-account/'),
+      link('Other Services', 'इतर सेवा', '/other-services/'),
+      link('Rural Wealth Manager', 'रुरल वेल्थ मॅनेजर', '/rural-wealth-manager/'),
+      link('Calculators', 'कॅल्क्युलेटर', '/calculators/'),
+      link('FAQ', 'प्रश्नोत्तरे', '/faq/'),
+      link('Branches', 'शाखा', '/branches/'),
+      link('Contact Us', 'संपर्क', '/contact-us/'),
+    ],
+  },
+  {
+    title: mr ? 'इतर' : 'More',
+    links: [
+      link('Blog & News', 'बातम्या', '/blog/'),
+      link('Careers', 'करिअर', '/careers/'),
+      link('Notices', 'सूचना', '/notices/'),
+      link('List of Members', 'सभासदांची यादी', '/list-of-members/'),
+      link('Terms of Use', 'वापराच्या अटी', '/terms-of-use/'),
+      link('Privacy Policy', 'गोपनीयता धोरण', '/privacy-policy/'),
+    ],
+  },
+];
+const total = groups.reduce((n, g) => n + g.links.length, 0);
+---
+
+<Base title={c('metaTitle')} description={c('metaDescription')} theme="warm">
+  <header class="sm-head">
+    <div class="container">
+      <nav class="sm-crumbs" aria-label={t('breadcrumb')}>
+        <a href={l('/')}>{t('home')}</a>
+        <Icon name="chevron-right" size={14} />
+        <span aria-current="page">{c('metaTitle')}</span>
+      </nav>
+      <div class="sm-head__grid">
+        <div>
+          <p class="eyebrow">{c('eyebrow')}</p>
+          <h1 class="h1 sm-head__title" data-reveal>{c('title')} <em>{c('accent')}</em></h1>
+          <p class="lead sm-head__lead" data-reveal style="--d:120ms">{c('lead')}</p>
+        </div>
+        <dl class="sm-facts" data-stagger>
+          <div><dt>{c('pages')}</dt><dd><span data-count={total}>{total}</span></dd></div>
+          <div><dt>{c('groups')}</dt><dd>{groups.length}</dd></div>
+        </dl>
+      </div>
+      <label class="sm-search">
+        <span class="sr-only">{c('searchLabel')}</span>
+        <Icon name="search" size={20} />
+        <input type="search" placeholder={c('searchPh')} autocomplete="off" data-sm-q />
+      </label>
+    </div>
+  </header>
+
+  <!-- The map: the home page as the root, each section a branch, each page a leaf -->
+  <section class="section sm-sec">
+    <div class="container">
+      <a href={l('/')} class="sm-root" data-reveal>
+        <img src="/images/brand/emblem.png" alt="" width="40" height="40" />
+        <span>{mr ? 'लोकमंगल मल्टीस्टेट' : 'Lokmangal Multistate'}</span>
+      </a>
+      <div class="sm-trunk" aria-hidden="true"></div>
+      <ol class="sm-tree" data-stagger>
+        {groups.map((g, i) => (
+          <li class="sm-branch" data-sm-group>
+            <p class="sm-branch__head"><span class="sm-branch__n">{String(i + 1).padStart(2, '0')}</span>{g.title}<span class="sm-branch__count">{g.links.length}</span></p>
+            <ul class="sm-leaves">
+              {g.links.map((x) => (
+                <li data-sm-leaf data-text={`${x.label} ${x.other}`.toLowerCase()}>
+                  <a href={x.href}>{x.label}</a>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ol>
+      <p class="sm-none" hidden data-sm-none>{c('none')}</p>
+    </div>
+  </section>
+</Base>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const input = document.querySelector<HTMLInputElement>('[data-sm-q]');
+    if (!input) return;
+    const groups = Array.from(document.querySelectorAll<HTMLElement>('[data-sm-group]'));
+    const none = document.querySelector<HTMLElement>('[data-sm-none]');
+    input.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      let shown = 0;
+      groups.forEach((g) => {
+        let n = 0;
+        g.querySelectorAll<HTMLElement>('[data-sm-leaf]').forEach((leaf) => {
+          const hit = !q || (leaf.dataset.text ?? '').includes(q);
+          leaf.hidden = !hit;
+          leaf.classList.toggle('is-hit', !!q && hit);
+          if (hit) n++;
+        });
+        g.hidden = n === 0;
+        shown += n;
+      });
+      if (none) none.hidden = shown > 0;
+    });
+  });
+</script>
+
+<style>
+  .sm-head { background: var(--gold-mix, var(--bg)); padding-block: clamp(28px, 4vw, 44px) clamp(36px, 5vw, 52px); border-bottom: 1px solid var(--line); }
+  .sm-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.86rem; font-weight: 600; color: var(--muted); }
+  .sm-crumbs a { color: var(--g-800); }
+  .sm-crumbs span { color: var(--o-700); }
+  .sm-head__grid { display: grid; gap: 22px; align-items: end; margin-top: clamp(20px, 3vw, 32px); }
+  @media (min-width: 900px) { .sm-head__grid { grid-template-columns: minmax(0, 1fr) auto; } }
+  .sm-head__title { margin-top: 12px; color: var(--g-900); }
+  .sm-head__lead { margin-top: 12px; max-width: 620px; color: var(--ink-2); }
+  .sm-facts { display: flex; margin: 0; }
+  .sm-facts > div { display: flex; flex-direction: column-reverse; gap: 2px; padding: 0 26px; border-left: 1px solid var(--line); }
+  .sm-facts > div:first-child { padding-left: 0; border-left: 0; }
+  .sm-facts dd { margin: 0; font-size: clamp(2rem, 3.6vw, 2.6rem); font-weight: 800; line-height: 1; color: var(--o-600); }
+  .sm-facts dt { font-size: 0.86rem; font-weight: 700; color: var(--g-800); }
+  .sm-search { display: flex; align-items: center; gap: 12px; max-width: 560px; height: 58px; margin-top: 26px; padding: 0 20px; border-radius: 999px; background: #fff; border: 2px solid var(--line); color: var(--muted); box-shadow: var(--shadow-sm); transition: border-color 0.25s; }
+  .sm-search:focus-within { border-color: var(--o-500); }
+  .sm-search :global(.icon) { color: var(--g-800); }
+  .sm-search input { flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: transparent; font: inherit; font-size: 1rem; color: var(--ink); }
+
+  /* ---------- The tree ---------- */
+  .sm-sec { background: var(--bg); }
+  .sm-root {
+    display: flex; align-items: center; gap: 12px; width: fit-content; margin: 0 auto; padding: 10px 22px 10px 12px; border-radius: 999px;
+    background: var(--g-900); color: #fff; font-weight: 800; font-size: 1.05rem; box-shadow: var(--shadow);
+    transition: transform 0.4s var(--ease-out);
+  }
+  .sm-root img { width: 40px; height: 40px; padding: 4px; border-radius: 50%; background: #fff; }
+  .sm-root:hover { transform: translateY(-3px); }
+  .sm-trunk { width: 2px; height: 34px; margin: 0 auto; background: var(--g-600); }
+  /* A rail joins the five branches; each branch drops from it */
+  .sm-tree { position: relative; list-style: none; margin: 0; padding: 0; display: grid; gap: 20px; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  /* From the middle of the first branch to the middle of the last (five columns, 20px gaps) */
+  .sm-tree::before { content: ''; position: absolute; top: 0; left: calc((100% - 80px) / 10 - 1px); right: calc((100% - 80px) / 10 - 1px); height: 2px; background: var(--g-600); }
+  .sm-branch { position: relative; padding-top: 28px; }
+  .sm-branch[hidden] { display: none; }
+  .sm-branch::before { content: ''; position: absolute; top: 0; left: 50%; width: 2px; height: 28px; background: var(--g-600); }
+  .sm-branch__head {
+    position: relative; display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 14px;
+    background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-sm); font-weight: 800; color: var(--g-900);
+  }
+  .sm-branch__n { font-size: 0.78rem; font-weight: 800; color: var(--o-600); }
+  .sm-branch__count { margin-left: auto; min-width: 26px; padding: 2px 8px; border-radius: 999px; background: var(--cream); color: var(--o-700); font-size: 0.78rem; text-align: center; }
+  /* Leaves hang from a line on the left, each with its own short tick */
+  .sm-leaves { list-style: none; margin: 0 0 0 18px; padding: 8px 0 0; border-left: 2px solid var(--line); }
+  .sm-leaves li { position: relative; padding-left: 18px; }
+  .sm-leaves li[hidden] { display: none; }
+  .sm-leaves li::before { content: ''; position: absolute; left: 0; top: 50%; width: 12px; height: 2px; background: var(--line); }
+  .sm-leaves a { display: block; padding: 7px 10px; border-radius: 9px; font-weight: 600; font-size: 0.92rem; line-height: 1.4; color: var(--ink-2); transition: background 0.2s, color 0.2s, translate 0.3s var(--ease-out); }
+  .sm-leaves a:hover { background: #fff; color: var(--g-900); translate: 4px 0; box-shadow: var(--shadow-xs); }
+  .sm-leaves li:hover::before { background: var(--o-500); }
+  .sm-leaves li.is-hit a { background: var(--o-100); color: var(--o-700); }
+  @media (max-width: 1099px) {
+    .sm-tree { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 28px; }
+    .sm-tree::before { display: none; }
+    .sm-trunk { display: none; }
+    .sm-root { margin-bottom: 24px; }
+  }
+  @media (max-width: 719px) {
+    .sm-tree { grid-template-columns: 1fr; }
+    .sm-branch { padding-top: 0; }
+    .sm-branch::before { display: none; }
+    .sm-root { margin: 0 0 22px; }
+  }
+  .sm-none { margin-top: 20px; padding: 20px; border-radius: 12px; border: 2px dashed var(--line); text-align: center; font-weight: 600; color: var(--muted); }
+</style>

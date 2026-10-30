@@ -1,0 +1,79 @@
+---
+import Base from '../../layouts/Base.astro';
+import LegalDoc from '../../components/LegalDoc.astro';
+import { siteData } from '../../data/site';
+import { getLang, langPaths, localePath } from '../../i18n';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+
+const lang = getLang(Astro);
+const { site } = siteData(lang);
+const mail = `<a href="mailto:${site.email}">${site.email}</a>`;
+const phone = `<a href="${site.phoneHref}">${site.phone}</a>`;
+const address = `${site.address.line1}, ${site.address.line2}, ${site.address.city} – ${site.address.pin}`;
+
+const en = {
+  metaTitle: 'Privacy Policy',
+  metaDescription: 'How Lokmangal Multistate Co-operative Society collects, uses and protects your personal information.',
+  title: 'Privacy',
+  accent: 'policy',
+  lead: 'What information we collect through this website, how we use it, and the choices you have.',
+  summary: [
+    'We collect only the details you type into our forms.',
+    'We never ask for your PIN, password, OTP or card details. Do not share them with anyone.',
+    'We do not sell your information.',
+  ],
+  related: 'Terms of Use',
+  sections: [
+    ['about', 'About this policy', `<p>${site.legalName} respects your privacy. This policy explains what information we collect through this website and how we use it.</p>`],
+    ['collect', 'Information we collect', `<p>When you submit a form, such as an account, deposit, loan, callback, contact or job application, we collect the details you provide, for example your name, phone number, email address, city and message. We do not ask for passwords, PINs or card details on this website, and you should never share them with anyone.</p>`],
+    ['use', 'How we use it', `<ul><li>To contact you about your enquiry or application.</li><li>To help you open an account, deposit or loan at a branch.</li><li>To respond to service requests and improve our services.</li></ul>`],
+    ['sharing', 'Sharing', `<p>We do not sell your personal information. We share it only with our own staff and branches who need it to serve you, or where required by law or a regulator.</p>`],
+    ['security', 'Security and retention', `<p>We take reasonable steps to protect the information you share and keep it only for as long as needed to serve you or to meet legal requirements.</p>`],
+    ['cookies', 'Cookies', `<p>This website stores only small, temporary preferences in your browser (for example, whether you dismissed an announcement). Embedded services such as Google Maps or YouTube may set their own cookies when you use them.</p>`],
+    ['choices', 'Your choices', `<p>You may ask us to update or delete the details you submitted by writing to ${mail}.</p>`],
+    ['contact', 'Contact', `<p>${site.legalName}, ${address}. Phone: ${phone}.</p>`],
+  ],
+};
+
+const mr = {
+  metaTitle: 'गोपनीयता धोरण',
+  metaDescription: 'लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटी तुमची वैयक्तिक माहिती कशी गोळा करते, वापरते आणि सुरक्षित ठेवते.',
+  title: 'गोपनीयता',
+  accent: 'धोरण',
+  lead: 'या संकेतस्थळावरून आम्ही कोणती माहिती गोळा करतो, ती कशी वापरतो आणि तुमच्याकडे कोणते पर्याय आहेत.',
+  summary: [
+    'तुम्ही आमच्या फॉर्ममध्ये लिहिता तेवढीच माहिती आम्ही गोळा करतो.',
+    'आम्ही कधीही तुमचा पिन, पासवर्ड, ओटीपी किंवा कार्डचा तपशील विचारत नाही. तो कोणालाही सांगू नका.',
+    'आम्ही तुमची माहिती विकत नाही.',
+  ],
+  related: 'वापराच्या अटी',
+  sections: [
+    ['about', 'या धोरणाबद्दल', `<p>${site.legalName} तुमच्या गोपनीयतेचा आदर करते. या संकेतस्थळावरून आम्ही कोणती माहिती गोळा करतो आणि ती कशी वापरतो, हे या धोरणात सांगितले आहे.</p>`],
+    ['collect', 'आम्ही गोळा करतो ती माहिती', `<p>खाते, ठेव, कर्ज, कॉलबॅक, संपर्क किंवा नोकरीचा अर्ज असा कोणताही फॉर्म पाठवताना तुम्ही दिलेली माहिती आम्ही गोळा करतो, उदा. तुमचे नाव, फोन नंबर, ईमेल, शहर आणि संदेश. या संकेतस्थळावर आम्ही पासवर्ड, पिन किंवा कार्डचा तपशील विचारत नाही आणि तो तुम्ही कोणालाही सांगू नये.</p>`],
+    ['use', 'आम्ही ती कशी वापरतो', `<ul><li>तुमच्या चौकशी किंवा अर्जाबद्दल तुमच्याशी संपर्क करण्यासाठी.</li><li>शाखेत खाते, ठेव किंवा कर्ज सुरू करण्यास मदत करण्यासाठी.</li><li>सेवेच्या विनंत्यांना उत्तर देण्यासाठी आणि सेवा सुधारण्यासाठी.</li></ul>`],
+    ['sharing', 'माहिती कोणाला दिली जाते', `<p>आम्ही तुमची वैयक्तिक माहिती विकत नाही. तुमची सेवा करण्यासाठी गरज असलेल्या आमच्या कर्मचारी व शाखांनाच ती दिली जाते, किंवा कायद्याने अथवा नियामकाने आवश्यक असल्यास.</p>`],
+    ['security', 'सुरक्षा आणि माहिती जतन', `<p>तुम्ही दिलेली माहिती सुरक्षित ठेवण्यासाठी आम्ही योग्य काळजी घेतो आणि तुमची सेवा करण्यासाठी किंवा कायदेशीर गरजांसाठी आवश्यक तेवढाच काळ ती ठेवतो.</p>`],
+    ['cookies', 'कुकीज', `<p>हे संकेतस्थळ तुमच्या ब्राउझरमध्ये फक्त छोट्या, तात्पुरत्या पसंती जतन करते (उदा. तुम्ही एखादी घोषणा बंद केली आहे का). गुगल मॅप्स किंवा यूट्यूबसारख्या जोडलेल्या सेवा तुम्ही वापरता तेव्हा त्या स्वतःच्या कुकीज ठेवू शकतात.</p>`],
+    ['choices', 'तुमचे पर्याय', `<p>तुम्ही पाठवलेली माहिती बदलण्यास किंवा काढून टाकण्यास ${mail} वर लिहून सांगू शकता.</p>`],
+    ['contact', 'संपर्क', `<p>${site.legalName}, ${address}. फोन: ${phone}.</p>`],
+  ],
+};
+
+const d = lang === 'mr' ? mr : en;
+const sections = d.sections.map(([id, title, html]) => ({ id, title, html }));
+---
+
+<Base title={d.metaTitle} description={d.metaDescription} theme="warm">
+  <LegalDoc
+    title={d.title}
+    accent={d.accent}
+    lead={d.lead}
+    crumb={d.metaTitle}
+    summary={d.summary}
+    sections={sections}
+    related={{ label: d.related, href: localePath('/terms-of-use/', lang) }}
+  />
+</Base>

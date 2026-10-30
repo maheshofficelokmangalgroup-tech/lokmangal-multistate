@@ -1,0 +1,269 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import Calculator from '../../components/Calculator.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { depositsData, fmtRate } from '../../data/deposits';
+import { loansData } from '../../data/loans';
+import { getLang, langPaths, localePath } from '../../i18n';
+import { pageCopy, useT } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+
+const lang = getLang(Astro);
+const t = useT(lang);
+const l = (p: string) => localePath(p, lang);
+const { schemeBySlug } = depositsData(lang);
+const { loans } = loansData(lang);
+
+const c = pageCopy(
+  lang,
+  'calculators',
+  {
+    metaTitle: 'Calculators',
+    metaDescription: 'FD, RD, monthly income and loan EMI calculators: estimate maturity values and repayments with Lokmangal Multistate rates.',
+    eyebrow: 'Plan with confidence',
+    title: 'Work out your',
+    accent: 'savings and EMI',
+    lead: 'See what your deposit will grow to, how much it pays every month, or what a loan will cost, using our current rates.',
+    pick: 'Choose a calculator',
+    upTo: 'up to',
+    from: 'from',
+    pa: '% p.a.',
+    fd: 'Fixed deposit',
+    fdText: 'What your deposit grows to',
+    rd: 'Recurring deposit',
+    rdText: 'Saving a fixed amount every month',
+    monthly: 'Monthly income',
+    monthlyText: 'Interest paid to you every month',
+    emi: 'Loan EMI',
+    emiText: 'Your monthly instalment',
+    open: 'Open',
+    calcEyebrow: 'Calculator',
+    calcTitle: 'Move the sliders,',
+    calcAccent: 'see the result',
+    calcLead: 'Type an amount or drag the sliders. The chart shows how your money or loan changes over time.',
+    howEyebrow: 'How we calculate',
+    howTitle: 'The same method',
+    howAccent: 'our branches use',
+    h1: 'Fixed deposit',
+    h1t: 'Up to 12 months, simple interest. Beyond 12 months, interest is added to the deposit every six months (half-yearly compounding).',
+    h2: 'Recurring deposit',
+    h2t: 'Each monthly instalment earns interest, added every six months until maturity. This matches our Lakshadish maturity values.',
+    h3: 'Monthly income',
+    h3t: 'Interest is paid to you every month, and your full deposit is returned at maturity.',
+    h4: 'Loan EMI',
+    h4t: 'Equal monthly instalments on a reducing balance: interest is charged only on the amount you still owe.',
+    disclaimer: 'All figures are indicative. Actual returns depend on the scheme, exact tenure and applicable TDS. Please confirm with your branch before investing.',
+    ctaTitle: 'Like what you see?',
+    ctaAccent: 'Let’s get started',
+    ctaText: 'Book a deposit or apply for a loan online. Our team will help you with the rest.',
+  },
+  {
+    metaTitle: 'कॅल्क्युलेटर',
+    metaDescription: 'मुदत ठेव, रिकरिंग ठेव, मासिक व्याज आणि कर्ज ईएमआय कॅल्क्युलेटर: लोकमंगल मल्टीस्टेटच्या दरांनुसार मुदतपूर्ती रक्कम आणि हप्ता काढा.',
+    eyebrow: 'आत्मविश्वासाने नियोजन',
+    title: 'तुमची बचत आणि',
+    accent: 'ईएमआय काढा',
+    lead: 'तुमची ठेव किती वाढेल, दरमहा किती व्याज मिळेल किंवा कर्जाचा हप्ता किती येईल, ते आमच्या सध्याच्या दरांनुसार पाहा.',
+    pick: 'कॅल्क्युलेटर निवडा',
+    upTo: 'पर्यंत',
+    from: 'पासून',
+    pa: '% वार्षिक',
+    fd: 'मुदत ठेव',
+    fdText: 'तुमची ठेव किती वाढेल',
+    rd: 'रिकरिंग ठेव',
+    rdText: 'दरमहा ठरावीक रकमेची बचत',
+    monthly: 'मासिक व्याज',
+    monthlyText: 'दरमहा तुम्हाला मिळणारे व्याज',
+    emi: 'कर्ज ईएमआय',
+    emiText: 'तुमचा मासिक हप्ता',
+    open: 'उघडा',
+    calcEyebrow: 'कॅल्क्युलेटर',
+    calcTitle: 'स्लायडर सरकवा,',
+    calcAccent: 'निकाल पाहा',
+    calcLead: 'रक्कम लिहा किंवा स्लायडर सरकवा. आलेखात तुमचे पैसे किंवा कर्ज कालानुसार कसे बदलते ते दिसते.',
+    howEyebrow: 'हिशेब कसा केला जातो',
+    howTitle: 'आमच्या शाखा वापरतात',
+    howAccent: 'तीच पद्धत',
+    h1: 'मुदत ठेव',
+    h1t: '12 महिन्यांपर्यंत साधे व्याज. 12 महिन्यांपेक्षा जास्त मुदतीसाठी दर सहा महिन्यांनी व्याज ठेवेत जोडले जाते (सहामाही चक्रवाढ).',
+    h2: 'रिकरिंग ठेव',
+    h2t: 'प्रत्येक मासिक हप्त्यावर व्याज मिळते, जे मुदतपूर्तीपर्यंत दर सहा महिन्यांनी जोडले जाते. हे आमच्या लक्षदिश मुदतपूर्ती रकमांशी जुळते.',
+    h3: 'मासिक व्याज',
+    h3t: 'व्याज दरमहा तुम्हाला दिले जाते आणि मुदतपूर्तीला तुमची संपूर्ण ठेव परत मिळते.',
+    h4: 'कर्ज ईएमआय',
+    h4t: 'कमी होत जाणाऱ्या रकमेवर समान मासिक हप्ते: व्याज फक्त शिल्लक कर्जावरच आकारले जाते.',
+    disclaimer: 'सर्व आकडे अंदाजे आहेत. प्रत्यक्ष परतावा योजना, नेमकी मुदत आणि लागू टीडीएसवर अवलंबून असतो. गुंतवणूक करण्यापूर्वी तुमच्या शाखेत खात्री करा.',
+    ctaTitle: 'पुढचे पाऊल',
+    ctaAccent: 'उचलूया',
+    ctaText: 'ऑनलाइन ठेव ठेवा किंवा कर्जासाठी अर्ज करा. पुढील सर्व मदत आमची टीम करेल.',
+  },
+);
+
+const rateOf = (slug: string) => schemeBySlug(slug)?.rate ?? null;
+const loanFrom = loans.length ? Math.min(...loans.map((x) => x.rateFrom)) : null;
+const tiles = [
+  { mode: 'fd', name: c('fd'), text: c('fdText'), rate: rateOf('vishwamangal-fixed-deposit-scheme'), word: c('upTo') },
+  { mode: 'rd', name: c('rd'), text: c('rdText'), rate: rateOf('vishvamangal-recurring-deposit'), word: c('upTo') },
+  { mode: 'monthly', name: c('monthly'), text: c('monthlyText'), rate: rateOf('vishvamangal-monthly-interest'), word: c('upTo') },
+  { mode: 'emi', name: c('emi'), text: c('emiText'), rate: loanFrom, word: c('from') },
+];
+const how = [1, 2, 3, 4].map((n) => ({ title: c(`h${n}` as 'h1'), text: c(`h${n}t` as 'h1t') }));
+---
+
+<Base title={c('metaTitle')} description={c('metaDescription')} theme="warm">
+  <!-- HEADER: the four calculators as rate tiles -->
+  <header class="cx-head">
+    <div class="container">
+      <nav class="cx-crumbs" aria-label={t('breadcrumb')}>
+        <a href={l('/')}>{t('home')}</a>
+        <Icon name="chevron-right" size={14} />
+        <span aria-current="page">{c('metaTitle')}</span>
+      </nav>
+      <div class="cx-head__copy">
+        <p class="eyebrow">{c('eyebrow')}</p>
+        <h1 class="h1 cx-head__title" data-reveal>{c('title')} <em>{c('accent')}</em></h1>
+        <p class="lead cx-head__lead" data-reveal style="--d:120ms">{c('lead')}</p>
+      </div>
+      <p class="cx-pick">{c('pick')}</p>
+      <ul class="cx-tiles" data-stagger>
+        {tiles.map((tile, i) => (
+          <li>
+            <a href={`#calculator`} class="cx-tile" data-cx-mode={tile.mode}>
+              <span class="cx-tile__n">{String(i + 1).padStart(2, '0')}</span>
+              <span class="cx-tile__name">{tile.name}</span>
+              <span class="cx-tile__text">{tile.text}</span>
+              {tile.rate !== null && (
+                <span class="cx-tile__rate">
+                  {lang === 'mr' ? (
+                    <><b>{fmtRate(tile.rate)}</b>{c('pa')} {tile.word}</>
+                  ) : (
+                    <>{tile.word} <b>{fmtRate(tile.rate)}</b>{c('pa')}</>
+                  )}
+                </span>
+              )}
+              <span class="cx-tile__go">{c('open')} <Icon name="arrow-down" size={15} /></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </header>
+
+  <!-- CALCULATOR on the green panel -->
+  <section class="section cx-panel" id="calculator">
+    <div class="container">
+      <div class="section-head center" data-reveal>
+        <p class="eyebrow">{c('calcEyebrow')}</p>
+        <h2 class="h2">{c('calcTitle')} <em>{c('calcAccent')}</em></h2>
+        <p class="lead">{c('calcLead')}</p>
+      </div>
+      <div data-reveal="zoom"><Calculator /></div>
+    </div>
+  </section>
+
+  <!-- HOW WE CALCULATE -->
+  <section class="section cx-how">
+    <div class="container cx-how__grid">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">{c('howEyebrow')}</p>
+        <h2 class="h2">{c('howTitle')} <em>{c('howAccent')}</em></h2>
+      </div>
+      <div>
+        <ol class="cx-rules" data-stagger>
+          {how.map((h, i) => (
+            <li>
+              <span class="cx-rules__n">{String(i + 1).padStart(2, '0')}</span>
+              <div><h3>{h.title}</h3><p>{h.text}</p></div>
+            </li>
+          ))}
+        </ol>
+        <p class="cx-note" data-reveal>{c('disclaimer')}</p>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title={c('ctaTitle')} accent={c('ctaAccent')} text={c('ctaText')} />
+</Base>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const calc = document.querySelector<HTMLElement>('[data-calc]');
+    if (!calc) return;
+    const choose = (mode: string) => calc.querySelector<HTMLElement>(`[data-calc-tab="${mode}"]`)?.click();
+    // A rate tile opens its calculator.
+    document.querySelectorAll<HTMLAnchorElement>('[data-cx-mode]').forEach((a) =>
+      a.addEventListener('click', () => {
+        choose(a.dataset.cxMode ?? 'fd');
+        history.replaceState(history.state, '', `?type=${a.dataset.cxMode}#calculator`);
+      }),
+    );
+    // Links such as /calculators/?type=emi open with that calculator chosen.
+    const type = new URLSearchParams(location.search).get('type');
+    if (type && ['fd', 'rd', 'monthly', 'emi'].includes(type)) choose(type);
+  });
+</script>
+
+<style>
+  /* ---------- Header ---------- */
+  .cx-head { background: var(--gold-mix); padding-block: clamp(28px, 4vw, 44px) clamp(44px, 6vw, 72px); border-bottom: 1px solid var(--line); }
+  .cx-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.86rem; font-weight: 600; color: var(--muted); }
+  .cx-crumbs a { color: var(--g-800); }
+  .cx-crumbs span { color: var(--o-700); }
+  .cx-head__copy { max-width: 720px; margin-top: clamp(20px, 3vw, 32px); display: grid; gap: 14px; }
+  .cx-head__title { color: var(--g-900); }
+  .cx-head__lead { color: var(--ink-2); }
+  .cx-pick { margin-top: clamp(28px, 4vw, 40px); font-size: 0.82rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--g-800); }
+  :global(html[lang='mr']) .cx-pick { letter-spacing: 0; text-transform: none; font-size: 0.98rem; }
+  .cx-tiles { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: clamp(12px, 1.6vw, 18px); grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .cx-tile {
+    position: relative; display: flex; flex-direction: column; gap: 6px; height: 100%; padding: 20px 20px 18px; overflow: hidden;
+    border-radius: var(--r-lg); background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-sm); color: inherit;
+    transition: transform 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out), border-color 0.3s;
+  }
+  .cx-tile::after { content: ''; position: absolute; inset: auto 0 0 0; height: 4px; background: var(--o-500); transform: scaleX(0); transform-origin: left; transition: transform 0.45s var(--ease-out); }
+  .cx-tile:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--o-300); }
+  .cx-tile:hover::after { transform: scaleX(1); }
+  .cx-tile__n { font-size: 0.8rem; font-weight: 800; color: var(--o-600); }
+  .cx-tile__name { font-size: 1.15rem; font-weight: 800; line-height: 1.25; color: var(--g-900); }
+  .cx-tile__text { font-size: 0.88rem; color: var(--muted); }
+  .cx-tile__rate { margin-top: 6px; font-size: 0.9rem; font-weight: 600; color: var(--ink-2); }
+  .cx-tile__rate b { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.02em; color: var(--g-800); font-variant-numeric: tabular-nums; margin-left: 2px; }
+  :global(html[lang='mr']) .cx-tile__rate b { margin-left: 0; }
+  .cx-tile__go { margin-top: auto; padding-top: 10px; display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 0.88rem; color: var(--o-700); }
+  @media (max-width: 999px) { .cx-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 479px) {
+    .cx-tile { padding: 16px 14px 14px; }
+    .cx-tile__name { font-size: 1rem; }
+    .cx-tile__text { font-size: 0.8rem; }
+    .cx-tile__rate b { font-size: 1.5rem; }
+  }
+
+  /* ---------- Calculator on the green panel ---------- */
+  .cx-panel { position: relative; isolation: isolate; overflow: hidden; background: var(--green-panel); scroll-margin-top: var(--header-h); }
+  .cx-panel::before {
+    content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60' fill='none' stroke='%23ffffff' stroke-width='.8' stroke-opacity='.1'%3E%3Cpath d='M0 30C15 12 45 12 60 30S105 48 120 30'/%3E%3Cpath d='M0 30C15 48 45 48 60 30S105 12 120 30'/%3E%3Cpath d='M0 20C15 2 45 2 60 20S105 38 120 20'/%3E%3Cpath d='M0 40C15 58 45 58 60 40S105 22 120 40'/%3E%3C/svg%3E");
+    background-size: 120px 60px;
+    mask-image: linear-gradient(180deg, #000, transparent 60%);
+  }
+  .cx-panel .eyebrow { color: var(--gold-soft); }
+  .cx-panel .h2 { color: #fff; }
+  .cx-panel .h2 em { color: var(--o-300); }
+  .cx-panel .lead { color: rgb(255 255 255 / 0.85); }
+
+  /* ---------- How we calculate ---------- */
+  .cx-how { background: var(--bg); }
+  .cx-how__grid { display: grid; gap: clamp(20px, 3vw, 48px); align-items: start; }
+  @media (min-width: 1000px) { .cx-how__grid { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); } }
+  .cx-rules { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--g-900); }
+  .cx-rules li { display: grid; grid-template-columns: 3rem minmax(0, 1fr); gap: 16px; padding: 20px 4px; border-bottom: 1px solid var(--line); }
+  .cx-rules__n { font-size: 1.6rem; font-weight: 800; line-height: 1; color: transparent; -webkit-text-stroke: 1.3px var(--o-500); transition: color 0.3s; }
+  .cx-rules li:hover .cx-rules__n { color: var(--o-500); }
+  .cx-rules h3 { font-size: 1.08rem; color: var(--g-900); }
+  .cx-rules p { margin-top: 4px; color: var(--muted); font-size: 0.96rem; }
+  .cx-note { margin-top: 22px; padding: 14px 18px; border-radius: 12px; background: #fff; border: 1px dashed var(--o-300); font-size: 0.9rem; font-weight: 600; color: var(--ink-2); }
+</style>

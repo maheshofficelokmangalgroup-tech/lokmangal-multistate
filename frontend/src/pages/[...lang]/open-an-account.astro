@@ -1,0 +1,428 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import EnquiryForm from '../../components/EnquiryForm.astro';
+import { siteData } from '../../data/site';
+import { depositsData, fmtRate } from '../../data/deposits';
+import { getLang, langPaths, localePath } from '../../i18n';
+import { pageCopy, useT } from '../../i18n/ui';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+
+const lang = getLang(Astro);
+const t = useT(lang);
+const l = (p: string) => localePath(p, lang);
+const { site } = siteData(lang);
+const { depositDocuments, schemeBySlug } = depositsData(lang);
+const rd = schemeBySlug('vishvamangal-recurring-deposit');
+
+const c = pageCopy(
+  lang,
+  'open-an-account',
+  {
+    metaTitle: 'Open an Account',
+    metaDescription: 'Open a savings account, current account or recurring deposit with Lokmangal Multistate. Apply online and our team will call you back.',
+    eyebrow: 'Open an account',
+    title: 'Your account,',
+    accent: 'in four easy steps',
+    lead: 'Savings, current and recurring deposit accounts, with a wide branch network, mobile banking and a team that calls you back.',
+    start: 'Start your application',
+    call: 'Call {phone}',
+    pickEyebrow: 'Step 1',
+    pickTitle: 'Choose',
+    pickAccent: 'your account',
+    pickLead: 'Pick one and we will fill it in on the form below. You can change it at any time.',
+    passbook: 'Passbook',
+    choose: 'Choose this account',
+    chosen: 'Chosen',
+    savings: 'Savings Account',
+    savingsFor: 'For your everyday money',
+    savingsText: 'Deposit and withdraw at any branch, and keep track of your money on your phone.',
+    savings1: 'Mobile and net banking',
+    savings2: 'SMS banking',
+    savings3: 'Nomination facility',
+    current: 'Current Account',
+    currentFor: 'For shops and businesses',
+    currentText: 'For businesses that pay and receive money many times a day.',
+    current1: 'NEFT and RTGS transfers',
+    current2: 'Utility bill payments',
+    current3: 'Service at any branch',
+    rd: 'Recurring Deposit',
+    rdFor: 'For saving every month',
+    rdText: 'Put aside a fixed amount every month and earn interest on all of it.',
+    rd1: 'Interest up to {rate}% p.a.',
+    rd1plain: 'Monthly savings plan',
+    rd2: 'Small monthly amounts',
+    rd3: 'Nomination facility',
+    rdLink: 'See RD details',
+    applyEyebrow: 'Step 2',
+    applyTitle: 'Tell us',
+    applyAccent: 'about you',
+    formTitle: 'Apply now',
+    formSub: 'Fields marked * are required.',
+    formSubmit: 'Submit application',
+    howTitle: 'What happens next',
+    s1: 'Fill in the form',
+    s1t: 'Tell us which account you would like to open. It takes under a minute.',
+    s2: 'We call you back',
+    s2t: 'Our branch team confirms your details and answers your questions.',
+    s3: 'Visit with your KYC',
+    s3t: 'Bring your documents to the nearest branch to complete the process.',
+    s4: 'Start banking',
+    s4t: 'Use your account at any branch, online or on our mobile app.',
+    docsTitle: 'Keep these documents ready',
+    docsHint: 'Tick what you already have.',
+    docsCount: '{n} of {total} ready',
+    docsDone: 'All set for your branch visit',
+    talk: 'Prefer to talk?',
+    branches: 'Find your nearest branch',
+  },
+  {
+    metaTitle: 'खाते उघडा',
+    metaDescription: 'लोकमंगल मल्टीस्टेटमध्ये बचत खाते, चालू खाते किंवा रिकरिंग ठेव उघडा. ऑनलाइन अर्ज करा, आमची टीम तुम्हाला कॉल करेल.',
+    eyebrow: 'खाते उघडा',
+    title: 'तुमचे खाते,',
+    accent: 'चार सोप्या पायऱ्यांत',
+    lead: 'बचत, चालू आणि रिकरिंग ठेव खाती, शाखांचे मोठे जाळे, मोबाइल बँकिंग आणि तुम्हाला परत कॉल करणारी टीम.',
+    start: 'अर्ज सुरू करा',
+    call: '{phone} वर कॉल करा',
+    pickEyebrow: 'पायरी 1',
+    pickTitle: 'तुमचे',
+    pickAccent: 'खाते निवडा',
+    pickLead: 'एक खाते निवडा, आम्ही ते खालील फॉर्ममध्ये भरू. तुम्ही ते कधीही बदलू शकता.',
+    passbook: 'पासबुक',
+    choose: 'हे खाते निवडा',
+    chosen: 'निवडले',
+    savings: 'बचत खाते',
+    savingsFor: 'रोजच्या पैशांसाठी',
+    savingsText: 'कोणत्याही शाखेत पैसे भरा व काढा आणि फोनवरून तुमच्या पैशांचा हिशेब ठेवा.',
+    savings1: 'मोबाइल व नेट बँकिंग',
+    savings2: 'एसएमएस बँकिंग',
+    savings3: 'वारसदार सुविधा',
+    current: 'चालू खाते',
+    currentFor: 'दुकाने व व्यवसायांसाठी',
+    currentText: 'दिवसातून अनेक वेळा पैसे देणाऱ्या व घेणाऱ्या व्यवसायांसाठी.',
+    current1: 'एनईएफटी व आरटीजीएस',
+    current2: 'वीज व इतर बिल भरणा',
+    current3: 'कोणत्याही शाखेत सेवा',
+    rd: 'रिकरिंग ठेव',
+    rdFor: 'दरमहा बचतीसाठी',
+    rdText: 'दरमहा ठरावीक रक्कम बाजूला ठेवा आणि संपूर्ण रकमेवर व्याज मिळवा.',
+    rd1: 'वार्षिक {rate}% पर्यंत व्याज',
+    rd1plain: 'मासिक बचत योजना',
+    rd2: 'दरमहा छोटी रक्कम',
+    rd3: 'वारसदार सुविधा',
+    rdLink: 'रिकरिंग ठेवेची माहिती',
+    applyEyebrow: 'पायरी 2',
+    applyTitle: 'तुमची',
+    applyAccent: 'माहिती द्या',
+    formTitle: 'आत्ताच अर्ज करा',
+    formSub: '* असलेली माहिती आवश्यक आहे.',
+    formSubmit: 'अर्ज पाठवा',
+    howTitle: 'पुढे काय होते',
+    s1: 'फॉर्म भरा',
+    s1t: 'कोणते खाते उघडायचे आहे ते सांगा. एक मिनिटही लागत नाही.',
+    s2: 'आम्ही कॉल करतो',
+    s2t: 'आमची शाखा टीम तुमची माहिती तपासते आणि प्रश्नांची उत्तरे देते.',
+    s3: 'केवायसीसह शाखेत या',
+    s3t: 'प्रक्रिया पूर्ण करण्यासाठी कागदपत्रे घेऊन जवळच्या शाखेत या.',
+    s4: 'बँकिंग सुरू करा',
+    s4t: 'कोणत्याही शाखेत, ऑनलाइन किंवा मोबाइल ॲपवरून खाते वापरा.',
+    docsTitle: 'ही कागदपत्रे तयार ठेवा',
+    docsHint: 'तुमच्याकडे असलेल्यांवर खूण करा.',
+    docsCount: '{total} पैकी {n} तयार',
+    docsDone: 'शाखेत जाण्याची पूर्ण तयारी झाली',
+    talk: 'फोनवर बोलायचे आहे?',
+    branches: 'जवळची शाखा शोधा',
+  },
+);
+
+// The values sent to the office stay English, whatever the page language.
+const accounts = [
+  { value: 'Savings Account', id: 'savings', name: c('savings'), for: c('savingsFor'), text: c('savingsText'), points: [c('savings1'), c('savings2'), c('savings3')], tone: 'green' },
+  { value: 'Current Account', id: 'current', name: c('current'), for: c('currentFor'), text: c('currentText'), points: [c('current1'), c('current2'), c('current3')], tone: 'maroon' },
+  {
+    value: 'Recurring Deposit',
+    id: 'rd',
+    name: c('rd'),
+    for: c('rdFor'),
+    text: c('rdText'),
+    points: [rd?.rate != null ? c('rd1', { rate: fmtRate(rd.rate) }) : c('rd1plain'), c('rd2'), c('rd3')],
+    tone: 'gold',
+    link: rd ? l(`/deposits/${rd.slug}/`) : undefined,
+  },
+];
+const steps = [1, 2, 3, 4].map((n) => ({ title: c(`s${n}` as 's1'), text: c(`s${n}t` as 's1t') }));
+const banner = existsSync(join(process.cwd(), 'public', '/images/account/banner.webp')) ? '/images/account/banner.webp' : '/images/home/card-account.webp';
+const total = String(depositDocuments.length);
+---
+
+<Base title={c('metaTitle')} description={c('metaDescription')}>
+  <!-- BANNER -->
+  <section class="oa-hero">
+    <img src={banner} alt="" class="oa-hero__img" width="1920" height="1080" fetchpriority="high" />
+    <div class="container oa-hero__inner">
+      <nav class="oa-crumbs" aria-label={t('breadcrumb')}>
+        <a href={l('/')}>{t('home')}</a>
+        <Icon name="chevron-right" size={14} />
+        <span aria-current="page">{c('metaTitle')}</span>
+      </nav>
+      <div class="oa-hero__copy">
+        <p class="oa-hero__eyebrow">{c('eyebrow')}</p>
+        <h1 class="h1 oa-hero__title" data-reveal>{c('title')} <em>{c('accent')}</em></h1>
+        <p class="lead oa-hero__lead" data-reveal style="--d:120ms">{c('lead')}</p>
+        <div class="btn-row" data-reveal style="--d:200ms">
+          <a href="#choose" class="btn btn--primary btn--lg">{c('start')} <Icon name="arrow-down" size={18} /></a>
+          <a href={site.phoneHref} class="btn btn--light btn--lg"><Icon name="phone" size={18} /> {c('call', { phone: site.phone })}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEP 1: choose an account, drawn as passbook covers -->
+  <section class="section oa-pick" id="choose">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">{c('pickEyebrow')}</p>
+        <h2 class="h2">{c('pickTitle')} <em>{c('pickAccent')}</em></h2>
+        <p class="lead">{c('pickLead')}</p>
+      </div>
+      <ul class="oa-books" data-stagger>
+        {accounts.map((a) => (
+          <li class:list={['oa-book', `oa-book--${a.tone}`]} data-account={a.value}>
+            <div class="oa-book__cover">
+              <span class="oa-book__brand">{site.name}</span>
+              <span class="oa-book__label">{c('passbook')}</span>
+              <h3 class="oa-book__name">{a.name}</h3>
+              <span class="oa-book__for">{a.for}</span>
+              <span class="oa-book__tick" aria-hidden="true"></span>
+            </div>
+            <div class="oa-book__body">
+              <p class="oa-book__text">{a.text}</p>
+              <ul class="oa-book__points">{a.points.map((p) => <li>{p}</li>)}</ul>
+              {a.link && <a href={a.link} class="link-arrow oa-book__link">{c('rdLink')} <Icon name="arrow-right" size={16} /></a>}
+              <div class="oa-book__act">
+                <button type="button" class="oa-book__btn" aria-pressed="false" data-pick={a.value} data-chosen={c('chosen')} data-choose={c('choose')}>{c('choose')}</button>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- STEP 2: the form, with what happens next and the documents -->
+  <section class="section oa-apply" id="apply">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">{c('applyEyebrow')}</p>
+        <h2 class="h2">{c('applyTitle')} <em>{c('applyAccent')}</em></h2>
+      </div>
+      <div class="oa-apply__grid">
+        <div data-reveal="left"><EnquiryForm variant="account" title={c('formTitle')} subtitle={c('formSub')} submitLabel={c('formSubmit')} /></div>
+        <aside class="oa-side">
+          <div class="oa-next" data-reveal="right">
+            <p class="oa-side__title">{c('howTitle')}</p>
+            <ol>
+              {steps.map((s, i) => (
+                <li>
+                  <span class="oa-next__n">{i + 1}</span>
+                  <div><h3>{s.title}</h3><p>{s.text}</p></div>
+                </li>
+              ))}
+            </ol>
+          </div>
+          <div class="oa-docs" data-reveal="right" style="--d:120ms" data-docs>
+            <p class="oa-side__title">{c('docsTitle')}</p>
+            <p class="oa-docs__hint">{c('docsHint')}</p>
+            <ul>
+              {depositDocuments.map((d, i) => (
+                <li><label><input type="checkbox" data-doc={i} /><span class="oa-docs__box" aria-hidden="true"></span><span>{d}</span></label></li>
+              ))}
+            </ul>
+            <div class="oa-docs__meter" aria-hidden="true"><span data-docs-bar></span></div>
+            <p class="oa-docs__count" aria-live="polite" data-docs-count data-tpl={c('docsCount')} data-total={total} data-done={c('docsDone')}>{c('docsCount', { n: '0', total })}</p>
+          </div>
+          <a href={site.phoneHref} class="oa-call" data-reveal="right" style="--d:200ms">
+            <span><small>{c('talk')}</small><strong>{site.phone}</strong></span>
+            <Icon name="arrow-up-right" size={20} />
+          </a>
+          <a href={l('/branches/')} class="link-arrow oa-branch">{c('branches')} <Icon name="arrow-right" size={16} /></a>
+        </aside>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const select = document.querySelector<HTMLSelectElement>('#apply select[name="account_type"]');
+    const books = Array.from(document.querySelectorAll<HTMLElement>('[data-account]'));
+    const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-pick]'));
+    // The chosen passbook and the form's account type always agree.
+    const mark = (value: string) => {
+      books.forEach((b) => b.classList.toggle('is-chosen', b.dataset.account === value));
+      buttons.forEach((b) => {
+        const on = b.dataset.pick === value;
+        b.setAttribute('aria-pressed', String(on));
+        b.textContent = (on ? b.dataset.chosen : b.dataset.choose) ?? '';
+      });
+    };
+    buttons.forEach((b) =>
+      b.addEventListener('click', () => {
+        const value = b.dataset.pick ?? '';
+        if (select) select.value = value;
+        mark(value);
+        const apply = document.getElementById('apply');
+        apply?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+        setTimeout(() => document.querySelector<HTMLInputElement>('#apply input[name="first_name"]')?.focus({ preventScroll: true }), 650);
+      }),
+    );
+    select?.addEventListener('change', () => mark(select.value));
+    // ?type=savings|current|rd opens the page with that account chosen.
+    const pre = ({ savings: 'Savings Account', current: 'Current Account', rd: 'Recurring Deposit' } as Record<string, string>)[new URLSearchParams(location.search).get('type') ?? ''];
+    if (pre && select) select.value = pre;
+    if (select) mark(select.value);
+
+    // Documents checklist: ticks are kept on this device so they are still there on the branch visit.
+    const box = document.querySelector<HTMLElement>('[data-docs]');
+    if (!box) return;
+    const checks = Array.from(box.querySelectorAll<HTMLInputElement>('[data-doc]'));
+    const bar = box.querySelector<HTMLElement>('[data-docs-bar]');
+    const count = box.querySelector<HTMLElement>('[data-docs-count]');
+    const key = 'lm-account-docs';
+    let saved: number[] = [];
+    try { saved = JSON.parse(localStorage.getItem(key) ?? '[]'); } catch { /* ignore */ }
+    checks.forEach((c, i) => (c.checked = saved.includes(i)));
+    const update = () => {
+      const n = checks.filter((c) => c.checked).length;
+      const total = checks.length;
+      if (bar) bar.style.width = `${(n / total) * 100}%`;
+      if (count) count.textContent = n === total ? (count.dataset.done ?? '') : (count.dataset.tpl ?? '').replace('{n}', String(n)).replace('{total}', String(total));
+      box.classList.toggle('is-done', n === total);
+      try { localStorage.setItem(key, JSON.stringify(checks.flatMap((c, i) => (c.checked ? [i] : [])))); } catch { /* ignore */ }
+    };
+    checks.forEach((c) => c.addEventListener('change', update));
+    update();
+  });
+</script>
+
+<style>
+  /* ---------- Banner ---------- */
+  .oa-hero { position: relative; isolation: isolate; overflow: hidden; display: flex; min-height: clamp(520px, 70vh, 640px); color: #fff; background: var(--g-950); }
+  .oa-hero__img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 75% 40%; animation: oa-settle 14s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  @keyframes oa-settle { from { transform: scale(1.12); } }
+  .oa-hero::after {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(90deg, rgb(4 36 23 / 0.96) 0%, rgb(4 36 23 / 0.86) 36%, rgb(4 36 23 / 0.36) 60%, rgb(4 36 23 / 0.06) 84%, transparent 100%), linear-gradient(0deg, rgb(4 36 23 / 0.55), transparent 30%);
+  }
+  .oa-hero__inner { display: flex; flex-direction: column; padding-block: clamp(40px, 6vw, 72px) clamp(48px, 6vw, 80px); }
+  .oa-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.86rem; font-weight: 600; color: rgb(255 255 255 / 0.6); }
+  .oa-crumbs a { color: rgb(255 255 255 / 0.8); }
+  .oa-crumbs span { color: var(--gold); }
+  .oa-hero__copy { margin-block: auto; padding-top: clamp(24px, 4vw, 40px); max-width: 620px; min-width: 0; display: grid; gap: 20px; }
+  .oa-hero__eyebrow { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g-300); }
+  :global(html[lang='mr']) .oa-hero__eyebrow { letter-spacing: 0; text-transform: none; font-size: 0.95rem; }
+  .oa-hero__title { color: #fff; }
+  .oa-hero__title em { display: block; color: var(--gold); }
+  .oa-hero__lead { color: rgb(255 255 255 / 0.86); }
+  @media (max-width: 899px) {
+    .oa-hero { min-height: 0; }
+    .oa-hero__img { inset: 0 0 auto 0; height: min(62vw, 300px); }
+    .oa-hero::after { background: linear-gradient(180deg, rgb(4 36 23 / 0.35) 0, rgb(4 36 23 / 0.1) 80px, var(--g-950) min(62vw, 300px)); }
+    .oa-hero__copy { padding-top: calc(min(62vw, 300px) - 70px); }
+  }
+
+  /* ---------- Passbook covers ---------- */
+  .oa-pick { background: var(--bg); }
+  .oa-books { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(16px, 2vw, 24px); grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .oa-book {
+    --cover: var(--g-800); --cover-2: var(--g-950); --foil: var(--gold);
+    display: flex; flex-direction: column; overflow: hidden; border-radius: 14px; background: #fff;
+    box-shadow: 0 30px 50px -36px rgb(5 42 26 / 0.6); outline: 3px solid transparent; outline-offset: 3px;
+    transition: transform 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out), outline-color 0.3s;
+  }
+  .oa-book--maroon { --cover: #7a2a17; --cover-2: #4a170c; }
+  .oa-book--gold { --cover: #8a5a12; --cover-2: #573707; --foil: #ffe2a0; }
+  .oa-book:hover { transform: translateY(-6px); box-shadow: 0 40px 64px -36px rgb(5 42 26 / 0.7); }
+  .oa-book.is-chosen { outline-color: var(--o-500); }
+  /* Cloth-bound cover with a stitched border and gold-foil lettering */
+  .oa-book__cover {
+    position: relative; display: grid; gap: 6px; align-content: end; min-height: 210px; padding: 26px 26px 24px;
+    color: #fff; background:
+      repeating-linear-gradient(45deg, rgb(255 255 255 / 0.035) 0 2px, transparent 2px 6px),
+      linear-gradient(150deg, var(--cover), var(--cover-2));
+  }
+  .oa-book__cover::before { content: ''; position: absolute; inset: 10px; border: 1.5px dashed rgb(255 255 255 / 0.32); border-radius: 8px; pointer-events: none; }
+  .oa-book__cover::after { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 14px; background: linear-gradient(90deg, rgb(0 0 0 / 0.28), transparent); }
+  .oa-book__brand { position: absolute; top: 26px; left: 26px; right: 64px; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: var(--foil); opacity: 0.9; }
+  :global(html[lang='mr']) .oa-book__brand { letter-spacing: 0.04em; font-size: 0.86rem; }
+  .oa-book__label { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgb(255 255 255 / 0.7); }
+  :global(html[lang='mr']) .oa-book__label { letter-spacing: 0; text-transform: none; font-size: 0.9rem; }
+  .oa-book__name { font-size: clamp(1.4rem, 2.2vw, 1.7rem); line-height: 1.2; color: var(--foil); }
+  .oa-book__for { font-size: 0.9rem; font-weight: 600; color: rgb(255 255 255 / 0.85); }
+  .oa-book__tick {
+    position: absolute; top: 18px; right: 18px; width: 34px; height: 34px; border-radius: 50%; border: 2px solid rgb(255 255 255 / 0.5);
+    transition: background 0.3s, border-color 0.3s, transform 0.4s var(--ease-out);
+  }
+  .oa-book__tick::after { content: ''; position: absolute; left: 11px; top: 6px; width: 8px; height: 15px; border: solid transparent; border-width: 0 3px 3px 0; rotate: 45deg; transition: border-color 0.3s; }
+  .oa-book.is-chosen .oa-book__tick { background: var(--o-500); border-color: var(--o-500); transform: scale(1.08); }
+  .oa-book.is-chosen .oa-book__tick::after { border-color: #fff; }
+  .oa-book__body { flex: 1; display: flex; flex-direction: column; gap: 14px; padding: 22px 26px 26px; }
+  .oa-book__text { color: var(--ink-2); font-size: 0.97rem; }
+  .oa-book__points { list-style: none; margin: 0; padding: 0; border-top: 1px dashed var(--line); }
+  .oa-book__points li { position: relative; padding: 10px 0 10px 22px; border-bottom: 1px dashed var(--line); font-weight: 600; font-size: 0.93rem; color: var(--g-900); }
+  .oa-book__points li::before { content: ''; position: absolute; left: 2px; top: 17px; width: 9px; height: 9px; border-radius: 50%; background: var(--cover); }
+  .oa-book__act { margin-top: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; padding-top: 6px; }
+  .oa-book__btn {
+    min-height: 46px; padding: 0 20px; border-radius: 10px; border: 2px solid var(--cover); background: transparent;
+    font: inherit; font-weight: 700; font-size: 0.94rem; color: var(--cover); cursor: pointer; transition: background 0.25s, color 0.25s, border-color 0.25s;
+  }
+  .oa-book__btn:hover { background: var(--cover); color: #fff; }
+  .oa-book__btn[aria-pressed='true'] { background: var(--o-500); border-color: var(--o-500); color: #fff; }
+  .oa-book__link { align-self: flex-start; font-size: 0.9rem; }
+  @media (max-width: 999px) { .oa-books { grid-template-columns: 1fr; max-width: 560px; } .oa-book__cover { min-height: 170px; } }
+
+  /* ---------- Apply ---------- */
+  .oa-apply { background: var(--surface); scroll-margin-top: calc(var(--header-h) + 8px); }
+  .oa-apply__grid { display: grid; gap: clamp(28px, 4vw, 52px); align-items: start; }
+  @media (min-width: 1020px) { .oa-apply__grid { grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); } .oa-side { position: sticky; top: calc(var(--header-h) + 20px); } }
+  .oa-side { display: grid; gap: 18px; }
+  .oa-side__title { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--g-900); }
+  :global(html[lang='mr']) .oa-side__title { letter-spacing: 0; text-transform: none; font-size: 1rem; }
+  .oa-next { padding: 22px 24px; border-radius: var(--r-lg); background: var(--bg); border: 1px solid var(--line-2); }
+  .oa-next ol { list-style: none; margin: 14px 0 0; padding: 0; position: relative; display: grid; gap: 16px; }
+  .oa-next ol::before { content: ''; position: absolute; left: 14px; top: 8px; bottom: 8px; width: 2px; background: repeating-linear-gradient(180deg, var(--o-300) 0 6px, transparent 6px 11px); }
+  .oa-next li { position: relative; display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 12px; }
+  .oa-next__n { position: relative; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--o-500); color: #fff; font-weight: 800; font-size: 0.9rem; box-shadow: 0 0 0 4px var(--bg); }
+  .oa-next h3 { font-size: 0.98rem; color: var(--g-900); }
+  .oa-next p { margin-top: 2px; font-size: 0.88rem; color: var(--muted); }
+
+  /* Documents checklist with a progress bar */
+  .oa-docs { padding: 22px 24px; border-radius: var(--r-lg); background: #fff; border-top: 4px solid var(--gold); box-shadow: 0 26px 46px -34px rgb(5 42 26 / 0.5); }
+  .oa-docs__hint { margin-top: 4px; font-size: 0.86rem; color: var(--muted); }
+  .oa-docs ul { list-style: none; margin: 12px 0 0; padding: 0; }
+  .oa-docs label { position: relative; display: flex; align-items: flex-start; gap: 12px; padding: 9px 0; border-bottom: 1px dashed var(--line); cursor: pointer; font-weight: 600; font-size: 0.93rem; color: var(--ink-2); }
+  .oa-docs input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .oa-docs__box { flex: none; position: relative; width: 20px; height: 20px; margin-top: 1px; border-radius: 5px; border: 2px solid var(--line); background: #fff; transition: background 0.2s, border-color 0.2s; }
+  .oa-docs__box::after { content: ''; position: absolute; left: 5px; top: 1px; width: 5px; height: 10px; border: solid transparent; border-width: 0 2.5px 2.5px 0; rotate: 45deg; }
+  .oa-docs input:checked + .oa-docs__box { background: var(--g-700); border-color: var(--g-700); }
+  .oa-docs input:checked + .oa-docs__box::after { border-color: #fff; }
+  .oa-docs input:checked ~ span:last-child { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--g-300); }
+  .oa-docs input:focus-visible + .oa-docs__box { outline: 2px solid var(--o-500); outline-offset: 2px; }
+  .oa-docs__meter { margin-top: 14px; height: 6px; border-radius: 6px; background: var(--line-2); overflow: hidden; }
+  .oa-docs__meter span { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--o-500), var(--gold)); transition: width 0.5s var(--ease-out); }
+  .oa-docs.is-done .oa-docs__meter span { background: var(--g-600); }
+  .oa-docs__count { margin-top: 8px; font-size: 0.84rem; font-weight: 700; color: var(--g-800); }
+  .oa-call { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 18px 20px; border-radius: var(--r-lg); background: var(--o-strong); color: #fff; transition: transform 0.4s var(--ease-out), box-shadow 0.4s; }
+  .oa-call small { display: block; font-weight: 600; opacity: 0.85; }
+  .oa-call strong { font-size: 1.2rem; }
+  .oa-call:hover { transform: translateY(-3px); box-shadow: var(--shadow-o); }
+  .oa-branch { justify-self: start; }
+
+  @media (prefers-reduced-motion: reduce) { .oa-hero__img { animation: none; } }
+</style>

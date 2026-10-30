@@ -34,10 +34,21 @@ const c = pageCopy(
     getApp: 'Get it on',
     store: 'Google Play',
     enquire: 'Make an enquiry',
-    anywhereEyebrow: 'Bank from anywhere',
-    anywhereTitle: 'Your account,',
-    anywhereAccent: 'on your phone',
-    anywhereLead: 'Check your balance, pay and send money without visiting a branch.',
+    jump: 'Jump to a service',
+    appEyebrow: 'Mobile banking',
+    appTitle: 'Your account,',
+    appAccent: 'on your phone',
+    secure: 'Works only on your registered phone and SIM',
+    canTitle: 'What you can do without visiting a branch',
+    f1: 'Balance and statements',
+    f1t: 'Check your balance and view statements whenever you like.',
+    f2: 'Send money in seconds',
+    f2t: 'IMPS and UPI to any bank account, no long account numbers needed.',
+    f3: 'Pay bills from home',
+    f3t: 'Electricity, mobile and other utility bills, without standing in a queue.',
+    waysEyebrow: 'More ways to bank',
+    waysTitle: 'Pick the way',
+    waysAccent: 'that suits you',
     branchEyebrow: 'At your branch',
     branchTitle: 'Help you can',
     branchAccent: 'walk in for',
@@ -69,10 +80,21 @@ const c = pageCopy(
     getApp: 'डाउनलोड करा',
     store: 'गुगल प्ले',
     enquire: 'चौकशी करा',
-    anywhereEyebrow: 'कुठूनही बँकिंग',
-    anywhereTitle: 'तुमचे खाते,',
-    anywhereAccent: 'तुमच्या फोनवर',
-    anywhereLead: 'शाखेत न जाता शिल्लक पाहा, बिले भरा आणि पैसे पाठवा.',
+    jump: 'सेवेवर थेट जा',
+    appEyebrow: 'मोबाइल बँकिंग',
+    appTitle: 'तुमचे खाते,',
+    appAccent: 'तुमच्या फोनवर',
+    secure: 'फक्त तुमच्या नोंदणीकृत मोबाइल व सिमवर चालते',
+    canTitle: 'शाखेत न जाता तुम्ही काय करू शकता',
+    f1: 'शिल्लक व स्टेटमेंट',
+    f1t: 'हवे तेव्हा शिल्लक पाहा आणि स्टेटमेंट तपासा.',
+    f2: 'काही सेकंदांत पैसे पाठवा',
+    f2t: 'आयएमपीएस व यूपीआयने कोणत्याही बँक खात्यात, लांब खाते क्रमांकाशिवाय.',
+    f3: 'घरबसल्या बिल भरा',
+    f3t: 'वीज, मोबाइल व इतर बिले, रांगेत न थांबता.',
+    waysEyebrow: 'बँकिंगचे आणखी मार्ग',
+    waysTitle: 'तुमच्या सोयीचा',
+    waysAccent: 'मार्ग निवडा',
     branchEyebrow: 'तुमच्या शाखेत',
     branchTitle: 'शाखेत मिळणाऱ्या',
     branchAccent: 'सुविधा',
@@ -111,15 +133,16 @@ const tone: Record<Key, string> = {
   mobile: 'var(--g-700)',
   net: 'var(--o-strong-hover)',
   upi: '#6b4a07',
-  neft: 'var(--g-900)',
+  neft: 'var(--g-700)',
   sms: '#8f3608',
   locker: 'var(--g-800)',
   bills: 'var(--o-600)',
 };
 // A new photo saved as /images/services/photo-<key>.webp replaces the old one automatically.
+const hasFile = (p: string) => existsSync(join(process.cwd(), 'public', p));
 const photoFor = (key: Key | undefined, old?: string) => {
   const own = key && `/images/services/photo-${key}.webp`;
-  if (own && existsSync(join(process.cwd(), 'public', own))) return own;
+  if (own && hasFile(own)) return own;
   if (key === 'mobile') return '/images/home/mobile-banking.webp';
   return old ?? '/images/home/intro.webp';
 };
@@ -127,13 +150,13 @@ const all = services.map((s, i) => {
   const key = keyOf[english[i]?.title ?? ''];
   return { ...s, key, id: key ?? `service-${i + 1}`, photo: photoFor(key, s.image), tone: key ? tone[key] : 'var(--g-800)' };
 });
-const digital = all.filter((s) => s.key && s.key !== 'locker' && s.key !== 'bills');
-const atBranch = all.filter((s) => !digital.includes(s));
-// The mobile app leads the grid.
-digital.sort((a, b) => (a.key === 'mobile' ? -1 : b.key === 'mobile' ? 1 : 0));
+const mobile = all.find((s) => s.key === 'mobile');
+const ways = all.filter((s) => s.key && s !== mobile && s.key !== 'locker' && s.key !== 'bills');
+const atBranch = all.filter((s) => s !== mobile && !ways.includes(s));
+const opensApp = (key?: Key) => key === 'net' || key === 'upi';
 
-const bannerOwn = '/images/services/banner.webp';
-const banner = existsSync(join(process.cwd(), 'public', bannerOwn)) ? bannerOwn : '/images/hero/hero-2.webp';
+const banner = hasFile('/images/services/banner.webp') ? '/images/services/banner.webp' : '/images/hero/hero-2.webp';
+const features = [1, 2, 3].map((n) => ({ title: c(`f${n}` as 'f1'), text: c(`f${n}t` as 'f1t') }));
 const steps = [1, 2, 3].map((n) => ({ title: c(`s${n}` as 's1'), text: c(`s${n}t` as 's1t') }));
 ---
 
@@ -151,47 +174,92 @@ const steps = [1, 2, 3].map((n) => ({ title: c(`s${n}` as 's1'), text: c(`s${n}t
         <p class="os-hero__eyebrow">{c('eyebrow')}</p>
         <h1 class="h1 os-hero__title" data-reveal>{c('title')} <em>{c('accent')}</em></h1>
         <p class="lead os-hero__lead" data-reveal style="--d:120ms">{c('lead')}</p>
-        <ul class="os-chips" data-stagger>
-          {all.map((s) => <li><a href={`#${s.id}`}>{s.title}</a></li>)}
-        </ul>
+        <nav class="os-index" aria-label={c('jump')}>
+          <ol data-stagger>
+            {all.map((s, i) => (
+              <li>
+                <a href={`#${s.id}`}>
+                  <span class="os-index__n">{String(i + 1).padStart(2, '0')}</span>
+                  <span class="os-index__t">{s.title}</span>
+                  <Icon name="arrow-down" size={14} />
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
         <div class="btn-row" data-reveal style="--d:280ms">
           <a href={site.appUrl} target="_blank" rel="noopener" class="os-play">
             <svg width="22" height="24" viewBox="0 0 24 26" aria-hidden="true"><path d="M2 1.2 14 13 2 24.8c-.6-.3-1-1-1-1.8V3c0-.8.4-1.5 1-1.8Z" fill="#34A853" /><path d="m18.2 8.8-4.2 4.2 4.2 4.2 4.6-2.6c1.6-.9 1.6-2.3 0-3.2l-4.6-2.6Z" fill="#FBBC04" /><path d="M2 1.2c.4-.2 1-.2 1.6.1l14.6 7.5L14 13 2 1.2Z" fill="#4285F4" /><path d="M14 13l4.2 4.2-14.6 7.5c-.6.3-1.2.3-1.6.1L14 13Z" fill="#EA4335" /></svg>
             <span><small>{c('getApp')}</small>{c('store')}</span>
           </a>
-          <a href="#enquiry" class="btn btn--outline-light btn--lg">{c('enquire')}</a>
+          <a href="#enquiry" class="btn btn--primary btn--lg os-enq">{c('enquire')} <Icon name="arrow-right" size={18} /></a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- DIGITAL SERVICES: a bento of photo tiles -->
-  <section class="section os-digital">
-    <div class="container">
-      <div class="section-head" data-reveal>
-        <p class="eyebrow">{c('anywhereEyebrow')}</p>
-        <h2 class="h2">{c('anywhereTitle')} <em>{c('anywhereAccent')}</em></h2>
-        <p class="lead">{c('anywhereLead')}</p>
+  <!-- MOBILE BANKING: photo with the safety note, and what can be done without a branch visit -->
+  {mobile && (
+    <section class="section os-app" id={mobile.id}>
+      <div class="container os-app__grid">
+        <figure class="os-app__media" data-reveal="left">
+          <img src={mobile.photo} alt="" width="1200" height="1500" loading="lazy" />
+          <figcaption class="os-sim"><span class="os-sim__chip" aria-hidden="true"></span>{c('secure')}</figcaption>
+        </figure>
+        <div class="os-app__copy">
+          <div class="stack" style="--stack:1rem" data-reveal>
+            <p class="eyebrow">{c('appEyebrow')}</p>
+            <h2 class="h2">{c('appTitle')} <em>{c('appAccent')}</em></h2>
+            <p class="lead">{mobile.text}</p>
+          </div>
+          <p class="os-app__can" data-reveal>{c('canTitle')}</p>
+          <ol class="os-app__list" data-stagger>
+            {features.map((f, i) => (
+              <li>
+                <span class="os-app__n">{String(i + 1).padStart(2, '0')}</span>
+                <div><h3>{f.title}</h3><p>{f.text}</p></div>
+              </li>
+            ))}
+          </ol>
+          <div class="btn-row" data-reveal>
+            <a href={site.appUrl} target="_blank" rel="noopener" class="os-play">
+              <svg width="22" height="24" viewBox="0 0 24 26" aria-hidden="true"><path d="M2 1.2 14 13 2 24.8c-.6-.3-1-1-1-1.8V3c0-.8.4-1.5 1-1.8Z" fill="#34A853" /><path d="m18.2 8.8-4.2 4.2 4.2 4.2 4.6-2.6c1.6-.9 1.6-2.3 0-3.2l-4.6-2.6Z" fill="#FBBC04" /><path d="M2 1.2c.4-.2 1-.2 1.6.1l14.6 7.5L14 13 2 1.2Z" fill="#4285F4" /><path d="M14 13l4.2 4.2-14.6 7.5c-.6.3-1.2.3-1.6.1L14 13Z" fill="#EA4335" /></svg>
+              <span><small>{c('getApp')}</small>{c('store')}</span>
+            </a>
+          </div>
+        </div>
       </div>
-      <ul class="os-bento" data-stagger>
-        {digital.map((s, i) => (
-          <li class:list={['os-tile', `os-tile--${i}`]} id={s.id} style={`--tone:${s.tone}`}>
-            <img src={s.photo} alt="" class="os-tile__img" width="1200" height="800" loading="lazy" />
-            <span class="os-tile__n">{String(i + 1).padStart(2, '0')}</span>
-            <div class="os-tile__body">
-              <h3 class="os-tile__title">{s.title}</h3>
-              <p class="os-tile__text">{s.text}</p>
-              {(s.key === 'mobile' || s.key === 'net' || s.key === 'upi') ? (
-                <a href={site.appUrl} target="_blank" rel="noopener" class="os-tile__link">{c('appLink')} <Icon name="arrow-up-right" size={16} /></a>
-              ) : (
-                <a href={l('/branches/')} class="os-tile__link">{c('branchLink')} <Icon name="arrow-right" size={16} /></a>
-              )}
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
+    </section>
+  )}
+
+  <!-- MORE WAYS TO BANK: four equal photo tiles (a swipe row on phones) -->
+  {ways.length > 0 && (
+    <section class="section os-ways">
+      <div class="container">
+        <div class="section-head" data-reveal>
+          <p class="eyebrow">{c('waysEyebrow')}</p>
+          <h2 class="h2">{c('waysTitle')} <em>{c('waysAccent')}</em></h2>
+        </div>
+        <ul class="os-tiles" data-stagger>
+          {ways.map((s, i) => (
+            <li class="os-tile" id={s.id}>
+              <div class="os-tile__media"><img src={s.photo} alt="" width="900" height="1125" loading="lazy" /></div>
+              <div class="os-tile__body">
+                <span class="os-tile__n">{String(i + 1).padStart(2, '0')}</span>
+                <h3 class="os-tile__title">{s.title}</h3>
+                <p class="os-tile__text">{s.text}</p>
+                {opensApp(s.key) ? (
+                  <a href={site.appUrl} target="_blank" rel="noopener" class="link-arrow os-tile__link">{c('appLink')} <Icon name="arrow-up-right" size={16} /></a>
+                ) : (
+                  <a href={l('/branches/')} class="link-arrow os-tile__link">{c('branchLink')} <Icon name="arrow-right" size={16} /></a>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
 
   <!-- AT THE BRANCH -->
   {atBranch.length > 0 && (
@@ -234,7 +302,10 @@ const steps = [1, 2, 3].map((n) => ({ title: c(`s${n}` as 's1'), text: c(`s${n}t
           </li>
         ))}
       </ol>
-      <p class="os-safety" data-reveal><Icon name="shield-check" size={20} /> {c('safety')}</p>
+      <p class="os-safety" data-reveal>
+        <span class="os-safety__pin" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span>{c('safety')}</span>
+      </p>
     </div>
   </section>
 
@@ -263,25 +334,35 @@ const steps = [1, 2, 3].map((n) => ({ title: c(`s${n}` as 's1'), text: c(`s${n}t
   @keyframes os-settle { from { transform: scale(1.12); } }
   .os-hero::after {
     content: ''; position: absolute; inset: 0; z-index: -1;
-    background: linear-gradient(90deg, rgb(4 36 23 / 0.96) 0%, rgb(4 36 23 / 0.86) 40%, rgb(4 36 23 / 0.4) 72%, rgb(4 36 23 / 0.15) 100%), linear-gradient(0deg, rgb(4 36 23 / 0.6), transparent 35%);
+    background: linear-gradient(90deg, rgb(4 36 23 / 0.96) 0%, rgb(4 36 23 / 0.86) 34%, rgb(4 36 23 / 0.36) 56%, rgb(4 36 23 / 0.06) 80%, transparent 100%), linear-gradient(0deg, rgb(4 36 23 / 0.55), transparent 30%);
   }
   .os-hero__inner { display: flex; flex-direction: column; padding-block: clamp(40px, 6vw, 72px) clamp(48px, 6vw, 80px); }
   .os-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.86rem; font-weight: 600; color: rgb(255 255 255 / 0.6); }
   .os-crumbs a { color: rgb(255 255 255 / 0.8); }
   .os-crumbs span { color: var(--gold); }
-  .os-hero__copy { margin-block: auto; padding-top: clamp(24px, 4vw, 40px); max-width: 620px; display: grid; gap: 18px; }
+  .os-hero__copy { margin-block: auto; padding-top: clamp(24px, 4vw, 40px); max-width: 620px; min-width: 0; display: grid; gap: 18px; }
   .os-hero__eyebrow { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g-300); }
   :global(html[lang='mr']) .os-hero__eyebrow { letter-spacing: 0; text-transform: none; font-size: 0.95rem; }
   .os-hero__title { color: #fff; }
   .os-hero__title em { display: block; color: var(--gold); }
   .os-hero__lead { color: rgb(255 255 255 / 0.86); }
-  .os-chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
-  .os-chips a {
-    display: inline-block; padding: 7px 13px; border-radius: 999px; font-size: 0.84rem; font-weight: 600; color: #fff;
-    background: rgb(255 255 255 / 0.08); border: 1px solid rgb(255 255 255 / 0.22); backdrop-filter: blur(6px);
-    transition: background 0.25s, color 0.25s, border-color 0.25s;
+  /* Service index: a ruled, numbered list like a passbook's contents page */
+  .os-index ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 28px; max-width: 560px; }
+  .os-index a {
+    position: relative; display: flex; align-items: baseline; gap: 12px; padding: 9px 0;
+    border-bottom: 1px solid rgb(255 255 255 / 0.16); color: #fff; font-size: 0.92rem; font-weight: 600; line-height: 1.35;
+    transition: color 0.25s;
   }
-  .os-chips a:hover { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+  .os-index li:nth-child(-n + 2) a { border-top: 1px solid rgb(255 255 255 / 0.16); }
+  .os-index a::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 0.45s var(--ease-out); }
+  .os-index__n { flex: none; width: 2.1em; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.04em; font-variant-numeric: tabular-nums; color: var(--gold); }
+  .os-index__t { flex: 1; min-width: 0; }
+  .os-index a :global(.icon) { flex: none; align-self: center; color: var(--gold); opacity: 0; translate: 0 -6px; transition: opacity 0.25s, translate 0.35s var(--ease-out); }
+  .os-index a:hover { color: var(--gold); }
+  .os-index a:hover::after { transform: scaleX(1); }
+  .os-index a:hover :global(.icon) { opacity: 1; translate: 0 0; }
+  .os-enq :global(.icon) { transition: translate 0.35s var(--ease-out); }
+  .os-enq:hover :global(.icon) { translate: 4px 0; }
   .os-play {
     display: inline-flex; align-items: center; gap: 12px; min-height: 58px; padding: 8px 22px 8px 16px; border-radius: 12px;
     background: #111; color: #fff; border: 1px solid #444; transition: background 0.25s, transform 0.35s var(--ease-out);
@@ -296,45 +377,86 @@ const steps = [1, 2, 3].map((n) => ({ title: c(`s${n}` as 's1'), text: c(`s${n}t
     .os-hero::after { background: linear-gradient(180deg, rgb(4 36 23 / 0.35) 0, rgb(4 36 23 / 0.1) 80px, var(--g-950) min(66vw, 320px)); }
     .os-hero__copy { padding-top: calc(min(66vw, 320px) - 70px); }
   }
+  @media (max-width: 599px) {
+    .os-index ol { column-gap: 16px; }
+    .os-index a { gap: 8px; padding: 8px 0; font-size: 0.84rem; }
+    .os-index a :global(.icon) { display: none; }
+  }
 
-  /* ---------- Digital services: bento of photo tiles ---------- */
-  .os-digital { background: var(--bg); }
-  .os-bento { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(12px, 1.6vw, 18px); grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: clamp(230px, 22vw, 290px); }
-  .os-tile--0 { grid-column: span 2; grid-row: span 2; }
-  .os-tile--1 { grid-column: span 2; }
+  /* ---------- Mobile banking ---------- */
+  .os-app { position: relative; isolation: isolate; overflow: clip; background: var(--bg); scroll-margin-top: calc(var(--header-h) - 24px); }
+  .os-app::before {
+    content: ''; position: absolute; inset: 0 0 auto auto; z-index: -1; width: min(60%, 760px); height: 100%; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60' fill='none' stroke='%231c7a4a' stroke-width='.8' stroke-opacity='.22'%3E%3Cpath d='M0 30C15 12 45 12 60 30S105 48 120 30'/%3E%3Cpath d='M0 30C15 48 45 48 60 30S105 12 120 30'/%3E%3Cpath d='M0 20C15 2 45 2 60 20S105 38 120 20'/%3E%3Cpath d='M0 40C15 58 45 58 60 40S105 22 120 40'/%3E%3C/svg%3E");
+    background-size: 120px 60px;
+    mask-image: radial-gradient(80% 70% at 100% 30%, #000, transparent 75%);
+  }
+  .os-app__grid { display: grid; gap: clamp(32px, 5vw, 72px); align-items: center; }
+  @media (min-width: 900px) { .os-app__grid { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr); } }
+  .os-app__media { position: relative; margin: 0; border-radius: var(--r-xl); overflow: hidden; aspect-ratio: 4 / 5; background: var(--g-800); box-shadow: 0 40px 70px -40px rgb(5 42 26 / 0.75); }
+  .os-app__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease-out); }
+  .os-app__media:hover img { transform: scale(1.04); }
+  @media (max-width: 599px) { .os-app__media { aspect-ratio: 1; } .os-app__media img { object-position: 50% 25%; } }
+  /* A white card cut like a SIM, with a drawn contact chip */
+  .os-sim {
+    position: absolute; left: 18px; bottom: 18px; max-width: calc(100% - 36px); display: flex; align-items: center; gap: 14px;
+    padding: 12px 26px 12px 12px; font-size: 0.9rem; font-weight: 700; line-height: 1.35; color: var(--g-900); background: #fff;
+    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%);
+    border-radius: 6px; filter: drop-shadow(0 14px 24px rgb(5 42 26 / 0.35));
+  }
+  .os-sim__chip {
+    flex: none; width: 38px; height: 30px; border-radius: 6px; border: 1px solid #a27621;
+    background:
+      linear-gradient(90deg, transparent calc(50% - 0.5px), #a27621 0 calc(50% + 0.5px), transparent 0) center / 100% 54% no-repeat,
+      linear-gradient(180deg, transparent 32%, #a27621 0 calc(32% + 1px), transparent 0 67%, #a27621 0 calc(67% + 1px), transparent 0),
+      linear-gradient(90deg, transparent 30%, #a27621 0 calc(30% + 1px), transparent 0 70%, #a27621 0 calc(70% + 1px), transparent 0) center / 100% 34% no-repeat,
+      linear-gradient(135deg, #f8dc8c, #d9a73e 55%, #c08a27);
+  }
+  .os-app__copy { display: grid; gap: clamp(18px, 2.4vw, 26px); justify-items: start; }
+  .os-app__can { font-weight: 700; color: var(--g-900); font-size: 1.02rem; }
+  .os-app__list { list-style: none; margin: 0; padding: 0; display: grid; width: 100%; border-top: 1px solid var(--line); }
+  .os-app__list li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 18px; align-items: start; padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .os-app__n { min-width: 2.4ch; font-size: 1.9rem; font-weight: 800; line-height: 1; letter-spacing: -0.04em; color: transparent; -webkit-text-stroke: 1.3px var(--o-500); transition: color 0.3s; }
+  .os-app__list li:hover .os-app__n { color: var(--o-500); }
+  .os-app__list h3 { font-size: 1.06rem; color: var(--g-900); }
+  .os-app__list p { margin-top: 3px; color: var(--muted); font-size: 0.94rem; }
+
+  /* ---------- More ways to bank: equal photo tiles on deep green ---------- */
+  .os-ways { background: radial-gradient(70% 60% at 100% 0%, rgb(243 179 61 / 0.12), transparent 60%), var(--g-950); }
+  .os-ways .h2 { color: #fff; }
+  .os-ways .h2 em { color: var(--gold); }
+  .os-ways .eyebrow { color: var(--g-300); }
+  .os-tiles { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(12px, 1.6vw, 18px); grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  /* Photo in its own colours on top, a plain cream panel below: no tint over the picture */
   .os-tile {
-    position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end;
-    padding: clamp(16px, 2vw, 24px); border-radius: var(--r-lg); color: #fff; background: var(--tone);
+    position: relative; overflow: hidden; display: flex; flex-direction: column; border-radius: var(--r-lg); background: var(--bg);
     scroll-margin-top: calc(var(--header-h) + 24px);
-    box-shadow: 0 22px 40px -28px rgb(5 42 26 / 0.7);
+    box-shadow: 0 30px 50px -34px rgb(0 0 0 / 0.9);
     transition: transform 0.5s var(--ease-out), box-shadow 0.5s var(--ease-out);
   }
-  .os-tile__img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; transition: transform 1.1s var(--ease-out); }
-  .os-tile::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, transparent 18%, color-mix(in srgb, var(--tone) 70%, transparent) 52%, var(--tone) 86%); }
-  .os-tile__n { position: absolute; top: 14px; right: 16px; font-size: 2.2rem; font-weight: 800; line-height: 1; letter-spacing: -0.04em; color: transparent; -webkit-text-stroke: 1.4px rgb(255 255 255 / 0.85); }
-  .os-tile__body { display: grid; gap: 8px; justify-items: start; }
-  .os-tile__title { color: #fff; font-size: 1.25rem; line-height: 1.25; }
-  .os-tile--0 .os-tile__title { font-size: clamp(1.5rem, 2.6vw, 2rem); }
-  .os-tile__text { font-size: 0.9rem; line-height: 1.55; color: rgb(255 255 255 / 0.9); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-  .os-tile--0 .os-tile__text { font-size: 1rem; -webkit-line-clamp: 4; max-width: 520px; }
-  .os-tile__link {
-    margin-top: 4px; display: inline-flex; align-items: center; gap: 6px; padding: 8px 13px; border-radius: 9px;
-    background: rgb(255 255 255 / 0.14); border: 1px solid rgb(255 255 255 / 0.38); color: #fff; font-weight: 700; font-size: 0.84rem;
-    transition: background 0.25s, color 0.25s;
-  }
-  .os-tile__link:hover { background: #fff; color: var(--tone); }
-  .os-tile:hover { transform: translateY(-6px); box-shadow: 0 34px 56px -30px rgb(5 42 26 / 0.8); }
-  .os-tile:hover .os-tile__img { transform: scale(1.07); }
-  .os-tile:target { box-shadow: 0 0 0 4px var(--gold), 0 34px 56px -30px rgb(5 42 26 / 0.8); }
-  @media (max-width: 899px) {
-    .os-bento { grid-template-columns: 1fr 1fr; grid-auto-rows: 250px; }
-    .os-tile--0 { grid-column: span 2; grid-row: span 1; }
-    .os-tile--1 { grid-column: span 2; }
-  }
-  @media (max-width: 559px) {
-    .os-bento { grid-template-columns: 1fr; grid-auto-rows: 240px; }
-    .os-tile--0, .os-tile--1 { grid-column: auto; }
-    .os-tile__text { -webkit-line-clamp: 2; }
+  .os-tile::after { content: ''; position: absolute; inset: auto 0 0 0; height: 4px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 0.5s var(--ease-out); }
+  .os-tile__media { aspect-ratio: 5 / 4; overflow: hidden; background: var(--g-800); }
+  .os-tile__media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; transition: transform 1.1s var(--ease-out); }
+  .os-tile__body { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: clamp(16px, 1.8vw, 22px); }
+  /* "01 ———" echoes the numbered index in the banner */
+  .os-tile__n { display: flex; align-items: center; gap: 10px; width: 100%; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em; color: var(--o-600); }
+  .os-tile__n::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+  .os-tile__title { font-size: 1.18rem; line-height: 1.25; color: var(--g-900); }
+  .os-tile__text { font-size: 0.9rem; line-height: 1.6; color: var(--muted); }
+  .os-tile__link { margin-top: auto; padding-top: 6px; }
+  .os-tile:hover { transform: translateY(-6px); box-shadow: 0 40px 64px -34px rgb(0 0 0 / 0.95); }
+  .os-tile:hover .os-tile__media img { transform: scale(1.06); }
+  .os-tile:hover::after { transform: scaleX(1); }
+  .os-tile:target { box-shadow: 0 0 0 4px var(--gold), 0 40px 64px -34px rgb(0 0 0 / 0.95); }
+  @media (max-width: 1023px) { .os-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  /* Phones: one row to swipe through, with the next card peeking in */
+  @media (max-width: 599px) {
+    .os-tiles {
+      display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+      margin-inline: calc(var(--gutter) * -1); padding: 4px var(--gutter) 18px; scroll-padding-inline: var(--gutter);
+    }
+    .os-tiles::-webkit-scrollbar { display: none; }
+    .os-tile { flex: 0 0 82%; scroll-snap-align: start; }
   }
 
   /* ---------- At the branch ---------- */
@@ -345,7 +467,7 @@ const steps = [1, 2, 3].map((n) => ({ title: c(`s${n}` as 's1'), text: c(`s${n}t
     background: var(--bg); border: 1px solid var(--line-2); scroll-margin-top: calc(var(--header-h) + 24px);
     transition: transform 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out);
   }
-  .os-row__media { position: relative; overflow: hidden; min-height: 200px; background: var(--tone); }
+  .os-row__media { position: relative; overflow: hidden; min-height: 220px; background: var(--tone); }
   .os-row__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease-out); }
   .os-row__media::after { content: ''; position: absolute; inset: auto 0 0 0; height: 5px; background: var(--tone); }
   .os-row__body { display: grid; gap: 10px; align-content: center; justify-items: start; padding: clamp(18px, 2.4vw, 28px); }
@@ -354,13 +476,13 @@ const steps = [1, 2, 3].map((n) => ({ title: c(`s${n}` as 's1'), text: c(`s${n}t
   .os-row:hover { transform: translateY(-4px); box-shadow: 0 26px 44px -30px rgb(120 60 10 / 0.5); }
   .os-row:hover .os-row__media img { transform: scale(1.06); }
   .os-row:target { box-shadow: 0 0 0 4px var(--gold); }
-  @media (max-width: 559px) { .os-row { grid-template-columns: 1fr; } .os-row__media { min-height: 180px; } }
+  @media (max-width: 559px) { .os-row { grid-template-columns: 1fr; } .os-row__media { min-height: 190px; } }
 
   /* ---------- Steps ---------- */
   .os-steps-sec { background: linear-gradient(180deg, #fff8f0, #fdeedd); }
   .os-steps { position: relative; list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(16px, 2vw, 24px); grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .os-steps__line { position: absolute; left: 16%; right: 16%; top: 28px; height: 2px; background: repeating-linear-gradient(90deg, var(--o-300) 0 8px, transparent 8px 14px); }
-  .os-steps li { position: relative; display: grid; justify-items: center; gap: 8px; text-align: center; padding: 0 clamp(4px, 1vw, 12px); }
+  .os-steps li { position: relative; display: grid; justify-items: center; align-content: start; gap: 8px; text-align: center; padding: 0 clamp(4px, 1vw, 12px); }
   .os-steps__n {
     display: grid; place-items: center; width: 58px; height: 58px; border-radius: 50%; font-size: 1.4rem; font-weight: 800;
     color: #fff; background: linear-gradient(150deg, var(--o-500), var(--o-strong-hover)); box-shadow: 0 0 0 7px #fff8f0, 0 14px 26px -10px rgb(120 45 5 / 0.6);
@@ -371,7 +493,11 @@ const steps = [1, 2, 3].map((n) => ({ title: c(`s${n}` as 's1'), text: c(`s${n}t
     margin: clamp(26px, 3vw, 40px) auto 0; width: fit-content; max-width: 100%; display: flex; align-items: center; gap: 10px;
     padding: 12px 18px; border-radius: 12px; background: var(--g-800); color: #fff; font-weight: 600; font-size: 0.92rem;
   }
-  .os-safety :global(.icon) { flex: none; color: var(--gold); }
+  /* Four masked PIN boxes */
+  .os-safety__pin { flex: none; display: flex; gap: 4px; }
+  .os-safety__pin i { display: grid; place-items: center; width: 18px; height: 22px; border-radius: 4px; border: 1px solid rgb(255 255 255 / 0.4); }
+  .os-safety__pin i::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+  @media (max-width: 599px) { .os-safety { flex-direction: column; align-items: flex-start; gap: 12px; padding: 16px 18px; } }
   @media (max-width: 699px) {
     .os-steps { grid-template-columns: 1fr; gap: 20px; }
     .os-steps__line { left: 28px; right: auto; top: 30px; bottom: 30px; width: 2px; height: auto; background: repeating-linear-gradient(180deg, var(--o-300) 0 8px, transparent 8px 14px); }

@@ -1,0 +1,467 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import EnquiryForm from '../../components/EnquiryForm.astro';
+import { siteData } from '../../data/site';
+import { branchesData } from '../../data/branches';
+import { getLang, langPaths, localePath } from '../../i18n';
+import { pageCopy, useT } from '../../i18n/ui';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+
+const lang = getLang(Astro);
+const t = useT(lang);
+const l = (p: string) => localePath(p, lang);
+const { site } = siteData(lang);
+
+const c = pageCopy(
+  lang,
+  'contact-us',
+  {
+    metaTitle: 'Contact Us',
+    metaDescription: 'Contact Lokmangal Multistate Co-operative Society Ltd.: head office at Shelgi, Solapur. Call {phone} or email {email}.',
+    eyebrow: 'Contact us',
+    title: 'We would love to',
+    accent: 'hear from you',
+    lead: 'Questions about deposits, loans or your account? Call us, write to us, or visit the head office. Our team is here to help.',
+    callCta: 'Call {phone}',
+    writeCta: 'Send a message',
+    reachEyebrow: 'Reach us',
+    reachTitle: 'Three quick ways',
+    reachAccent: 'to get in touch',
+    callTitle: 'Call us',
+    callNote: 'Head office',
+    branchPhones: 'Your branch',
+    branchPhonesLink: 'Branch phone numbers',
+    emailGeneral: 'General enquiries',
+    emailTitle: 'Email us',
+    emailNote: 'Careers',
+    bankTitle: 'Bank details',
+    ifsc: 'IFSC',
+    regNo: 'Registration No.',
+    copy: 'Copy',
+    copied: 'Copied',
+    copyLabel: 'Copy {what}',
+    visitEyebrow: 'Visit or write to us',
+    visitTitle: 'Our head office',
+    visitAccent: 'in Solapur',
+    to: 'To',
+    pin: 'PIN',
+    directions: 'Get directions',
+    branches: 'All branches',
+    mapTitle: 'Lokmangal Multistate head office on Google Maps',
+    routeEyebrow: 'Find the right help',
+    routeTitle: 'I would like',
+    routeAccent: 'to…',
+    r1: 'Open a savings account',
+    r1t: 'Opening an account',
+    r2: 'Book a fixed or recurring deposit',
+    r2t: 'Deposit schemes',
+    r3: 'Apply for a loan',
+    r3t: 'Loan application',
+    r4: 'Visit a branch near me',
+    r4t: '{n} branches',
+    r5: 'Get help with mobile banking',
+    r5t: 'Other services',
+    r6: 'Work with Lokmangal',
+    r6t: 'Careers',
+    r7: 'Read common questions',
+    r7t: 'FAQ',
+    formEyebrow: 'Write to us',
+    formTitle: 'Send us',
+    formAccent: 'a message',
+    formLead: 'We usually respond within one working day.',
+    formCard: 'Send us a message',
+    formSubmit: 'Send message',
+    follow: 'Follow us',
+  },
+  {
+    metaTitle: 'संपर्क',
+    metaDescription: 'लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटी लि. शी संपर्क साधा: मुख्य कार्यालय शेळगी, सोलापूर. {phone} वर कॉल करा किंवा {email} वर ईमेल करा.',
+    eyebrow: 'संपर्क',
+    title: 'आम्हाला तुमच्याशी',
+    accent: 'बोलायला आवडेल',
+    lead: 'ठेवी, कर्ज किंवा तुमच्या खात्याबद्दल प्रश्न आहे? कॉल करा, लिहा किंवा मुख्य कार्यालयाला भेट द्या. आमची टीम मदतीसाठी तयार आहे.',
+    callCta: '{phone} वर कॉल करा',
+    writeCta: 'संदेश पाठवा',
+    reachEyebrow: 'संपर्क साधा',
+    reachTitle: 'संपर्काचे',
+    reachAccent: 'तीन सोपे मार्ग',
+    callTitle: 'कॉल करा',
+    callNote: 'मुख्य कार्यालय',
+    branchPhones: 'तुमची शाखा',
+    branchPhonesLink: 'शाखांचे फोन नंबर',
+    emailGeneral: 'सर्वसाधारण चौकशी',
+    emailTitle: 'ईमेल करा',
+    emailNote: 'नोकरीसाठी',
+    bankTitle: 'बँक तपशील',
+    ifsc: 'आयएफएससी',
+    regNo: 'नोंदणी क्र.',
+    copy: 'कॉपी',
+    copied: 'कॉपी झाले',
+    copyLabel: '{what} कॉपी करा',
+    visitEyebrow: 'भेट द्या किंवा पत्र पाठवा',
+    visitTitle: 'आमचे मुख्य कार्यालय,',
+    visitAccent: 'सोलापूर',
+    to: 'प्रति',
+    pin: 'पिन',
+    directions: 'नकाशावर मार्ग पाहा',
+    branches: 'सर्व शाखा',
+    mapTitle: 'गुगल नकाशावर लोकमंगल मल्टीस्टेट मुख्य कार्यालय',
+    routeEyebrow: 'योग्य मदत शोधा',
+    routeTitle: 'मला',
+    routeAccent: 'हे करायचे आहे…',
+    r1: 'बचत खाते उघडायचे आहे',
+    r1t: 'खाते उघडणे',
+    r2: 'मुदत किंवा रिकरिंग ठेव ठेवायची आहे',
+    r2t: 'ठेव योजना',
+    r3: 'कर्जासाठी अर्ज करायचा आहे',
+    r3t: 'कर्ज अर्ज',
+    r4: 'जवळच्या शाखेत जायचे आहे',
+    r4t: '{n} शाखा',
+    r5: 'मोबाइल बँकिंगसाठी मदत हवी आहे',
+    r5t: 'इतर सेवा',
+    r6: 'लोकमंगलमध्ये काम करायचे आहे',
+    r6t: 'नोकरीच्या संधी',
+    r7: 'नेहमीचे प्रश्न वाचायचे आहेत',
+    r7t: 'प्रश्नोत्तरे',
+    formEyebrow: 'आम्हाला लिहा',
+    formTitle: 'आम्हाला',
+    formAccent: 'संदेश पाठवा',
+    formLead: 'आम्ही साधारणपणे एका कामकाजाच्या दिवसात उत्तर देतो.',
+    formCard: 'आम्हाला संदेश पाठवा',
+    formSubmit: 'संदेश पाठवा',
+    follow: 'आम्हाला फॉलो करा',
+  },
+);
+
+const banner = existsSync(join(process.cwd(), 'public', '/images/contact/banner.webp')) ? '/images/contact/banner.webp' : '/images/faq/banner.webp';
+const pin = String(site.address.pin ?? '').replace(/\D/g, '').split('');
+const routes = [
+  { label: c('r1'), note: c('r1t'), href: l('/open-an-account/') },
+  { label: c('r2'), note: c('r2t'), href: l('/deposits/') },
+  { label: c('r3'), note: c('r3t'), href: l('/apply-loan/') },
+  { label: c('r4'), note: c('r4t', { n: String(branchesData(lang).branchCount) }), href: l('/branches/') },
+  { label: c('r5'), note: c('r5t'), href: l('/other-services/') },
+  { label: c('r6'), note: c('r6t'), href: l('/careers/') },
+  { label: c('r7'), note: c('r7t'), href: l('/faq/') },
+];
+---
+
+<Base title={c('metaTitle')} description={c('metaDescription', { phone: site.phone, email: site.email })}>
+  <!-- BANNER -->
+  <section class="ct-hero">
+    <img src={banner} alt="" class="ct-hero__img" width="1920" height="1080" fetchpriority="high" />
+    <div class="container ct-hero__inner">
+      <nav class="ct-crumbs" aria-label={t('breadcrumb')}>
+        <a href={l('/')}>{t('home')}</a>
+        <Icon name="chevron-right" size={14} />
+        <span aria-current="page">{c('metaTitle')}</span>
+      </nav>
+      <div class="ct-hero__copy">
+        <p class="ct-hero__eyebrow">{c('eyebrow')}</p>
+        <h1 class="h1 ct-hero__title" data-reveal>{c('title')} <em>{c('accent')}</em></h1>
+        <p class="lead ct-hero__lead" data-reveal style="--d:120ms">{c('lead')}</p>
+        <div class="btn-row" data-reveal style="--d:200ms">
+          <a href={site.phoneHref} class="btn btn--primary btn--lg"><Icon name="phone" size={18} /> {c('callCta', { phone: site.phone })}</a>
+          <a href="#message" class="btn btn--light btn--lg">{c('writeCta')}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REACH US: three slips with copy buttons -->
+  <section class="section ct-reach">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">{c('reachEyebrow')}</p>
+        <h2 class="h2">{c('reachTitle')} <em>{c('reachAccent')}</em></h2>
+      </div>
+      <div class="ct-slips" data-stagger>
+        <article class="ct-slip">
+          <p class="ct-slip__n">01</p>
+          <h3 class="ct-slip__title">{c('callTitle')}</h3>
+          <dl class="ct-slip__dl">
+            <div>
+              <dt>{c('callNote')}</dt>
+              <dd><a href={site.phoneHref} class="ct-slip__big">{site.phone}</a><button type="button" class="ct-copy" data-copy={site.phone} aria-label={c('copyLabel', { what: site.phone })} data-done={c('copied')}>{c('copy')}</button></dd>
+            </div>
+            <div>
+              <dt>{c('branchPhones')}</dt>
+              <dd><a href={l('/branches/')} class="link-arrow">{c('branchPhonesLink')} <Icon name="arrow-right" size={16} /></a></dd>
+            </div>
+          </dl>
+        </article>
+        <article class="ct-slip">
+          <p class="ct-slip__n">02</p>
+          <h3 class="ct-slip__title">{c('emailTitle')}</h3>
+          <dl class="ct-slip__dl">
+            <div>
+              <dt>{c('emailGeneral')}</dt>
+              <dd><a href={`mailto:${site.email}`} class="ct-slip__mail">{site.email}</a><button type="button" class="ct-copy" data-copy={site.email} aria-label={c('copyLabel', { what: site.email })} data-done={c('copied')}>{c('copy')}</button></dd>
+            </div>
+            <div>
+              <dt>{c('emailNote')}</dt>
+              <dd><a href={`mailto:${site.hrEmail}`} class="ct-slip__mail">{site.hrEmail}</a><button type="button" class="ct-copy" data-copy={site.hrEmail} aria-label={c('copyLabel', { what: site.hrEmail })} data-done={c('copied')}>{c('copy')}</button></dd>
+            </div>
+          </dl>
+        </article>
+        <article class="ct-slip">
+          <p class="ct-slip__n">03</p>
+          <h3 class="ct-slip__title">{c('bankTitle')}</h3>
+          <dl class="ct-slip__dl">
+            <div>
+              <dt>{c('ifsc')}</dt>
+              <dd><strong class="ct-slip__code">{site.ifsc}</strong><button type="button" class="ct-copy" data-copy={site.ifsc} aria-label={c('copyLabel', { what: `${c('ifsc')} ${site.ifsc}` })} data-done={c('copied')}>{c('copy')}</button></dd>
+            </div>
+            <div>
+              <dt>{c('regNo')}</dt>
+              <dd><strong class="ct-slip__code ct-slip__code--sm">{site.registration}</strong></dd>
+            </div>
+          </dl>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISIT: the address written on an envelope, beside the map -->
+  <section class="section ct-visit">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">{c('visitEyebrow')}</p>
+        <h2 class="h2">{c('visitTitle')} <em>{c('visitAccent')}</em></h2>
+      </div>
+      <div class="ct-visit__grid">
+        <div class="ct-env" data-reveal="left">
+          <div class="ct-env__paper">
+            <span class="ct-env__stamp" aria-hidden="true"><img src="/images/brand/emblem.png" alt="" width="64" height="64" loading="lazy" /></span>
+            <p class="ct-env__to">{c('to')},</p>
+            <address class="ct-env__addr">
+              <strong>{site.legalName}</strong>
+              <span>{site.address.line1},</span>
+              <span>{site.address.line2},</span>
+              <span>{site.address.city}, {site.address.state}</span>
+            </address>
+            <div class="ct-env__pin">
+              <span class="ct-env__pin-label">{c('pin')}</span>
+              <span class="ct-env__boxes">{pin.map((d) => <span>{d}</span>)}</span>
+            </div>
+          </div>
+          <div class="btn-row ct-env__actions">
+            <a href={site.mapLink} target="_blank" rel="noopener" class="btn btn--green">{c('directions')} <Icon name="arrow-up-right" size={18} /></a>
+            <a href={l('/branches/')} class="btn btn--ghost">{c('branches')}</a>
+          </div>
+        </div>
+        <div class="ct-map" data-reveal="right">
+          <iframe src={site.mapEmbed} title={c('mapTitle')} loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROUTER: "I would like to…" -->
+  <section class="section ct-route-sec">
+    <div class="container ct-route-grid">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">{c('routeEyebrow')}</p>
+        <h2 class="h2">{c('routeTitle')} <em>{c('routeAccent')}</em></h2>
+      </div>
+      <ol class="ct-route" data-stagger>
+        {routes.map((r, i) => (
+          <li>
+            <a href={r.href}>
+              <span class="ct-route__n">{String(i + 1).padStart(2, '0')}</span>
+              <span class="ct-route__label">{r.label}</span>
+              <span class="ct-route__note">{r.note}</span>
+              <Icon name="arrow-right" size={18} />
+            </a>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- MESSAGE -->
+  <section class="section ct-msg" id="message">
+    <div class="container split">
+      <div class="stack" style="--stack:1.2rem" data-reveal>
+        <p class="eyebrow">{c('formEyebrow')}</p>
+        <h2 class="h2">{c('formTitle')} <em>{c('formAccent')}</em></h2>
+        <p class="lead">{c('formLead')}</p>
+        <div class="ct-follow">
+          <p class="ct-follow__title">{c('follow')}</p>
+          <ul>
+            {site.social.map((s) => (
+              <li><a href={s.href} target="_blank" rel="noopener">{s.label} <Icon name="arrow-up-right" size={15} /></a></li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div data-reveal="right">
+        <EnquiryForm variant="contact" title={c('formCard')} submitLabel={c('formSubmit')} />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    // Copy a phone number, email or IFSC; the button says "Copied" for a moment.
+    document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
+      const label = btn.textContent ?? '';
+      btn.addEventListener('click', async () => {
+        const text = btn.dataset.copy ?? '';
+        try {
+          await navigator.clipboard.writeText(text);
+        } catch {
+          const area = Object.assign(document.createElement('textarea'), { value: text });
+          document.body.append(area);
+          area.select();
+          document.execCommand('copy');
+          area.remove();
+        }
+        btn.textContent = btn.dataset.done ?? label;
+        btn.classList.add('is-done');
+        setTimeout(() => { btn.textContent = label; btn.classList.remove('is-done'); }, 1800);
+      });
+    });
+  });
+</script>
+
+<style>
+  /* ---------- Banner ---------- */
+  .ct-hero { position: relative; isolation: isolate; overflow: hidden; display: flex; min-height: clamp(500px, 66vh, 620px); color: #fff; background: var(--g-950); }
+  .ct-hero__img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 75% 35%; animation: ct-settle 14s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  @keyframes ct-settle { from { transform: scale(1.12); } }
+  .ct-hero::after {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(90deg, rgb(4 36 23 / 0.96) 0%, rgb(4 36 23 / 0.86) 36%, rgb(4 36 23 / 0.36) 60%, rgb(4 36 23 / 0.06) 84%, transparent 100%), linear-gradient(0deg, rgb(4 36 23 / 0.5), transparent 30%);
+  }
+  .ct-hero__inner { display: flex; flex-direction: column; padding-block: clamp(40px, 6vw, 72px) clamp(48px, 6vw, 80px); }
+  .ct-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.86rem; font-weight: 600; color: rgb(255 255 255 / 0.6); }
+  .ct-crumbs a { color: rgb(255 255 255 / 0.8); }
+  .ct-crumbs span { color: var(--gold); }
+  .ct-hero__copy { margin-block: auto; padding-top: clamp(24px, 4vw, 40px); max-width: 620px; min-width: 0; display: grid; gap: 20px; }
+  .ct-hero__eyebrow { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g-300); }
+  :global(html[lang='mr']) .ct-hero__eyebrow { letter-spacing: 0; text-transform: none; font-size: 0.95rem; }
+  .ct-hero__title { color: #fff; }
+  .ct-hero__title em { display: block; color: var(--gold); }
+  .ct-hero__lead { color: rgb(255 255 255 / 0.86); }
+  @media (max-width: 899px) {
+    .ct-hero { min-height: 0; }
+    .ct-hero__img { inset: 0 0 auto 0; height: min(62vw, 300px); }
+    .ct-hero::after { background: linear-gradient(180deg, rgb(4 36 23 / 0.35) 0, rgb(4 36 23 / 0.1) 80px, var(--g-950) min(62vw, 300px)); }
+    .ct-hero__copy { padding-top: calc(min(62vw, 300px) - 70px); }
+  }
+
+  /* ---------- Reach us: three slips ---------- */
+  .ct-reach { background: var(--bg); }
+  .ct-slips { display: grid; gap: clamp(14px, 1.8vw, 20px); grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ct-slip {
+    position: relative; display: flex; flex-direction: column; gap: 10px; padding: clamp(22px, 2.4vw, 30px);
+    border-radius: var(--r-lg); background: #fff; border-top: 4px solid var(--o-500);
+    box-shadow: 0 26px 46px -34px rgb(5 42 26 / 0.5); transition: transform 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out);
+  }
+  .ct-slip:nth-child(2) { border-top-color: var(--g-600); }
+  .ct-slip:nth-child(3) { border-top-color: var(--gold); }
+  .ct-slip:hover { transform: translateY(-4px); box-shadow: 0 34px 56px -34px rgb(5 42 26 / 0.6); }
+  .ct-slip__n { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; color: var(--o-600); }
+  .ct-slip__title { font-size: 1.15rem; color: var(--g-900); }
+  .ct-slip__big { min-width: 0; font-size: clamp(1.3rem, 2vw, 1.55rem); font-weight: 800; letter-spacing: -0.01em; line-height: 1.2; color: var(--g-800); font-variant-numeric: tabular-nums; transition: color 0.25s; }
+  .ct-slip__mail { min-width: 0; font-size: 1rem; font-weight: 700; color: var(--g-800); overflow-wrap: anywhere; transition: color 0.25s; }
+  .ct-slip__big:hover, .ct-slip__mail:hover { color: var(--o-strong-hover); }
+  .ct-slip__dl { display: grid; margin: 4px 0 0; border-top: 1px dashed var(--line); }
+  .ct-slip__dl > div { display: grid; gap: 6px; padding: 14px 0; border-bottom: 1px dashed var(--line); }
+  .ct-slip__dl dt { font-size: 0.76rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  :global(html[lang='mr']) .ct-slip__dl dt { letter-spacing: 0; text-transform: none; font-size: 0.88rem; }
+  .ct-slip__dl dd { margin: 0; display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 36px; }
+  .ct-slip__code { font-size: 1.35rem; font-weight: 800; letter-spacing: 0.06em; color: var(--g-900); font-variant-numeric: tabular-nums; }
+  .ct-slip__code--sm { font-size: 1.02rem; letter-spacing: 0.02em; }
+  .ct-copy {
+    flex: none; min-width: 64px; height: 34px; padding: 0 12px; font: inherit; font-size: 0.8rem; font-weight: 700;
+    color: var(--g-800); background: var(--g-100); border: 0; border-radius: 8px; cursor: pointer; transition: background 0.2s, color 0.2s;
+  }
+  .ct-copy:hover { background: var(--g-800); color: #fff; }
+  .ct-copy.is-done { background: var(--o-500); color: #fff; }
+  @media (max-width: 899px) { .ct-slips { grid-template-columns: 1fr; } }
+
+  /* ---------- Visit: envelope + map ---------- */
+  .ct-visit { background: var(--surface); }
+  .ct-visit__grid { display: grid; gap: clamp(20px, 3vw, 36px); align-items: stretch; }
+  @media (min-width: 960px) { .ct-visit__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  .ct-env { display: grid; gap: 18px; align-content: start; }
+  /* Envelope edge: diagonal green and orange stripes, like an airmail cover */
+  .ct-env__paper {
+    position: relative; padding: clamp(26px, 3.4vw, 40px); border-radius: 10px;
+    background:
+      linear-gradient(#fffdf8, #fffdf8) padding-box,
+      repeating-linear-gradient(-45deg, var(--g-700) 0 14px, #fffdf8 14px 22px, var(--o-500) 22px 36px, #fffdf8 36px 44px) border-box;
+    border: 10px solid transparent; box-shadow: 0 30px 50px -36px rgb(60 40 10 / 0.55);
+    transition: rotate 0.6s var(--ease-out);
+  }
+  .ct-env:hover .ct-env__paper { rotate: -0.6deg; }
+  .ct-env__stamp {
+    position: absolute; top: 18px; right: 18px; display: grid; place-items: center; width: 78px; height: 92px; padding: 6px;
+    background: #fff; border: 2px dashed var(--o-300); border-radius: 4px; rotate: 4deg;
+  }
+  .ct-env__stamp img { width: 56px; height: auto; }
+  .ct-env__to { font-size: 0.95rem; font-weight: 600; color: var(--muted); }
+  .ct-env__addr { display: grid; gap: 2px; margin-top: 8px; padding-right: 96px; font-style: normal; font-size: clamp(1rem, 1.4vw, 1.12rem); line-height: 1.6; color: var(--ink); }
+  .ct-env__addr strong { font-size: 1.12em; line-height: 1.35; margin-bottom: 4px; color: var(--g-900); }
+  .ct-env__pin { display: flex; align-items: center; gap: 12px; margin-top: 18px; }
+  .ct-env__pin-label { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; color: var(--muted); }
+  .ct-env__boxes { display: flex; gap: 6px; }
+  .ct-env__boxes span { display: grid; place-items: center; width: 34px; height: 40px; border: 1.5px solid var(--o-500); border-radius: 4px; font-size: 1.15rem; font-weight: 800; color: var(--g-900); font-variant-numeric: tabular-nums; }
+  .ct-map { position: relative; min-height: 360px; overflow: hidden; border-radius: var(--r-lg); background: var(--g-50); box-shadow: 0 30px 50px -36px rgb(5 42 26 / 0.55); }
+  .ct-map iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  @media (max-width: 559px) {
+    .ct-env__paper { padding: 22px 18px; border-width: 8px; }
+    .ct-env__stamp { width: 60px; height: 72px; top: 12px; right: 12px; }
+    .ct-env__stamp img { width: 42px; }
+    .ct-env__addr { padding-right: 64px; }
+    .ct-env__boxes span { width: 30px; height: 36px; font-size: 1.02rem; }
+    .ct-map { min-height: 300px; }
+  }
+
+  /* ---------- Router ---------- */
+  .ct-route-sec { background: var(--g-950); }
+  .ct-route-sec .h2 { color: #fff; }
+  .ct-route-sec .h2 em { color: var(--gold); }
+  .ct-route-sec .eyebrow { color: var(--g-300); }
+  .ct-route-grid { display: grid; gap: clamp(24px, 3vw, 48px); align-items: start; }
+  @media (min-width: 1000px) { .ct-route-grid { grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr); } .ct-route-grid .section-head { position: sticky; top: calc(var(--header-h) + 30px); } }
+  .ct-route { list-style: none; margin: 0; padding: 0; border-top: 1px solid rgb(255 255 255 / 0.14); }
+  .ct-route a {
+    position: relative; display: grid; grid-template-columns: 2.6rem minmax(0, 1fr) auto 20px; gap: 16px; align-items: center;
+    padding: 20px 8px; border-bottom: 1px solid rgb(255 255 255 / 0.14); color: #fff; transition: padding 0.35s var(--ease-out), background 0.3s;
+  }
+  .ct-route a::before { content: ''; position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 0.45s var(--ease-out); }
+  .ct-route__n { font-size: 0.8rem; font-weight: 700; color: var(--gold); font-variant-numeric: tabular-nums; }
+  .ct-route__label { font-size: clamp(1.02rem, 1.6vw, 1.2rem); font-weight: 700; line-height: 1.35; }
+  .ct-route__note { font-size: 0.86rem; font-weight: 600; color: rgb(255 255 255 / 0.6); white-space: nowrap; }
+  .ct-route a :global(.icon) { color: var(--gold); transition: translate 0.35s var(--ease-out); }
+  @media (hover: hover) {
+    .ct-route a:hover { padding-left: 18px; background: rgb(255 255 255 / 0.04); }
+    .ct-route a:hover::before { transform: scaleX(1); }
+    .ct-route a:hover :global(.icon) { translate: 4px 0; }
+  }
+  @media (max-width: 599px) {
+    .ct-route a { grid-template-columns: 2rem minmax(0, 1fr) 20px; gap: 4px 12px; padding: 16px 4px; }
+    .ct-route__note { grid-column: 2; grid-row: 2; white-space: normal; }
+    .ct-route a :global(.icon) { grid-column: 3; grid-row: 1 / span 2; }
+  }
+
+  /* ---------- Message ---------- */
+  .ct-msg { background: var(--bg); scroll-margin-top: calc(var(--header-h) + 8px); }
+  .ct-follow { margin-top: 10px; }
+  .ct-follow__title { font-weight: 700; color: var(--g-900); margin-bottom: 8px; }
+  .ct-follow ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .ct-follow a { display: inline-flex; align-items: center; gap: 6px; padding: 9px 14px; border-radius: 10px; border: 1.5px solid var(--line); background: #fff; font-weight: 700; font-size: 0.9rem; color: var(--g-800); transition: background 0.2s, color 0.2s, border-color 0.2s; }
+  .ct-follow a:hover { background: var(--g-800); border-color: var(--g-800); color: #fff; }
+
+  @media (prefers-reduced-motion: reduce) { .ct-hero__img { animation: none; } }
+</style>

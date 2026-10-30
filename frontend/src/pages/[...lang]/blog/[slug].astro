@@ -1,0 +1,233 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Icon from '../../../components/Icon.astro';
+import CtaBand from '../../../components/CtaBand.astro';
+import { postsFor, type Post } from '../../../data/posts';
+import { longDateFor } from '../../../lib/content';
+import { getLang, langPaths, localePath, type Lang } from '../../../i18n';
+import { pageCopy, useT } from '../../../i18n/ui';
+
+export function getStaticPaths() {
+  return langPaths().flatMap(({ params }) => {
+    const posts = postsFor((params.lang ?? 'en') as Lang);
+    return posts.map((post, i) => ({
+      params: { lang: params.lang, slug: post.slug },
+      props: { post, older: posts[i + 1] ?? null, newer: posts[i - 1] ?? null, index: i, all: posts },
+    }));
+  });
+}
+
+const { post, older, newer, index, all } = Astro.props as { post: Post; older: Post | null; newer: Post | null; index: number; all: Post[] };
+const lang = getLang(Astro);
+const t = useT(lang);
+const l = (p: string) => localePath(p, lang);
+
+const c = pageCopy(
+  lang,
+  'blog-post',
+  {
+    blog: 'Blog',
+    masthead: 'Lokmangal News',
+    branchNews: 'Branch news',
+    share: 'Share this story',
+    whatsapp: 'WhatsApp',
+    facebook: 'Facebook',
+    copyLink: 'Copy link',
+    copied: 'Link copied',
+    older: 'Older story',
+    newer: 'Newer story',
+    moreEyebrow: 'Keep reading',
+    moreTitle: 'More',
+    moreAccent: 'stories',
+    all: 'All stories',
+    zoom: 'View photo',
+  },
+  {
+    blog: 'बातम्या',
+    masthead: 'लोकमंगल बातम्या',
+    branchNews: 'शाखा बातमी',
+    share: 'ही बातमी शेअर करा',
+    whatsapp: 'व्हॉट्सॲप',
+    facebook: 'फेसबुक',
+    copyLink: 'लिंक कॉपी करा',
+    copied: 'लिंक कॉपी झाली',
+    older: 'आधीची बातमी',
+    newer: 'नंतरची बातमी',
+    moreEyebrow: 'आणखी वाचा',
+    moreTitle: 'इतर',
+    moreAccent: 'बातम्या',
+    all: 'सर्व बातम्या',
+    zoom: 'फोटो पाहा',
+  },
+);
+
+const clean = (s: string) => s.replace(/\*/g, '').replace(/\s+/g, ' ').trim();
+const isMr = (p: Post) => p.language === 'mr' || /[ऀ-ॿ]/.test(p.title);
+const when = (p: Post) => longDateFor(p.date.slice(0, 10), lang);
+const href = (p: Post) => l(`/blog/${p.slug}/`);
+const mr = isMr(post);
+const text = clean(post.excerpt);
+// The three stories closest in date.
+const near = all
+  .map((p, i) => ({ p, d: Math.abs(i - index) }))
+  .filter((x) => x.p.slug !== post.slug)
+  .sort((a, b) => a.d - b.d)
+  .slice(0, 3)
+  .map((x) => x.p)
+  .sort((a, b) => b.date.localeCompare(a.date));
+const url = new URL(Astro.url.pathname, 'https://lokmangalmultistate.com').href;
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'NewsArticle',
+  headline: post.title,
+  datePublished: post.date,
+  inLanguage: mr ? 'mr-IN' : 'en-IN',
+  image: post.image ? [new URL(post.image, 'https://lokmangalmultistate.com').href] : undefined,
+  publisher: { '@type': 'Organization', name: 'Lokmangal Multistate Co-operative Society Ltd.' },
+};
+---
+
+<Base title={post.title} description={text.slice(0, 160)} image={post.image ?? undefined} jsonLd={articleLd}>
+  <article class="ps">
+    <header class="ps-head">
+      <div class="container ps-narrow">
+        <nav class="ps-crumbs" aria-label={t('breadcrumb')}>
+          <a href={l('/')}>{t('home')}</a>
+          <Icon name="chevron-right" size={14} />
+          <a href={l('/blog/')}>{c('blog')}</a>
+        </nav>
+        <p class="ps-dateline"><span class="ps-dateline__name">{c('masthead')}</span><span>{post.category || c('branchNews')}</span><time datetime={post.date.slice(0, 10)}>{when(post)}</time></p>
+        <h1 class="ps-title" lang={mr ? 'mr' : undefined} data-reveal>{post.title}</h1>
+      </div>
+    </header>
+
+    <div class="container ps-narrow ps-body">
+      {post.image && (
+        <figure class="ps-photo" data-reveal>
+          <a href={post.image} data-zoom="cover" data-caption={post.title} aria-label={c('zoom')}>
+            <img src={post.image} alt={post.title} width="700" height="480" transition:name={`post-${post.id}`} />
+          </a>
+        </figure>
+      )}
+      {post.content ? (
+        <div class="prose ps-prose" lang={mr ? 'mr' : undefined} set:html={post.content} data-reveal />
+      ) : (
+        <p class="ps-text" lang={mr ? 'mr' : undefined} data-reveal>{text}</p>
+      )}
+
+      <div class="ps-share" data-reveal>
+        <p class="ps-share__title">{c('share')}</p>
+        <div class="ps-share__row">
+          <a href={`https://wa.me/?text=${encodeURIComponent(`${post.title} ${url}`)}`} target="_blank" rel="noopener" class="ps-share__btn ps-share__btn--wa">{c('whatsapp')} <Icon name="arrow-up-right" size={14} /></a>
+          <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`} target="_blank" rel="noopener" class="ps-share__btn">{c('facebook')} <Icon name="arrow-up-right" size={14} /></a>
+          <button type="button" class="ps-share__btn" data-ps-copy data-done={c('copied')}>{c('copyLink')}</button>
+        </div>
+      </div>
+
+      <nav class="ps-nav" aria-label={c('moreAccent')}>
+        {newer ? (
+          <a href={href(newer)} class="ps-nav__link">
+            <span class="ps-nav__dir"><Icon name="chevron-left" size={16} /> {c('newer')}</span>
+            <span class="ps-nav__title" lang={isMr(newer) ? 'mr' : undefined}>{newer.title}</span>
+          </a>
+        ) : <span></span>}
+        {older && (
+          <a href={href(older)} class="ps-nav__link ps-nav__link--older">
+            <span class="ps-nav__dir">{c('older')} <Icon name="chevron-right" size={16} /></span>
+            <span class="ps-nav__title" lang={isMr(older) ? 'mr' : undefined}>{older.title}</span>
+          </a>
+        )}
+      </nav>
+    </div>
+  </article>
+
+  <section class="section ps-more">
+    <div class="container">
+      <div class="section-head section-head--row" data-reveal>
+        <div class="section-head__text"><p class="eyebrow">{c('moreEyebrow')}</p><h2 class="h2">{c('moreTitle')} <em>{c('moreAccent')}</em></h2></div>
+        <a href={l('/blog/')} class="btn btn--ghost">{c('all')} <Icon name="arrow-right" size={18} /></a>
+      </div>
+      <ul class="ps-cards" data-stagger>
+        {near.map((p) => (
+          <li>
+            <a href={href(p)}>
+              <div class="ps-cards__media">{p.image && <img src={p.image} alt="" width="400" height="290" loading="lazy" />}</div>
+              <p class="ps-cards__date">{when(p)}</p>
+              <h3 class="ps-cards__title" lang={isMr(p) ? 'mr' : undefined}>{p.title}</h3>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    // Copy this page's address; the button says so for a moment.
+    const btn = document.querySelector<HTMLButtonElement>('[data-ps-copy]');
+    if (!btn) return;
+    const label = btn.textContent ?? '';
+    btn.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(location.href); } catch { return; }
+      btn.textContent = btn.dataset.done ?? label;
+      btn.classList.add('is-done');
+      setTimeout(() => { btn.textContent = label; btn.classList.remove('is-done'); }, 1800);
+    });
+  });
+</script>
+
+<style>
+  .ps-narrow { width: min(100% - var(--gutter) * 2, 820px); margin-inline: auto; }
+  .ps-head { background: var(--bg); padding-block: clamp(28px, 4vw, 44px) clamp(18px, 2.4vw, 26px); }
+  .ps-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.86rem; font-weight: 600; color: var(--muted); }
+  .ps-crumbs a { color: var(--g-700); }
+  .ps-crumbs a:hover { color: var(--o-strong-hover); }
+  .ps-dateline { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 0; margin-top: clamp(20px, 3vw, 30px); padding-block: 10px; border-top: 4px double var(--g-900); border-bottom: 1px solid var(--g-900); font-size: 0.84rem; font-weight: 700; color: var(--g-800); }
+  .ps-dateline > * { padding-inline: 14px; }
+  .ps-dateline > :first-child { padding-left: 0; }
+  .ps-dateline > * + * { border-left: 1px solid var(--line); }
+  .ps-dateline__name { color: var(--o-600); letter-spacing: 0.12em; text-transform: uppercase; }
+  :global(html[lang='mr']) .ps-dateline__name { letter-spacing: 0; text-transform: none; }
+  .ps-title { margin-top: clamp(18px, 2.6vw, 28px); font-size: clamp(1.8rem, 4.2vw, 2.9rem); font-weight: 800; line-height: 1.25; letter-spacing: -0.02em; color: var(--g-900); text-wrap: balance; }
+  .ps-title[lang='mr'] { letter-spacing: 0; line-height: 1.35; }
+
+  .ps-body { padding-bottom: clamp(48px, 6vw, 80px); }
+  .ps-photo { margin: clamp(10px, 2vw, 18px) 0 0; }
+  .ps-photo a { display: block; overflow: hidden; border-radius: var(--r-lg); background: var(--g-100); cursor: zoom-in; box-shadow: 0 30px 50px -36px rgb(5 42 26 / 0.55); }
+  .ps-photo img { width: 100%; height: auto; max-height: 560px; object-fit: cover; transition: transform 1s var(--ease-out); }
+  .ps-photo a:hover img { transform: scale(1.03); }
+  .ps-text { margin-top: clamp(26px, 3.4vw, 40px); padding-left: 22px; border-left: 4px solid var(--o-500); font-size: 1.15rem; line-height: 1.85; color: var(--ink-2); }
+  .ps-text[lang='mr'] { font-size: 1.2rem; }
+  .ps-prose { margin-top: clamp(26px, 3.4vw, 40px); font-size: 1.12rem; line-height: 1.85; }
+  .ps-prose[lang='mr'] { font-size: 1.18rem; }
+
+  .ps-share { margin-top: clamp(32px, 4vw, 44px); padding-top: 22px; border-top: 1px solid var(--line); }
+  .ps-share__title { font-weight: 700; color: var(--g-900); }
+  .ps-share__row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .ps-share__btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; border-radius: 10px; border: 1.5px solid var(--line); background: #fff; font: inherit; font-size: 0.9rem; font-weight: 700; color: var(--g-800); cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s; }
+  .ps-share__btn:hover { background: var(--g-800); border-color: var(--g-800); color: #fff; }
+  .ps-share__btn--wa { background: #e7f6ec; border-color: #c4e9d1; }
+  .ps-share__btn.is-done { background: var(--o-500); border-color: var(--o-500); color: #fff; }
+
+  .ps-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 30px; }
+  .ps-nav__link { display: grid; gap: 8px; padding: 18px 20px; border-radius: 12px; background: #fff; border: 1px solid var(--line-2); transition: border-color 0.3s, transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out); }
+  .ps-nav__link:hover { border-color: var(--o-300); transform: translateY(-3px); box-shadow: 0 22px 40px -30px rgb(5 42 26 / 0.5); }
+  .ps-nav__dir { display: inline-flex; align-items: center; gap: 4px; font-size: 0.8rem; font-weight: 800; color: var(--o-600); }
+  .ps-nav__title { font-weight: 700; line-height: 1.45; color: var(--g-900); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .ps-nav__link--older { text-align: right; justify-items: end; }
+  @media (max-width: 640px) { .ps-nav { grid-template-columns: 1fr; } .ps-nav > span:empty { display: none; } .ps-nav__link--older { text-align: left; justify-items: start; } }
+
+  .ps-more { background: var(--surface); }
+  .ps-cards { list-style: none; margin: 0; padding: 0; display: grid; gap: 30px clamp(20px, 2.6vw, 36px); grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ps-cards a { display: grid; gap: 10px; align-content: start; padding-top: 16px; border-top: 2px solid var(--g-900); color: inherit; }
+  .ps-cards__media { overflow: hidden; border-radius: 10px; aspect-ratio: 16 / 10; background: var(--g-100); }
+  .ps-cards__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.9s var(--ease-out); }
+  .ps-cards a:hover .ps-cards__media img { transform: scale(1.05); }
+  .ps-cards__date { font-size: 0.78rem; font-weight: 800; color: var(--o-600); }
+  .ps-cards__title { font-size: 1.08rem; line-height: 1.4; color: var(--g-900); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .ps-cards a:hover .ps-cards__title { color: var(--o-strong-hover); }
+  @media (max-width: 899px) { .ps-cards { grid-template-columns: 1fr; gap: 22px; } .ps-cards a { grid-template-columns: 112px minmax(0, 1fr); column-gap: 14px; } .ps-cards__media { grid-row: span 2; aspect-ratio: 1; } }
+</style>

@@ -1,0 +1,175 @@
+---
+// A legal page laid out like a printed document: a contents list that follows the reader, a plain-language
+// summary first, then numbered sections. Used by the Terms of Use and Privacy Policy pages.
+import Icon from './Icon.astro';
+import { getLang, localePath } from '../i18n';
+import { pageCopy, useT } from '../i18n/ui';
+
+interface Props {
+  title: string;
+  accent: string;
+  lead: string;
+  crumb: string;
+  summary: string[];
+  sections: { id: string; title: string; html: string }[];
+  related: { label: string; href: string };
+}
+const { title, accent, lead, crumb, summary, sections, related } = Astro.props;
+const lang = getLang(Astro);
+const t = useT(lang);
+const l = (p: string) => localePath(p, lang);
+const c = pageCopy(
+  lang,
+  'legal-doc',
+  { eyebrow: 'Legal', contents: 'Contents', short: 'In short', print: 'Print or save as PDF', read: 'Read next', top: 'Back to top', sections: '{n} sections' },
+  { eyebrow: 'कायदेशीर', contents: 'अनुक्रमणिका', short: 'थोडक्यात', print: 'प्रिंट करा किंवा पीडीएफ जतन करा', read: 'पुढे वाचा', top: 'वर जा', sections: '{n} विभाग' },
+);
+---
+
+<header class="lg-head">
+  <div class="container">
+    <nav class="lg-crumbs" aria-label={t('breadcrumb')}>
+      <a href={l('/')}>{t('home')}</a>
+      <Icon name="chevron-right" size={14} />
+      <span aria-current="page">{crumb}</span>
+    </nav>
+    <div class="lg-head__grid">
+      <div>
+        <p class="eyebrow">{c('eyebrow')}</p>
+        <h1 class="h1 lg-head__title" data-reveal>{title} <em>{accent}</em></h1>
+        <p class="lead lg-head__lead" data-reveal style="--d:120ms">{lead}</p>
+      </div>
+      <button type="button" class="btn btn--ghost lg-print" data-lg-print>{c('print')}</button>
+    </div>
+  </div>
+</header>
+
+<section class="section lg-sec">
+  <div class="container lg-grid">
+    <aside class="lg-toc" aria-label={c('contents')}>
+      <p class="lg-toc__title">{c('contents')} <span>{c('sections', { n: String(sections.length) })}</span></p>
+      <div class="lg-toc__meter" aria-hidden="true"><span data-lg-meter></span></div>
+      <ol>
+        {sections.map((s, i) => (
+          <li><a href={`#${s.id}`} data-lg-link={s.id}><span>{String(i + 1).padStart(2, '0')}</span>{s.title}</a></li>
+        ))}
+      </ol>
+    </aside>
+
+    <article class="lg-doc" data-lg-doc>
+      <div class="lg-short" data-reveal>
+        <p class="lg-short__title">{c('short')}</p>
+        <ul>{summary.map((s) => <li>{s}</li>)}</ul>
+      </div>
+      {sections.map((s, i) => (
+        <section class="lg-part" id={s.id} data-lg-part>
+          <span class="lg-part__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <div class="lg-part__body">
+            <h2>{s.title}</h2>
+            <div class="prose" set:html={s.html} />
+          </div>
+        </section>
+      ))}
+      <div class="lg-end">
+        <a href={related.href} class="lg-next">
+          <span>{c('read')}</span>
+          <strong>{related.label}</strong>
+          <Icon name="arrow-right" size={18} />
+        </a>
+        <a href="#top" class="link-arrow lg-top" data-lg-top>{c('top')} <Icon name="arrow-up" size={16} /></a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const doc = document.querySelector<HTMLElement>('[data-lg-doc]');
+    if (!doc) return;
+    const parts = Array.from(doc.querySelectorAll<HTMLElement>('[data-lg-part]'));
+    const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-lg-link]'));
+    const meter = document.querySelector<HTMLElement>('[data-lg-meter]');
+    document.querySelector('[data-lg-print]')?.addEventListener('click', () => window.print());
+    document.querySelector('[data-lg-top]')?.addEventListener('click', (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+    // The contents list marks the section being read, and the bar shows how far through the document you are.
+    let frame = 0;
+    const update = () => {
+      const line = innerHeight * 0.3;
+      let current = parts[0];
+      for (const p of parts) if (p.getBoundingClientRect().top <= line) current = p;
+      links.forEach((a) => a.classList.toggle('is-on', a.dataset.lgLink === current?.id));
+      if (meter) {
+        const r = doc.getBoundingClientRect();
+        const done = Math.min(1, Math.max(0, (line - r.top) / Math.max(1, r.height - innerHeight * 0.4)));
+        meter.style.width = `${done * 100}%`;
+      }
+    };
+    const onScroll = () => { cancelAnimationFrame(frame); frame = requestAnimationFrame(update); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    update();
+    document.addEventListener('astro:before-swap', () => window.removeEventListener('scroll', onScroll), { once: true });
+  });
+</script>
+
+<style>
+  .lg-head { background: var(--gold-mix, var(--bg)); padding-block: clamp(28px, 4vw, 44px) clamp(36px, 5vw, 56px); border-bottom: 1px solid var(--line); }
+  .lg-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.86rem; font-weight: 600; color: var(--muted); }
+  .lg-crumbs a { color: var(--g-800); }
+  .lg-crumbs span { color: var(--o-700); }
+  .lg-head__grid { display: grid; gap: 20px; align-items: end; margin-top: clamp(20px, 3vw, 32px); }
+  @media (min-width: 900px) { .lg-head__grid { grid-template-columns: minmax(0, 1fr) auto; } }
+  .lg-head__title { margin-top: 12px; color: var(--g-900); }
+  .lg-head__lead { margin-top: 12px; max-width: 640px; color: var(--ink-2); }
+  .lg-print { justify-self: start; background: #fff; }
+
+  .lg-sec { background: var(--bg); }
+  .lg-grid { display: grid; gap: clamp(28px, 4vw, 56px); align-items: start; }
+  @media (min-width: 1000px) { .lg-grid { grid-template-columns: 280px minmax(0, 1fr); } .lg-toc { position: sticky; top: calc(var(--header-h) + 24px); } }
+
+  /* Contents list with a reading meter */
+  .lg-toc { padding: 20px; border-radius: var(--r-lg); background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-sm); }
+  .lg-toc__title { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-weight: 800; color: var(--g-900); }
+  .lg-toc__title span { font-size: 0.78rem; font-weight: 700; color: var(--muted); }
+  .lg-toc__meter { height: 4px; margin: 12px 0 10px; border-radius: 4px; background: var(--line-2); overflow: hidden; }
+  .lg-toc__meter span { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--o-500), var(--gold, var(--o-400))); transition: width 0.2s linear; }
+  .lg-toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+  .lg-toc a { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: 6px; padding: 8px 10px; border-radius: 10px; font-size: 0.92rem; font-weight: 600; line-height: 1.4; color: var(--ink-2); transition: background 0.2s, color 0.2s; }
+  .lg-toc a span { font-size: 0.78rem; font-weight: 800; color: var(--o-600); padding-top: 2px; }
+  .lg-toc a:hover { background: var(--bg); color: var(--g-900); }
+  .lg-toc a.is-on { background: var(--g-900); color: #fff; }
+  .lg-toc a.is-on span { color: var(--gold, var(--o-300)); }
+  @media (max-width: 999px) {
+    .lg-toc ol { grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); }
+  }
+
+  /* The document */
+  .lg-doc { min-width: 0; max-width: 820px; }
+  .lg-short { padding: 22px 24px; border-radius: var(--r-lg); background: #fff; border-left: 5px solid var(--o-500); box-shadow: var(--shadow-sm); }
+  .lg-short__title { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--o-700); }
+  :global(html[lang='mr']) .lg-short__title { letter-spacing: 0; text-transform: none; font-size: 0.98rem; }
+  .lg-short ul { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 8px; }
+  .lg-short li { position: relative; padding-left: 22px; font-weight: 600; color: var(--ink); }
+  .lg-short li::before { content: ''; position: absolute; left: 2px; top: 0.62em; width: 9px; height: 9px; border-radius: 50%; border: 2.5px solid var(--g-600); }
+  .lg-part { display: grid; grid-template-columns: 4rem minmax(0, 1fr); gap: 18px; padding: clamp(26px, 3.4vw, 36px) 0; border-bottom: 1px solid var(--line); scroll-margin-top: calc(var(--header-h) + 24px); }
+  .lg-part__n { font-size: 2.4rem; font-weight: 800; line-height: 1; letter-spacing: -0.03em; color: transparent; -webkit-text-stroke: 1.4px var(--o-500); }
+  .lg-part h2 { font-size: clamp(1.25rem, 2vw, 1.5rem); color: var(--g-900); }
+  .lg-part .prose { margin-top: 10px; color: var(--ink-2); font-size: 1.02rem; }
+  .lg-part .prose :global(p), .lg-part .prose :global(li) { color: var(--ink-2); }
+  .lg-part .prose :global(ul) { padding-left: 1.2em; display: grid; gap: 6px; }
+  .lg-part .prose :global(a) { color: var(--g-800); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 599px) { .lg-part { grid-template-columns: 1fr; gap: 6px; } .lg-part__n { font-size: 1.8rem; } }
+  .lg-end { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-top: 30px; }
+  .lg-next { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 16px; align-items: center; min-width: min(100%, 320px); padding: 16px 20px; border-radius: var(--r-lg); background: var(--g-900); color: rgb(255 255 255 / 0.75); transition: transform 0.4s var(--ease-out), box-shadow 0.4s; }
+  .lg-next span { font-size: 0.8rem; font-weight: 700; }
+  .lg-next strong { grid-row: 2; font-size: 1.1rem; color: #fff; }
+  .lg-next :global(.icon) { grid-row: 1 / span 2; grid-column: 2; color: var(--gold, var(--o-300)); }
+  .lg-next:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+
+  @media print {
+    :global(header.header), :global(.topbar), :global(.announce), :global(footer), :global(.fab), :global([data-to-top]), .lg-toc, .lg-print, .lg-end, .lg-crumbs { display: none !important; }
+    .lg-head, .lg-sec { background: #fff !important; padding-block: 0 12px; }
+    .lg-grid { display: block; }
+    .lg-part { break-inside: avoid; }
+    .lg-part__n { color: #000; -webkit-text-stroke: 0; font-size: 1.2rem; }
+  }
+</style>

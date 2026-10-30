@@ -1,6 +1,6 @@
 ---
 import Icon from './Icon.astro';
-import { jobOpenings, site } from '../data/site';
+import { jobOpenings, site, siteData } from '../data/site';
 import { depositsData } from '../data/deposits';
 import { loansData } from '../data/loans';
 import { getLang } from '../i18n';
@@ -48,6 +48,7 @@ const id = `f-${variant}-${Math.random().toString(36).slice(2, 7)}`;
 // Option labels in the page's language; the values the office receives stay English.
 const depositOptions = depositsData(lang).schemes.map((s) => ({ value: depositsData('en').schemeBySlug(s.slug)?.name ?? s.name, label: s.name }));
 const loanOptions = loansData(lang).loanFormOptions;
+const jobOptions = siteData(lang).jobOpenings.map((j, i) => ({ value: jobOpenings[i]?.title ?? j.title, label: j.title }));
 ---
 
 <div class:list={['form-card', { 'form-card--dark': dark }]} data-form-card>
@@ -158,7 +159,7 @@ const loanOptions = loansData(lang).loanFormOptions;
           <div class="field">
             <label for={`${id}-pos`}>{f('position')} <span class="req">*</span></label>
             <select id={`${id}-pos`} name="position" required>
-              {jobOpenings.map((j) => <option>{j.title}</option>)}
+              {jobOptions.map((j) => <option value={j.value}>{j.label}</option>)}
               <option value="Other">{f('other')}</option>
             </select>
           </div>

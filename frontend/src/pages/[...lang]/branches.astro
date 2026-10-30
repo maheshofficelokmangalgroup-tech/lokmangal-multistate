@@ -1,0 +1,564 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { branchesData } from '../../data/branches';
+import { siteData } from '../../data/site';
+import { getLang, langPaths, localePath } from '../../i18n';
+import { pageCopy, useT } from '../../i18n/ui';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+
+const lang = getLang(Astro);
+const t = useT(lang);
+const l = (p: string) => localePath(p, lang);
+const { site } = siteData(lang);
+const { divisions, headOffice, branchCount } = branchesData(lang);
+// English names too, so a search in either language finds the branch.
+const english = new Map(
+  branchesData('en').divisions.flatMap((d) => d.branches.map((b) => [b.code, { name: b.name, division: d.name }] as const)),
+);
+
+const c = pageCopy(
+  lang,
+  'branches',
+  {
+    metaTitle: 'Branches',
+    metaDescription: 'Find a Lokmangal Multistate branch near you: {n} branches across Pune, Solapur, Dharashiv, Latur, Kolhapur, Parbhani, Belgaum and more in Maharashtra and Karnataka.',
+    eyebrow: 'Our network',
+    title: 'Find a branch',
+    accent: 'near you',
+    lead: '{n} branches in the towns and villages of Maharashtra and Karnataka. Look up yours by town, address or division.',
+    factBranches: 'branches',
+    factDivisions: 'divisions',
+    factStates: 'states',
+    findCta: 'Find your branch',
+    hoCta: 'Head office',
+    hoEyebrow: 'Head office',
+    hoPlace: 'Shelgi, Solapur',
+    address: 'Address',
+    phone: 'Phone',
+    email: 'Email',
+    ifsc: 'IFSC',
+    directions: 'Get directions',
+    call: 'Call',
+    mapTitle: 'Lokmangal Multistate head office on Google Maps',
+    netEyebrow: 'Branch network',
+    netTitle: '{n} branches,',
+    netAccent: '{d} divisions',
+    searchLabel: 'Search branches',
+    searchPh: 'Search your town',
+    pickTitle: 'Choose a division',
+    close: 'Close',
+    allShort: 'All',
+    matching: 'branches',
+    divisionsLabel: 'Divisions',
+    all: 'All divisions',
+    countOne: '{n} branch',
+    countMany: '{n} branches',
+    code: 'Branch code',
+    dirTo: 'Directions to {name}',
+    route: 'Directions',
+    noneTitle: 'No branch matches your search.',
+    noneText: 'Try another town name, or call us on {phone}.',
+    ctaTitle: 'Visit us at a branch',
+    ctaAccent: 'near you',
+    ctaText: 'Open an account, book a deposit or apply for a loan at any Lokmangal branch. Our team will be happy to help.',
+  },
+  {
+    metaTitle: 'शाखा',
+    metaDescription: 'तुमच्या जवळची लोकमंगल मल्टीस्टेट शाखा शोधा: पुणे, सोलापूर, धाराशिव, लातूर, कोल्हापूर, परभणी, बेळगाव आणि इतर ठिकाणी, महाराष्ट्र व कर्नाटकात {n} शाखा.',
+    eyebrow: 'आमचे जाळे',
+    title: 'तुमच्या जवळची',
+    accent: 'शाखा शोधा',
+    lead: 'महाराष्ट्र आणि कर्नाटकातील गावे व शहरांत {n} शाखा. गाव, पत्ता किंवा विभागानुसार तुमची शाखा शोधा.',
+    factBranches: 'शाखा',
+    factDivisions: 'विभाग',
+    factStates: 'राज्ये',
+    findCta: 'तुमची शाखा शोधा',
+    hoCta: 'मुख्य कार्यालय',
+    hoEyebrow: 'मुख्य कार्यालय',
+    hoPlace: 'शेळगी, सोलापूर',
+    address: 'पत्ता',
+    phone: 'फोन',
+    email: 'ईमेल',
+    ifsc: 'आयएफएससी',
+    directions: 'नकाशावर मार्ग पाहा',
+    call: 'कॉल करा',
+    mapTitle: 'गुगल नकाशावर लोकमंगल मल्टीस्टेट मुख्य कार्यालय',
+    netEyebrow: 'शाखांचे जाळे',
+    netTitle: '{n} शाखा,',
+    netAccent: '{d} विभाग',
+    searchLabel: 'शाखा शोधा',
+    searchPh: 'तुमचे गाव शोधा',
+    pickTitle: 'विभाग निवडा',
+    close: 'बंद करा',
+    allShort: 'सर्व',
+    matching: 'शाखा',
+    divisionsLabel: 'विभाग',
+    all: 'सर्व विभाग',
+    countOne: '{n} शाखा',
+    countMany: '{n} शाखा',
+    code: 'शाखा कोड',
+    dirTo: '{name} शाखेचा मार्ग',
+    route: 'मार्ग',
+    noneTitle: 'तुमच्या शोधाशी जुळणारी शाखा नाही.',
+    noneText: 'दुसऱ्या गावाचे नाव लिहून पाहा, किंवा {phone} वर कॉल करा.',
+    ctaTitle: 'आमच्या शाखेला',
+    ctaAccent: 'भेट द्या',
+    ctaText: 'कोणत्याही लोकमंगल शाखेत खाते उघडा, ठेव ठेवा किंवा कर्जासाठी अर्ज करा. आमची टीम मदतीसाठी तयार आहे.',
+  },
+);
+
+const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const maps = (q: string) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+const tel = (p: string) => `tel:${p.replace(/[^\d+]/g, '')}`;
+const count = (n: number) => c(n === 1 ? 'countOne' : 'countMany', { n: String(n) });
+// Each division gets its own line colour, like the routes on a transport map.
+const lines = ['var(--g-600)', 'var(--o-500)', '#b8862b', 'var(--g-800)', '#c2410c', '#3f7d5a'];
+const most = Math.max(...divisions.map((d) => d.branches.length));
+const routes = divisions.map((d, i) => {
+  const en = english.get(d.branches[0]?.code ?? '')?.division ?? d.name;
+  return { ...d, short: d.name.replace(/\s+(Division|Region|विभाग|क्षेत्र)$/u, ''), id: slug(en), n: String(i + 1).padStart(2, '0'), line: lines[i % lines.length], share: d.branches.length / most, en };
+});
+const n = String(branchCount);
+const banner = existsSync(join(process.cwd(), 'public', '/images/branches/banner.webp')) ? '/images/branches/banner.webp' : '/images/hero/hero-1.webp';
+---
+
+<Base title={c('metaTitle')} description={c('metaDescription', { n })}>
+  <!-- BANNER -->
+  <section class="bh-hero">
+    <img src={banner} alt="" class="bh-hero__img" width="1920" height="1080" fetchpriority="high" />
+    <div class="container bh-hero__inner">
+      <nav class="bh-crumbs" aria-label={t('breadcrumb')}>
+        <a href={l('/')}>{t('home')}</a>
+        <Icon name="chevron-right" size={14} />
+        <span aria-current="page">{c('metaTitle')}</span>
+      </nav>
+      <div class="bh-hero__copy">
+        <p class="bh-hero__eyebrow">{c('eyebrow')}</p>
+        <h1 class="h1 bh-hero__title" data-reveal>{c('title')} <em>{c('accent')}</em></h1>
+        <p class="lead bh-hero__lead" data-reveal style="--d:120ms">{c('lead', { n })}</p>
+        <div class="btn-row" data-reveal style="--d:200ms">
+          <a href="#find" class="btn btn--primary btn--lg" data-bh-find>{c('findCta')} <Icon name="arrow-down" size={18} /></a>
+          <a href="#head-office" class="btn btn--light btn--lg">{c('hoCta')}</a>
+        </div>
+        <dl class="bh-facts" data-stagger>
+          <div><dt>{c('factBranches')}</dt><dd><span data-count={branchCount}>{branchCount}</span></dd></div>
+          <div><dt>{c('factDivisions')}</dt><dd><span data-count={divisions.length}>{divisions.length}</span></dd></div>
+          <div><dt>{c('factStates')}</dt><dd>2</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- HEAD OFFICE -->
+  <section class="section bh-ho-sec" id="head-office">
+    <div class="container">
+      <div class="bh-ho" data-reveal>
+        <div class="bh-ho__info">
+          <p class="eyebrow">{c('hoEyebrow')}</p>
+          <h2 class="bh-ho__title">{site.legalName}<span>{c('hoPlace')}</span></h2>
+          <dl class="bh-ledger">
+            <div><dt>{c('address')}</dt><dd>{headOffice.address}</dd></div>
+            <div><dt>{c('phone')}</dt><dd><a href={site.phoneHref}>{site.phone}</a></dd></div>
+            <div><dt>{c('email')}</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a><br /><a href={`mailto:${site.hrEmail}`}>{site.hrEmail}</a></dd></div>
+            <div><dt>{c('ifsc')}</dt><dd><strong class="bh-ifsc">{site.ifsc}</strong></dd></div>
+          </dl>
+          <div class="btn-row">
+            <a href={site.mapLink} target="_blank" rel="noopener" class="btn btn--green">{c('directions')} <Icon name="arrow-up-right" size={18} /></a>
+            <a href={site.phoneHref} class="btn btn--ghost">{c('call')}</a>
+          </div>
+        </div>
+        <div class="bh-ho__map">
+          <iframe src={site.mapEmbed} title={c('mapTitle')} loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRANCH LOCATOR: each division drawn as a route, its branches as the stops -->
+  <section class="section bh-net" id="find">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">{c('netEyebrow')}</p>
+        <h2 class="h2">{c('netTitle', { n })} <em>{c('netAccent', { d: String(divisions.length) })}</em></h2>
+      </div>
+
+      <div class="bh-bar">
+        <label class="bh-search">
+          <span class="sr-only">{c('searchLabel')}</span>
+          <Icon name="search" size={20} />
+          <input type="search" placeholder={c('searchPh')} autocomplete="off" data-branch-search />
+        </label>
+        <button type="button" class="bh-pick" aria-haspopup="dialog" data-bh-pick>
+          <span class="sr-only">{c('divisionsLabel')}:</span>
+          <span class="bh-pick__value" data-bh-pick-value>{c('allShort')}</span>
+          <span class="bh-pick__count" data-bh-pick-count>{branchCount}</span>
+          <span class="bh-pick__chev" aria-hidden="true"></span>
+        </button>
+        <p class="bh-bar__count" aria-live="polite"><strong data-branch-count>{branchCount}</strong> {c('matching')}</p>
+      </div>
+
+      <div class="bh-board">
+        <nav class="bh-nav bh-nav--side" aria-label={c('divisionsLabel')}>
+          <button type="button" class="bh-nav__btn bh-nav__btn--all" data-division-filter="all" data-short={c('allShort')} aria-pressed="true">
+            <span class="bh-nav__name">{c('all')}</span>
+            <span class="bh-nav__count" data-nav-count="all">{branchCount}</span>
+          </button>
+          {routes.map((r) => (
+            <button type="button" class="bh-nav__btn" data-division-filter={r.id} data-short={r.short} aria-pressed="false" style={`--route:${r.line};--share:${r.share}`}>
+              <span class="bh-nav__name">{r.name}</span>
+              <span class="bh-nav__count" data-nav-count={r.id}>{r.branches.length}</span>
+              <span class="bh-nav__bar" aria-hidden="true"></span>
+            </button>
+          ))}
+        </nav>
+
+        <div class="divisions bh-routes">
+          {routes.map((r) => (
+            <section class="bh-div" data-division={r.id} style={`--route:${r.line}`}>
+              <header class="bh-div__head">
+                <span class="bh-div__no">{r.n}</span>
+                <h3 class="bh-div__name">{r.name}</h3>
+                <span class="bh-div__count">{count(r.branches.length)}</span>
+              </header>
+              <ol class="bh-route">
+                {r.branches.map((b) => {
+                  const en = english.get(b.code);
+                  const words = [b.name, en?.name, b.address, r.name, r.en, b.code].filter(Boolean).join(' ').toLowerCase();
+                  return (
+                    <li class="bh-stop" data-branch={words}>
+                      <span class="bh-stop__node" aria-hidden="true"></span>
+                      <div class="bh-stop__head">
+                        <h4 class="bh-stop__name">{b.name}</h4>
+                        <span class="bh-stop__code" title={c('code')}>{b.code}</span>
+                      </div>
+                      <p class="bh-stop__addr">{b.address}</p>
+                      <div class="bh-stop__act">
+                        {b.phones.map((p) => <a href={tel(p)} class="bh-stop__phone">{p}</a>)}
+                        <a href={maps(`Lokmangal Multistate ${en?.name ?? b.name} ${b.address}`)} target="_blank" rel="noopener" class="bh-stop__dir" aria-label={c('dirTo', { name: b.name })}>{c('route')} <Icon name="arrow-up-right" size={14} /></a>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ol>
+            </section>
+          ))}
+          <div class="bh-empty" data-branch-empty hidden>
+            <p class="bh-empty__title">{c('noneTitle')}</p>
+            <p set:html={c('noneText', { phone: `<a href="${site.phoneHref}">${site.phone}</a>` })} />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <dialog class="bh-sheet" aria-labelledby="bh-sheet-title" data-bh-sheet>
+      <div class="bh-sheet__head">
+        <span class="bh-sheet__grip" aria-hidden="true"></span>
+        <p class="bh-sheet__title" id="bh-sheet-title">{c('pickTitle')}</p>
+        <button type="button" class="bh-sheet__close" aria-label={c('close')} data-bh-sheet-close>×</button>
+      </div>
+      <div class="bh-nav bh-nav--sheet">
+        <button type="button" class="bh-nav__btn bh-nav__btn--all" data-division-filter="all" data-short={c('allShort')} aria-pressed="true">
+          <span class="bh-nav__name">{c('all')}</span>
+          <span class="bh-nav__count" data-nav-count="all">{branchCount}</span>
+        </button>
+        {routes.map((r) => (
+          <button type="button" class="bh-nav__btn" data-division-filter={r.id} data-short={r.short} aria-pressed="false" style={`--route:${r.line};--share:${r.share}`}>
+            <span class="bh-nav__name">{r.name}</span>
+            <span class="bh-nav__count" data-nav-count={r.id}>{r.branches.length}</span>
+            <span class="bh-nav__bar" aria-hidden="true"></span>
+          </button>
+        ))}
+      </div>
+    </dialog>
+  </section>
+
+  <CtaBand title={c('ctaTitle')} accent={c('ctaAccent')} text={c('ctaText')} />
+</Base>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const search = document.querySelector<HTMLInputElement>('[data-branch-search]');
+    if (!search) return;
+    const net = document.querySelector<HTMLElement>('.bh-net');
+    const header = document.querySelector<HTMLElement>('[data-header]');
+    const bar = document.querySelector<HTMLElement>('.bh-bar');
+    const routes = document.querySelector<HTMLElement>('.bh-routes');
+    const groups = Array.from(document.querySelectorAll<HTMLElement>('[data-division]'));
+    const pick = document.querySelector<HTMLElement>('[data-bh-pick]');
+    const pickValue = document.querySelector<HTMLElement>('[data-bh-pick-value]');
+    const pickCount = document.querySelector<HTMLElement>('[data-bh-pick-count]');
+    const sheet = document.querySelector<HTMLDialogElement>('[data-bh-sheet]');
+
+    // The division lists show how many branches in each division match what is typed.
+    const counts = () => {
+      const q = search.value.trim().toLowerCase();
+      let total = 0;
+      groups.forEach((g) => {
+        const n = Array.from(g.querySelectorAll<HTMLElement>('[data-branch]')).filter((b) => !q || (b.dataset.branch ?? '').includes(q)).length;
+        total += n;
+        document.querySelectorAll<HTMLElement>(`[data-nav-count="${g.dataset.division}"]`).forEach((el) => {
+          el.textContent = String(n);
+          el.closest('button')?.classList.toggle('is-empty', n === 0);
+        });
+      });
+      document.querySelectorAll<HTMLElement>('[data-nav-count="all"]').forEach((el) => (el.textContent = String(total)));
+    };
+    // The division button in the search bar shows the chosen division and how many branches are on screen.
+    const syncPick = () => {
+      const on = document.querySelector<HTMLElement>('.bh-nav--side [aria-pressed="true"]');
+      if (pickValue) pickValue.textContent = on?.dataset.short ?? '';
+      pick?.classList.toggle('is-filtered', !!on && on.dataset.divisionFilter !== 'all');
+      if (pickCount) pickCount.textContent = String(document.querySelectorAll('[data-branch]:not([hidden])').length);
+    };
+    search.addEventListener('input', () => { counts(); requestAnimationFrame(syncPick); });
+    counts();
+    requestAnimationFrame(syncPick);
+    // Enter jumps to the first matching branch.
+    search.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter') return;
+      e.preventDefault();
+      search.blur();
+      document.querySelector<HTMLElement>('[data-branch]:not([hidden])')?.closest('[data-division]')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    // The search bar sits right under the header and moves up when the header slides away.
+    const place = () => { if (net && header) net.style.setProperty('--bh-header', `${header.offsetHeight}px`); };
+    // While all divisions are listed, the division on screen is marked in the side list.
+    const navFor = (g: HTMLElement) => document.querySelector<HTMLElement>(`.bh-nav--side [data-division-filter="${g.dataset.division}"]`);
+    const mark = () => {
+      place();
+      const line = Math.max((bar?.getBoundingClientRect().bottom ?? 160) + 60, innerHeight * 0.35);
+      let current: HTMLElement | undefined;
+      for (const g of groups) if (!g.hidden && g.getBoundingClientRect().top <= line) current = g;
+      groups.forEach((g) => navFor(g)?.classList.toggle('is-current', g === current));
+    };
+    let frame = 0;
+    const onScroll = () => { cancelAnimationFrame(frame); frame = requestAnimationFrame(mark); };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    mark();
+
+    // Phones and tablets choose a division from a sheet that slides up.
+    const closeSheet = () => {
+      if (!sheet?.open || sheet.classList.contains('is-closing')) return;
+      sheet.classList.add('is-closing');
+      const done = () => { sheet.classList.remove('is-closing'); sheet.close(); };
+      sheet.addEventListener('animationend', done, { once: true });
+      setTimeout(() => sheet.open && done(), 400);
+    };
+    pick?.addEventListener('click', () => sheet?.showModal());
+    sheet?.querySelector('[data-bh-sheet-close]')?.addEventListener('click', closeSheet);
+    sheet?.addEventListener('click', (e) => { if (e.target === sheet) closeSheet(); });
+    sheet?.addEventListener('cancel', (e) => { e.preventDefault(); closeSheet(); });
+
+    // Choosing a division brings its branches into view.
+    document.querySelectorAll<HTMLElement>('[data-division-filter]').forEach((b) =>
+      b.addEventListener('click', () => {
+        const fromSheet = !!sheet?.contains(b);
+        if (fromSheet) closeSheet();
+        requestAnimationFrame(() => {
+          syncPick();
+          mark();
+          const top = routes?.getBoundingClientRect().top ?? 0;
+          if (routes && (top < 0 || (fromSheet && top > innerHeight * 0.5))) routes.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      }),
+    );
+    document.addEventListener('astro:before-swap', () => { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); }, { once: true });
+    // "Find your branch" in the banner puts the cursor in the search box.
+    document.querySelector('[data-bh-find]')?.addEventListener('click', () => setTimeout(() => search.focus({ preventScroll: true }), 500));
+  });
+</script>
+
+<style>
+  /* ---------- Banner ---------- */
+  .bh-hero { position: relative; isolation: isolate; overflow: hidden; display: flex; min-height: clamp(560px, 76vh, 700px); color: #fff; background: var(--g-950); }
+  .bh-hero__img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 70% 40%; animation: bh-settle 14s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  @keyframes bh-settle { from { transform: scale(1.12); } }
+  .bh-hero::after {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(90deg, rgb(4 36 23 / 0.96) 0%, rgb(4 36 23 / 0.86) 34%, rgb(4 36 23 / 0.36) 58%, rgb(4 36 23 / 0.06) 82%, transparent 100%), linear-gradient(0deg, rgb(4 36 23 / 0.55), transparent 30%);
+  }
+  .bh-hero__inner { display: flex; flex-direction: column; padding-block: clamp(40px, 6vw, 72px) clamp(48px, 6vw, 80px); }
+  .bh-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.86rem; font-weight: 600; color: rgb(255 255 255 / 0.6); }
+  .bh-crumbs a { color: rgb(255 255 255 / 0.8); }
+  .bh-crumbs span { color: var(--gold); }
+  .bh-hero__copy { margin-block: auto; padding-top: clamp(24px, 4vw, 40px); max-width: 640px; min-width: 0; display: grid; gap: 20px; }
+  .bh-hero__eyebrow { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g-300); }
+  :global(html[lang='mr']) .bh-hero__eyebrow { letter-spacing: 0; text-transform: none; font-size: 0.95rem; }
+  .bh-hero__title { color: #fff; }
+  .bh-hero__title em { display: block; color: var(--gold); }
+  .bh-hero__lead { color: rgb(255 255 255 / 0.86); }
+  .bh-facts { display: flex; flex-wrap: wrap; margin: 6px 0 0; padding-top: 18px; border-top: 1px solid rgb(255 255 255 / 0.16); }
+  .bh-facts > div { display: flex; flex-direction: column-reverse; gap: 2px; padding-right: clamp(18px, 3vw, 32px); margin-right: clamp(18px, 3vw, 32px); border-right: 1px solid rgb(255 255 255 / 0.16); }
+  .bh-facts > div:last-child { border-right: 0; margin-right: 0; padding-right: 0; }
+  .bh-facts dd { margin: 0; font-size: clamp(2rem, 3.6vw, 2.6rem); font-weight: 800; line-height: 1; letter-spacing: -0.03em; color: var(--gold); }
+  .bh-facts dt { font-size: 0.86rem; font-weight: 600; color: rgb(255 255 255 / 0.75); }
+  @media (max-width: 899px) {
+    .bh-hero { min-height: 0; }
+    .bh-hero__img { inset: 0 0 auto 0; height: min(66vw, 320px); }
+    .bh-hero::after { background: linear-gradient(180deg, rgb(4 36 23 / 0.35) 0, rgb(4 36 23 / 0.1) 80px, var(--g-950) min(66vw, 320px)); }
+    .bh-hero__copy { padding-top: calc(min(66vw, 320px) - 70px); }
+  }
+
+  /* ---------- Head office ---------- */
+  .bh-ho-sec { background: var(--bg); padding-bottom: 0; scroll-margin-top: var(--header-h); }
+  .bh-ho { display: grid; overflow: hidden; border-radius: var(--r-xl); background: #fff; box-shadow: 0 34px 60px -40px rgb(5 42 26 / 0.55); }
+  @media (min-width: 960px) { .bh-ho { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); } }
+  .bh-ho__info { display: grid; gap: 18px; align-content: center; justify-items: start; padding: clamp(24px, 3.4vw, 44px); border-top: 4px solid var(--o-500); }
+  @media (min-width: 960px) { .bh-ho__info { border-top: 0; border-left: 4px solid var(--o-500); } }
+  .bh-ho__title { font-size: clamp(1.35rem, 2.4vw, 1.75rem); line-height: 1.25; color: var(--g-900); text-wrap: balance; }
+  .bh-ho__title span { display: block; margin-top: 4px; font-size: 0.62em; font-weight: 700; color: var(--o-600); }
+  .bh-ledger { display: grid; width: 100%; margin: 0; border-top: 1px solid var(--line); }
+  .bh-ledger > div { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .bh-ledger dt { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding-top: 2px; }
+  :global(html[lang='mr']) .bh-ledger dt { letter-spacing: 0; text-transform: none; font-size: 0.9rem; }
+  .bh-ledger dd { margin: 0; font-weight: 600; color: var(--ink); overflow-wrap: anywhere; }
+  .bh-ledger a { color: var(--g-700); }
+  .bh-ledger a:hover { color: var(--o-strong-hover); }
+  .bh-ifsc { font-size: 1.05rem; letter-spacing: 0.06em; color: var(--g-900); }
+  .bh-ho__map { position: relative; min-height: 340px; background: var(--g-50); }
+  .bh-ho__map iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  @media (max-width: 559px) { .bh-ledger > div { grid-template-columns: 1fr; gap: 2px; } .bh-ho__map { min-height: 280px; } }
+
+  /* ---------- Branch locator ---------- */
+  .bh-net { --bh-head: var(--bh-header, 72px); background: var(--bg); scroll-margin-top: var(--header-h); }
+  :global(body:has([data-header].is-hidden)) .bh-net { --bh-head: 0px; }
+  /* Search bar stays in view while scrolling through the branches */
+  /* Search bar stays in view under the header (and moves up when the header slides away) */
+  .bh-bar {
+    position: sticky; top: calc(var(--bh-head) + 8px); z-index: 5; display: flex; align-items: center; gap: 10px 24px;
+    margin: 0 -10px 26px; padding: 10px; border-radius: 16px; background: var(--bg);
+    transition: top 0.45s var(--ease-out);
+  }
+  .bh-search {
+    flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px; height: 60px; padding: 0 18px;
+    border-radius: 12px; background: #fff; border: 2px solid var(--line); transition: border-color 0.25s, box-shadow 0.25s;
+  }
+  .bh-search:focus-within { border-color: var(--g-600); box-shadow: 0 0 0 4px rgb(35 146 82 / 0.12); }
+  .bh-search :global(.icon) { flex: none; color: var(--g-700); }
+  .bh-search input { flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: transparent; font: inherit; font-size: 1rem; font-weight: 500; color: var(--ink); }
+  .bh-bar__count { flex: none; font-weight: 600; color: var(--muted); }
+  /* Division button in the bar (phones and tablets) */
+  .bh-pick {
+    display: none; flex: none; align-items: center; gap: 8px; max-width: 48%; height: 54px; padding: 0 12px 0 14px;
+    font: inherit; font-weight: 700; font-size: 0.92rem; color: var(--g-900); background: #fff;
+    border: 2px solid var(--line); border-radius: 12px; cursor: pointer; transition: background 0.25s, color 0.25s, border-color 0.25s;
+  }
+  .bh-pick__value { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bh-pick__count { flex: none; display: grid; place-items: center; min-width: 26px; height: 24px; padding: 0 7px; border-radius: 999px; font-size: 0.78rem; font-weight: 800; background: var(--g-100); color: var(--g-800); font-variant-numeric: tabular-nums; }
+  .bh-pick__chev { flex: none; width: 8px; height: 8px; margin: -4px 2px 0 0; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; rotate: 45deg; }
+  .bh-pick.is-filtered { background: var(--g-900); border-color: var(--g-900); color: #fff; }
+  .bh-pick.is-filtered .bh-pick__count { background: var(--gold); color: var(--ink); }
+  .bh-bar__count strong { font-size: 1.5rem; font-weight: 800; color: var(--g-800); font-variant-numeric: tabular-nums; }
+
+  .bh-board { display: grid; gap: clamp(24px, 3vw, 40px); align-items: start; }
+  @media (min-width: 1000px) { .bh-board { grid-template-columns: 290px minmax(0, 1fr); } }
+
+  /* Division list: name, matching count and a bar for the division's size */
+  .bh-nav { display: grid; gap: 4px; }
+  @media (min-width: 1000px) { .bh-nav--side { position: sticky; top: calc(var(--bh-head) + 104px); max-height: calc(100vh - var(--bh-head) - 124px); overflow-y: auto; scrollbar-width: thin; padding-right: 4px; transition: top 0.45s var(--ease-out), max-height 0.45s var(--ease-out); } }
+  .bh-nav__btn {
+    position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; align-items: center; width: 100%;
+    padding: 11px 14px 13px; text-align: left; font: inherit; color: var(--ink); background: transparent; border: 0; border-radius: 12px; cursor: pointer;
+    transition: background 0.25s, color 0.25s, opacity 0.25s;
+  }
+  .bh-nav__btn:hover { background: rgb(13 74 45 / 0.06); }
+  .bh-nav__name { font-weight: 700; font-size: 0.95rem; line-height: 1.3; }
+  .bh-nav__count { font-weight: 800; font-size: 0.9rem; color: var(--g-700); font-variant-numeric: tabular-nums; }
+  .bh-nav__bar { grid-column: 1 / -1; height: 4px; border-radius: 4px; background: var(--line-2); overflow: hidden; }
+  .bh-nav__bar::before { content: ''; display: block; height: 100%; width: calc(var(--share, 1) * 100%); border-radius: inherit; background: var(--line); transition: background 0.3s; }
+  .bh-nav__btn:hover .bh-nav__bar::before, .bh-nav__btn[aria-pressed='true'] .bh-nav__bar::before { background: var(--route, var(--line)); }
+  .bh-nav__btn[aria-pressed='true'] { background: var(--g-900); color: #fff; }
+  .bh-nav__btn[aria-pressed='true'] .bh-nav__count { color: var(--gold); }
+  .bh-nav__btn[aria-pressed='true'] .bh-nav__bar { background: rgb(255 255 255 / 0.14); }
+  .bh-nav__btn.is-empty { opacity: 0.4; }
+  /* The division on screen, while all divisions are listed */
+  .bh-nav__btn.is-current:not([aria-pressed='true']) { background: #fff; box-shadow: inset 3px 0 0 var(--route, var(--g-700)); }
+  .bh-nav__btn.is-current .bh-nav__bar::before { background: var(--route, var(--line)); }
+  .bh-nav__btn--all { margin-bottom: 6px; border: 1.5px solid var(--line); }
+  .bh-nav__btn--all[aria-pressed='true'] { border-color: var(--g-900); }
+
+  /* Route: a coloured line with a node for every branch */
+  .bh-routes { display: grid; gap: clamp(28px, 3vw, 40px); scroll-margin-top: calc(var(--header-h) + 110px); }
+  .bh-div { scroll-margin-top: calc(var(--header-h) + 110px); }
+  .bh-div[hidden] { display: none; }
+  .bh-div__head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; padding: 0 0 14px; margin-bottom: 4px; border-bottom: 3px solid var(--route); }
+  .bh-div__no { font-size: 0.85rem; font-weight: 800; color: var(--route); padding: 3px 8px; border-radius: 6px; background: color-mix(in srgb, var(--route) 12%, transparent); }
+  .bh-div__name { font-size: clamp(1.25rem, 2vw, 1.5rem); color: var(--g-900); }
+  .bh-div__count { margin-left: auto; font-size: 0.86rem; font-weight: 700; color: var(--muted); }
+  .bh-route { position: relative; list-style: none; margin: 0; padding: 0; }
+  .bh-route::before { content: ''; position: absolute; left: 10px; top: 0; bottom: 0; width: 3px; border-radius: 3px; background: var(--route); opacity: 0.85; }
+  .bh-stop {
+    position: relative; display: grid; grid-template-columns: minmax(0, 13rem) minmax(0, 1fr) auto; gap: 6px 22px; align-items: center;
+    padding: 16px 16px 16px 40px; border-bottom: 1px solid var(--line-2); border-radius: 12px; transition: background 0.25s;
+  }
+  .bh-stop[hidden] { display: none; }
+  @media (hover: hover) { .bh-stop:hover { background: #fff; } .bh-stop:hover .bh-stop__node { background: var(--route); transform: scale(1.25); } }
+  .bh-stop__node {
+    position: absolute; left: 4px; top: 50%; width: 15px; height: 15px; margin-top: -7.5px; border-radius: 50%;
+    background: #fff; border: 3px solid var(--route); transition: background 0.25s, transform 0.3s var(--ease-out);
+  }
+  .bh-stop__head { display: grid; gap: 2px; justify-items: start; }
+  .bh-stop__name { font-size: 1.05rem; line-height: 1.3; color: var(--g-900); }
+  .bh-stop__code { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .bh-stop__addr { font-size: 0.9rem; line-height: 1.5; color: var(--muted); }
+  .bh-stop__act { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 6px 14px; }
+  .bh-stop__phone { font-weight: 700; font-size: 0.9rem; color: var(--g-700); white-space: nowrap; font-variant-numeric: tabular-nums; border-bottom: 1.5px solid transparent; transition: border-color 0.2s, color 0.2s; }
+  .bh-stop__phone:hover { color: var(--o-strong-hover); border-color: currentColor; }
+  .bh-stop__dir { display: inline-flex; align-items: center; gap: 4px; padding: 7px 12px; border-radius: 9px; font-weight: 700; font-size: 0.84rem; color: var(--g-800); background: var(--g-100); white-space: nowrap; transition: background 0.2s, color 0.2s; }
+  .bh-stop__dir:hover { background: var(--g-800); color: #fff; }
+  @media (max-width: 1199px) {
+    .bh-stop { grid-template-columns: minmax(0, 1fr) auto; }
+    .bh-stop__addr { grid-column: 1; }
+    .bh-stop__act { grid-column: 2; grid-row: 1 / span 2; flex-direction: column; align-items: flex-end; }
+  }
+  @media (max-width: 999px) {
+    /* The side list gives way to the division button in the bar, which opens the sheet */
+    .bh-nav--side { display: none; }
+    .bh-pick { display: flex; }
+    .bh-bar__count { display: none; }
+    .bh-bar { top: var(--bh-head); margin-inline: calc(var(--gutter) * -1); padding: 10px var(--gutter); border-radius: 0; border-bottom: 1px solid var(--line-2); box-shadow: 0 14px 22px -20px rgb(5 42 26 / 0.55); }
+  }
+  @media (max-width: 599px) {
+    .bh-stop { grid-template-columns: 1fr; padding: 14px 8px 14px 36px; }
+    .bh-stop__act { grid-column: 1; grid-row: auto; flex-direction: row; justify-content: flex-start; align-items: center; }
+    .bh-search { height: 54px; padding: 0 14px; gap: 10px; }
+  }
+
+  /* ---------- Division sheet (phones and tablets) ---------- */
+  .bh-sheet {
+    position: fixed; inset: auto 0 0 0; width: 100%; max-width: 100%; max-height: 84vh; margin: 0; padding: 0;
+    border: 0; border-radius: 22px 22px 0 0; background: var(--bg); color: var(--ink); overflow: hidden;
+    box-shadow: 0 -24px 60px -24px rgb(0 0 0 / 0.45);
+  }
+  .bh-sheet[open] { display: flex; flex-direction: column; animation: bh-up 0.45s var(--ease-out); }
+  .bh-sheet.is-closing { animation: bh-down 0.3s ease-in forwards; }
+  .bh-sheet::backdrop { background: rgb(4 36 23 / 0.55); }
+  @keyframes bh-up { from { translate: 0 100%; } }
+  @keyframes bh-down { to { translate: 0 100%; } }
+  .bh-sheet__head { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 22px 16px 12px 20px; border-bottom: 1px solid var(--line-2); }
+  .bh-sheet__grip { position: absolute; left: 50%; top: 8px; width: 44px; height: 4px; margin-left: -22px; border-radius: 4px; background: var(--line); }
+  .bh-sheet__title { font-size: 1.12rem; font-weight: 800; color: var(--g-900); }
+  .bh-sheet__close { flex: none; width: 40px; height: 40px; border: 0; border-radius: 10px; background: var(--g-100); color: var(--g-800); font-size: 1.5rem; line-height: 1; cursor: pointer; }
+  .bh-nav--sheet { overflow-y: auto; padding: 12px 16px calc(20px + env(safe-area-inset-bottom)); gap: 6px; }
+  .bh-nav--sheet .bh-nav__btn { border: 1.5px solid var(--line-2); background: #fff; }
+  .bh-nav--sheet .bh-nav__btn[aria-pressed='true'] { background: var(--g-900); border-color: var(--g-900); }
+  @media (min-width: 560px) { .bh-nav--sheet { grid-template-columns: 1fr 1fr; } .bh-nav--sheet .bh-nav__btn--all { grid-column: 1 / -1; } }
+  @media (min-width: 1000px) { .bh-sheet { display: none !important; } }
+  @media (prefers-reduced-motion: reduce) { .bh-sheet[open], .bh-sheet.is-closing { animation: none; } }
+
+  .bh-empty { padding: 40px 24px; border-radius: var(--r-lg); border: 2px dashed var(--line); text-align: center; color: var(--muted); }
+  .bh-empty[hidden] { display: none; }
+  .bh-empty__title { font-weight: 700; font-size: 1.1rem; color: var(--g-900); margin-bottom: 6px; }
+  .bh-empty :global(a) { color: var(--g-700); font-weight: 700; }
+
+  @media (prefers-reduced-motion: reduce) { .bh-hero__img { animation: none; } }
+</style>

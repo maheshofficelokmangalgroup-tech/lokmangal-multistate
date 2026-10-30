@@ -1,0 +1,78 @@
+---
+import Base from '../../layouts/Base.astro';
+import LegalDoc from '../../components/LegalDoc.astro';
+import { siteData } from '../../data/site';
+import { getLang, langPaths, localePath } from '../../i18n';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+
+const lang = getLang(Astro);
+const { site } = siteData(lang);
+const mail = `<a href="mailto:${site.email}">${site.email}</a>`;
+const phone = `<a href="${site.phoneHref}">${site.phone}</a>`;
+
+const en = {
+  metaTitle: 'Terms of Use',
+  metaDescription: 'Terms of use for the Lokmangal Multistate Co-operative Society website.',
+  title: 'Terms of',
+  accent: 'use',
+  lead: 'The terms that apply when you use this website. Please read them before relying on any information here.',
+  summary: [
+    'Rates and scheme details on this site are for information. Confirm them at your branch before you decide.',
+    'Calculator results are estimates, not an offer.',
+    'Sending a form does not open an account, deposit or loan. Our team will contact you.',
+  ],
+  related: 'Privacy Policy',
+  sections: [
+    ['using', 'Using this website', `<p>Welcome to the website of ${site.legalName} (“Lokmangal”, “we”, “us”). By using this website you agree to these terms. If you do not agree, please do not use the site.</p>`],
+    ['information', 'Information on this website', `<p>The information on this website, including interest rates, scheme details and loan terms, is provided for general information only. Rates and terms may change without prior notice. Please confirm current details at your branch before making any financial decision. The final terms of any product are those set out in the account-opening or loan documents you sign.</p>`],
+    ['calculators', 'Calculators', `<p>Calculators are provided for illustration. Results are indicative and do not constitute an offer. Actual returns or repayments may differ because of exact tenure, compounding, taxes (including TDS) and scheme rules.</p>`],
+    ['membership', 'Membership', `<p>Lokmangal is a multi-state co-operative society registered under the ${site.act} (Registration No. ${site.registration}). Its financial services are offered to members in accordance with the Act, its rules and the society’s bye-laws.</p>`],
+    ['enquiries', 'Enquiries submitted online', `<p>Submitting a form on this website does not open an account, deposit or loan. Our team will contact you to complete the process at a branch, including KYC verification.</p>`],
+    ['ip', 'Intellectual property', `<p>The Lokmangal name, logo and content on this website belong to Lokmangal and may not be used without permission.</p>`],
+    ['links', 'Links to other websites', `<p>This website may link to external sites, such as app stores or social media. We are not responsible for the content or privacy practices of those sites.</p>`],
+    ['contact', 'Contact', `<p>Questions about these terms? Email ${mail} or call ${phone}.</p>`],
+  ],
+};
+
+const mr = {
+  metaTitle: 'वापराच्या अटी',
+  metaDescription: 'लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटीच्या संकेतस्थळाच्या वापराच्या अटी.',
+  title: 'वापराच्या',
+  accent: 'अटी',
+  lead: 'हे संकेतस्थळ वापरताना लागू होणाऱ्या अटी. येथील माहितीवर अवलंबून राहण्यापूर्वी त्या वाचा.',
+  summary: [
+    'येथील व्याजदर आणि योजनांची माहिती फक्त माहितीसाठी आहे. निर्णय घेण्यापूर्वी तुमच्या शाखेत खात्री करा.',
+    'कॅल्क्युलेटरचे निकाल अंदाजे आहेत, ती ऑफर नाही.',
+    'फॉर्म पाठवल्याने खाते, ठेव किंवा कर्ज सुरू होत नाही. आमची टीम तुमच्याशी संपर्क करेल.',
+  ],
+  related: 'गोपनीयता धोरण',
+  sections: [
+    ['using', 'संकेतस्थळाचा वापर', `<p>${site.legalName} (“लोकमंगल”, “आम्ही”) यांच्या संकेतस्थळावर तुमचे स्वागत आहे. हे संकेतस्थळ वापरून तुम्ही या अटी मान्य करता. तुम्हाला त्या मान्य नसल्यास कृपया संकेतस्थळ वापरू नका.</p>`],
+    ['information', 'संकेतस्थळावरील माहिती', `<p>व्याजदर, योजनांचा तपशील आणि कर्जाच्या अटींसह या संकेतस्थळावरील माहिती केवळ सर्वसाधारण माहितीसाठी दिली आहे. दर आणि अटी पूर्वसूचनेशिवाय बदलू शकतात. कोणताही आर्थिक निर्णय घेण्यापूर्वी तुमच्या शाखेत सध्याची माहिती तपासा. कोणत्याही उत्पादनाच्या अंतिम अटी म्हणजे तुम्ही सही करता त्या खाते उघडण्याच्या किंवा कर्जाच्या कागदपत्रांतील अटी.</p>`],
+    ['calculators', 'कॅल्क्युलेटर', `<p>कॅल्क्युलेटर उदाहरणासाठी दिले आहेत. त्यांचे निकाल अंदाजे असून ती ऑफर नाही. नेमकी मुदत, चक्रवाढ, कर (टीडीएससह) आणि योजनेचे नियम यांमुळे प्रत्यक्ष परतावा किंवा हप्ता वेगळा असू शकतो.</p>`],
+    ['membership', 'सभासदत्व', `<p>लोकमंगल ही ${site.act} अंतर्गत नोंदणीकृत बहुराज्य सहकारी संस्था आहे (नोंदणी क्र. ${site.registration}). तिच्या आर्थिक सेवा कायदा, त्याखालील नियम आणि संस्थेच्या उपविधींनुसार सभासदांना दिल्या जातात.</p>`],
+    ['enquiries', 'ऑनलाइन पाठवलेल्या चौकशा', `<p>या संकेतस्थळावर फॉर्म पाठवल्याने खाते, ठेव किंवा कर्ज सुरू होत नाही. केवायसी तपासणीसह प्रक्रिया शाखेत पूर्ण करण्यासाठी आमची टीम तुमच्याशी संपर्क करेल.</p>`],
+    ['ip', 'बौद्धिक संपदा', `<p>लोकमंगल हे नाव, बोधचिन्ह आणि या संकेतस्थळावरील मजकूर लोकमंगलच्या मालकीचा असून परवानगीशिवाय वापरता येणार नाही.</p>`],
+    ['links', 'इतर संकेतस्थळांच्या लिंक', `<p>या संकेतस्थळावर ॲप स्टोअर किंवा सोशल मीडियासारख्या बाहेरील संकेतस्थळांच्या लिंक असू शकतात. त्या संकेतस्थळांवरील मजकूर किंवा गोपनीयतेच्या पद्धतींसाठी आम्ही जबाबदार नाही.</p>`],
+    ['contact', 'संपर्क', `<p>या अटींबद्दल प्रश्न आहे? ${mail} वर ईमेल करा किंवा ${phone} वर कॉल करा.</p>`],
+  ],
+};
+
+const d = lang === 'mr' ? mr : en;
+const sections = d.sections.map(([id, title, html]) => ({ id, title, html }));
+---
+
+<Base title={d.metaTitle} description={d.metaDescription} theme="warm">
+  <LegalDoc
+    title={d.title}
+    accent={d.accent}
+    lead={d.lead}
+    crumb={d.metaTitle}
+    summary={d.summary}
+    sections={sections}
+    related={{ label: d.related, href: localePath('/privacy-policy/', lang) }}
+  />
+</Base>

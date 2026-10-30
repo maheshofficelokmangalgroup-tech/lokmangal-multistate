@@ -1,0 +1,429 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import EnquiryForm from '../../components/EnquiryForm.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { servicesFor } from '../../data/services';
+import { siteData } from '../../data/site';
+import { getLang, langPaths, localePath } from '../../i18n';
+import { pageCopy, useT } from '../../i18n/ui';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+
+const lang = getLang(Astro);
+const t = useT(lang);
+const l = (p: string) => localePath(p, lang);
+const { site } = siteData(lang);
+const { rwmCategories } = servicesFor(lang);
+
+const c = pageCopy(
+  lang,
+  'rural-wealth-manager',
+  {
+    metaTitle: 'Rural Wealth Manager',
+    metaDescription: 'Lokmangal Rural Wealth Manager: investments, loans, demat and trading, gold and silver, and insurance for rural families, all in one place.',
+    eyebrow: 'Rural Wealth Manager',
+    title: 'Wealth services,',
+    accent: 'right in your village',
+    lead: 'Investments, loans, shares, gold and insurance. A Lokmangal Rural Wealth Manager brings them to villages and small towns, with personal guidance for your family.',
+    call: 'Call {phone}',
+    callback: 'Request a callback',
+    factAreas: 'service areas',
+    factProducts: 'products',
+    factOne: 'person to call for all of it',
+    svcEyebrow: '{n} services, one relationship',
+    svcTitle: 'Everything your family needs to',
+    svcAccent: 'grow wealth',
+    tabsLabel: 'Rural Wealth Manager services',
+    options: '{n} options',
+    ask: 'Ask about this',
+    d_invest: 'Grow your savings steadily with fixed deposits, investment plans and pension schemes.',
+    d_loans: 'Credit when your family or business needs it, from instant gold loans to micro-finance.',
+    d_equity: 'Take part in the share market with a demat account, share trading and mutual funds.',
+    d_gold: 'Buy gold and silver online, without a trip to the city.',
+    d_insurance: 'Protect your family with life, health, general and micro insurance.',
+    slogan: 'Now the rural economy becomes',
+    sloganAccent: 'even stronger',
+    sloganBy: 'Lokmangal Rural Wealth Manager',
+    whyEyebrow: 'Why a Rural Wealth Manager',
+    whyTitle: 'City-level services,',
+    whyAccent: 'at your doorstep',
+    w1: 'Comes to your village',
+    w1t: 'Products once found only in cities, now in villages and small towns.',
+    w2: 'Personal guidance',
+    w2t: 'Advice on investments, insurance and loans that fit your family.',
+    w3: 'One call away',
+    w3t: 'Call {phone} or request a callback, and we will reach you.',
+    formEyebrow: 'Request a callback',
+    formTitle: 'Talk to a',
+    formAccent: 'Rural Wealth Manager',
+    formLead: 'Tell us what you are looking for and a Rural Wealth Manager will contact you. You can also call {phone}.',
+    formCard: 'Request a callback',
+  },
+  {
+    metaTitle: 'ग्रामीण संपत्ती व्यवस्थापन सुविधा',
+    metaDescription: 'लोकमंगल ग्रामीण संपत्ती व्यवस्थापन सुविधा: गुंतवणूक, कर्ज, डीमॅट व ट्रेडिंग, सोने-चांदी आणि इन्शुरन्स, ग्रामीण कुटुंबांसाठी एकाच ठिकाणी.',
+    eyebrow: 'ग्रामीण संपत्ती व्यवस्थापन सुविधा',
+    title: 'संपत्तीच्या सेवा,',
+    accent: 'आता तुमच्या गावात',
+    lead: 'गुंतवणूक, कर्ज, शेअर्स, सोने आणि इन्शुरन्स. लोकमंगलचे ग्रामीण संपत्ती व्यवस्थापक या सेवा गावे व लहान शहरांपर्यंत आणतात आणि तुमच्या कुटुंबाला वैयक्तिक मार्गदर्शन करतात.',
+    call: '{phone} वर कॉल करा',
+    callback: 'कॉलबॅकची विनंती करा',
+    factAreas: 'सेवा क्षेत्रे',
+    factProducts: 'उत्पादने',
+    factOne: 'सर्व सेवांसाठी एकच व्यक्ती',
+    svcEyebrow: '{n} सेवा, एकच नाते',
+    svcTitle: 'कुटुंबाची संपत्ती वाढवण्यासाठी',
+    svcAccent: 'सर्व काही एकाच ठिकाणी',
+    tabsLabel: 'ग्रामीण संपत्ती व्यवस्थापन सेवा',
+    options: '{n} पर्याय',
+    ask: 'याबद्दल विचारा',
+    d_invest: 'मुदत ठेव, गुंतवणूक योजना आणि पेन्शन योजनांद्वारे तुमची बचत सातत्याने वाढवा.',
+    d_loans: 'कुटुंब किंवा व्यवसायाच्या गरजेच्या वेळी कर्ज, झटपट सोने तारण कर्जापासून सूक्ष्म वित्त कर्जापर्यंत.',
+    d_equity: 'डीमॅट खाते, शेअर्स ट्रेडिंग आणि म्युच्युअल फंडाद्वारे शेअर बाजारात सहभागी व्हा.',
+    d_gold: 'शहरात न जाता ऑनलाइन सोने व चांदी खरेदी करा.',
+    d_insurance: 'लाइफ, हेल्थ, जनरल आणि मायक्रो इन्शुरन्सद्वारे कुटुंबाचे संरक्षण करा.',
+    slogan: 'आता होईल ग्रामीण अर्थव्यवस्था',
+    sloganAccent: 'अधिक सक्षम',
+    sloganBy: 'लोकमंगल ग्रामीण संपत्ती व्यवस्थापन सुविधा',
+    whyEyebrow: 'ग्रामीण संपत्ती व्यवस्थापक का?',
+    whyTitle: 'शहरातील सुविधा,',
+    whyAccent: 'तुमच्या दारात',
+    w1: 'तुमच्या गावात',
+    w1t: 'पूर्वी फक्त शहरात मिळणाऱ्या सेवा आता गावे व लहान शहरांत.',
+    w2: 'वैयक्तिक मार्गदर्शन',
+    w2t: 'तुमच्या कुटुंबाला साजेशी गुंतवणूक, इन्शुरन्स आणि कर्जाबाबत सल्ला.',
+    w3: 'फक्त एक कॉल',
+    w3t: '{phone} वर कॉल करा किंवा कॉलबॅकची विनंती करा, आम्ही तुमच्याशी संपर्क करू.',
+    formEyebrow: 'कॉलबॅक',
+    formTitle: 'ग्रामीण संपत्ती व्यवस्थापकाशी',
+    formAccent: 'बोला',
+    formLead: 'तुम्हाला काय हवे आहे ते सांगा, ग्रामीण संपत्ती व्यवस्थापक तुमच्याशी संपर्क करतील. तुम्ही {phone} वर कॉलही करू शकता.',
+    formCard: 'कॉलबॅकची विनंती',
+  },
+);
+
+// Categories are matched by their English title (staff can reword them in the admin panel without breaking this).
+type Key = 'invest' | 'loans' | 'equity' | 'gold' | 'insurance';
+const keyOf: Record<string, Key> = {
+  Investments: 'invest',
+  'Loan Facilities': 'loans',
+  'Equity & Trading': 'equity',
+  Commodities: 'gold',
+  Insurance: 'insurance',
+};
+// A photo saved as /images/rwm/photo-<key>.webp replaces the stand-in automatically.
+const standIn: Record<Key, string> = {
+  invest: '/images/home/card-fd.webp',
+  loans: '/images/home/card-loan.webp',
+  equity: '/images/services/photo-net.webp',
+  gold: '/images/home/card-rd.webp',
+  insurance: '/images/services/photo-mobile.webp',
+};
+const hasFile = (p: string) => existsSync(join(process.cwd(), 'public', p));
+const own = (p: string, fallback: string) => (hasFile(p) ? p : fallback);
+
+const pick = (v: unknown) => (Array.isArray(v) ? String((lang === 'mr' && v[1]) || v[0]) : String(v));
+const cats = rwmCategories.map((cat, i) => {
+  const key = keyOf[cat.title];
+  const title = lang === 'mr' && typeof cat.titleMr === 'string' ? cat.titleMr : cat.title;
+  const items = (cat.items ?? []).map(pick);
+  return {
+    id: key ?? `area-${i + 1}`,
+    n: String(i + 1).padStart(2, '0'),
+    title,
+    text: cat.text ?? (key ? c(`d_${key}` as 'd_invest') : ''),
+    items,
+    photo: key ? own(`/images/rwm/photo-${key}.webp`, standIn[key]) : '/images/home/intro.webp',
+  };
+});
+const products = cats.reduce((sum, cat) => sum + cat.items.length, 0);
+const banner = own('/images/rwm/banner.webp', '/images/hero/hero-3.webp');
+const doorstep = own('/images/rwm/doorstep.webp', '/images/services/photo-neft.webp');
+const phoneLink = `<a href="${site.phoneHref}" class="text-green"><strong>${site.phone}</strong></a>`;
+const why = [1, 2, 3].map((n) => ({ title: c(`w${n}` as 'w1'), text: c(`w${n}t` as 'w1t', { phone: site.phone }) }));
+---
+
+<Base title={c('metaTitle')} description={c('metaDescription')}>
+  <!-- BANNER -->
+  <section class="rw-hero">
+    <img src={banner} alt="" class="rw-hero__img" width="1920" height="1080" fetchpriority="high" />
+    <div class="container rw-hero__inner">
+      <nav class="rw-crumbs" aria-label={t('breadcrumb')}>
+        <a href={l('/')}>{t('home')}</a>
+        <Icon name="chevron-right" size={14} />
+        <span aria-current="page">{c('eyebrow')}</span>
+      </nav>
+      <div class="rw-hero__copy">
+        <p class="rw-hero__eyebrow">{c('eyebrow')}</p>
+        <h1 class="h1 rw-hero__title" data-reveal>{c('title')} <em>{c('accent')}</em></h1>
+        <p class="lead rw-hero__lead" data-reveal style="--d:120ms">{c('lead')}</p>
+        <div class="btn-row" data-reveal style="--d:220ms">
+          <a href={site.phoneHref} class="btn btn--primary btn--lg"><Icon name="phone" size={18} /> {c('call', { phone: site.phone })}</a>
+          <a href="#rwm-enquiry" class="btn btn--light btn--lg">{c('callback')}</a>
+        </div>
+        <dl class="rw-facts" data-stagger>
+          <div><dt>{c('factAreas')}</dt><dd><span data-count={cats.length}>{cats.length}</span></dd></div>
+          <div><dt>{c('factProducts')}</dt><dd><span data-count={products}>{products}</span></dd></div>
+          <div><dt>{c('factOne')}</dt><dd>1</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES: one tab per service area, each with its photo and products -->
+  <section class="section rw-svc" id="services">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">{c('svcEyebrow', { n: String(cats.length) })}</p>
+        <h2 class="h2">{c('svcTitle')} <em>{c('svcAccent')}</em></h2>
+      </div>
+      <div class="rw-tabs" data-rw-tabs>
+        <div class="rw-tabs__list" role="tablist" aria-label={c('tabsLabel')} data-reveal>
+          {cats.map((cat, i) => (
+            <button type="button" class="rw-tab" role="tab" id={`tab-${cat.id}`} aria-controls={cat.id} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
+              <span class="rw-tab__n">{cat.n}</span>
+              <span class="rw-tab__t">{cat.title}</span>
+              <span class="rw-tab__c">{c('options', { n: String(cat.items.length) })}</span>
+            </button>
+          ))}
+        </div>
+        {cats.map((cat, i) => (
+          <article class:list={['rw-panel', { 'is-active': i === 0 }]} id={cat.id} role="tabpanel" aria-labelledby={`tab-${cat.id}`}>
+            <div class="rw-panel__media"><img src={cat.photo} alt="" width="1200" height="900" loading="lazy" /></div>
+            <div class="rw-panel__body">
+              <p class="rw-panel__n">{cat.n} <span>/ {String(cats.length).padStart(2, '0')}</span></p>
+              <h3 class="rw-panel__title">{cat.title}</h3>
+              {cat.text && <p class="rw-panel__text">{cat.text}</p>}
+              <ol class="rw-items">
+                {cat.items.map((item, j) => (
+                  <li><span class="rw-items__n">{Number(cat.n)}.{j + 1}</span>{item}</li>
+                ))}
+              </ol>
+              <a href="#rwm-enquiry" class="link-arrow">{c('ask')} <Icon name="arrow-right" size={16} /></a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- SLOGAN -->
+  <section class="rw-slogan">
+    <div class="container">
+      <p class="rw-slogan__line" data-reveal>{c('slogan')} <em>{c('sloganAccent')}</em></p>
+      <p class="rw-slogan__by" data-reveal style="--d:160ms">{c('sloganBy')}</p>
+    </div>
+  </section>
+
+  <!-- WHY: the manager comes to you -->
+  <section class="rw-why">
+    <div class="rw-why__media" data-reveal="right"><img src={doorstep} alt="" width="1200" height="1500" loading="lazy" /></div>
+    <div class="container rw-why__grid">
+      <div class="rw-why__copy">
+        <div class="stack" style="--stack:1rem" data-reveal>
+          <p class="eyebrow">{c('whyEyebrow')}</p>
+          <h2 class="h2">{c('whyTitle')} <em>{c('whyAccent')}</em></h2>
+        </div>
+        <ol class="rw-why__list" data-stagger>
+          {why.map((w, i) => (
+            <li>
+              <span class="rw-why__n">{i + 1}</span>
+              <div><h3>{w.title}</h3><p>{w.text}</p></div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENQUIRY -->
+  <section class="section rw-enquiry" id="rwm-enquiry">
+    <div class="container split">
+      <div class="stack" style="--stack:1.2rem" data-reveal>
+        <p class="eyebrow">{c('formEyebrow')}</p>
+        <h2 class="h2">{c('formTitle')} <em>{c('formAccent')}</em></h2>
+        <p class="lead" set:html={c('formLead', { phone: phoneLink })} />
+      </div>
+      <div data-reveal="right"><EnquiryForm variant="service" title={c('formCard')} /></div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const root = document.querySelector<HTMLElement>('[data-rw-tabs]');
+    if (!root) return;
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
+    const show = (i: number, focus = false) => {
+      tabs.forEach((t, j) => {
+        t.setAttribute('aria-selected', String(i === j));
+        t.tabIndex = i === j ? 0 : -1;
+      });
+      panels.forEach((p, j) => p.classList.toggle('is-active', i === j));
+      tabs[i].scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+      if (focus) tabs[i].focus();
+    };
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => show(i));
+      tab.addEventListener('keydown', (e) => {
+        const step = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (e.key === 'Home') { e.preventDefault(); show(0, true); }
+        else if (e.key === 'End') { e.preventDefault(); show(tabs.length - 1, true); }
+        else if (step) { e.preventDefault(); show((i + step + tabs.length) % tabs.length, true); }
+      });
+    });
+    // Links such as /rural-wealth-manager/#insurance open that tab.
+    const open = () => {
+      const i = panels.findIndex((p) => `#${p.id}` === location.hash);
+      if (i >= 0) { show(i); root.scrollIntoView({ block: 'start' }); }
+    };
+    open();
+    window.addEventListener('hashchange', open);
+    document.addEventListener('astro:before-swap', () => window.removeEventListener('hashchange', open), { once: true });
+  });
+</script>
+
+<style>
+  /* ---------- Banner ---------- */
+  .rw-hero { position: relative; isolation: isolate; overflow: hidden; display: flex; min-height: clamp(580px, 80vh, 740px); color: #fff; background: var(--g-950); }
+  .rw-hero__img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: 70% 40%; animation: rw-settle 14s cubic-bezier(0.16, 1, 0.3, 1) both; }
+  @keyframes rw-settle { from { transform: scale(1.12); } }
+  .rw-hero::after {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(90deg, rgb(4 36 23 / 0.96) 0%, rgb(4 36 23 / 0.86) 34%, rgb(4 36 23 / 0.36) 58%, rgb(4 36 23 / 0.06) 82%, transparent 100%), linear-gradient(0deg, rgb(4 36 23 / 0.55), transparent 30%);
+  }
+  .rw-hero__inner { display: flex; flex-direction: column; padding-block: clamp(40px, 6vw, 72px) clamp(48px, 6vw, 80px); }
+  .rw-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.86rem; font-weight: 600; color: rgb(255 255 255 / 0.6); }
+  .rw-crumbs a { color: rgb(255 255 255 / 0.8); }
+  .rw-crumbs span { color: var(--gold); }
+  .rw-hero__copy { margin-block: auto; padding-top: clamp(24px, 4vw, 40px); max-width: 640px; min-width: 0; display: grid; gap: 20px; }
+  .rw-hero__eyebrow { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g-300); }
+  :global(html[lang='mr']) .rw-hero__eyebrow { letter-spacing: 0; text-transform: none; font-size: 0.95rem; }
+  .rw-hero__title { color: #fff; }
+  .rw-hero__title em { display: block; color: var(--gold); }
+  .rw-hero__lead { color: rgb(255 255 255 / 0.86); }
+  /* Facts: big gold figures separated by thin rules */
+  .rw-facts { display: flex; flex-wrap: wrap; margin: 6px 0 0; padding-top: 18px; border-top: 1px solid rgb(255 255 255 / 0.16); }
+  .rw-facts > div { display: flex; flex-direction: column-reverse; gap: 2px; padding-inline: 0 clamp(18px, 3vw, 32px); margin-right: clamp(18px, 3vw, 32px); border-right: 1px solid rgb(255 255 255 / 0.16); max-width: 180px; }
+  .rw-facts > div:last-child { border-right: 0; margin-right: 0; padding-right: 0; }
+  .rw-facts dd { margin: 0; font-size: clamp(2rem, 3.6vw, 2.6rem); font-weight: 800; line-height: 1; letter-spacing: -0.03em; color: var(--gold); }
+  .rw-facts dt { font-size: 0.86rem; font-weight: 600; line-height: 1.35; color: rgb(255 255 255 / 0.75); }
+  @media (max-width: 899px) {
+    .rw-hero { min-height: 0; }
+    .rw-hero__img { inset: 0 0 auto 0; height: min(66vw, 320px); }
+    .rw-hero::after { background: linear-gradient(180deg, rgb(4 36 23 / 0.35) 0, rgb(4 36 23 / 0.1) 80px, var(--g-950) min(66vw, 320px)); }
+    .rw-hero__copy { padding-top: calc(min(66vw, 320px) - 70px); }
+  }
+  @media (max-width: 599px) {
+    .rw-facts > div { padding-right: 14px; margin-right: 14px; max-width: 110px; }
+    .rw-facts dt { font-size: 0.78rem; }
+  }
+
+  /* ---------- Services tabs ---------- */
+  .rw-svc { background: var(--bg); scroll-margin-top: var(--header-h); }
+  .rw-tabs { scroll-margin-top: calc(var(--header-h) + 20px); }
+  /* Tabs sit like the dividers of a file: a ruled row, the open one lifted with an orange top edge */
+  .rw-tabs__list { display: grid; grid-template-columns: repeat(var(--n, 5), minmax(0, 1fr)); grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); border-bottom: 1px solid var(--line); }
+  .rw-tab {
+    position: relative; display: grid; gap: 4px; justify-items: start; align-content: start; padding: 16px 18px 18px; text-align: left;
+    font: inherit; color: var(--muted); background: transparent; border: 0; border-top: 3px solid transparent; border-radius: 12px 12px 0 0; cursor: pointer;
+    transition: background 0.3s, color 0.3s, border-color 0.3s;
+  }
+  .rw-tab + .rw-tab::before { content: ''; position: absolute; left: 0; top: 18px; bottom: 18px; width: 1px; background: var(--line); }
+  .rw-tab__n { font-size: 0.76rem; font-weight: 700; letter-spacing: 0.04em; color: var(--o-600); }
+  .rw-tab__t { font-size: 1.02rem; font-weight: 700; line-height: 1.3; color: var(--g-900); }
+  .rw-tab__c { font-size: 0.8rem; font-weight: 600; }
+  .rw-tab:hover { background: rgb(13 74 45 / 0.04); }
+  .rw-tab[aria-selected='true'] { background: #fff; border-top-color: var(--o-500); box-shadow: 0 -10px 24px -18px rgb(5 42 26 / 0.35); }
+  .rw-tab[aria-selected='true']::before, .rw-tab[aria-selected='true'] + .rw-tab::before { display: none; }
+  .rw-tab:focus-visible { outline: 2px solid var(--o-500); outline-offset: -2px; }
+
+  .rw-panel {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); overflow: hidden; background: #fff;
+    border-radius: 0 0 var(--r-lg) var(--r-lg); box-shadow: 0 34px 60px -40px rgb(5 42 26 / 0.55);
+    scroll-margin-top: calc(var(--header-h) + 20px);
+  }
+  :global(html.js) .rw-panel:not(.is-active) { display: none; }
+  :global(html:not(.js)) .rw-panel + .rw-panel { margin-top: 20px; border-radius: var(--r-lg); }
+  .rw-panel.is-active { animation: rw-in 0.55s var(--ease-out) both; }
+  .rw-panel.is-active .rw-panel__media img { animation: rw-photo 1.2s var(--ease-out) both; }
+  @keyframes rw-in { from { opacity: 0; translate: 0 14px; } }
+  @keyframes rw-photo { from { scale: 1.08; } }
+  .rw-panel__media { position: relative; min-height: 360px; overflow: hidden; background: var(--g-800); }
+  .rw-panel__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 25%; }
+  .rw-panel__body { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: clamp(24px, 3.4vw, 44px); }
+  .rw-panel__n { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; color: var(--o-600); }
+  .rw-panel__n span { color: var(--muted-2); font-weight: 600; }
+  .rw-panel__title { font-size: clamp(1.5rem, 2.6vw, 2rem); line-height: 1.2; color: var(--g-900); }
+  .rw-panel__text { color: var(--muted); font-size: 1rem; max-width: 520px; }
+  /* Products as a ruled ledger: 1.1, 1.2 ... */
+  .rw-items { list-style: none; margin: 6px 0 8px; padding: 0; width: 100%; border-top: 1px solid var(--line); }
+  .rw-items li { display: flex; align-items: baseline; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); font-weight: 700; color: var(--ink); }
+  .rw-items__n { flex: none; width: 2.4em; font-size: 0.8rem; font-weight: 700; color: var(--o-600); font-variant-numeric: tabular-nums; }
+  .rw-panel.is-active .rw-items li { animation: rw-in 0.5s var(--ease-out) both; }
+  .rw-panel.is-active .rw-items li:nth-child(2) { animation-delay: 70ms; }
+  .rw-panel.is-active .rw-items li:nth-child(3) { animation-delay: 140ms; }
+  .rw-panel.is-active .rw-items li:nth-child(4) { animation-delay: 210ms; }
+  .rw-panel.is-active .rw-items li:nth-child(5) { animation-delay: 280ms; }
+  .rw-panel .link-arrow { margin-top: auto; }
+
+  @media (max-width: 899px) {
+    /* Tabs become one row to swipe through */
+    .rw-tabs__list { display: flex; overflow-x: auto; scrollbar-width: none; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter); }
+    .rw-tabs__list::-webkit-scrollbar { display: none; }
+    .rw-tab { flex: 0 0 auto; min-width: 150px; padding: 12px 14px 14px; }
+    .rw-tab__t { font-size: 0.95rem; white-space: nowrap; }
+    .rw-panel { grid-template-columns: 1fr; border-radius: 0 0 var(--r-lg) var(--r-lg); }
+    .rw-panel__media { min-height: 0; aspect-ratio: 16 / 10; }
+  }
+
+  /* ---------- Slogan ---------- */
+  .rw-slogan { position: relative; isolation: isolate; overflow: hidden; padding-block: clamp(56px, 8vw, 104px); background: linear-gradient(120deg, var(--o-600), var(--o-strong-hover)); color: #fff; text-align: center; }
+  .rw-slogan::before {
+    content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60' fill='none' stroke='%23ffffff' stroke-width='.8' stroke-opacity='.16'%3E%3Cpath d='M0 30C15 12 45 12 60 30S105 48 120 30'/%3E%3Cpath d='M0 30C15 48 45 48 60 30S105 12 120 30'/%3E%3Cpath d='M0 20C15 2 45 2 60 20S105 38 120 20'/%3E%3Cpath d='M0 40C15 58 45 58 60 40S105 22 120 40'/%3E%3C/svg%3E");
+    background-size: 120px 60px;
+    mask-image: radial-gradient(70% 90% at 50% 50%, #000, transparent 85%);
+  }
+  .rw-slogan__line { max-width: 900px; margin-inline: auto; font-size: clamp(1.9rem, 4.6vw, 3.6rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; text-wrap: balance; }
+  .rw-slogan__line em { font-style: normal; color: #ffe08a; }
+  :global(html[lang='mr']) .rw-slogan__line { letter-spacing: 0; line-height: 1.35; }
+  .rw-slogan__by { margin-top: 18px; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgb(255 255 255 / 0.8); }
+  :global(html[lang='mr']) .rw-slogan__by { letter-spacing: 0; text-transform: none; font-size: 0.95rem; }
+
+  /* ---------- Why: copy on deep green, photo bleeding to the right edge ---------- */
+  .rw-why { position: relative; isolation: isolate; overflow: hidden; background: var(--g-950); color: rgb(255 255 255 / 0.85); }
+  .rw-why__media { position: absolute; inset: 0 0 0 52%; z-index: -1; }
+  .rw-why__media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+  .rw-why__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, var(--g-950), rgb(5 42 26 / 0.45) 6%, transparent 18%); }
+  .rw-why__grid { padding-block: clamp(64px, 9vw, 120px); }
+  .rw-why__copy { max-width: 520px; display: grid; gap: clamp(26px, 3.4vw, 40px); }
+  .rw-why .h2 { color: #fff; }
+  .rw-why .h2 em { color: var(--gold); }
+  .rw-why .eyebrow { color: var(--g-300); }
+  .rw-why__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-top: 1px solid rgb(255 255 255 / 0.14); }
+  .rw-why__list li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 20px; align-items: start; padding: 20px 0; border-bottom: 1px solid rgb(255 255 255 / 0.14); }
+  .rw-why__n { min-width: 1.2ch; font-size: 2.6rem; font-weight: 800; line-height: 0.9; color: transparent; -webkit-text-stroke: 1.4px var(--gold); transition: color 0.3s; }
+  .rw-why__list li:hover .rw-why__n { color: var(--gold); }
+  .rw-why__list h3 { font-size: 1.12rem; color: #fff; }
+  .rw-why__list p { margin-top: 4px; font-size: 0.95rem; color: rgb(255 255 255 / 0.75); }
+  @media (max-width: 899px) {
+    .rw-why__media { position: relative; inset: auto; z-index: 0; height: min(70vw, 380px); }
+    .rw-why__media::after { background: linear-gradient(0deg, var(--g-950), transparent 45%); }
+    .rw-why__grid { padding-block: 8px clamp(56px, 9vw, 80px); }
+  }
+
+  .rw-enquiry { background: var(--bg); scroll-margin-top: calc(var(--header-h) + 8px); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rw-hero__img, .rw-panel.is-active, .rw-panel.is-active .rw-panel__media img, .rw-panel.is-active .rw-items li { animation: none; }
+  }
+</style>

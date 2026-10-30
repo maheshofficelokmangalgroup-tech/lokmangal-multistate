@@ -87,7 +87,7 @@ function build(lang: Lang): Entry[] {
     ...divisions.flatMap((d) =>
       d.branches.map((b) => ({ t: lang === 'mr' ? b.name : `${b.name} branch`, u: `${l('/branches/')}?q=${encodeURIComponent(b.name)}`, g: 'Branches', k: `${b.address} ${d.name}` })),
     ),
-    ...faqsFor(lang).map((f) => ({ t: f.q, u: l('/faq/'), g: 'FAQ' })),
+    ...faqsFor(lang).map((f, i) => ({ t: f.q, u: `${l('/faq/')}#q-${i + 1}`, g: 'FAQ' })),
     ...postsFor(lang).map((p) => ({ t: p.title, u: l(`/blog/${p.slug}/`), g: 'Stories' })),
   ];
 }

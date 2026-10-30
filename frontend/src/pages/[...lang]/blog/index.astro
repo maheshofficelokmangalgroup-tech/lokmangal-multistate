@@ -1,0 +1,326 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Icon from '../../../components/Icon.astro';
+import { postsFor } from '../../../data/posts';
+import { longDateFor } from '../../../lib/content';
+import { getLang, langPaths, localePath } from '../../../i18n';
+import { pageCopy, useT } from '../../../i18n/ui';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+
+const lang = getLang(Astro);
+const t = useT(lang);
+const l = (p: string) => localePath(p, lang);
+const posts = postsFor(lang);
+
+const c = pageCopy(
+  lang,
+  'blog',
+  {
+    metaTitle: 'Blog & News',
+    metaDescription: 'Branch news, felicitations, member meets and social work from the Lokmangal Multistate family.',
+    crumb: 'Blog',
+    masthead: 'Lokmangal News',
+    title: 'Stories from the',
+    accent: 'Lokmangal family',
+    lead: 'Branch news, felicitations, member meets and social work from across our network.',
+    stories: '{n} stories',
+    span: '{from} to {to}',
+    latest: 'Latest story',
+    read: 'Read story',
+    alsoTitle: 'Also in the news',
+    archiveEyebrow: 'Archive',
+    archiveTitle: 'Every story,',
+    archiveAccent: 'by year',
+    allYears: 'All years',
+    searchLabel: 'Search stories',
+    searchPh: 'Search a branch or a word',
+    showing: 'Showing {n} of {total}',
+    none: 'No story matches your search.',
+    clear: 'Clear',
+    more: 'Show more stories',
+  },
+  {
+    metaTitle: 'बातम्या',
+    metaDescription: 'लोकमंगल मल्टीस्टेट परिवारातील शाखांच्या बातम्या, सत्कार, ग्राहक मेळावे आणि सामाजिक उपक्रम.',
+    crumb: 'बातम्या',
+    masthead: 'लोकमंगल बातम्या',
+    title: 'लोकमंगल परिवारातील',
+    accent: 'बातम्या',
+    lead: 'आमच्या शाखांमधील बातम्या, सत्कार, ग्राहक मेळावे आणि सामाजिक उपक्रम.',
+    stories: '{n} बातम्या',
+    span: '{from} ते {to}',
+    latest: 'ताजी बातमी',
+    read: 'संपूर्ण बातमी वाचा',
+    alsoTitle: 'इतर बातम्या',
+    archiveEyebrow: 'संग्रह',
+    archiveTitle: 'सर्व बातम्या,',
+    archiveAccent: 'वर्षानुसार',
+    allYears: 'सर्व वर्षे',
+    searchLabel: 'बातम्या शोधा',
+    searchPh: 'शाखा किंवा शब्द शोधा',
+    showing: '{total} पैकी {n}',
+    none: 'तुमच्या शोधाशी जुळणारी बातमी नाही.',
+    clear: 'पुसा',
+    more: 'आणखी बातम्या पाहा',
+  },
+);
+
+const PAGE = 12;
+const FRONT = 5;
+// Excerpts came from WhatsApp messages; drop the *bold* markers.
+const clean = (s: string) => s.replace(/\*/g, '').replace(/\s+/g, ' ').trim();
+const date = (iso: string) => longDateFor(iso.slice(0, 10), lang);
+const list = posts.map((p) => ({
+  ...p,
+  href: l(`/blog/${p.slug}/`),
+  year: p.date.slice(0, 4),
+  when: date(p.date),
+  excerpt: clean(p.excerpt),
+  mr: p.language === 'mr' || /[ऀ-ॿ]/.test(p.title),
+}));
+const [lead, ...others] = list;
+const also = others.slice(0, FRONT - 1);
+const years = [...new Set(list.map((p) => p.year))].map((y) => ({ y, n: list.filter((p) => p.year === y).length }));
+const first = list.at(-1)?.year ?? '';
+const last = lead?.year ?? '';
+---
+
+<Base title={c('metaTitle')} description={c('metaDescription')}>
+  <!-- MASTHEAD -->
+  <header class="nw-mast">
+    <div class="container">
+      <nav class="nw-crumbs" aria-label={t('breadcrumb')}>
+        <a href={l('/')}>{t('home')}</a>
+        <Icon name="chevron-right" size={14} />
+        <span aria-current="page">{c('crumb')}</span>
+      </nav>
+      <div class="nw-mast__band">
+        <p class="nw-mast__name">{c('masthead')}</p>
+        <h1 class="nw-mast__title" data-reveal>{c('title')} <em>{c('accent')}</em></h1>
+        <p class="nw-mast__lead" data-reveal style="--d:120ms">{c('lead')}</p>
+      </div>
+      <p class="nw-mast__line">
+        <span>{c('stories', { n: String(list.length) })}</span>
+        <span>{c('span', { from: first, to: last })}</span>
+        {lead && <span>{lead.when}</span>}
+      </p>
+    </div>
+  </header>
+
+  <!-- FRONT PAGE: lead story and the next four -->
+  {lead && (
+    <section class="nw-front">
+      <div class="container nw-front__grid">
+        <a href={lead.href} class="nw-lead" data-reveal>
+          <div class="nw-lead__media"><img src={lead.image ?? ''} alt="" width="700" height="480" transition:name={`post-${lead.id}`} /></div>
+          <div class="nw-lead__body">
+            <p class="nw-kicker"><span>{c('latest')}</span> {lead.when}</p>
+            <h2 class="nw-lead__title" lang={lead.mr ? 'mr' : undefined}>{lead.title}</h2>
+            <p class="nw-lead__text" lang={lead.mr ? 'mr' : undefined}>{lead.excerpt}</p>
+            <span class="link-arrow">{c('read')} <Icon name="arrow-right" size={16} /></span>
+          </div>
+        </a>
+        <aside class="nw-also" data-reveal="right">
+          <p class="nw-also__title">{c('alsoTitle')}</p>
+          <ol>
+            {also.map((p, i) => (
+              <li>
+                <a href={p.href}>
+                  <span class="nw-also__n">{String(i + 2).padStart(2, '0')}</span>
+                  <span class="nw-also__body">
+                    <span class="nw-also__date">{p.when}</span>
+                    <span class="nw-also__head" lang={p.mr ? 'mr' : undefined}>{p.title}</span>
+                  </span>
+                  {p.image && <img src={p.image} alt="" width="96" height="72" loading="lazy" />}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </aside>
+      </div>
+    </section>
+  )}
+
+  <!-- ARCHIVE: year filter, search and every other story -->
+  <section class="section nw-arch" id="archive">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">{c('archiveEyebrow')}</p>
+        <h2 class="h2">{c('archiveTitle')} <em>{c('archiveAccent')}</em></h2>
+      </div>
+
+      <div class="nw-tools">
+        <div class="nw-years" role="group" aria-label={c('archiveAccent')}>
+          <button type="button" aria-pressed="true" data-year="all">{c('allYears')} <span>{list.length}</span></button>
+          {years.map((y) => <button type="button" aria-pressed="false" data-year={y.y}>{y.y} <span>{y.n}</span></button>)}
+        </div>
+        <label class="nw-search">
+          <span class="sr-only">{c('searchLabel')}</span>
+          <Icon name="search" size={18} />
+          <input type="search" placeholder={c('searchPh')} autocomplete="off" data-nw-q />
+        </label>
+      </div>
+      <p class="nw-count" aria-live="polite" data-nw-count data-tpl={c('showing')}></p>
+
+      <ul class="nw-grid" data-nw-grid data-page={PAGE}>
+        {list.map((p, i) => (
+          <li class="nw-card" data-post data-year={p.year} data-front={i < FRONT ? '' : undefined} data-text={`${p.title} ${p.excerpt}`.toLowerCase()} hidden={i < FRONT || i >= FRONT + PAGE}>
+            <a href={p.href}>
+              <div class="nw-card__media">{p.image && <img src={p.image} alt="" width="400" height="290" loading="lazy" />}</div>
+              <p class="nw-card__date">{p.when}</p>
+              <h3 class="nw-card__title" lang={p.mr ? 'mr' : undefined}>{p.title}</h3>
+              <p class="nw-card__text" lang={p.mr ? 'mr' : undefined}>{p.excerpt}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="nw-none" hidden data-nw-none>{c('none')} <button type="button" data-nw-clear>{c('clear')}</button></p>
+      <div class="nw-more-wrap"><button type="button" class="btn btn--ghost btn--lg" data-nw-more>{c('more')} <Icon name="chevron-down" size={18} /></button></div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const grid = document.querySelector<HTMLElement>('[data-nw-grid]');
+    if (!grid) return;
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>('[data-post]'));
+    const yearBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-year]'));
+    const input = document.querySelector<HTMLInputElement>('[data-nw-q]');
+    const more = document.querySelector<HTMLButtonElement>('[data-nw-more]');
+    const count = document.querySelector<HTMLElement>('[data-nw-count]');
+    const none = document.querySelector<HTMLElement>('[data-nw-none]');
+    const step = Number(grid.dataset.page) || 12;
+    let year = 'all';
+    let limit = step;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // With no year or word chosen, the archive leaves out the stories already on the front page.
+    const apply = (animate = false) => {
+      const q = (input?.value ?? '').trim().toLowerCase();
+      const filtering = year !== 'all' || !!q;
+      const matches = cards.filter((el) => (year === 'all' || el.dataset.year === year) && (!q || (el.dataset.text ?? '').includes(q)) && (filtering || !('front' in el.dataset)));
+      let shown = 0;
+      cards.forEach((el) => {
+        const i = matches.indexOf(el);
+        const show = i >= 0 && i < limit;
+        if (show && el.hidden && animate && !reduce) el.animate([{ opacity: 0, transform: 'translateY(18px)' }, { opacity: 1, transform: 'none' }], { duration: 500, delay: Math.min(shown, 8) * 40, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' });
+        el.hidden = !show;
+        if (show) shown++;
+      });
+      if (more) more.hidden = matches.length <= limit;
+      if (none) none.hidden = matches.length > 0;
+      if (count) count.textContent = (count.dataset.tpl ?? '').replace('{n}', String(shown)).replace('{total}', String(matches.length));
+    };
+    yearBtns.forEach((b) =>
+      b.addEventListener('click', () => {
+        year = b.dataset.year ?? 'all';
+        yearBtns.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+        limit = step;
+        apply(true);
+      }),
+    );
+    input?.addEventListener('input', () => { limit = step; apply(); });
+    more?.addEventListener('click', () => { limit += step; apply(true); });
+    document.querySelector('[data-nw-clear]')?.addEventListener('click', () => {
+      if (input) input.value = '';
+      year = 'all';
+      yearBtns.forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.year === 'all')));
+      limit = step;
+      apply(true);
+      input?.focus();
+    });
+    apply();
+  });
+</script>
+
+<style>
+  /* ---------- Masthead: a newspaper's name plate ---------- */
+  .nw-mast { background: var(--bg); padding-block: clamp(28px, 4vw, 44px) 0; }
+  .nw-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.86rem; font-weight: 600; color: var(--muted); }
+  .nw-crumbs a { color: var(--g-700); }
+  .nw-crumbs span { color: var(--o-600); }
+  .nw-mast__band { margin-top: clamp(20px, 3vw, 32px); padding-block: clamp(22px, 3vw, 34px); border-top: 4px double var(--g-900); border-bottom: 1px solid var(--g-900); text-align: center; }
+  .nw-mast__name { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.32em; text-transform: uppercase; color: var(--o-600); }
+  :global(html[lang='mr']) .nw-mast__name { letter-spacing: 0.06em; font-size: 1rem; }
+  .nw-mast__title { margin-top: 10px; font-size: clamp(2.1rem, 5.6vw, 4.2rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.03em; color: var(--g-900); text-wrap: balance; }
+  :global(html[lang='mr']) .nw-mast__title { letter-spacing: 0; line-height: 1.25; }
+  .nw-mast__title em { font-style: normal; color: var(--o-600); }
+  .nw-mast__lead { max-width: 640px; margin: 14px auto 0; color: var(--muted); font-size: 1.05rem; }
+  .nw-mast__line { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 0; padding-block: 10px; border-bottom: 4px double var(--g-900); font-size: 0.86rem; font-weight: 700; color: var(--g-800); }
+  .nw-mast__line span { padding-inline: 16px; }
+  .nw-mast__line span + span { border-left: 1px solid var(--line); }
+
+  /* ---------- Front page ---------- */
+  .nw-front { background: var(--bg); padding-block: clamp(28px, 4vw, 48px) clamp(40px, 5vw, 64px); }
+  .nw-front__grid { display: grid; gap: clamp(24px, 3vw, 44px); align-items: start; }
+  @media (min-width: 1000px) { .nw-front__grid { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); } .nw-also { padding-left: clamp(24px, 3vw, 44px); border-left: 1px solid var(--line); } }
+  .nw-lead { display: grid; gap: 22px; color: inherit; }
+  .nw-lead__media { overflow: hidden; border-radius: var(--r-lg); aspect-ratio: 16 / 10; background: var(--g-100); }
+  .nw-lead__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.1s var(--ease-out); }
+  .nw-lead:hover .nw-lead__media img { transform: scale(1.04); }
+  .nw-lead__body { display: grid; gap: 12px; justify-items: start; }
+  .nw-kicker { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font-size: 0.84rem; font-weight: 700; color: var(--muted); }
+  .nw-kicker span { padding: 4px 10px; border-radius: 6px; background: var(--o-500); color: #fff; }
+  .nw-lead__title { font-size: clamp(1.5rem, 2.8vw, 2.2rem); font-weight: 800; line-height: 1.3; color: var(--g-900); transition: color 0.25s; }
+  .nw-lead:hover .nw-lead__title { color: var(--o-strong-hover); }
+  .nw-lead__text { color: var(--ink-2); font-size: 1.04rem; line-height: 1.7; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  .nw-also__title { padding-bottom: 12px; border-bottom: 2px solid var(--g-900); font-size: 0.82rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--g-900); }
+  :global(html[lang='mr']) .nw-also__title { letter-spacing: 0; font-size: 1rem; }
+  .nw-also ol { list-style: none; margin: 0; padding: 0; }
+  .nw-also a { display: grid; grid-template-columns: 2rem minmax(0, 1fr) 96px; gap: 14px; align-items: start; padding: 16px 0; border-bottom: 1px solid var(--line); color: inherit; }
+  .nw-also__n { font-size: 0.82rem; font-weight: 800; color: var(--o-600); padding-top: 2px; }
+  .nw-also__body { display: grid; gap: 4px; min-width: 0; }
+  .nw-also__date { font-size: 0.78rem; font-weight: 700; color: var(--muted); }
+  .nw-also__head { font-weight: 700; line-height: 1.4; color: var(--g-900); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; transition: color 0.25s; }
+  .nw-also a:hover .nw-also__head { color: var(--o-strong-hover); }
+  .nw-also img { width: 96px; height: 72px; object-fit: cover; border-radius: 8px; }
+
+  /* ---------- Archive ---------- */
+  .nw-arch { background: var(--surface); scroll-margin-top: var(--header-h); }
+  .nw-tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 24px; }
+  .nw-years { display: flex; flex-wrap: wrap; gap: 8px; }
+  .nw-years button {
+    display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: 10px; border: 1.5px solid var(--line);
+    background: #fff; font: inherit; font-size: 0.9rem; font-weight: 700; color: var(--ink-2); cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .nw-years button span { font-size: 0.76rem; font-weight: 800; color: var(--o-600); font-variant-numeric: tabular-nums; }
+  .nw-years button:hover { border-color: var(--g-600); }
+  .nw-years button[aria-pressed='true'] { background: var(--g-900); border-color: var(--g-900); color: #fff; }
+  .nw-years button[aria-pressed='true'] span { color: var(--gold); }
+  .nw-search { flex: 0 1 340px; display: flex; align-items: center; gap: 10px; height: 50px; padding: 0 16px; border-radius: 10px; border: 2px solid var(--line); background: #fff; color: var(--muted); transition: border-color 0.25s; }
+  .nw-search:focus-within { border-color: var(--g-600); }
+  .nw-search input { flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: transparent; font: inherit; font-size: 0.98rem; color: var(--ink); }
+  .nw-count { margin: 18px 0 8px; font-size: 0.86rem; font-weight: 700; color: var(--muted); }
+
+  /* Newspaper columns: no boxes, a rule above each story */
+  .nw-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 34px clamp(20px, 2.6vw, 36px); grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .nw-card[hidden] { display: none; }
+  .nw-card a { display: grid; gap: 10px; align-content: start; height: 100%; padding-top: 16px; border-top: 2px solid var(--g-900); color: inherit; }
+  .nw-card__media { overflow: hidden; border-radius: 10px; aspect-ratio: 16 / 10; background: var(--g-100); }
+  .nw-card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.9s var(--ease-out); }
+  .nw-card a:hover .nw-card__media img { transform: scale(1.05); }
+  .nw-card__date { font-size: 0.78rem; font-weight: 800; letter-spacing: 0.04em; color: var(--o-600); }
+  .nw-card__title { font-size: 1.12rem; line-height: 1.4; color: var(--g-900); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; transition: color 0.25s; }
+  .nw-card a:hover .nw-card__title { color: var(--o-strong-hover); }
+  .nw-card__text { font-size: 0.92rem; line-height: 1.6; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  @media (max-width: 999px) { .nw-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 599px) {
+    .nw-grid { grid-template-columns: 1fr; gap: 26px; }
+    .nw-card a { grid-template-columns: 112px minmax(0, 1fr); column-gap: 14px; row-gap: 4px; }
+    .nw-card__media { grid-row: span 3; aspect-ratio: 1; }
+    .nw-card__title { font-size: 1rem; }
+    .nw-card__text { -webkit-line-clamp: 2; font-size: 0.86rem; }
+    .nw-search { flex-basis: 100%; }
+    .nw-years button { padding: 8px 11px; font-size: 0.86rem; }
+    .nw-also a { grid-template-columns: 1.6rem minmax(0, 1fr) 80px; }
+    .nw-also img { width: 80px; height: 64px; }
+  }
+  .nw-none { margin-top: 18px; padding: 22px; border-radius: 12px; border: 2px dashed var(--line); text-align: center; font-weight: 600; color: var(--muted); }
+  .nw-none button { margin-left: 8px; padding: 6px 12px; border: 0; border-radius: 8px; background: var(--g-100); color: var(--g-800); font: inherit; font-weight: 700; cursor: pointer; }
+  .nw-more-wrap { display: flex; justify-content: center; margin-top: clamp(32px, 4vw, 48px); }
+  .nw-more-wrap button[hidden] { display: none; }
+</style>

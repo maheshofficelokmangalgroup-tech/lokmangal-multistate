@@ -1,0 +1,368 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import { siteData } from '../../data/site';
+import { items, longDateFor } from '../../lib/content';
+import { getLang, langPaths, localePath } from '../../i18n';
+import { pageCopy, useT } from '../../i18n/ui';
+import { existsSync, statSync } from 'node:fs';
+import { join } from 'node:path';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+
+const lang = getLang(Astro);
+const t = useT(lang);
+const l = (p: string) => localePath(p, lang);
+const { site } = siteData(lang);
+
+const c = pageCopy(
+  lang,
+  'notices',
+  {
+    metaTitle: 'Notices',
+    metaDescription: 'Official notices of Lokmangal Multistate Co-operative Society: Board of Directors and Office Bearers Election 2025 documents and voter lists.',
+    eyebrow: 'Official',
+    title: 'Notices &',
+    accent: 'announcements',
+    lead: 'Official notices for members, with every document to read or download.',
+    docs: '{n} documents',
+    updated: 'Updated {date}',
+    officialNotice: 'Official notice',
+    pinned: 'Pinned',
+    issued: 'Dated',
+    regd: 'Regd. No.',
+    filter: 'Show',
+    all: 'All',
+    pdf: 'PDF',
+    drive: 'Google Drive',
+    page: 'Web page',
+    open: 'Open',
+    download: 'Download',
+    view: 'View',
+    no: 'No.',
+    doc: 'Document',
+    type: 'Type',
+    helpTitle: 'Need help with a notice?',
+    helpText: 'Call the head office or visit your branch, and our team will guide you.',
+    members: 'List of members',
+    membersText: 'District-wise lists of members and delegates.',
+    pdfNote: 'PDF files open in a new tab. They can be large on mobile data.',
+  },
+  {
+    metaTitle: 'सूचना',
+    metaDescription: 'लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटीच्या अधिकृत सूचना: संचालक मंडळ व पदाधिकारी निवडणूक 2025 ची कागदपत्रे आणि मतदार याद्या.',
+    eyebrow: 'अधिकृत',
+    title: 'सूचना आणि',
+    accent: 'घोषणा',
+    lead: 'सभासदांसाठी अधिकृत सूचना, वाचण्यासाठी किंवा डाउनलोड करण्यासाठी सर्व कागदपत्रांसह.',
+    docs: '{n} कागदपत्रे',
+    updated: '{date} रोजी अद्ययावत',
+    officialNotice: 'अधिकृत सूचना',
+    pinned: 'महत्त्वाची',
+    issued: 'दिनांक',
+    regd: 'नोंदणी क्र.',
+    filter: 'दाखवा',
+    all: 'सर्व',
+    pdf: 'पीडीएफ',
+    drive: 'गुगल ड्राइव्ह',
+    page: 'वेब पान',
+    open: 'उघडा',
+    download: 'डाउनलोड',
+    view: 'पाहा',
+    no: 'क्र.',
+    doc: 'कागदपत्र',
+    type: 'प्रकार',
+    helpTitle: 'सूचनेबद्दल मदत हवी आहे?',
+    helpText: 'मुख्य कार्यालयाला कॉल करा किंवा तुमच्या शाखेला भेट द्या, आमची टीम मार्गदर्शन करेल.',
+    members: 'सभासदांची यादी',
+    membersText: 'जिल्हानिहाय सभासद व प्रतिनिधींच्या याद्या.',
+    pdfNote: 'पीडीएफ फाइल नवीन टॅबमध्ये उघडतात. मोबाइल डेटावर त्या मोठ्या असू शकतात.',
+  },
+);
+
+type Item = { label: string; href: string; kind: string };
+type Notice = { title: string; category: string; date: string; pinned: boolean; items: Item[]; expires?: string | null };
+const today = new Date().toISOString().slice(0, 10);
+// Pinned notices first, then the newest; notices past their end date are left out.
+const notices = items<Notice>('notice', lang)
+  .filter((n) => !n.expires || n.expires >= today)
+  .sort((a, b) => Number(b.pinned) - Number(a.pinned) || b.date.localeCompare(a.date));
+
+const sizeOf = (href: string) => {
+  if (!href.startsWith('/docs/')) return '';
+  const file = join(process.cwd(), 'public', href);
+  if (!existsSync(file)) return '';
+  const mb = statSync(file).size / 1024 / 1024;
+  return mb >= 1 ? `${mb.toFixed(1)} MB` : `${Math.max(1, Math.round(mb * 1024))} KB`;
+};
+const kindOf = (k: string) => (k === 'pdf' || k === 'drive' ? k : 'page');
+const list = notices.map((n, ni) => ({
+  ...n,
+  id: `notice-${ni + 1}`,
+  when: longDateFor(n.date, lang),
+  rows: n.items.map((it, i) => {
+    const kind = kindOf(it.kind);
+    return {
+      ...it,
+      n: String(i + 1).padStart(2, '0'),
+      kind,
+      href: kind === 'page' ? l(it.href) : it.href,
+      external: kind !== 'page',
+      size: kind === 'pdf' ? sizeOf(it.href) : '',
+      action: kind === 'pdf' ? c('download') : kind === 'drive' ? c('view') : c('open'),
+    };
+  }),
+}));
+const allRows = list.flatMap((n) => n.rows);
+const counts = { pdf: allRows.filter((r) => r.kind === 'pdf').length, drive: allRows.filter((r) => r.kind === 'drive').length, page: allRows.filter((r) => r.kind === 'page').length };
+const newest = list.map((n) => n.date).sort().at(-1);
+// Round rubber stamp: the society's name around the ring, "official" and the year in the middle.
+const stampRing = lang === 'mr' ? 'लोकमंगल मल्टीस्टेट • सोलापूर • लोकमंगल •' : 'LOKMANGAL MULTISTATE • SOLAPUR •';
+const stampMid = c('eyebrow');
+---
+
+<Base title={c('metaTitle')} description={c('metaDescription')}>
+  <!-- HEADER -->
+  <header class="nt-head">
+    <div class="container">
+      <nav class="nt-crumbs" aria-label={t('breadcrumb')}>
+        <a href={l('/')}>{t('home')}</a>
+        <Icon name="chevron-right" size={14} />
+        <span aria-current="page">{c('metaTitle')}</span>
+      </nav>
+      <div class="nt-head__grid">
+        <div>
+          <p class="nt-head__eyebrow">{c('eyebrow')}</p>
+          <h1 class="h1 nt-head__title" data-reveal>{c('title')} <em>{c('accent')}</em></h1>
+          <p class="lead nt-head__lead" data-reveal style="--d:120ms">{c('lead')}</p>
+        </div>
+        <dl class="nt-head__facts" data-stagger>
+          <div><dt>{c('docs', { n: '' }).trim()}</dt><dd><span data-count={allRows.length}>{allRows.length}</span></dd></div>
+          {newest && <div><dt>{c('updated', { date: '' }).trim()}</dt><dd class="nt-head__date">{longDateFor(newest, lang)}</dd></div>}
+        </dl>
+      </div>
+    </div>
+  </header>
+
+  <section class="section nt-sec">
+    <div class="container nt-grid">
+      <div class="nt-main">
+        <!-- Filter by file type -->
+        <div class="nt-filter" role="group" aria-label={c('filter')}>
+          <span class="nt-filter__label">{c('filter')}:</span>
+          <button type="button" aria-pressed="true" data-kind-filter="all">{c('all')} <span>{allRows.length}</span></button>
+          {counts.pdf > 0 && <button type="button" aria-pressed="false" data-kind-filter="pdf">{c('pdf')} <span>{counts.pdf}</span></button>}
+          {counts.drive > 0 && <button type="button" aria-pressed="false" data-kind-filter="drive">{c('drive')} <span>{counts.drive}</span></button>}
+          {counts.page > 0 && <button type="button" aria-pressed="false" data-kind-filter="page">{c('page')} <span>{counts.page}</span></button>}
+        </div>
+
+        {list.map((n) => (
+          <article class="nt-paper" id={n.id} data-reveal>
+            <!-- Letterhead of an official circular -->
+            <header class="nt-paper__head">
+              <img src="/images/brand/emblem.png" alt="" width="56" height="56" class="nt-paper__seal" />
+              <div class="nt-paper__org">
+                <strong>{site.legalName}</strong>
+                <span>{c('regd')} {site.registration}</span>
+              </div>
+              {n.pinned && <span class="nt-paper__pin">{c('pinned')}</span>}
+            </header>
+            <div class="nt-paper__meta">
+              <span>{c('officialNotice')}</span>
+              <span>{c('issued')}: <time datetime={n.date}>{n.when}</time></span>
+              <span>{c('docs', { n: String(n.rows.length) })}</span>
+            </div>
+            <h2 class="nt-paper__title">{n.title}</h2>
+
+            <!-- Register of documents -->
+            <ol class="nt-reg">
+              <li class="nt-reg__head" aria-hidden="true">
+                <span>{c('no')}</span><span>{c('doc')}</span><span>{c('type')}</span><span></span>
+              </li>
+              {n.rows.map((r) => (
+                <li class="nt-row" data-kind={r.kind}>
+                  <a href={r.href} target={r.external ? '_blank' : undefined} rel={r.external ? 'noopener' : undefined}>
+                    <span class="nt-row__n">{r.n}</span>
+                    <span class="nt-row__label">{r.label}</span>
+                    <span class:list={['nt-row__type', `nt-row__type--${r.kind}`]}>{c(r.kind as 'pdf')}{r.size && <small>{r.size}</small>}</span>
+                    <span class="nt-row__go">{r.action} <Icon name={r.kind === 'pdf' ? 'download' : r.external ? 'arrow-up-right' : 'arrow-right'} size={15} /></span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+            <footer class="nt-paper__foot">
+              <svg class="nt-paper__stamp" viewBox="0 0 120 120" aria-hidden="true">
+                <defs><path id={`ring-${n.id}`} d="M60 60m-41 0a41 41 0 1 1 82 0a41 41 0 1 1 -82 0" /></defs>
+                <circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" stroke-width="2.4" />
+                <circle cx="60" cy="60" r="51" fill="none" stroke="currentColor" stroke-width="1" />
+                <circle cx="60" cy="60" r="30" fill="none" stroke="currentColor" stroke-width="1" />
+                <text class="nt-paper__ring"><textPath href={`#ring-${n.id}`} startOffset="0" textLength={lang === 'mr' ? undefined : '252'}>{stampRing}</textPath></text>
+                <text x="60" y="57" text-anchor="middle" class="nt-paper__mid">{stampMid}</text>
+                <text x="60" y="71" text-anchor="middle" class="nt-paper__yr">{n.date.slice(0, 4)}</text>
+              </svg>
+            </footer>
+          </article>
+        ))}
+      </div>
+
+      <aside class="nt-side">
+        <a href={l('/list-of-members/')} class="nt-side__members" data-reveal="right">
+          <span class="nt-side__k">{c('members')}</span>
+          <span>{c('membersText')}</span>
+          <Icon name="arrow-right" size={18} />
+        </a>
+        <div class="nt-side__help" data-reveal="right" style="--d:120ms">
+          <p class="nt-side__title">{c('helpTitle')}</p>
+          <p>{c('helpText')}</p>
+          <a href={site.phoneHref} class="nt-side__phone">{site.phone}</a>
+          <a href={l('/branches/')} class="link-arrow">{t('nav.branches')} <Icon name="arrow-right" size={16} /></a>
+        </div>
+        <p class="nt-side__note" data-reveal="right" style="--d:200ms">{c('pdfNote')}</p>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-kind-filter]'));
+    const rows = Array.from(document.querySelectorAll<HTMLElement>('.nt-row'));
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    buttons.forEach((b) =>
+      b.addEventListener('click', () => {
+        const kind = b.dataset.kindFilter ?? 'all';
+        buttons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+        let n = 0;
+        rows.forEach((r) => {
+          const show = kind === 'all' || r.dataset.kind === kind;
+          if (show && r.hidden && !reduce) r.animate([{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }], { duration: 380, delay: n * 35, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' });
+          r.hidden = !show;
+          if (show) n++;
+        });
+        // A notice with nothing of that type is hidden too.
+        document.querySelectorAll<HTMLElement>('.nt-paper').forEach((p) => (p.hidden = !p.querySelector('.nt-row:not([hidden])')));
+      }),
+    );
+  });
+</script>
+
+<style>
+  /* ---------- Header ---------- */
+  .nt-head { position: relative; isolation: isolate; overflow: hidden; padding-block: clamp(32px, 5vw, 56px) clamp(40px, 6vw, 72px); color: #fff; background: var(--g-950); }
+  .nt-head::before {
+    content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60' fill='none' stroke='%23f3b33d' stroke-width='.8' stroke-opacity='.18'%3E%3Cpath d='M0 30C15 12 45 12 60 30S105 48 120 30'/%3E%3Cpath d='M0 30C15 48 45 48 60 30S105 12 120 30'/%3E%3Cpath d='M0 20C15 2 45 2 60 20S105 38 120 20'/%3E%3Cpath d='M0 40C15 58 45 58 60 40S105 22 120 40'/%3E%3C/svg%3E");
+    background-size: 120px 60px;
+    mask-image: radial-gradient(60% 90% at 100% 50%, #000, transparent 80%);
+  }
+  .nt-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.86rem; font-weight: 600; color: rgb(255 255 255 / 0.6); }
+  .nt-crumbs a { color: rgb(255 255 255 / 0.8); }
+  .nt-crumbs span { color: var(--gold); }
+  .nt-head__grid { display: grid; gap: 28px; align-items: end; margin-top: clamp(24px, 4vw, 40px); }
+  @media (min-width: 900px) { .nt-head__grid { grid-template-columns: minmax(0, 1fr) auto; } }
+  .nt-head__eyebrow { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g-300); }
+  :global(html[lang='mr']) .nt-head__eyebrow { letter-spacing: 0; text-transform: none; font-size: 0.95rem; }
+  .nt-head__title { margin-top: 12px; color: #fff; }
+  .nt-head__title em { color: var(--gold); }
+  .nt-head__lead { margin-top: 12px; color: rgb(255 255 255 / 0.84); max-width: 600px; }
+  .nt-head__facts { display: flex; margin: 0; }
+  .nt-head__facts > div { display: flex; flex-direction: column-reverse; gap: 4px; padding: 0 28px; border-left: 1px solid rgb(255 255 255 / 0.18); }
+  .nt-head__facts dd { margin: 0; font-size: clamp(2rem, 3.6vw, 2.6rem); font-weight: 800; line-height: 1; color: var(--gold); }
+  .nt-head__facts dd.nt-head__date { font-size: 1.15rem; line-height: 1.3; padding-top: 6px; }
+  .nt-head__facts dt { font-size: 0.84rem; font-weight: 600; color: rgb(255 255 255 / 0.72); }
+  @media (max-width: 899px) { .nt-head__facts > div:first-child { padding-left: 0; border-left: 0; } }
+
+  /* ---------- Layout ---------- */
+  .nt-sec { background: var(--bg); }
+  .nt-grid { display: grid; gap: clamp(28px, 4vw, 48px); align-items: start; }
+  @media (min-width: 1020px) { .nt-grid { grid-template-columns: minmax(0, 1fr) 320px; } .nt-side { position: sticky; top: calc(var(--header-h) + 20px); } }
+  .nt-main { display: grid; gap: 28px; min-width: 0; }
+
+  .nt-filter { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .nt-filter__label { font-weight: 700; color: var(--muted); margin-right: 4px; }
+  .nt-filter button {
+    display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: 10px; border: 1.5px solid var(--line);
+    background: #fff; font: inherit; font-size: 0.9rem; font-weight: 700; color: var(--ink-2); cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+  .nt-filter button span { font-size: 0.76rem; font-weight: 800; color: var(--o-600); }
+  .nt-filter button:hover { border-color: var(--g-600); }
+  .nt-filter button[aria-pressed='true'] { background: var(--g-900); border-color: var(--g-900); color: #fff; }
+  .nt-filter button[aria-pressed='true'] span { color: var(--gold); }
+
+  /* ---------- The circular ---------- */
+  .nt-paper { position: relative; padding: clamp(22px, 3.4vw, 44px); border-radius: 6px; background: #fffdf8; box-shadow: 0 1px 0 var(--line), 0 34px 60px -40px rgb(60 40 10 / 0.6); }
+  .nt-paper[hidden] { display: none; }
+  /* A tricolour-like rule under the letterhead, in the society's colours */
+  .nt-paper__head { display: flex; align-items: center; gap: 16px; padding-bottom: 16px; border-bottom: 3px solid var(--g-800); box-shadow: 0 3px 0 0 #fffdf8, 0 6px 0 0 var(--o-500); }
+  .nt-paper__seal { flex: none; width: 52px; height: auto; }
+  .nt-paper__org { display: grid; min-width: 0; }
+  .nt-paper__org strong { font-size: clamp(1rem, 1.6vw, 1.18rem); line-height: 1.3; color: var(--g-900); }
+  .nt-paper__org span { font-size: 0.82rem; font-weight: 600; color: var(--muted); }
+  .nt-paper__pin { margin-left: auto; flex: none; padding: 5px 12px; border-radius: 6px; background: var(--o-500); color: #fff; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; rotate: 3deg; }
+  :global(html[lang='mr']) .nt-paper__pin { letter-spacing: 0; text-transform: none; font-size: 0.86rem; }
+  .nt-paper__meta { display: flex; flex-wrap: wrap; gap: 4px 0; margin-top: 22px; font-size: 0.84rem; font-weight: 700; color: var(--g-800); }
+  .nt-paper__meta span { padding-inline: 12px; }
+  .nt-paper__meta span:first-child { padding-left: 0; color: var(--o-600); }
+  .nt-paper__meta span + span { border-left: 1px solid var(--line); }
+  .nt-paper__title { margin-top: 10px; font-size: clamp(1.4rem, 2.6vw, 2rem); line-height: 1.3; color: var(--g-900); text-wrap: balance; }
+
+  /* Register: numbered rows with ruled lines, like a ledger */
+  .nt-reg { list-style: none; margin: 22px 0 0; padding: 0; }
+  .nt-reg__head, .nt-row a { display: grid; grid-template-columns: 3rem minmax(0, 1fr) 9.5rem 7.5rem; gap: 14px; align-items: center; }
+  .nt-reg__head { padding: 10px 12px; border-block: 1.5px solid var(--g-900); font-size: 0.74rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--g-900); }
+  :global(html[lang='mr']) .nt-reg__head { letter-spacing: 0; text-transform: none; font-size: 0.86rem; }
+  .nt-row[hidden] { display: none; }
+  .nt-row a { position: relative; padding: 15px 12px; border-bottom: 1px solid var(--line); color: inherit; transition: background 0.25s; }
+  .nt-row a::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--o-500); transform: scaleY(0); transition: transform 0.35s var(--ease-out); }
+  .nt-row__n { font-size: 0.86rem; font-weight: 800; color: var(--o-600); font-variant-numeric: tabular-nums; }
+  .nt-row__label { font-weight: 700; line-height: 1.45; color: var(--ink); }
+  .nt-row__type { display: grid; justify-items: start; gap: 1px; font-size: 0.82rem; font-weight: 700; color: var(--g-800); }
+  .nt-row__type::before { content: ''; display: block; width: 26px; height: 3px; margin-bottom: 4px; border-radius: 3px; background: var(--g-600); }
+  .nt-row__type--pdf::before { background: #c0392b; }
+  .nt-row__type--drive::before { background: var(--gold); }
+  .nt-row__type small { font-size: 0.76rem; font-weight: 600; color: var(--muted); }
+  .nt-row__go { justify-self: end; display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 9px; font-size: 0.84rem; font-weight: 700; color: var(--g-800); background: var(--g-100); white-space: nowrap; transition: background 0.25s, color 0.25s; }
+  @media (hover: hover) {
+    .nt-row a:hover { background: #fff; }
+    .nt-row a:hover::before { transform: scaleY(1); }
+    .nt-row a:hover .nt-row__go { background: var(--g-800); color: #fff; }
+  }
+  .nt-paper__foot { display: flex; justify-content: flex-end; margin-top: 26px; }
+  /* Round rubber stamp in the corner of the circular */
+  .nt-paper__stamp { width: 116px; height: 116px; rotate: -14deg; color: var(--o-600); opacity: 0.78; }
+  .nt-paper__ring { font-size: 10.5px; font-weight: 800; fill: currentColor; }
+  :global(html[lang='mr']) .nt-paper__ring { font-size: 11.5px; font-weight: 700; }
+  .nt-paper__mid { font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; fill: currentColor; }
+  :global(html[lang='mr']) .nt-paper__mid { letter-spacing: 0; font-size: 11px; }
+  .nt-paper__yr { font-size: 12px; font-weight: 800; fill: currentColor; }
+  @media (max-width: 699px) {
+    .nt-reg__head { display: none; }
+    .nt-reg { border-top: 1.5px solid var(--g-900); }
+    .nt-row a { grid-template-columns: 2.2rem minmax(0, 1fr); gap: 6px 10px; padding: 14px 4px; }
+    .nt-row__type { grid-column: 2; display: flex; align-items: center; gap: 8px; }
+    .nt-row__type::before { margin: 0; }
+    .nt-row__go { grid-column: 2; justify-self: start; }
+    .nt-paper__stamp { width: 92px; height: 92px; }
+    .nt-paper__meta span { padding-inline: 0 12px; }
+    .nt-paper__meta span + span { border-left: 0; }
+    .nt-paper__meta { flex-direction: column; gap: 2px; }
+    .nt-paper__head { align-items: flex-start; }
+    .nt-paper__seal { width: 44px; }
+  }
+
+  /* ---------- Side ---------- */
+  .nt-side { display: grid; gap: 16px; }
+  .nt-side__members { position: relative; display: grid; gap: 6px; padding: 20px 52px 20px 20px; border-radius: var(--r-lg); background: var(--g-900); color: rgb(255 255 255 / 0.8); font-size: 0.92rem; transition: transform 0.4s var(--ease-out), box-shadow 0.4s; }
+  .nt-side__members :global(.icon) { position: absolute; right: 20px; top: 50%; translate: 0 -50%; color: var(--gold); transition: right 0.35s var(--ease-out); }
+  .nt-side__members:hover { transform: translateY(-3px); box-shadow: 0 24px 40px -26px rgb(5 42 26 / 0.8); }
+  .nt-side__members:hover :global(.icon) { right: 14px; }
+  .nt-side__k { font-size: 1.12rem; font-weight: 800; color: #fff; }
+  .nt-side__help { display: grid; gap: 8px; justify-items: start; padding: 20px; border-radius: var(--r-lg); background: #fff; border-top: 4px solid var(--o-500); box-shadow: 0 26px 46px -34px rgb(5 42 26 / 0.5); }
+  .nt-side__title { font-weight: 800; color: var(--g-900); }
+  .nt-side__help p:not(.nt-side__title) { font-size: 0.9rem; color: var(--muted); }
+  .nt-side__phone { font-size: 1.4rem; font-weight: 800; color: var(--g-800); border-bottom: 2px solid var(--gold); font-variant-numeric: tabular-nums; }
+  .nt-side__phone:hover { color: var(--o-strong-hover); }
+  .nt-side__note { font-size: 0.84rem; color: var(--muted); padding-left: 12px; border-left: 3px solid var(--line); }
+</style>

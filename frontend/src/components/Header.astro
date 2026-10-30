@@ -14,6 +14,25 @@ const switchHref = switchTarget(Astro.url.pathname, otherLang);
 const { announcement, nav, site } = siteData(lang);
 const { schemes } = depositsData(lang);
 const { loans } = loansData(lang);
+const { schemeBySlug } = depositsData(lang);
+const previews: Record<string, string> = {
+  '/about-us/': '/images/about/banner.webp',
+  '/chairman-message/': '/images/people/board-01.webp',
+  '/board-of-directors/': '/images/board/banner.webp',
+  '/social-responsibility/': '/images/csr/banner.webp',
+  '/annual-reports/': '/images/home/intro.webp',
+  '/gallery/': '/images/gallery/gallery-06.webp',
+};
+const previewFor = (href: string) => previews[href] ?? '/images/about/banner.webp';
+const fdRate = schemeBySlug('vishwamangal-fixed-deposit-scheme')?.rate ?? null;
+const rdRate = schemeBySlug('vishvamangal-recurring-deposit')?.rate ?? null;
+const loanFrom = loans.length ? Math.min(...loans.map((x) => x.rateFrom)) : null;
+// Three branded posts that play like stories on the phone in the products menu.
+const stories = [
+  { img: '/images/home/card-fd.webp', pos: '62% 40%', tag: t('mega.fd'), rate: fdRate, pre: '', note: t('mega.fdNote'), ribbon: t('mega.extra'), cta: t('mega.bookFd'), href: l('/apply-for-deposits/') },
+  { img: '/images/home/card-rd.webp', pos: '55% 40%', tag: t('mega.rd'), rate: rdRate, pre: '', note: t('mega.rdNote'), ribbon: '', cta: t('mega.startRd'), href: l('/deposits/vishvamangal-recurring-deposit/') },
+  { img: '/images/home/card-loan.webp', pos: '50% 40%', tag: t('mega.loansTag'), rate: loanFrom, pre: t('mega.from'), note: t('mega.loanNote'), ribbon: '', cta: t('mega.applyLoan'), href: l('/apply-loan/') },
+].filter((x) => x.rate !== null);
 
 const path = stripLang(Astro.url.pathname);
 const productPaths = ['/deposits/', '/loans/', '/interest-rates/', '/calculators/', '/apply-for-deposits/', '/apply-loan/'];
@@ -80,55 +99,108 @@ const isActive = (item: Item) => {
             )}
 
             {item.children && (
-              <div class="dropdown">
-                <ul class="dropdown__list">
-                  {item.children.map((c) => (
+              <div class="dropdown dd">
+                <ol class="dd__list">
+                  {item.children.map((c, i) => (
                     <li>
-                      <a href={l(c.href)} class="dropdown__link">
-                        <span class="dropdown__icon"><Icon name={c.icon ?? 'arrow-right'} size={18} /></span>
-                        <span>
+                      <a href={l(c.href)} class="dd__link" data-prev={i}>
+                        <span class="dd__n">{String(i + 1).padStart(2, '0')}</span>
+                        <span class="dd__text">
                           <strong>{c.label}</strong>
                           {c.desc && <small>{c.desc}</small>}
                         </span>
+                        <Icon name="arrow-right" size={14} />
                       </a>
                     </li>
                   ))}
-                </ul>
+                </ol>
+                <!-- The page you point at, shown as a photo -->
+                <div class="dd__prev" aria-hidden="true">
+                  {item.children.map((c, i) => (
+                    <figure class="dd__shot" data-i={i}>
+                      <img src={previewFor(c.href)} alt="" width="600" height="760" loading="lazy" />
+                      <figcaption><span>{String(i + 1).padStart(2, '0')}</span>{c.label}</figcaption>
+                    </figure>
+                  ))}
+                </div>
               </div>
             )}
 
             {item.mega && (
               <div class="dropdown mega">
+                <!-- Rate boards: name, a dotted leader, then the rate -->
                 <div class="mega__col">
-                  <a href={l('/deposits/')} class="mega__title"><Icon name="piggy-bank" size={18} /> {t('nav.deposits')} <Icon name="arrow-right" size={14} /></a>
-                  <ul>
+                  <a href={l('/deposits/')} class="mega__title"><span class="mega__no">01</span>{t('mega.depositsHead')}<small class="mega__unit">{t('mega.unitDeposit')}</small><Icon name="arrow-right" size={14} /></a>
+                  <ul class="mega__board">
                     {schemes.map((s) => (
                       <li>
                         <a href={l(`/deposits/${s.slug}/`)}>
-                          <span>{s.name}</span>
-                          <em>{s.rate ? `${fmtRate(s.rate)}%` : '2×'}</em>
+                          <span class="mega__name">{s.name}</span>
+                          <i class="mega__dots" aria-hidden="true"></i>
+                          <b>{s.rate ? `${fmtRate(s.rate)}%` : '2×'}</b>
                         </a>
                       </li>
                     ))}
                   </ul>
                 </div>
                 <div class="mega__col">
-                  <a href={l('/loans/')} class="mega__title"><Icon name="hand-coins" size={18} /> {t('nav.loans')} <Icon name="arrow-right" size={14} /></a>
-                  <ul class="mega__loans">
+                  <a href={l('/loans/')} class="mega__title"><span class="mega__no">02</span>{t('mega.loansHead')}<small class="mega__unit">{t('mega.unitLoan')}</small><Icon name="arrow-right" size={14} /></a>
+                  <ul class="mega__board">
                     {loans.map((ln) => (
-                      <li><a href={l(`/loans/#${ln.slug}`)}><span>{ln.name}</span></a></li>
+                      <li>
+                        <a href={l(`/loans/#${ln.slug}`)}>
+                          <span class="mega__name">{ln.name}</span>
+                          <i class="mega__dots" aria-hidden="true"></i>
+                          <b>{fmtRate(ln.rateFrom)}%</b>
+                        </a>
+                      </li>
                     ))}
                   </ul>
-                </div>
-                <div class="mega__promo">
-                  <span class="chip chip--dark">{t('mega.fd')}</span>
-                  <p class="mega__rate">10<span>%</span></p>
-                  <p class="mega__promo-text">{t('mega.promo')}</p>
-                  <div class="mega__promo-links">
-                    <a href={l('/interest-rates/')}><Icon name="percent" size={16} /> {t('nav.rates')}</a>
-                    <a href={l('/calculators/')}><Icon name="calculator" size={16} /> {t('nav.calculators')}</a>
+                  <div class="mega__more">
+                    <a href={l('/interest-rates/')}>{t('nav.rates')}</a>
+                    <a href={l('/calculators/')}>{t('nav.calculators')}</a>
                   </div>
-                  <a href={l('/apply-for-deposits/')} class="btn btn--primary btn--sm">{t('mega.bookFd')} <Icon name="arrow-right" size={16} class="icon--arrow" /></a>
+                </div>
+
+                <!-- A phone showing Lokmangal's own posts, played like stories -->
+                <div class="mg-stage">
+                  <div class="mg-phone" role="group" aria-label={t('mega.storyLabel')}>
+                    <span class="mg-phone__btn mg-phone__btn--a" aria-hidden="true"></span>
+                    <span class="mg-phone__btn mg-phone__btn--b" aria-hidden="true"></span>
+                    <span class="mg-phone__btn mg-phone__btn--c" aria-hidden="true"></span>
+                    <div class="mg-screen">
+                      <span class="mg-island" aria-hidden="true"></span>
+                      <div class="mg-status" aria-hidden="true">
+                        <span>9:41</span>
+                        <span class="mg-status__r"><i class="mg-signal"><b></b><b></b><b></b><b></b></i><i class="mg-battery"></i></span>
+                      </div>
+                      <div class="mg-bars" aria-hidden="true">
+                        {stories.map((_, i) => <span><i class={`mg-anim mg-fill mg-fill--${i}`}></i></span>)}
+                      </div>
+                      <div class="mg-who" aria-hidden="true">
+                        <img src="/images/brand/emblem.png" alt="" width="28" height="28" />
+                        <span><b>{t('mega.handle')}</b><small>{t('mega.place')}</small></span>
+                      </div>
+                      {stories.map((st, i) => (
+                        <div class={`mg-anim mg-story mg-story--${i}`}>
+                          <img src={st.img} alt="" width="1200" height="751" loading="lazy" style={`object-position:${st.pos}`} />
+                          <div class="mg-story__copy">
+                            <span class="mg-story__tag">{st.tag}</span>
+                            <p class="mg-story__rate">
+                              {st.pre && lang !== 'mr' && <small class="mg-story__pre">{st.pre}</small>}
+                              {fmtRate(st.rate!)}<span>%</span>
+                              {st.pre && lang === 'mr' && <small class="mg-story__pre">{st.pre}</small>}
+                            </p>
+                            <p class="mg-story__pa">{t('mega.pa')}</p>
+                            <p class="mg-story__note">{st.note}</p>
+                            {st.ribbon && <p class="mg-story__ribbon">{st.ribbon}</p>}
+                            <a href={st.href} class="mg-story__cta">{st.cta} <Icon name="arrow-right" size={15} /></a>
+                          </div>
+                        </div>
+                      ))}
+                      <span class="mg-home" aria-hidden="true"></span>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
@@ -371,38 +443,161 @@ const isActive = (item: Item) => {
   .dropdown__link:hover { background: var(--bg); }
   .dropdown__link:hover .dropdown__icon { background: var(--g-600); color: #fff; transform: rotate(-6deg); }
 
+  /* About menu: numbered links on the left, a photo of the page being pointed at on the right */
+  .dropdown.dd { left: -14px; display: grid; grid-template-columns: minmax(0, 1fr) 230px; gap: 10px; width: 640px; padding: 12px; transform: translate(0, 8px) scale(0.98); transform-origin: top left; }
+  .nav__item.is-open > .dropdown.dd { transform: none; }
+  @media (hover: hover) and (min-width: 1281px) { .nav__item.has-menu:hover > .dropdown.dd { transform: none; } }
+  .dd__list { list-style: none; margin: 0; padding: 0; display: grid; align-content: start; }
+  .dd__link {
+    position: relative; display: grid; grid-template-columns: 2rem minmax(0, 1fr) 14px; gap: 10px; align-items: center;
+    padding: 10px 12px; border-radius: 12px; transition: background 0.2s;
+  }
+  .dd__list li + li .dd__link::before { content: ''; position: absolute; left: 12px; right: 12px; top: 0; height: 1px; background: var(--line-2); }
+  .dd__n { font-size: 0.78rem; font-weight: 800; color: var(--o-600); font-variant-numeric: tabular-nums; }
+  .dd__text strong { display: block; font-size: 0.93rem; font-weight: 700; color: var(--ink); transition: color 0.2s; }
+  .dd__text small { display: block; font-size: 0.8rem; color: var(--muted); }
+  .dd__link :global(.icon) { color: var(--o-600); opacity: 0; translate: -6px 0; transition: opacity 0.2s, translate 0.3s var(--ease-out); }
+  .dd__link:hover, .dd__link:focus-visible { background: var(--bg); }
+  .dd__list li:hover .dd__link::before, .dd__list li:hover + li .dd__link::before { opacity: 0; }
+  .dd__link:hover .dd__text strong { color: var(--g-800); }
+  .dd__link:hover :global(.icon), .dd__link:focus-visible :global(.icon) { opacity: 1; translate: 0 0; }
+  .dd__prev { position: relative; overflow: hidden; border-radius: 14px; background: var(--g-900); min-height: 100%; }
+  .dd__shot { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity 0.35s var(--ease-out); }
+  .dd__shot img { width: 100%; height: 100%; object-fit: cover; scale: 1.06; transition: scale 0.9s var(--ease-out); }
+  .dd__shot::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 45%, rgb(0 40 20 / 0.85)); }
+  .dd__shot figcaption { position: absolute; z-index: 1; left: 14px; right: 14px; bottom: 16px; display: grid; gap: 2px; color: #fff; font-weight: 800; font-size: 1.05rem; line-height: 1.25; }
+  .dd__shot figcaption span { font-size: 0.74rem; color: var(--o-300); }
+  .dd__shot::before { content: ''; position: absolute; z-index: 1; left: 0; right: 0; bottom: 0; height: 4px; background: var(--o-500); }
+  /* The first page shows until another is pointed at */
+  .dd__shot[data-i='0'] { opacity: 1; }
+  .dd__shot[data-i='0'] img { scale: 1; }
+  .dd:has(.dd__link:is(:hover, :focus-visible)) .dd__shot { opacity: 0; }
+  .dd:has(.dd__link[data-prev='0']:is(:hover, :focus-visible)) .dd__shot[data-i='0'] { opacity: 1; }
+  .dd:has(.dd__link[data-prev='1']:is(:hover, :focus-visible)) .dd__shot[data-i='1'] { opacity: 1; }
+  .dd:has(.dd__link[data-prev='2']:is(:hover, :focus-visible)) .dd__shot[data-i='2'] { opacity: 1; }
+  .dd:has(.dd__link[data-prev='3']:is(:hover, :focus-visible)) .dd__shot[data-i='3'] { opacity: 1; }
+  .dd:has(.dd__link[data-prev='4']:is(:hover, :focus-visible)) .dd__shot[data-i='4'] { opacity: 1; }
+  .dd:has(.dd__link[data-prev='5']:is(:hover, :focus-visible)) .dd__shot[data-i='5'] { opacity: 1; }
+  .dd:has(.dd__link[data-prev='6']:is(:hover, :focus-visible)) .dd__shot[data-i='6'] { opacity: 1; }
+  .dd:has(.dd__link[data-prev='7']:is(:hover, :focus-visible)) .dd__shot[data-i='7'] { opacity: 1; }
+  .dd:has(.dd__link[data-prev='0']:is(:hover, :focus-visible)) .dd__shot[data-i='0'] img { scale: 1; }
+  .dd:has(.dd__link[data-prev='1']:is(:hover, :focus-visible)) .dd__shot[data-i='1'] img { scale: 1; }
+  .dd:has(.dd__link[data-prev='2']:is(:hover, :focus-visible)) .dd__shot[data-i='2'] img { scale: 1; }
+  .dd:has(.dd__link[data-prev='3']:is(:hover, :focus-visible)) .dd__shot[data-i='3'] img { scale: 1; }
+  .dd:has(.dd__link[data-prev='4']:is(:hover, :focus-visible)) .dd__shot[data-i='4'] img { scale: 1; }
+  .dd:has(.dd__link[data-prev='5']:is(:hover, :focus-visible)) .dd__shot[data-i='5'] img { scale: 1; }
+  .dd:has(.dd__link[data-prev='6']:is(:hover, :focus-visible)) .dd__shot[data-i='6'] img { scale: 1; }
+  .dd:has(.dd__link[data-prev='7']:is(:hover, :focus-visible)) .dd__shot[data-i='7'] img { scale: 1; }
+
   .mega {
     display: grid;
-    grid-template-columns: 1.15fr 1fr 0.95fr;
-    gap: 8px;
-    width: min(920px, calc(100vw - 48px));
-    padding: 14px;
-  }
-  .mega__col { padding: 12px; }
-  .mega__title { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; color: var(--g-700); margin-bottom: 10px; font-size: 0.98rem; }
-  .mega__title:hover { color: var(--o-600); }
-  .mega ul { list-style: none; display: grid; gap: 1px; }
-  .mega ul a { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 7px 10px; border-radius: 10px; font-size: 0.89rem; color: var(--ink-2); transition: background 0.2s, color 0.2s, padding 0.3s var(--ease-out); }
-  .mega ul a:hover { background: var(--g-50); color: var(--g-700); padding-left: 14px; }
-  .mega ul em { font-style: normal; font-weight: 800; font-size: 0.78rem; color: var(--o-700); background: var(--o-50); padding: 2px 8px; border-radius: 999px; }
-  .mega__promo {
-    position: relative;
-    overflow: hidden;
-    border-radius: 16px;
-    padding: 22px;
-    color: rgb(255 255 255 / 0.8);
-    background: radial-gradient(120% 90% at 100% 0%, rgb(236 106 30 / 0.55), transparent 55%), linear-gradient(160deg, var(--g-800), var(--g-950));
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) 286px;
     gap: 10px;
+    width: min(1040px, calc(100vw - 48px));
+    padding: 16px;
   }
-  .mega__rate { font-size: 4.2rem; font-weight: 800; line-height: 0.95; color: #fff; letter-spacing: -0.04em; }
-  .mega__rate span { font-size: 2rem; color: var(--o-400); }
-  .mega__promo-text { font-size: 0.85rem; line-height: 1.5; }
-  .mega__promo-links { display: grid; gap: 6px; margin: 4px 0 8px; font-size: 0.88rem; font-weight: 600; }
-  .mega__promo-links a { display: inline-flex; align-items: center; gap: 8px; color: #fff; }
-  .mega__promo-links a:hover { color: var(--o-300); }
+  .mega__col { padding: 10px 12px; min-width: 0; }
+  .mega__title { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 8px; padding-bottom: 8px; font-weight: 800; color: var(--g-900); font-size: 1rem; border-bottom: 2px solid var(--g-900); width: 100%; }
+  .mega__title :global(.icon) { color: var(--o-600); transition: translate 0.3s var(--ease-out); }
+  .mega__unit { margin-left: auto; font-size: 0.72rem; font-weight: 700; color: var(--muted); }
+  .mega__title:hover { color: var(--o-700); }
+  .mega__title:hover :global(.icon) { translate: 3px 0; }
+  .mega__no { font-size: 0.74rem; font-weight: 800; color: var(--o-600); }
+  /* Rate board: name ····· rate */
+  .mega__board { list-style: none; display: grid; gap: 0; }
+  .mega__board a {
+    display: flex; align-items: baseline; gap: 6px; padding: 6px 8px; border-radius: 8px;
+    font-size: 0.88rem; line-height: 1.35; color: var(--ink-2); transition: background 0.2s, color 0.2s;
+  }
+  .mega__name { min-width: 0; }
+  .mega__dots { flex: 1 1 14px; min-width: 14px; align-self: flex-end; margin-bottom: 0.32em; border-bottom: 2px dotted var(--line); }
+  .mega__board b { flex: none; font-size: 0.86rem; font-weight: 800; color: var(--g-800); font-variant-numeric: tabular-nums; }
+  .mega__board a:hover { background: var(--bg); color: var(--g-900); }
+  .mega__board a:hover .mega__dots { border-bottom-color: var(--o-400); }
+  .mega__board a:hover b { color: var(--o-700); }
+  .mega__more { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line); }
+  .mega__more a { padding: 7px 13px; border-radius: 999px; border: 1.5px solid var(--line); font-size: 0.84rem; font-weight: 700; color: var(--g-800); transition: background 0.2s, color 0.2s, border-color 0.2s; }
+  .mega__more a:hover { background: var(--g-800); border-color: var(--g-800); color: #fff; }
+
+  /* ---------- The phone ---------- */
+  .mg-stage {
+    position: relative; display: grid; place-items: center; padding: 18px 0; border-radius: 16px; overflow: hidden;
+    background: radial-gradient(80% 60% at 50% 30%, rgb(255 255 255 / 0.9), transparent 70%), linear-gradient(160deg, #fff4dc, #f6dfaf);
+  }
+  .mg-phone {
+    position: relative; width: 232px; aspect-ratio: 9 / 19.2; padding: 8px; border-radius: 40px;
+    background: linear-gradient(145deg, #3a3a3d, #121214 40%, #2a2a2d);
+    box-shadow: inset 0 0 0 1.5px #55555a, inset 0 0 0 3px #111, 0 28px 46px -22px rgb(60 40 10 / 0.6), 0 10px 18px -12px rgb(0 0 0 / 0.5);
+    transform: translateY(14px) rotate(-2deg); transition: transform 0.6s var(--ease-out);
+  }
+  .nav__item.is-open .mg-phone { transform: none; }
+  @media (hover: hover) and (min-width: 1281px) { .nav__item.has-menu:hover .mg-phone { transform: none; } }
+  .mg-phone__btn { position: absolute; width: 3px; border-radius: 2px; background: #2a2a2d; }
+  .mg-phone__btn--a { left: -2px; top: 92px; height: 22px; }
+  .mg-phone__btn--b { left: -2px; top: 124px; height: 38px; }
+  .mg-phone__btn--c { right: -2px; top: 112px; height: 56px; }
+  .mg-screen { position: relative; isolation: isolate; height: 100%; overflow: hidden; border-radius: 32px; background: var(--g-900); }
+  .mg-island { position: absolute; z-index: 5; top: 8px; left: 50%; width: 74px; height: 21px; margin-left: -37px; border-radius: 999px; background: #000; }
+  .mg-status { position: absolute; z-index: 4; inset: 0 0 auto 0; display: flex; justify-content: space-between; align-items: center; height: 36px; padding: 2px 20px 0 24px; font-size: 0.7rem; font-weight: 700; color: #fff; }
+  .mg-status__r { display: flex; align-items: center; gap: 5px; }
+  .mg-signal { display: flex; align-items: flex-end; gap: 1.5px; height: 9px; }
+  .mg-signal b { width: 2.5px; border-radius: 1px; background: #fff; }
+  .mg-signal b:nth-child(1) { height: 3px; } .mg-signal b:nth-child(2) { height: 5px; } .mg-signal b:nth-child(3) { height: 7px; } .mg-signal b:nth-child(4) { height: 9px; }
+  .mg-battery { position: relative; width: 20px; height: 10px; border-radius: 3px; border: 1.2px solid rgb(255 255 255 / 0.8); }
+  .mg-battery::before { content: ''; position: absolute; inset: 1.5px 5px 1.5px 1.5px; border-radius: 1.5px; background: #fff; }
+  .mg-battery::after { content: ''; position: absolute; right: -3.5px; top: 2.5px; width: 2px; height: 3.5px; border-radius: 0 1px 1px 0; background: rgb(255 255 255 / 0.8); }
+  /* Story progress bars and the account row */
+  .mg-bars { position: absolute; z-index: 4; top: 40px; left: 12px; right: 12px; display: flex; gap: 4px; }
+  .mg-bars > span { flex: 1; height: 2.5px; border-radius: 2px; background: rgb(255 255 255 / 0.35); overflow: hidden; }
+  .mg-fill { display: block; height: 100%; background: #fff; transform-origin: left; transform: scaleX(0); }
+  .mg-who { position: absolute; z-index: 4; top: 50px; left: 12px; right: 12px; display: flex; align-items: center; gap: 8px; color: #fff; }
+  .mg-who img { width: 28px; height: 28px; padding: 3px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 2px var(--o-500); }
+  .mg-who span { display: grid; line-height: 1.15; }
+  .mg-who b { font-size: 0.7rem; }
+  .mg-who small { font-size: 0.6rem; opacity: 0.8; }
+  /* A story: the photo fills the screen, the offer sits on a green fade */
+  .mg-story { position: absolute; inset: 0; opacity: 0; visibility: hidden; }
+  .mg-story img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .mg-story::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgb(0 0 0 / 0.45) 0%, transparent 22%, transparent 34%, rgb(0 77 39 / 0.75) 52%, #004d27 72%); }
+  .mg-story__copy { position: absolute; z-index: 1; inset: auto 14px 26px 14px; display: grid; justify-items: start; gap: 2px; color: #fff; }
+  .mg-story__tag { padding: 4px 9px; border-radius: 999px; background: rgb(255 255 255 / 0.16); border: 1px solid rgb(255 255 255 / 0.3); font-size: 0.66rem; font-weight: 700; }
+  .mg-story__rate { margin-top: 6px; display: flex; align-items: baseline; gap: 4px; font-size: 3.6rem; font-weight: 800; line-height: 0.9; letter-spacing: -0.05em; }
+  .mg-story__rate span { font-size: 1.7rem; color: #ffb27a; letter-spacing: 0; }
+  .mg-story__pre { font-size: 0.82rem; font-weight: 700; letter-spacing: 0; color: rgb(255 255 255 / 0.85); }
+  .mg-story__pa { font-size: 0.72rem; font-weight: 700; color: var(--gold-soft, #f6dc93); }
+  .mg-story__note { margin-top: 4px; font-size: 0.74rem; line-height: 1.35; color: rgb(255 255 255 / 0.88); }
+  .mg-story__ribbon { margin-top: 6px; padding: 4px 9px; border-radius: 6px; background: #ff6600; color: #141414; font-size: 0.68rem; font-weight: 800; }
+  .mg-story__cta {
+    justify-self: stretch; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 38px;
+    border-radius: 999px; background: #fff; color: var(--g-900); font-size: 0.8rem; font-weight: 800; transition: background 0.2s, color 0.2s;
+  }
+  .mg-story__cta:hover { background: #ff6600; color: #141414; }
+  .mg-home { position: absolute; z-index: 5; bottom: 7px; left: 50%; width: 84px; height: 4px; margin-left: -42px; border-radius: 4px; background: rgb(255 255 255 / 0.85); }
+
+  /* Each story plays for four seconds; the bars fill in step. Paused while the menu is closed or hovered. */
+  .mg-anim { animation-duration: 12s; animation-iteration-count: infinite; animation-timing-function: linear; animation-play-state: paused; }
+  .nav__item.is-open .mg-anim { animation-play-state: running; }
+  @media (hover: hover) and (min-width: 1281px) { .nav__item.has-menu:hover .mg-anim { animation-play-state: running; } }
+  .mg-phone:hover .mg-anim { animation-play-state: paused !important; }
+  .mg-story--0 { animation-name: mg-s0; }
+  .mg-story--1 { animation-name: mg-s1; }
+  .mg-story--2 { animation-name: mg-s2; }
+  .mg-fill--0 { animation-name: mg-f0; }
+  .mg-fill--1 { animation-name: mg-f1; }
+  .mg-fill--2 { animation-name: mg-f2; }
+  @keyframes mg-s0 { 0%, 31% { opacity: 1; visibility: visible; } 33.33%, 98% { opacity: 0; visibility: hidden; } 100% { opacity: 1; visibility: visible; } }
+  @keyframes mg-s1 { 0%, 31% { opacity: 0; visibility: hidden; } 33.33%, 64.66% { opacity: 1; visibility: visible; } 66.66%, 100% { opacity: 0; visibility: hidden; } }
+  @keyframes mg-s2 { 0%, 64.66% { opacity: 0; visibility: hidden; } 66.66%, 98% { opacity: 1; visibility: visible; } 100% { opacity: 0; visibility: hidden; } }
+  @keyframes mg-f0 { 0% { transform: scaleX(0); } 33.33%, 100% { transform: scaleX(1); } }
+  @keyframes mg-f1 { 0%, 33.33% { transform: scaleX(0); } 66.66%, 100% { transform: scaleX(1); } }
+  @keyframes mg-f2 { 0%, 66.66% { transform: scaleX(0); } 100% { transform: scaleX(1); } }
+  /* Before any animation runs (and with reduced motion), the first story shows. */
+  .mg-story--0 { opacity: 1; visibility: visible; }
+  @media (prefers-reduced-motion: reduce) {
+    .mg-anim { animation: none !important; }
+    .mg-fill--0 { transform: scaleX(1); }
+  }
+  @media (max-width: 1180px) { .mega { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 250px; } .mg-phone { width: 210px; } }
   .nav__item.is-mega { position: static; }
   .nav__item.is-mega > .dropdown { left: 50%; }
   .nav { position: static; }

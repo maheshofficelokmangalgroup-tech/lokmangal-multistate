@@ -1,0 +1,320 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import { siteData } from '../../data/site';
+import { getLang, langPaths, localePath } from '../../i18n';
+import { pageCopy, useT } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+
+const lang = getLang(Astro);
+const t = useT(lang);
+const l = (p: string) => localePath(p, lang);
+const { site, memberLists } = siteData(lang);
+const english = siteData('en').memberLists;
+
+const c = pageCopy(
+  lang,
+  'list-of-members',
+  {
+    metaTitle: 'List of Members',
+    metaDescription: 'Provisional list of members / delegates eligible to vote: Lokmangal Multistate Board of Directors election 2025, district-wise PDFs.',
+    notices: 'Notices',
+    eyebrow: 'Election 2025',
+    title: 'List of',
+    accent: 'members',
+    lead: 'Provisional list of members / delegates eligible to vote, published district-wise.',
+    districts: 'districts',
+    total: 'in all',
+    searchLabel: 'Search districts',
+    searchPh: 'Type your district',
+    sort: 'Sort',
+    sortOrder: 'As published',
+    sortName: 'A to Z',
+    sortSize: 'Smallest file first',
+    district: 'District',
+    size: 'File size',
+    big: 'Large file: use Wi-Fi',
+    download: 'Download PDF',
+    none: 'No district matches your search.',
+    howTitle: 'How to find your name',
+    h1: 'Download your district',
+    h1t: 'Choose the district where your branch is, and download its PDF.',
+    h2: 'Search inside the file',
+    h2t: 'Open the PDF and search for your name or member number. On a phone, use “Find in page”.',
+    h3: 'Not on the list?',
+    h3t: 'Call {phone} or visit your branch with your passbook.',
+    finalTitle: 'Looking for the final list?',
+    finalText: 'The final list of members eligible to vote is on the Notices page.',
+    finalLink: 'Go to Notices',
+    note: 'These are scanned documents and some files are large (up to {max} MB). Download them over Wi-Fi where you can.',
+  },
+  {
+    metaTitle: 'सभासदांची यादी',
+    metaDescription: 'मतदानास पात्र सभासदांची / प्रतिनिधींची तात्पुरती यादी: लोकमंगल मल्टीस्टेट संचालक मंडळ निवडणूक 2025, जिल्हानिहाय पीडीएफ.',
+    notices: 'सूचना',
+    eyebrow: 'निवडणूक 2025',
+    title: 'सभासदांची',
+    accent: 'यादी',
+    lead: 'मतदानास पात्र सभासदांची / प्रतिनिधींची तात्पुरती यादी, जिल्हानिहाय प्रसिद्ध.',
+    districts: 'जिल्हे',
+    total: 'एकूण',
+    searchLabel: 'जिल्हा शोधा',
+    searchPh: 'तुमचा जिल्हा लिहा',
+    sort: 'क्रम',
+    sortOrder: 'प्रसिद्ध क्रमाने',
+    sortName: 'अ ते ज्ञ',
+    sortSize: 'लहान फाइल आधी',
+    district: 'जिल्हा',
+    size: 'फाइलचा आकार',
+    big: 'मोठी फाइल: वाय-फाय वापरा',
+    download: 'पीडीएफ डाउनलोड करा',
+    none: 'तुमच्या शोधाशी जुळणारा जिल्हा नाही.',
+    howTitle: 'यादीत तुमचे नाव कसे शोधावे',
+    h1: 'तुमचा जिल्हा डाउनलोड करा',
+    h1t: 'तुमची शाखा ज्या जिल्ह्यात आहे तो जिल्हा निवडा आणि त्याची पीडीएफ डाउनलोड करा.',
+    h2: 'फाइलमध्ये शोधा',
+    h2t: 'पीडीएफ उघडा आणि तुमचे नाव किंवा सभासद क्रमांक शोधा. फोनवर “Find in page” वापरा.',
+    h3: 'यादीत नाव नाही?',
+    h3t: '{phone} वर कॉल करा किंवा पासबुक घेऊन तुमच्या शाखेत जा.',
+    finalTitle: 'अंतिम यादी हवी आहे?',
+    finalText: 'मतदानास पात्र सभासदांची अंतिम यादी सूचना पानावर आहे.',
+    finalLink: 'सूचना पान पाहा',
+    note: 'ही स्कॅन केलेली कागदपत्रे आहेत आणि काही फाइल मोठ्या आहेत ({max} MB पर्यंत). शक्य असल्यास वाय-फायवर डाउनलोड करा.',
+  },
+);
+
+const max = Math.max(...memberLists.map((m) => m.sizeMb));
+const totalMb = memberLists.reduce((s, m) => s + m.sizeMb, 0);
+// English names too, so a search in either language finds the district.
+const rows = memberLists.map((m, i) => ({
+  ...m,
+  order: i,
+  en: english[i]?.district ?? m.district,
+  share: max ? m.sizeMb / max : 0,
+  big: m.sizeMb >= 50,
+}));
+const steps = [1, 2, 3].map((n) => ({ title: c(`h${n}` as 'h1'), text: c(`h${n}t` as 'h1t', { phone: site.phone }) }));
+---
+
+<Base title={c('metaTitle')} description={c('metaDescription')}>
+  <!-- HEADER -->
+  <header class="ml-head">
+    <div class="container">
+      <nav class="ml-crumbs" aria-label={t('breadcrumb')}>
+        <a href={l('/')}>{t('home')}</a>
+        <Icon name="chevron-right" size={14} />
+        <a href={l('/notices/')}>{c('notices')}</a>
+        <Icon name="chevron-right" size={14} />
+        <span aria-current="page">{c('metaTitle')}</span>
+      </nav>
+      <div class="ml-head__grid">
+        <div>
+          <p class="ml-head__eyebrow">{c('eyebrow')}</p>
+          <h1 class="h1 ml-head__title" data-reveal>{c('title')} <em>{c('accent')}</em></h1>
+          <p class="lead ml-head__lead" data-reveal style="--d:120ms">{c('lead')}</p>
+        </div>
+        <dl class="ml-head__facts" data-stagger>
+          <div><dt>{c('districts')}</dt><dd><span data-count={rows.length}>{rows.length}</span></dd></div>
+          <div><dt>{c('total')}</dt><dd><span data-count={totalMb}>{totalMb}</span> <small>MB</small></dd></div>
+        </dl>
+      </div>
+    </div>
+  </header>
+
+  <section class="section ml-sec">
+    <div class="container ml-grid">
+      <div class="ml-main">
+        <p class="ml-note" data-reveal><span class="ml-note__bar" aria-hidden="true"></span>{c('note', { max: String(max) })}</p>
+
+        <div class="ml-tools">
+          <label class="ml-search">
+            <span class="sr-only">{c('searchLabel')}</span>
+            <Icon name="search" size={18} />
+            <input type="search" placeholder={c('searchPh')} autocomplete="off" data-ml-q />
+          </label>
+          <div class="ml-sort" role="group" aria-label={c('sort')}>
+            <button type="button" aria-pressed="true" data-ml-sort="order">{c('sortOrder')}</button>
+            <button type="button" aria-pressed="false" data-ml-sort="name">{c('sortName')}</button>
+            <button type="button" aria-pressed="false" data-ml-sort="size">{c('sortSize')}</button>
+          </div>
+        </div>
+
+        <!-- District register: a bar for each file's size, so the big downloads stand out -->
+        <ol class="ml-list" data-ml-list>
+          <li class="ml-list__head" aria-hidden="true"><span>{c('district')}</span><span>{c('size')}</span><span></span></li>
+          {rows.map((r) => (
+            <li class="ml-row" data-ml-row data-order={r.order} data-name={r.district} data-size={r.sizeMb} data-text={`${r.district} ${r.en}`.toLowerCase()} style={`--share:${r.share}`}>
+              <a href={r.href} target="_blank" rel="noopener">
+                <span class="ml-row__name">{r.district}{lang === 'mr' && r.en !== r.district && <small>{r.en}</small>}</span>
+                <span class="ml-row__size">
+                  <span class="ml-row__bar" aria-hidden="true"><span></span></span>
+                  <span class="ml-row__mb">{r.sizeMb} MB</span>
+                  {r.big && <span class="ml-row__big">{c('big')}</span>}
+                </span>
+                <span class="ml-row__go">{c('download')} <Icon name="download" size={15} /></span>
+              </a>
+            </li>
+          ))}
+        </ol>
+        <p class="ml-none" hidden data-ml-none>{c('none')}</p>
+      </div>
+
+      <aside class="ml-side">
+        <div class="ml-how" data-reveal="right">
+          <p class="ml-side__title">{c('howTitle')}</p>
+          <ol>
+            {steps.map((s, i) => (
+              <li>
+                <span class="ml-how__n">{i + 1}</span>
+                <div><h2>{s.title}</h2><p>{s.text}</p></div>
+              </li>
+            ))}
+          </ol>
+          <a href={site.phoneHref} class="ml-how__phone">{site.phone}</a>
+        </div>
+        <a href={l('/notices/')} class="ml-final" data-reveal="right" style="--d:120ms">
+          <span class="ml-final__title">{c('finalTitle')}</span>
+          <span>{c('finalText')}</span>
+          <span class="ml-final__link">{c('finalLink')} <Icon name="arrow-right" size={16} /></span>
+        </a>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const list = document.querySelector<HTMLElement>('[data-ml-list]');
+    if (!list) return;
+    const rows = Array.from(list.querySelectorAll<HTMLElement>('[data-ml-row]'));
+    const input = document.querySelector<HTMLInputElement>('[data-ml-q]');
+    const none = document.querySelector<HTMLElement>('[data-ml-none]');
+    const sorts = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-ml-sort]'));
+    const lang = document.documentElement.lang;
+    const filter = () => {
+      const q = (input?.value ?? '').trim().toLowerCase();
+      let shown = 0;
+      rows.forEach((r) => {
+        const hit = !q || (r.dataset.text ?? '').includes(q);
+        r.hidden = !hit;
+        if (hit) shown++;
+      });
+      if (none) none.hidden = shown > 0;
+    };
+    input?.addEventListener('input', filter);
+    sorts.forEach((b) =>
+      b.addEventListener('click', () => {
+        const by = b.dataset.mlSort;
+        sorts.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+        const sorted = [...rows].sort((a, z) =>
+          by === 'name' ? (a.dataset.name ?? '').localeCompare(z.dataset.name ?? '', lang) : by === 'size' ? Number(a.dataset.size) - Number(z.dataset.size) : Number(a.dataset.order) - Number(z.dataset.order),
+        );
+        // Move the rows smoothly to their new places.
+        const before = new Map(sorted.map((r) => [r, r.getBoundingClientRect().top]));
+        sorted.forEach((r) => list.append(r));
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        sorted.forEach((r) => {
+          const dy = (before.get(r) ?? 0) - r.getBoundingClientRect().top;
+          if (dy) r.animate([{ transform: `translateY(${dy}px)` }, { transform: 'none' }], { duration: 450, easing: 'cubic-bezier(.16,1,.3,1)' });
+        });
+      }),
+    );
+  });
+</script>
+
+<style>
+  /* ---------- Header ---------- */
+  .ml-head { position: relative; isolation: isolate; overflow: hidden; padding-block: clamp(32px, 5vw, 56px) clamp(40px, 6vw, 72px); color: #fff; background: var(--g-950); }
+  .ml-head::before {
+    content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60' fill='none' stroke='%23f3b33d' stroke-width='.8' stroke-opacity='.18'%3E%3Cpath d='M0 30C15 12 45 12 60 30S105 48 120 30'/%3E%3Cpath d='M0 30C15 48 45 48 60 30S105 12 120 30'/%3E%3Cpath d='M0 20C15 2 45 2 60 20S105 38 120 20'/%3E%3Cpath d='M0 40C15 58 45 58 60 40S105 22 120 40'/%3E%3C/svg%3E");
+    background-size: 120px 60px;
+    mask-image: radial-gradient(60% 90% at 100% 50%, #000, transparent 80%);
+  }
+  .ml-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.86rem; font-weight: 600; color: rgb(255 255 255 / 0.6); }
+  .ml-crumbs a { color: rgb(255 255 255 / 0.8); }
+  .ml-crumbs span { color: var(--gold); }
+  .ml-head__grid { display: grid; gap: 28px; align-items: end; margin-top: clamp(24px, 4vw, 40px); }
+  @media (min-width: 900px) { .ml-head__grid { grid-template-columns: minmax(0, 1fr) auto; } }
+  .ml-head__eyebrow { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--g-300); }
+  :global(html[lang='mr']) .ml-head__eyebrow { letter-spacing: 0; text-transform: none; font-size: 0.95rem; }
+  .ml-head__title { margin-top: 12px; color: #fff; }
+  .ml-head__title em { color: var(--gold); }
+  .ml-head__lead { margin-top: 12px; color: rgb(255 255 255 / 0.84); max-width: 600px; }
+  .ml-head__facts { display: flex; margin: 0; }
+  .ml-head__facts > div { display: flex; flex-direction: column-reverse; gap: 4px; padding: 0 28px; border-left: 1px solid rgb(255 255 255 / 0.18); }
+  .ml-head__facts dd { margin: 0; font-size: clamp(2rem, 3.6vw, 2.6rem); font-weight: 800; line-height: 1; color: var(--gold); }
+  .ml-head__facts dd small { font-size: 0.5em; font-weight: 700; }
+  .ml-head__facts dt { font-size: 0.84rem; font-weight: 600; color: rgb(255 255 255 / 0.72); }
+  @media (max-width: 899px) { .ml-head__facts > div:first-child { padding-left: 0; border-left: 0; } }
+
+  /* ---------- Layout ---------- */
+  .ml-sec { background: var(--bg); }
+  .ml-grid { display: grid; gap: clamp(28px, 4vw, 48px); align-items: start; }
+  @media (min-width: 1020px) { .ml-grid { grid-template-columns: minmax(0, 1fr) 330px; } .ml-side { position: sticky; top: calc(var(--header-h) + 20px); } }
+  .ml-main { min-width: 0; }
+  .ml-note { display: flex; gap: 14px; padding: 14px 18px; border-radius: 10px; background: #fff7ec; color: var(--ink-2); font-weight: 600; font-size: 0.94rem; }
+  .ml-note__bar { flex: none; width: 4px; border-radius: 4px; background: var(--o-500); }
+
+  .ml-tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; margin: 24px 0 16px; }
+  .ml-search { flex: 1 1 260px; max-width: 360px; display: flex; align-items: center; gap: 10px; height: 50px; padding: 0 16px; border-radius: 10px; border: 2px solid var(--line); background: #fff; color: var(--muted); transition: border-color 0.25s; }
+  .ml-search:focus-within { border-color: var(--g-600); }
+  .ml-search input { flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: transparent; font: inherit; font-size: 0.98rem; color: var(--ink); }
+  .ml-sort { display: flex; flex-wrap: wrap; gap: 6px; }
+  .ml-sort button { padding: 9px 13px; border-radius: 10px; border: 1.5px solid var(--line); background: #fff; font: inherit; font-size: 0.86rem; font-weight: 700; color: var(--ink-2); cursor: pointer; transition: background 0.2s, color 0.2s, border-color 0.2s; }
+  .ml-sort button:hover { border-color: var(--g-600); }
+  .ml-sort button[aria-pressed='true'] { background: var(--g-900); border-color: var(--g-900); color: #fff; }
+
+  /* ---------- District register ---------- */
+  .ml-list { list-style: none; margin: 0; padding: 0; }
+  .ml-list__head, .ml-row a { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr) auto; gap: 18px; align-items: center; }
+  .ml-list__head { padding: 10px 14px; border-block: 1.5px solid var(--g-900); font-size: 0.74rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--g-900); }
+  :global(html[lang='mr']) .ml-list__head { letter-spacing: 0; text-transform: none; font-size: 0.86rem; }
+  .ml-row[hidden] { display: none; }
+  .ml-row a { position: relative; padding: 15px 14px; border-bottom: 1px solid var(--line); color: inherit; transition: background 0.25s; }
+  .ml-row a::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--o-500); transform: scaleY(0); transition: transform 0.35s var(--ease-out); }
+  .ml-row__name { display: grid; font-size: 1.08rem; font-weight: 800; color: var(--g-900); }
+  .ml-row__name small { font-size: 0.78rem; font-weight: 600; color: var(--muted); }
+  .ml-row__size { display: grid; grid-template-columns: 150px 4.6em minmax(0, 1fr); align-items: center; gap: 6px 12px; }
+  .ml-row__big { justify-self: start; }
+  .ml-row__bar { height: 8px; border-radius: 8px; background: var(--line-2); overflow: hidden; }
+  .ml-row__bar span { display: block; height: 100%; width: calc(var(--share) * 100%); min-width: 6px; border-radius: inherit; background: linear-gradient(90deg, var(--g-600), var(--g-700)); }
+  .ml-row__mb { font-size: 0.9rem; font-weight: 800; color: var(--g-800); font-variant-numeric: tabular-nums; min-width: 4.4em; }
+  .ml-row__big { padding: 3px 8px; border-radius: 6px; background: #fff1e5; color: var(--o-strong-hover); font-size: 0.74rem; font-weight: 700; }
+  .ml-row__go { display: inline-flex; align-items: center; gap: 6px; padding: 9px 13px; border-radius: 9px; font-size: 0.84rem; font-weight: 700; color: var(--g-800); background: var(--g-100); white-space: nowrap; transition: background 0.25s, color 0.25s; }
+  @media (hover: hover) {
+    .ml-row a:hover { background: #fff; }
+    .ml-row a:hover::before { transform: scaleY(1); }
+    .ml-row a:hover .ml-row__go { background: var(--g-800); color: #fff; }
+  }
+  .ml-none { margin-top: 16px; padding: 20px; border-radius: 12px; border: 2px dashed var(--line); text-align: center; font-weight: 600; color: var(--muted); }
+  @media (max-width: 699px) {
+    .ml-list__head { display: none; }
+    .ml-list { border-top: 1.5px solid var(--g-900); }
+    .ml-row a { grid-template-columns: minmax(0, 1fr) auto; gap: 8px 12px; padding: 14px 4px; }
+    .ml-row__size { grid-column: 1 / -1; grid-row: 2; grid-template-columns: minmax(0, 1fr) 4.6em; }
+    .ml-row__big { grid-column: 1 / -1; }
+    .ml-row__go { grid-column: 2; grid-row: 1; padding: 8px 10px; font-size: 0.8rem; }
+    .ml-search { max-width: none; }
+  }
+
+  /* ---------- Side ---------- */
+  .ml-side { display: grid; gap: 16px; }
+  .ml-side__title { font-weight: 800; color: var(--g-900); }
+  .ml-how { display: grid; gap: 14px; padding: 22px; border-radius: var(--r-lg); background: #fff; border-top: 4px solid var(--o-500); box-shadow: 0 26px 46px -34px rgb(5 42 26 / 0.5); }
+  .ml-how ol { list-style: none; margin: 0; padding: 0; position: relative; display: grid; gap: 14px; }
+  .ml-how ol::before { content: ''; position: absolute; left: 13px; top: 8px; bottom: 8px; width: 2px; background: repeating-linear-gradient(180deg, var(--o-300) 0 6px, transparent 6px 11px); }
+  .ml-how li { position: relative; display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; }
+  .ml-how__n { position: relative; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--o-500); color: #fff; font-weight: 800; font-size: 0.86rem; box-shadow: 0 0 0 4px #fff; }
+  .ml-how h2 { font-size: 0.98rem; color: var(--g-900); }
+  .ml-how p { margin-top: 2px; font-size: 0.88rem; color: var(--muted); }
+  .ml-how__phone { justify-self: start; font-size: 1.35rem; font-weight: 800; color: var(--g-800); border-bottom: 2px solid var(--gold); font-variant-numeric: tabular-nums; }
+  .ml-how__phone:hover { color: var(--o-strong-hover); }
+  .ml-final { display: grid; gap: 6px; padding: 20px; border-radius: var(--r-lg); background: var(--g-900); color: rgb(255 255 255 / 0.8); font-size: 0.92rem; transition: transform 0.4s var(--ease-out), box-shadow 0.4s; }
+  .ml-final__title { font-size: 1.08rem; font-weight: 800; color: #fff; }
+  .ml-final__link { display: inline-flex; align-items: center; gap: 6px; margin-top: 4px; font-weight: 700; color: var(--gold); }
+  .ml-final:hover { transform: translateY(-3px); box-shadow: 0 24px 40px -26px rgb(5 42 26 / 0.8); }
+</style>
