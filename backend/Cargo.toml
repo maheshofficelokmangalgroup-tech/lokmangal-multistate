@@ -2,7 +2,7 @@
 name = "lokmangal-backend"
 version = "0.1.0"
 edition = "2024"
-rust-version = "1.85"
+rust-version = "1.88"
 description = "Rust API, worker and release controller for the Lokmangal Multistate website and admin panel"
 publish = false
 default-run = "lokmangal-server"
@@ -40,7 +40,7 @@ rand = "0.8"
 regex = "1"
 reqwest = { version = "0.12", default-features = false, features = ["json"] }
 rust_decimal = { version = "1", features = ["serde-with-str"] }
-rust_xlsxwriter = "0.90"
+rust_xlsxwriter = "0.102"
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["preserve_order"] }
 sha2 = "0.10"

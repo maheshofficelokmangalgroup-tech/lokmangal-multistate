@@ -1,0 +1,8 @@
+# cargo audit settings (CI runs `cargo audit` from this folder).
+[advisories]
+ignore = [
+  # rsa "Marvin attack" timing side channel. No fixed release exists. rsa is listed in Cargo.lock only
+  # because sqlx 0.8 records its MySQL driver there; the MySQL feature is off, so rsa is never built or
+  # linked (`cargo tree -i rsa -e all --target all` is empty). Remove this line once sqlx drops it.
+  "RUSTSEC-2023-0071",
+]
