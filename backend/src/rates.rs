@@ -611,10 +611,8 @@ pub async fn keys_used_by_products(conn: &mut PgConnection) -> AppResult<BTreeSe
     let mut keys = BTreeSet::new();
     for d in &docs {
         keys.extend(tokens::scan(d).rate_keys);
-        for k in ["rateKey"] {
-            if let Some(s) = d.get(k).and_then(Value::as_str) {
-                keys.insert(s.to_owned());
-            }
+        if let Some(s) = d.get("rateKey").and_then(Value::as_str) {
+            keys.insert(s.to_owned());
         }
         if let Some(s) = d.pointer("/calc/rateKey").and_then(Value::as_str) {
             keys.insert(s.to_owned());
