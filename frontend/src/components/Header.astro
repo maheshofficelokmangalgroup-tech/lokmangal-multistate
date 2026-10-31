@@ -585,14 +585,15 @@ const isActive = (item: Item) => {
   .mg-fill--0 { animation-name: mg-f0; }
   .mg-fill--1 { animation-name: mg-f1; }
   .mg-fill--2 { animation-name: mg-f2; }
-  @keyframes mg-s0 { 0%, 31% { opacity: 1; visibility: visible; } 33.33%, 98% { opacity: 0; visibility: hidden; } 100% { opacity: 1; visibility: visible; } }
-  @keyframes mg-s1 { 0%, 31% { opacity: 0; visibility: hidden; } 33.33%, 64.66% { opacity: 1; visibility: visible; } 66.66%, 100% { opacity: 0; visibility: hidden; } }
-  @keyframes mg-s2 { 0%, 64.66% { opacity: 0; visibility: hidden; } 66.66%, 98% { opacity: 1; visibility: visible; } 100% { opacity: 0; visibility: hidden; } }
+  @keyframes mg-s0 { 0%, 31% { opacity: 1; visibility: inherit; } 33.33%, 98% { opacity: 0; visibility: hidden; } 100% { opacity: 1; visibility: inherit; } }
+  @keyframes mg-s1 { 0%, 31% { opacity: 0; visibility: hidden; } 33.33%, 64.66% { opacity: 1; visibility: inherit; } 66.66%, 100% { opacity: 0; visibility: hidden; } }
+  @keyframes mg-s2 { 0%, 64.66% { opacity: 0; visibility: hidden; } 66.66%, 98% { opacity: 1; visibility: inherit; } 100% { opacity: 0; visibility: hidden; } }
   @keyframes mg-f0 { 0% { transform: scaleX(0); } 33.33%, 100% { transform: scaleX(1); } }
   @keyframes mg-f1 { 0%, 33.33% { transform: scaleX(0); } 66.66%, 100% { transform: scaleX(1); } }
   @keyframes mg-f2 { 0%, 66.66% { transform: scaleX(0); } 100% { transform: scaleX(1); } }
-  /* Before any animation runs (and with reduced motion), the first story shows. */
-  .mg-story--0 { opacity: 1; visibility: visible; }
+  /* Before any animation runs (and with reduced motion), the first story shows. It takes its visibility from the
+     menu: "visible" here would let a closed menu catch the mouse and open itself. */
+  .mg-story--0 { opacity: 1; visibility: inherit; }
   @media (prefers-reduced-motion: reduce) {
     .mg-anim { animation: none !important; }
     .mg-fill--0 { transform: scaleX(1); }
