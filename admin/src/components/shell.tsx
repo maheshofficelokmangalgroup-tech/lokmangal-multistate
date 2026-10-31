@@ -146,7 +146,7 @@ function SidebarNav({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?
 function Brand({ collapsed }: { collapsed: boolean }) {
   return (
     <Link to="/dashboard" className="flex h-16 items-center gap-2.5 border-b border-line px-4" aria-label="Lokmangal admin home">
-      <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-brand-primary text-[15px] font-bold text-white">L</span>
+      <img src="/emblem.png" alt="" width="32" height="32" className="size-8 shrink-0 object-contain" />
       {!collapsed && (
         <span className="leading-tight">
           <span className="block text-[14px] font-semibold">Lokmangal</span>

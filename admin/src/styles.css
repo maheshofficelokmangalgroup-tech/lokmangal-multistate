@@ -7,10 +7,10 @@
 
 /* Design tokens (specification §4.2). Status colours are always paired with text or an icon. */
 @theme {
-  --color-brand-primary: #c2410c;
-  --color-brand-hover: #9a3412;
-  --color-brand-accent: #ea580c;
-  --color-brand-soft: #fff7ed;
+  --color-brand-primary: #126139;
+  --color-brand-hover: #0d4a2d;
+  --color-brand-accent: #ec6a1e;
+  --color-brand-soft: #e9f5ed;
   --color-canvas: #f7f8fa;
   --color-surface: #ffffff;
   --color-text-primary: #18181b;

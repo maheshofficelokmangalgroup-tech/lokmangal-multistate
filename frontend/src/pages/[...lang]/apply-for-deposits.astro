@@ -1,0 +1,76 @@
+---
+import Base from '../../layouts/Base.astro';
+import EnquiryForm from '../../components/EnquiryForm.astro';
+import ApplyDesk from '../../components/ApplyDesk.astro';
+import { depositsData } from '../../data/deposits';
+import { getLang, langPaths, localePath } from '../../i18n';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+
+const lang = getLang(Astro);
+const { depositDocuments } = depositsData(lang);
+
+const d = lang === 'mr'
+  ? {
+      metaTitle: 'ठेवीसाठी अर्ज',
+      metaDescription: 'लोकमंगल मल्टीस्टेटच्या मुदत ठेव, रिकरिंग ठेव, लक्षदिश, मासिक व्याज किंवा दाम दुप्पट योजनेसाठी ऑनलाइन अर्ज करा.',
+      eyebrow: 'ठेवीसाठी अर्ज',
+      title: 'भविष्यासाठी',
+      accent: 'आजच बचत करा',
+      lead: 'वार्षिक 10% पर्यंत व्याजाची मुदत ठेव करा, किंवा दरमहा फक्त ₹100 पासून रिकरिंग ठेव सुरू करा.',
+      deposits: 'ठेवी',
+      apply: 'अर्ज',
+      stepsTitle: 'पुढे काय होते',
+      steps: [
+        { title: 'योजना निवडा', text: 'मुदत, रिकरिंग, मासिक व्याज किंवा दाम दुप्पट ठेव निवडा.' },
+        { title: 'माहिती द्या', text: 'फॉर्म पाठवा, आमची टीम योजना निश्चित करण्यासाठी कॉल करेल.' },
+        { title: 'केवायसी पूर्ण करा', text: 'कागदपत्रे आणि ठेवीची रक्कम घेऊन जवळच्या शाखेत या.' },
+        { title: 'ठेव वाढताना पाहा', text: 'ठेव पावती मिळवा आणि ॲपवर कधीही तुमची ठेव पाहा.' },
+      ],
+      docsTitle: 'ही कागदपत्रे तयार ठेवा',
+      formTitle: 'आत्ताच अर्ज करा',
+      formSub: '* असलेली माहिती आवश्यक आहे.',
+      submit: 'अर्ज पाठवा',
+    }
+  : {
+      metaTitle: 'Apply for a Deposit',
+      metaDescription: 'Apply for a Lokmangal Multistate fixed deposit, recurring deposit, Lakshadish, monthly interest or Daam Duppat scheme online.',
+      eyebrow: 'Apply for a deposit',
+      title: 'Save today',
+      accent: 'for your future',
+      lead: 'Book a fixed deposit at up to 10% p.a., or start a recurring deposit from just ₹100 a month.',
+      deposits: 'Deposits',
+      apply: 'Apply',
+      stepsTitle: 'What happens next',
+      steps: [
+        { title: 'Choose your scheme', text: 'Pick a fixed, recurring, monthly-income or doubling deposit.' },
+        { title: 'Share your details', text: 'Submit the form and our team will call you to confirm the plan.' },
+        { title: 'Complete KYC', text: 'Visit your nearest branch with your documents and deposit amount.' },
+        { title: 'Watch it grow', text: 'Receive your deposit receipt and track it anytime on our app.' },
+      ],
+      docsTitle: 'Keep these documents ready',
+      formTitle: 'Apply now',
+      formSub: 'Fields marked * are required.',
+      submit: 'Submit application',
+    };
+---
+
+<Base title={d.metaTitle} description={d.metaDescription}>
+  <ApplyDesk
+    banner="/images/home/card-fd.webp"
+    eyebrow={d.eyebrow}
+    title={d.title}
+    accent={d.accent}
+    lead={d.lead}
+    crumbs={[{ label: d.deposits, href: localePath('/deposits/', lang) }, { label: d.apply }]}
+    stepsTitle={d.stepsTitle}
+    steps={d.steps}
+    docsTitle={d.docsTitle}
+    docs={depositDocuments}
+    docsKey="deposit"
+  >
+    <EnquiryForm variant="deposit" title={d.formTitle} subtitle={d.formSub} submitLabel={d.submit} />
+  </ApplyDesk>
+</Base>

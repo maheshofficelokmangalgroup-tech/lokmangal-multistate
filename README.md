@@ -121,7 +121,7 @@ node tests/e2e/publish-smoke.mjs "<invitation link>"
 
 ### Now: the website only, on Render
 
-`render.yaml` still deploys the public website as a static site, built from `frontend/seed/snapshot.json`. Steps: sign in at render.com with GitHub → **New + → Blueprint** → choose this repository → **Apply**. Render runs `npm ci && npm run build:site:seed` and publishes `frontend/dist`. Render cannot run PHP or the Rust API, so on Render the enquiry forms show the "email us / call us" fallback.
+`render.yaml` still deploys the public website as a static site, built from `frontend/seed/snapshot.json`. Steps: sign in at render.com with GitHub → **New + → Blueprint** → choose this repository → **Apply**. Render runs `npm ci && npm run build:site:seed` and publishes `frontend/dist`. **Render serves pages only:** there is no API, so enquiries do not reach the admin panel. The forms show an "email us / call us" message instead, and there is no admin panel. Use it to review the design, not for real customers.
 
 ### Next: the whole system on one server with Docker
 
@@ -144,13 +144,16 @@ On the development machine (Windows 11, Node 24.11, Rust 1.94, Chrome):
 
 | Area | Result |
 | --- | --- |
-| Public site | Builds from the snapshot to 90 pages. Output matches the previous site except the careers position list, which now comes from data (it gained *EDP / IT Staff*). |
+| Public site | Builds from the snapshot to 179 pages in English and Marathi. A browser audit of 75 pages at 390 and 1440 px found no broken links or images, script errors or sideways scrolling, and no link from a Marathi page to an English page. |
+| Forms | Each form was filled in and sent from a real browser in both languages against the local API, and received a reference number that appeared in the Leads inbox. |
+| Accessibility | axe-core (WCAG 2 A/AA) across the same pages: colour contrast problems fixed. A manual keyboard and screen-reader pass has not been done. |
 | Rate rules | 15 tests, including the published Lakshadish maturities (₹1,00,344 / 1,01,705 / 1,01,583 / 1,02,799), FD, monthly income and EMI examples. |
 | Backend | `cargo fmt` and `clippy -D warnings` clean. 31 unit tests and 9 API integration tests pass. |
 | API integration tests | Run against PGlite, which is the real PostgreSQL 17 engine compiled to WebAssembly (not a separate PostgreSQL server). They cover sign-in with two factors and instant session revocation, idempotent enquiries, branch isolation (lists, counts, direct ids, exports), a maker being unable to approve their own rates (also directly in the database), stale reviews after an edit, edit conflicts, an unapproved financial draft being blocked from a live release, an append-only audit table, private résumés, release activation, **rollback (and its refusal when rates are no longer in force)**, the **rate-expiry watchdog**, **approved future rates producing a release that goes live on their first day**, and about 50 read endpoints answering for a full-access user. Testing found and fixed three real bugs: résumé uploads were blocked by the 1 MB body limit and the scheduler held a database connection while asking for another (both found by the new tests), and the rate-set list failed on an ambiguous SQL column (found by the browser check, now covered by the read-endpoint test). |
 | Migration | The 197 existing items import cleanly: one rate set (28 rates), 9 single-page contents and 187 collection items (9 schemes, 11 loans, 68 branches including the head office, 54 posts, 23 redirects, 16 documents, 4 jobs, 1 notice, 1 gallery album). Importing again changes nothing. |
 | Release loop, end to end | A real API, worker and builder: invitation → password → authenticator setup → publish → **113 pages built, validated and activated** → live site serves the release with rates from the rate set and no unresolved placeholders → legacy URL answers with a real HTTP 301 → a website enquiry gets a reference and appears in the inbox → a private preview works only through a single-use link. 18 of 18 checks. |
-| Admin panel | Type-check, 24 unit tests and a production build pass. 18 admin screens were opened in Chrome against the running API at 1440 px and 4 at 390 px: no console errors, no horizontal overflow. |
+| Admin panel | Type-check, 24 unit tests and a production build pass. In Chrome against the running API: invitation, two-step setup, sign-in, wrong password, all 23 screens, leads and notes, CSV export, editing English and Marathi, a maker refused their own approval, a second person approving, publishing to the live site, photo and PDF upload, inviting a user and signing out. |
+| GitHub Actions | `cargo fmt`, clippy, `cargo audit`, all tests including the database API tests on a real PostgreSQL 17, the end-to-end publish check, and builds of all three Docker images pass on `main`. |
 
 Full detail, including the numbers, is in [docs/acceptance-results.md](docs/acceptance-results.md).
 
@@ -160,10 +163,10 @@ Please read this before launch.
 
 **Not run at all on this machine**
 
-- **Docker images and the Compose stack** (Docker is not installed here). The Dockerfiles, `compose.prod.yaml` and the CI workflow were written to the same layout as the tested local run, but have never been built.
-- **Caddy.** The Caddyfile templates and the activation through Caddy's admin API have never been loaded into a real Caddy. Locally the release controller uses a file-based driver instead.
-- **Backups and restore** (`deploy/backup`, `restore.sh`), real **SMTP delivery**, and a real PostgreSQL server (only PGlite).
-- **Performance targets, a manual keyboard and screen-reader pass, an automated accessibility scan, and an independent security test (VAPT).** None has been done.
+- **The Compose stack running together.** All three Docker images build in GitHub Actions, but `compose.prod.yaml` has never been started as a whole (Docker is not installed on this machine).
+- **Caddy.** The Caddyfile templates and the activation through Caddy's admin API have never been loaded into a real Caddy. Locally the release controller uses a file-based driver instead. Expect to test this first on the server.
+- **Backups and restore** (`deploy/backup`, `restore.sh`) and real **SMTP delivery**.
+- **Performance targets, a manual keyboard and screen-reader pass, and an independent security test (VAPT).** None has been done.
 
 **Specified features that are not built yet**
 
@@ -172,7 +175,7 @@ Please read this before launch.
 - Branch **spreadsheet import/export** and the branch manager's **"suggest a change"** flow (the permission exists; there is no screen or endpoint yet).
 - **Per-post scheduling** (a whole release can be scheduled instead), the SEO **link checker**, per-page SEO overrides, saved table views and column preferences, drag-and-drop ordering (move up/down buttons are provided), a custom date range in the dashboard UI, and a translation dictionary for the admin interface (English only).
 - A **Nearest branch** field in the public enquiry forms (the API already accepts it), CAPTCHA (honeypot, timing and rate limits are in), and merging duplicate leads.
-- Marathi public-site translation is outside this build; Marathi text and Devanagari fonts are supported in content fields.
+- The fixed wording of the pages is translated in the page templates. Staff edit Marathi for content items on the **मराठी** tab of the editor; the Marathi text was written by the developer and needs review by a Marathi reader. Branch addresses stay in English because they are postal addresses.
 
 **Needs the society's input before launch**
 
@@ -183,6 +186,7 @@ Approved logo and approver/checker names; real rates and calculation policy sign
 | Document | For |
 | --- | --- |
 | [docs/admin-guide.md](docs/admin-guide.md) | Staff: how to do each job in the admin panel |
+| [docs/go-live-checklist.md](docs/go-live-checklist.md) | Whoever launches the site: every step, in order |
 | [docs/runbook.md](docs/runbook.md) | Whoever runs the server: failed builds, outages, backups, restore |
 | [docs/api.md](docs/api.md) | Developers: conventions, errors and every endpoint |
 | [docs/database.md](docs/database.md) | Developers: schema, constraints and data lifecycle |

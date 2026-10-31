@@ -73,6 +73,7 @@ function build(lang: Lang): Entry[] {
   const { schemes } = depositsData(lang);
   const { loans } = loansData(lang);
   const { divisions } = branchesData(lang);
+  const englishBranch = new Map(branchesData('en').divisions.flatMap((d) => d.branches.map((b) => [b.code, b.name] as const)));
   const { services } = servicesFor(lang);
   return [
     ...pagesEn.map(([title, u, k]) => ({ t: lang === 'mr' ? (pagesMr[u] ?? title) : title, u: l(u), k: lang === 'mr' ? `${title} ${k}` : k, g: 'Pages' })),
@@ -85,7 +86,7 @@ function build(lang: Lang): Entry[] {
     ...loans.map((ln) => ({ t: ln.name, u: l(`/loans/#${ln.slug}`), g: 'Loans', k: `${ln.rate} ${ln.amount} ${ln.summary}` })),
     ...services.map((s) => ({ t: s.title, u: l('/other-services/'), g: 'Services', k: s.text })),
     ...divisions.flatMap((d) =>
-      d.branches.map((b) => ({ t: lang === 'mr' ? b.name : `${b.name} branch`, u: `${l('/branches/')}?q=${encodeURIComponent(b.name)}`, g: 'Branches', k: `${b.address} ${d.name}` })),
+      d.branches.map((b) => ({ t: lang === 'mr' ? b.name : `${b.name} branch`, a: lang === 'mr' ? englishBranch.get(b.code) : undefined, u: `${l('/branches/')}?q=${encodeURIComponent(b.name)}`, g: 'Branches', k: `${b.address} ${d.name}` })),
     ),
     ...faqsFor(lang).map((f, i) => ({ t: f.q, u: `${l('/faq/')}#q-${i + 1}`, g: 'FAQ' })),
     ...postsFor(lang).map((p) => ({ t: p.title, u: l(`/blog/${p.slug}/`), g: 'Stories' })),

@@ -65,7 +65,7 @@ const d = lang === 'mr' ? mr : en;
 const sections = d.sections.map(([id, title, html]) => ({ id, title, html }));
 ---
 
-<Base title={d.metaTitle} description={d.metaDescription} theme="warm">
+<Base title={d.metaTitle} description={d.metaDescription}>
   <LegalDoc
     title={d.title}
     accent={d.accent}

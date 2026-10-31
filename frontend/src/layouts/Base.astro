@@ -27,13 +27,11 @@ interface Props {
   image?: string;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   noindex?: boolean;
-  /** 'warm' tries the brighter green, saffron and gold colour scheme on this page. */
-  theme?: 'warm';
 }
 const lang = getLang(Astro);
 const t = useT(lang);
 const { site } = siteData(lang);
-const { title, description = site.description, image = '/images/brand/og-icon.png', jsonLd, noindex = false, theme } = Astro.props;
+const { title, description = site.description, image = '/images/brand/og-icon.png', jsonLd, noindex = false } = Astro.props;
 const fullTitle = title ? `${title} | ${site.name}` : t('title.home', { name: site.name });
 const bare = stripLang(Astro.url.pathname);
 const alternates = hasMarathi(bare) ? [['en-IN', bare], ['mr-IN', bare === '/' ? '/mr/' : `/mr${bare}`], ['x-default', bare]] : [];
@@ -67,7 +65,7 @@ const ld = [orgLd, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
 ---
 
 <!doctype html>
-<html lang={lang} data-theme={theme} data-rates-valid-until={ratesValidUntil} data-rates-expired={ratesExpired ? "true" : undefined}>
+<html lang={lang} data-rates-valid-until={ratesValidUntil} data-rates-expired={ratesExpired ? "true" : undefined}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -76,7 +74,7 @@ const ld = [orgLd, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
     <link rel="canonical" href={canonical} />
     {alternates.map(([hl, href]) => <link rel="alternate" hreflang={hl} href={new URL(href, site.url).href} />)}
     {(noindex || isPreview) && <meta name="robots" content="noindex, nofollow" />}
-    <meta name="theme-color" content={theme === 'warm' ? '#006634' : '#083822'} />
+    <meta name="theme-color" content="#083822" />
     <link rel="preload" href={poppins400} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={poppins600} as="font" type="font/woff2" crossorigin />
     <link rel="icon" type="image/png" href="/favicon.png" />

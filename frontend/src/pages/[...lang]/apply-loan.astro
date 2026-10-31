@@ -1,0 +1,76 @@
+---
+import Base from '../../layouts/Base.astro';
+import EnquiryForm from '../../components/EnquiryForm.astro';
+import ApplyDesk from '../../components/ApplyDesk.astro';
+import { getLang, langPaths, localePath } from '../../i18n';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+
+const lang = getLang(Astro);
+
+const d = lang === 'mr'
+  ? {
+      metaTitle: 'कर्जासाठी अर्ज',
+      metaDescription: 'लोकमंगल मल्टीस्टेटकडे शेती, गृह, वाहन, वैयक्तिक, व्यवसाय, तारण, सूक्ष्म वित्त किंवा बचत गट कर्जासाठी ऑनलाइन अर्ज करा.',
+      eyebrow: 'कर्जासाठी अर्ज',
+      title: 'तुमच्या प्रत्येक गरजेसाठी',
+      accent: 'लोकमंगलचे कर्ज',
+      lead: 'जलद प्रक्रिया, कमी कागदपत्रे आणि तुम्हाला समजून घेणारी शाखेतील टीम.',
+      loans: 'कर्ज',
+      apply: 'अर्ज',
+      stepsTitle: 'पुढे काय होते',
+      steps: [
+        { title: 'तुमची गरज सांगा', text: 'कर्जाचा प्रकार आणि हवी असलेली रक्कम निवडा.' },
+        { title: 'पात्रता तपासणी', text: 'कर्ज अधिकारी कॉल करून पात्रता, तारण आणि कागदपत्रे समजावून सांगतील.' },
+        { title: 'कागदपत्रे द्या', text: 'आवश्यक कागदपत्रे आणि जामीनदाराच्या माहितीसह तुमच्या शाखेत या.' },
+        { title: 'जलद वितरण', text: 'मंजुरीनंतर रक्कम लवकरच तुमच्या खात्यात जमा होते.' },
+      ],
+      docsTitle: 'साधारणपणे लागणारी कागदपत्रे',
+      docs: ['फोटो ओळखपत्र व छायाचित्रे', 'पत्त्याचा पुरावा', 'उत्पन्नाचा पुरावा / पगार प्रमाणपत्र / आयटीआर', 'मालमत्तेचा 7/12 उतारा किंवा मूल्यांकन (तारण कर्जासाठी)', 'कोटेशन (वाहन कर्जासाठी)', 'जामीनदाराची माहिती'],
+      formTitle: 'आत्ताच अर्ज करा',
+      formSub: '* असलेली माहिती आवश्यक आहे.',
+      submit: 'अर्ज पाठवा',
+    }
+  : {
+      metaTitle: 'Apply for a Loan',
+      metaDescription: 'Apply online for an agriculture, housing, vehicle, personal, business, mortgage, microfinance or bachat gat loan with Lokmangal Multistate.',
+      eyebrow: 'Apply for a loan',
+      title: 'Loans for all your',
+      accent: 'financial needs',
+      lead: 'Quick processing, minimal paperwork and a branch team that understands you.',
+      loans: 'Loans',
+      apply: 'Apply',
+      stepsTitle: 'What happens next',
+      steps: [
+        { title: 'Tell us your need', text: 'Choose a loan type and the amount you require.' },
+        { title: 'Eligibility check', text: 'A loan officer calls you to explain eligibility, security and documents.' },
+        { title: 'Submit documents', text: 'Visit your branch with the required papers and guarantor details.' },
+        { title: 'Quick disbursal', text: 'Once approved, funds are disbursed quickly to your account.' },
+      ],
+      docsTitle: 'Documents usually required',
+      docs: ['Photo identity proof and photographs', 'Address proof', 'Income proof / salary certificate / ITR', 'Property 7/12 or valuation (for secured loans)', 'Quotation (for vehicle loans)', 'Guarantor details'],
+      formTitle: 'Apply now',
+      formSub: 'Fields marked * are required.',
+      submit: 'Submit application',
+    };
+---
+
+<Base title={d.metaTitle} description={d.metaDescription}>
+  <ApplyDesk
+    banner="/images/loans/housing.webp"
+    eyebrow={d.eyebrow}
+    title={d.title}
+    accent={d.accent}
+    lead={d.lead}
+    crumbs={[{ label: d.loans, href: localePath('/loans/', lang) }, { label: d.apply }]}
+    stepsTitle={d.stepsTitle}
+    steps={d.steps}
+    docsTitle={d.docsTitle}
+    docs={d.docs}
+    docsKey="loan"
+  >
+    <EnquiryForm variant="loan" title={d.formTitle} subtitle={d.formSub} submitLabel={d.submit} />
+  </ApplyDesk>
+</Base>

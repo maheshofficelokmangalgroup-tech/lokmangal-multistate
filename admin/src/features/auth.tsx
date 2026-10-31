@@ -17,7 +17,7 @@ function AuthLayout({ title, subtitle, children }: { title: string; subtitle?: R
     <div className="grid min-h-screen lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
       <div className="hidden flex-col justify-between bg-brand-primary p-10 text-white lg:flex">
         <div className="flex items-center gap-3">
-          <span className="grid size-10 place-items-center rounded-xl bg-white text-lg font-bold text-brand-primary">L</span>
+          <span className="grid size-12 place-items-center rounded-xl bg-white p-1.5"><img src="/emblem.png" alt="" width="36" height="36" className="size-full object-contain" /></span>
           <span>
             <span className="block font-semibold">Lokmangal Multistate</span>
             <span className="block text-sm text-white/80">Co-operative Society Ltd.</span>

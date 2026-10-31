@@ -76,7 +76,7 @@ const c = pageCopy(
     h1: 'तुमचा जिल्हा डाउनलोड करा',
     h1t: 'तुमची शाखा ज्या जिल्ह्यात आहे तो जिल्हा निवडा आणि त्याची पीडीएफ डाउनलोड करा.',
     h2: 'फाइलमध्ये शोधा',
-    h2t: 'पीडीएफ उघडा आणि तुमचे नाव किंवा सभासद क्रमांक शोधा. फोनवर “Find in page” वापरा.',
+    h2t: 'पीडीएफ उघडा आणि तुमचे नाव किंवा सभासद क्रमांक शोधा. फोनवर ब्राउझरच्या मेनूतील “पानावर शोधा” वापरा.',
     h3: 'यादीत नाव नाही?',
     h3t: '{phone} वर कॉल करा किंवा पासबुक घेऊन तुमच्या शाखेत जा.',
     finalTitle: 'अंतिम यादी हवी आहे?',
@@ -308,7 +308,7 @@ const steps = [1, 2, 3].map((n) => ({ title: c(`h${n}` as 'h1'), text: c(`h${n}t
   .ml-how ol { list-style: none; margin: 0; padding: 0; position: relative; display: grid; gap: 14px; }
   .ml-how ol::before { content: ''; position: absolute; left: 13px; top: 8px; bottom: 8px; width: 2px; background: repeating-linear-gradient(180deg, var(--o-300) 0 6px, transparent 6px 11px); }
   .ml-how li { position: relative; display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 12px; }
-  .ml-how__n { position: relative; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--o-500); color: #fff; font-weight: 800; font-size: 0.86rem; box-shadow: 0 0 0 4px #fff; }
+  .ml-how__n { position: relative; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--o-strong); color: #fff; font-weight: 800; font-size: 0.86rem; box-shadow: 0 0 0 4px #fff; }
   .ml-how h2 { font-size: 0.98rem; color: var(--g-900); }
   .ml-how p { margin-top: 2px; font-size: 0.88rem; color: var(--muted); }
   .ml-how__phone { justify-self: start; font-size: 1.35rem; font-weight: 800; color: var(--g-800); border-bottom: 2px solid var(--gold); font-variant-numeric: tabular-nums; }

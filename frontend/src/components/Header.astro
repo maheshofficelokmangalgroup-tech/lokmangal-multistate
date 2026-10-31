@@ -558,7 +558,7 @@ const isActive = (item: Item) => {
   /* A story: the photo fills the screen, the offer sits on a green fade */
   .mg-story { position: absolute; inset: 0; opacity: 0; visibility: hidden; }
   .mg-story img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .mg-story::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgb(0 0 0 / 0.45) 0%, transparent 22%, transparent 34%, rgb(0 77 39 / 0.75) 52%, #004d27 72%); }
+  .mg-story::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgb(0 0 0 / 0.45) 0%, transparent 22%, transparent 34%, rgb(8 56 34 / 0.75) 52%, var(--g-900) 72%); }
   .mg-story__copy { position: absolute; z-index: 1; inset: auto 14px 26px 14px; display: grid; justify-items: start; gap: 2px; color: #fff; }
   .mg-story__tag { padding: 4px 9px; border-radius: 999px; background: rgb(255 255 255 / 0.16); border: 1px solid rgb(255 255 255 / 0.3); font-size: 0.66rem; font-weight: 700; }
   .mg-story__rate { margin-top: 6px; display: flex; align-items: baseline; gap: 4px; font-size: 3.6rem; font-weight: 800; line-height: 0.9; letter-spacing: -0.05em; }

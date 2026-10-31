@@ -1,33 +1,50 @@
 ---
 import Base from '../layouts/Base.astro';
-import Icon from '../components/Icon.astro';
+import { useT } from '../i18n/ui';
+
+const t = useT('en');
+const pages = ['/', '/deposits/', '/loans/', '/branches/', '/contact-us/'];
 ---
 
 <Base title="Page not found" noindex>
-  <section class="nf">
+  <!-- One file serves every missing address, so the script below switches it to Marathi under /mr/. -->
+  <section class="nf" data-nf>
     <div class="container nf__inner">
       <img src="/images/brand/emblem.png" alt="" width="120" height="145" class="nf__emblem" />
       <p class="nf__code">404</p>
-      <h1 class="h1">This page has <em>wandered off</em></h1>
-      <p class="lead">The page you’re looking for may have moved. Try one of these instead:</p>
-      <div class="btn-row nf__links">
-        <a href="/" class="btn btn--primary"><Icon name="home" size={18} /> Home</a>
-        <a href="/deposits/" class="btn btn--outline-light">Deposits</a>
-        <a href="/loans/" class="btn btn--outline-light">Loans</a>
-        <a href="/branches/" class="btn btn--outline-light">Branches</a>
-        <a href="/contact-us/" class="btn btn--outline-light">Contact</a>
-      </div>
+      <h1 class="h1 nf__title" data-en="This page has" data-mr="हे पान"><span>This page has</span> <em data-en="moved or does not exist" data-mr="हलवले आहे किंवा अस्तित्वात नाही">moved or does not exist</em></h1>
+      <p class="lead" data-en="Try one of these instead, or use the search at the top." data-mr="त्याऐवजी यापैकी एक पान उघडा, किंवा वरील शोध वापरा.">Try one of these instead, or use the search at the top.</p>
+      <ul class="nf__links">
+        <li><a href={pages[0]} data-path={pages[0]} data-en="Home" data-mr="मुख्यपृष्ठ">Home</a></li>
+        <li><a href={pages[1]} data-path={pages[1]} data-en={t('nav.deposits')} data-mr="ठेवी">{t('nav.deposits')}</a></li>
+        <li><a href={pages[2]} data-path={pages[2]} data-en={t('nav.loans')} data-mr="कर्ज">{t('nav.loans')}</a></li>
+        <li><a href={pages[3]} data-path={pages[3]} data-en={t('nav.branches')} data-mr="शाखा">{t('nav.branches')}</a></li>
+        <li><a href={pages[4]} data-path={pages[4]} data-en={t('nav.contact')} data-mr="संपर्क">{t('nav.contact')}</a></li>
+      </ul>
     </div>
   </section>
 </Base>
 
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const root = document.querySelector<HTMLElement>('[data-nf]');
+    if (!root || !location.pathname.startsWith('/mr/')) return;
+    document.documentElement.lang = 'mr';
+    root.querySelectorAll<HTMLElement>('[data-mr]').forEach((el) => {
+      const target = el.classList.contains('nf__title') ? el.querySelector('span') : el;
+      if (target) target.textContent = el.dataset.mr ?? '';
+    });
+    root.querySelectorAll<HTMLAnchorElement>('[data-path]').forEach((a) => (a.href = `/mr${a.dataset.path}`));
+  });
+</script>
+
 <style>
-  .nf { position: relative; overflow: hidden; isolation: isolate; min-height: 72dvh; display: grid; place-items: center; padding: 80px 0; color: rgb(255 255 255 / 0.75); background: linear-gradient(160deg, var(--g-900), var(--g-950)); text-align: center; }
-  .nf__inner { position: relative; z-index: 1; display: grid; justify-items: center; gap: 18px; }
-  .nf__emblem { width: 90px; height: auto; padding: 14px; border-radius: 28px; background: #fff; }
-  @keyframes bob { 50% { transform: translateY(-12px) rotate(-4deg); } }
-  .nf__code { font-size: clamp(5rem, 16vw, 10rem); font-weight: 800; line-height: 0.9; letter-spacing: -0.06em; color: transparent; -webkit-text-stroke: 2px rgb(255 255 255 / 0.35); }
-  .nf h1 { color: #fff; }
-  .nf h1 em { color: var(--o-400); }
-  .nf__links { justify-content: center; }
+  .nf { display: grid; place-items: center; min-height: 72dvh; padding: 72px 0; background: var(--gold-mix); text-align: center; }
+  .nf__inner { display: grid; justify-items: center; gap: 16px; }
+  .nf__emblem { width: 76px; height: auto; }
+  .nf__code { font-size: clamp(5rem, 16vw, 9rem); font-weight: 800; line-height: 0.9; letter-spacing: -0.05em; color: transparent; -webkit-text-stroke: 2.5px var(--o-600); }
+  .nf__title { color: var(--g-900); }
+  .nf__links { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+  .nf__links a { display: block; padding: 11px 20px; border-radius: 999px; background: #fff; border: 1.5px solid var(--line); font-weight: 700; color: var(--g-800); transition: background 0.2s, color 0.2s, border-color 0.2s; }
+  .nf__links a:hover { background: var(--g-800); border-color: var(--g-800); color: #fff; }
 </style>

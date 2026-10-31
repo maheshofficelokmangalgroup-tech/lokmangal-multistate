@@ -273,9 +273,11 @@ async fn submit(
     headers: HeaderMap,
     req: Request,
 ) -> AppResult<Response> {
+    // Generous on purpose: many people on Indian mobile networks and in one branch share an address. The honeypot,
+    // the timing check and the idempotency key catch automated submissions.
     if !state
         .public_limiter
-        .allow("enquiry", meta.ip, 8, StdDuration::from_secs(3600))
+        .allow("enquiry", meta.ip, 30, StdDuration::from_secs(3600))
     {
         return Err(AppError::too_many(
             "Too many requests from your connection. Please call us instead.",

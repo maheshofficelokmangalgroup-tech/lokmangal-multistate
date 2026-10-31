@@ -3,7 +3,7 @@
 // Every value has an English and a Marathi form: siteData('mr') returns the Marathi one, and the plain
 // exports below are the English one.
 
-import { isPreview, items, ratesValidityFor, release, singleton } from '../lib/content';
+import { isPreview, items, ratesValidityFor, singleton } from '../lib/content';
 import type { Lang } from '../i18n';
 
 type Social = { label: string; icon: string; href: string };
@@ -33,11 +33,10 @@ type Settings = {
   social: Social[];
 };
 
-// Where enquiry forms are POSTed. Release builds use the Rust API; seed builds keep the legacy PHP handler
-// until the API is live. Preview builds never submit (see main.ts), so tests cannot create real enquiries.
-const formEndpoint = isPreview
-  ? ''
-  : (process.env.PUBLIC_FORM_ENDPOINT ?? (release.kind === 'seed' ? '/api/enquiry.php' : '/api/v1/enquiries'));
+// Where enquiry forms are POSTed: the Rust API. A site hosted without the API (the static Render build) answers
+// with an error, and the form then offers email and phone instead. Preview builds never submit (see main.ts), so
+// tests cannot create real enquiries.
+const formEndpoint = isPreview ? '' : (process.env.PUBLIC_FORM_ENDPOINT ?? '/api/v1/enquiries');
 
 type Stat = { value: number; prefix: string; suffix: string; label: string; sub: string };
 type Announcement = { enabled: boolean; label: string; text: string; href: string; linkText: string };

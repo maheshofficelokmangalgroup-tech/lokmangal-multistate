@@ -28,7 +28,7 @@ export const getLang = (astro: { url: URL }): Lang => langFromPath(astro.url.pat
 
 // Pages that have a Marathi version. A trailing * matches the path and everything below it; a trailing +
 // matches only the pages below it (/deposits/+ covers each scheme but not /deposits/ itself).
-const MARATHI_PAGES: string[] = ['/', '/about-us/', '/chairman-message/', '/board-of-directors/', '/social-responsibility/', '/annual-reports/', '/gallery/', '/deposits/*', '/loans/', '/other-services/', '/rural-wealth-manager/', '/faq/', '/branches/', '/contact-us/', '/careers/', '/blog/*', '/open-an-account/', '/notices/', '/list-of-members/', '/calculators/', '/terms-of-use/', '/privacy-policy/', '/sitemap/'];
+const MARATHI_PAGES: string[] = ['/', '/about-us/', '/chairman-message/', '/board-of-directors/', '/social-responsibility/', '/annual-reports/', '/gallery/', '/deposits/*', '/loans/', '/other-services/', '/rural-wealth-manager/', '/faq/', '/branches/', '/contact-us/', '/careers/', '/blog/*', '/open-an-account/', '/notices/', '/list-of-members/', '/calculators/', '/terms-of-use/', '/privacy-policy/', '/sitemap/', '/interest-rates/', '/apply-for-deposits/', '/apply-loan/'];
 
 const NOT_A_PAGE = /^\/(images|docs|api|media|_astro|wp-content|favicon|apple-touch|search-index|release\.json|sitemap-|robots)/;
 

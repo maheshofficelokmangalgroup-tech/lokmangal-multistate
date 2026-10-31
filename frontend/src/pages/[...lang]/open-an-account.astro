@@ -383,7 +383,7 @@ const total = String(depositDocuments.length);
     font: inherit; font-weight: 700; font-size: 0.94rem; color: var(--cover); cursor: pointer; transition: background 0.25s, color 0.25s, border-color 0.25s;
   }
   .oa-book__btn:hover { background: var(--cover); color: #fff; }
-  .oa-book__btn[aria-pressed='true'] { background: var(--o-500); border-color: var(--o-500); color: #fff; }
+  .oa-book__btn[aria-pressed='true'] { background: var(--o-strong); border-color: var(--o-strong); color: #fff; }
   .oa-book__link { align-self: flex-start; font-size: 0.9rem; }
   @media (max-width: 999px) { .oa-books { grid-template-columns: 1fr; max-width: 560px; } .oa-book__cover { min-height: 170px; } }
 
@@ -398,7 +398,7 @@ const total = String(depositDocuments.length);
   .oa-next ol { list-style: none; margin: 14px 0 0; padding: 0; position: relative; display: grid; gap: 16px; }
   .oa-next ol::before { content: ''; position: absolute; left: 14px; top: 8px; bottom: 8px; width: 2px; background: repeating-linear-gradient(180deg, var(--o-300) 0 6px, transparent 6px 11px); }
   .oa-next li { position: relative; display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 12px; }
-  .oa-next__n { position: relative; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--o-500); color: #fff; font-weight: 800; font-size: 0.9rem; box-shadow: 0 0 0 4px var(--bg); }
+  .oa-next__n { position: relative; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--o-strong); color: #fff; font-weight: 800; font-size: 0.9rem; box-shadow: 0 0 0 4px var(--bg); }
   .oa-next h3 { font-size: 0.98rem; color: var(--g-900); }
   .oa-next p { margin-top: 2px; font-size: 0.88rem; color: var(--muted); }
 
@@ -419,7 +419,7 @@ const total = String(depositDocuments.length);
   .oa-docs.is-done .oa-docs__meter span { background: var(--g-600); }
   .oa-docs__count { margin-top: 8px; font-size: 0.84rem; font-weight: 700; color: var(--g-800); }
   .oa-call { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 18px 20px; border-radius: var(--r-lg); background: var(--o-strong); color: #fff; transition: transform 0.4s var(--ease-out), box-shadow 0.4s; }
-  .oa-call small { display: block; font-weight: 600; opacity: 0.85; }
+  .oa-call small { display: block; font-weight: 600; }
   .oa-call strong { font-size: 1.2rem; }
   .oa-call:hover { transform: translateY(-3px); box-shadow: var(--shadow-o); }
   .oa-branch { justify-self: start; }

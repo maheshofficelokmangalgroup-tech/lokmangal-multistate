@@ -36,7 +36,7 @@ What moved from the previous project (the Astro site whose content lived in `src
 | `astro.config.mjs` legacy redirects | `redirect` (23) |
 | `annual-reports.astro` list | `document` (3 annual-report entries) |
 | `careers.astro` positions | `job_opening` (4) |
-| `public/api/enquiry.php` | The Rust `/api/v1/enquiries` (the PHP file stays only for seed builds until cutover) |
+| `public/api/enquiry.php` | The Rust `/api/v1/enquiries` (the PHP file has been removed) |
 
 ## Figures from the earlier brief, checked against the repository
 

@@ -1,4 +1,5 @@
-# Render Blueprint — interim static hosting of the public website, built from frontend/seed/snapshot.json.
+# Render Blueprint: static hosting of the public website, built from frontend/seed/snapshot.json, for reviewing the
+# design. There is no API here, so forms show an "email us / call us" message and there is no admin panel.
 # The full system (admin panel, Rust API, releases) runs with Docker: see deploy/ and README.md.
 # In Render: New + → Blueprint → choose this GitHub repo → Apply.
 services:

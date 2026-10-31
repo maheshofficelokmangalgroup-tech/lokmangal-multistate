@@ -41,6 +41,7 @@ import { fmtDateTime, fmtRelative } from '../lib/format';
 import { useSession } from '../lib/session';
 import { CareersTabs } from './careers';
 import { COLLECTION_UI } from './schemas';
+import { hasTranslatableFields, MarathiFields, translationProgress } from './translate';
 
 type Meta = { collection: { name: string; label: string; singleton: boolean; requires_approval: boolean; can_edit: boolean } };
 
@@ -389,6 +390,7 @@ export function ContentEditorPage() {
   const [archiveOpen, setArchiveOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [showDiff, setShowDiff] = useState(false);
+  const [lang, setLang] = useState<'en' | 'mr'>('en');
 
   useEffect(() => {
     if (item.data && (!base || base.revision_id !== item.data.draft.id || base.lock_version !== item.data.draft.lock_version) && !conflict) {
@@ -456,6 +458,7 @@ export function ContentEditorPage() {
   const frozen = status === 'in_review' || status === 'approved' || status === 'released';
   const errors = save.error instanceof ApiError ? save.error.fields : submit.error instanceof ApiError ? submit.error.fields : {};
   const sinceLive = diff(d.live?.data, data);
+  const progress = translationProgress(ui.fields, data, data.mr);
   const backTo = d.collection_info.singleton ? '/website/pages' : `/content/${collection}`;
 
   return (
@@ -560,7 +563,21 @@ export function ContentEditorPage() {
         <Card>
           <div className="space-y-5">
             <ErrorSummary error={save.error && !conflict ? save.error : submit.error} />
-            <Fields specs={ui.fields} value={data} onChange={setData} errors={errors} disabled={!canEdit} />
+            {hasTranslatableFields(ui.fields) && (
+              <Tabs
+                value={lang}
+                onChange={(v) => setLang(v as 'en' | 'mr')}
+                tabs={[
+                  { value: 'en', label: 'English' },
+                  { value: 'mr', label: `मराठी (${progress.done}/${progress.total})` },
+                ]}
+              />
+            )}
+            {lang === 'mr' && hasTranslatableFields(ui.fields) ? (
+              <MarathiFields specs={ui.fields} value={data} onChange={setData} disabled={!canEdit} />
+            ) : (
+              <Fields specs={ui.fields} value={data} onChange={setData} errors={errors} disabled={!canEdit} />
+            )}
           </div>
         </Card>
         <aside className="space-y-4 xl:sticky xl:top-24 xl:self-start">

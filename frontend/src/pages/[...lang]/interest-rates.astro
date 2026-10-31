@@ -1,0 +1,364 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { depositsData, fmtRate } from '../../data/deposits';
+import { loansData } from '../../data/loans';
+import { siteData } from '../../data/site';
+import { branchesData } from '../../data/branches';
+import { getLang, langPaths, localePath } from '../../i18n';
+import { pageCopy, useT } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+
+const lang = getLang(Astro);
+const t = useT(lang);
+const l = (p: string) => localePath(p, lang);
+const { site } = siteData(lang);
+const { schemes, fdSlabs, specialCategories } = depositsData(lang);
+const { loans } = loansData(lang);
+const schemesEn = depositsData('en').schemes;
+const loansEn = loansData('en').loans;
+const { branchCount } = branchesData(lang);
+
+const c = pageCopy(
+  lang,
+  'interest-rates',
+  {
+    metaTitle: 'Interest Rates',
+    metaDescription: 'Lokmangal Multistate interest rates: fixed deposits up to {top}% p.a., special categories up to 0.50% extra, recurring deposits and loans. Valid {validity}.',
+    deposits: 'Deposits',
+    eyebrow: 'Rate chart',
+    title: 'Interest rates on',
+    accent: 'deposits and loans',
+    lead: 'Current rates on our deposit schemes and loan products. Deposit rates are valid {validity}.',
+    print: 'Print or save as PDF',
+    topFd: 'Fixed deposit, up to',
+    topRd: 'Recurring deposit',
+    topMonthly: 'Monthly interest',
+    loanFrom: 'Loans, from',
+    fdEyebrow: 'Vishwamangal Fixed Deposit',
+    fdTitle: 'Fixed deposit',
+    fdAccent: 'rates',
+    finderLabel: 'How many days do you want to deposit for?',
+    finderUnit: 'days',
+    finderYou: 'For {days} days you earn',
+    finderSpecial: 'Special categories',
+    finderMin: 'Fixed deposits start from {min} days.',
+    finderApply: 'Book this deposit',
+    sr: 'Sr.',
+    tenure: 'Tenure',
+    regular: 'Regular depositors',
+    special: 'Special categories*',
+    otherEyebrow: 'Other deposit schemes',
+    otherTitle: 'Recurring, monthly and',
+    otherAccent: 'doubling schemes',
+    scheme: 'Scheme',
+    type: 'Type',
+    rate: 'Rate',
+    term: 'Tenure / term',
+    doubles: 'Doubles',
+    details: 'Details',
+    loansEyebrow: 'Loans',
+    loansTitle: 'Loan',
+    loansAccent: 'interest rates',
+    loan: 'Loan',
+    roi: 'Rate of interest',
+    amount: 'Loan amount',
+    noteTds: 'TDS is applicable on interest earned on deposits, except for society members. Rates are subject to change. Please confirm the latest rate at your branch or call {phone} before investing.',
+    ctaTitle: 'Lock in today’s',
+    ctaAccent: 'best rates',
+    ctaText: 'Book a deposit at any of our {n} branches, or apply online and our team will guide you.',
+  },
+  {
+    metaTitle: 'व्याजदर',
+    metaDescription: 'लोकमंगल मल्टीस्टेटचे व्याजदर: मुदत ठेवींवर वार्षिक {top}% पर्यंत, विशेष गटांना 0.50% पर्यंत अधिक, रिकरिंग ठेवी आणि कर्ज. {validity} साठी लागू.',
+    deposits: 'ठेवी',
+    eyebrow: 'व्याजदर तक्ता',
+    title: 'ठेवी आणि कर्जावरील',
+    accent: 'व्याजदर',
+    lead: 'आमच्या ठेव योजना आणि कर्जावरील सध्याचे व्याजदर. ठेवींचे दर {validity} साठी लागू आहेत.',
+    print: 'प्रिंट करा किंवा पीडीएफ जतन करा',
+    topFd: 'मुदत ठेव, पर्यंत',
+    topRd: 'रिकरिंग ठेव',
+    topMonthly: 'मासिक व्याज',
+    loanFrom: 'कर्ज, पासून',
+    fdEyebrow: 'विश्वमंगल मुदत ठेव',
+    fdTitle: 'मुदत ठेवीचे',
+    fdAccent: 'दर',
+    finderLabel: 'किती दिवसांसाठी ठेव ठेवायची आहे?',
+    finderUnit: 'दिवस',
+    finderYou: '{days} दिवसांसाठी तुम्हाला मिळेल',
+    finderSpecial: 'विशेष गट',
+    finderMin: 'मुदत ठेव {min} दिवसांपासून सुरू होते.',
+    finderApply: 'ही ठेव करा',
+    sr: 'क्र.',
+    tenure: 'मुदत',
+    regular: 'सर्वसाधारण ठेवीदार',
+    special: 'विशेष गट*',
+    otherEyebrow: 'इतर ठेव योजना',
+    otherTitle: 'रिकरिंग, मासिक आणि',
+    otherAccent: 'दाम दुप्पट योजना',
+    scheme: 'योजना',
+    type: 'प्रकार',
+    rate: 'दर',
+    term: 'मुदत',
+    doubles: 'दुप्पट',
+    details: 'तपशील',
+    loansEyebrow: 'कर्ज',
+    loansTitle: 'कर्जाचे',
+    loansAccent: 'व्याजदर',
+    loan: 'कर्ज',
+    roi: 'व्याजदर',
+    amount: 'कर्ज रक्कम',
+    noteTds: 'ठेवींवरील व्याजावर टीडीएस लागू होतो, मात्र संस्थेच्या सभासदांना तो लागू होत नाही. दर बदलू शकतात. गुंतवणूक करण्यापूर्वी तुमच्या शाखेत खात्री करा किंवा {phone} वर कॉल करा.',
+    ctaTitle: 'आजचे',
+    ctaAccent: 'सर्वोत्तम दर मिळवा',
+    ctaText: 'आमच्या {n} शाखांपैकी कोणत्याही शाखेत ठेव करा, किंवा ऑनलाइन अर्ज करा, आमची टीम मार्गदर्शन करेल.',
+  },
+);
+
+const rateOf = (slug: string) => schemes.find((s) => s.slug === slug)?.rate ?? null;
+const top = Math.max(...fdSlabs.map((r) => r.regular));
+const loanMin = loans.length ? Math.min(...loans.map((x) => x.rateFrom)) : null;
+const facts = [
+  { label: c('topFd'), value: top },
+  { label: c('topRd'), value: rateOf('vishvamangal-recurring-deposit') },
+  { label: c('topMonthly'), value: rateOf('vishvamangal-monthly-interest') },
+  { label: c('loanFrom'), value: loanMin },
+].filter((f) => f.value !== null);
+
+// Labels are matched on the English text; both languages keep the same order.
+const others = schemes
+  .map((s, i) => {
+    const en = schemesEn[i];
+    const tenureAt = en?.facts.findIndex((f) => /tenure|special categories/i.test(f.label)) ?? -1;
+    return { ...s, type: s.facts[0]?.value ?? '', term: tenureAt >= 0 ? (s.facts[tenureAt]?.value ?? '') : '' };
+  })
+  .filter((s) => s.slug !== 'vishwamangal-fixed-deposit-scheme');
+const loanRows = loans.map((ln, i) => {
+  const at = loansEn[i]?.details.findIndex((d) => d[0] === 'Rate of interest') ?? -1;
+  return { ...ln, roi: at >= 0 ? (ln.details[at]?.[1] ?? ln.rate) : ln.rate };
+});
+const minDays = Math.min(...fdSlabs.map((r) => r.min));
+const fdEn = schemesEn.find((s) => s.slug === 'vishwamangal-fixed-deposit-scheme')?.name ?? '';
+const bookHref = `${l('/apply-for-deposits/')}?scheme=${encodeURIComponent(fdEn)}`;
+---
+
+<Base title={c('metaTitle')} description={c('metaDescription', { top: fmtRate(top), validity: site.ratesValidity })}>
+  <header class="ir-head">
+    <div class="container">
+      <nav class="ir-crumbs" aria-label={t('breadcrumb')}>
+        <a href={l('/')}>{t('home')}</a>
+        <Icon name="chevron-right" size={14} />
+        <a href={l('/deposits/')}>{c('deposits')}</a>
+        <Icon name="chevron-right" size={14} />
+        <span aria-current="page">{c('metaTitle')}</span>
+      </nav>
+      <div class="ir-head__grid">
+        <div>
+          <p class="eyebrow">{c('eyebrow')}</p>
+          <h1 class="h1 ir-head__title" data-reveal>{c('title')} <em>{c('accent')}</em></h1>
+          <p class="lead ir-head__lead" data-reveal style="--d:120ms">{c('lead', { validity: site.ratesValidity })}</p>
+        </div>
+        <button type="button" class="btn btn--ghost ir-print" data-ir-print>{c('print')}</button>
+      </div>
+      <dl class="ir-facts" data-stagger>
+        {facts.map((f) => (
+          <div><dt>{f.label}</dt><dd>{fmtRate(f.value!)}<span>%</span></dd></div>
+        ))}
+      </dl>
+    </div>
+  </header>
+
+  <section class="section ir-sec">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">{c('fdEyebrow')}</p>
+        <h2 class="h2">{c('fdTitle')} <em>{c('fdAccent')}</em></h2>
+      </div>
+
+      <!-- Type the days, see the rate: the matching row of the table lights up -->
+      <div class="ir-finder" data-ir-finder data-min={minDays} data-tpl={c('finderYou')} data-min-msg={c('finderMin', { min: String(minDays) })} data-reveal>
+        <div class="ir-finder__in">
+          <label for="ir-days">{c('finderLabel')}</label>
+          <span class="ir-finder__box">
+            <input id="ir-days" type="number" inputmode="numeric" min="1" max="3650" value="365" data-ir-days />
+            <span>{c('finderUnit')}</span>
+          </span>
+        </div>
+        <div class="ir-finder__out" aria-live="polite">
+          <p class="ir-finder__label" data-ir-label></p>
+          <p class="ir-finder__rate"><b data-ir-regular>—</b><span>%</span></p>
+          <p class="ir-finder__sp">{c('finderSpecial')}: <b data-ir-special>—</b>%</p>
+          <a href={bookHref} class="btn btn--primary">{c('finderApply')} <Icon name="arrow-right" size={18} /></a>
+        </div>
+      </div>
+
+      <div class="ir-wrap" data-reveal>
+        <table class="ir-table ir-table--fd">
+          <thead><tr><th>{c('sr')}</th><th>{c('tenure')}</th><th>{c('regular')}</th><th>{c('special')}</th></tr></thead>
+          <tbody>
+            {fdSlabs.map((r, i) => (
+              <tr data-ir-row data-min={r.min} data-max={r.max ?? ''} data-regular={fmtRate(r.regular)} data-special={fmtRate(r.special)}>
+                <td>{i + 1}</td>
+                <td><strong>{r.tenure}</strong></td>
+                <td class="ir-rate">{fmtRate(r.regular)}%</td>
+                <td class="ir-rate ir-rate--sp">{fmtRate(r.special)}%</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="ir-foot" data-reveal>* {specialCategories}</p>
+    </div>
+  </section>
+
+  <section class="section ir-other">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">{c('otherEyebrow')}</p>
+        <h2 class="h2">{c('otherTitle')} <em>{c('otherAccent')}</em></h2>
+      </div>
+      <div class="ir-wrap" data-reveal>
+        <table class="ir-table">
+          <thead><tr><th>{c('scheme')}</th><th>{c('type')}</th><th>{c('rate')}</th><th>{c('term')}</th><th><span class="sr-only">{c('details')}</span></th></tr></thead>
+          <tbody>
+            {others.map((s) => (
+              <tr>
+                <td><strong>{s.name}</strong></td>
+                <td>{s.type}</td>
+                <td class="ir-rate">{s.rate !== null ? `${fmtRate(s.rate)}%` : c('doubles')}</td>
+                <td>{s.term}</td>
+                <td class="ir-go"><a href={l(`/deposits/${s.slug}/`)} class="link-arrow">{c('details')} <Icon name="arrow-right" size={14} /></a></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section ir-sec">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">{c('loansEyebrow')}</p>
+        <h2 class="h2">{c('loansTitle')} <em>{c('loansAccent')}</em></h2>
+      </div>
+      <div class="ir-wrap" data-reveal>
+        <table class="ir-table">
+          <thead><tr><th>{c('loan')}</th><th>{c('roi')}</th><th>{c('amount')}</th><th><span class="sr-only">{c('details')}</span></th></tr></thead>
+          <tbody>
+            {loanRows.map((ln) => (
+              <tr>
+                <td><strong>{ln.name}</strong></td>
+                <td class="ir-rate">{ln.roi}</td>
+                <td>{ln.amount}</td>
+                <td class="ir-go"><a href={l(`/loans/#${ln.slug}`)} class="link-arrow">{c('details')} <Icon name="arrow-right" size={14} /></a></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="ir-note" data-reveal set:html={c('noteTds', { phone: `<a href="${site.phoneHref}">${site.phone}</a>` })} />
+    </div>
+  </section>
+
+  <CtaBand title={c('ctaTitle')} accent={c('ctaAccent')} text={c('ctaText', { n: String(branchCount) })} />
+</Base>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    document.querySelector('[data-ir-print]')?.addEventListener('click', () => window.print());
+    const box = document.querySelector<HTMLElement>('[data-ir-finder]');
+    const input = box?.querySelector<HTMLInputElement>('[data-ir-days]');
+    if (!box || !input) return;
+    const rows = Array.from(document.querySelectorAll<HTMLElement>('[data-ir-row]'));
+    const label = box.querySelector<HTMLElement>('[data-ir-label]');
+    const regular = box.querySelector<HTMLElement>('[data-ir-regular]');
+    const special = box.querySelector<HTMLElement>('[data-ir-special]');
+    const update = () => {
+      const days = Number(input.value);
+      const row = rows.find((r) => days >= Number(r.dataset.min) && (!r.dataset.max || days <= Number(r.dataset.max)));
+      rows.forEach((r) => r.classList.toggle('is-on', r === row));
+      if (label) label.textContent = row ? (box.dataset.tpl ?? '').replace('{days}', String(days)) : (box.dataset.minMsg ?? '');
+      if (regular) regular.textContent = row?.dataset.regular ?? '—';
+      if (special) special.textContent = row?.dataset.special ?? '—';
+    };
+    input.addEventListener('input', update);
+    update();
+  });
+</script>
+
+<style>
+  .ir-head { background: var(--gold-mix); padding-block: clamp(28px, 4vw, 44px) clamp(36px, 5vw, 56px); border-bottom: 1px solid var(--line); }
+  .ir-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.86rem; font-weight: 600; color: var(--muted); }
+  .ir-crumbs a { color: var(--g-800); }
+  .ir-crumbs span { color: var(--o-700); }
+  .ir-head__grid { display: grid; gap: 20px; align-items: end; margin-top: clamp(20px, 3vw, 32px); }
+  @media (min-width: 900px) { .ir-head__grid { grid-template-columns: minmax(0, 1fr) auto; } }
+  .ir-head__title { margin-top: 12px; color: var(--g-900); }
+  .ir-head__lead { margin-top: 12px; max-width: 660px; color: var(--ink-2); }
+  .ir-print { justify-self: start; background: #fff; }
+  .ir-facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(10px, 1.4vw, 16px); margin: clamp(24px, 3vw, 36px) 0 0; }
+  .ir-facts > div { display: flex; flex-direction: column-reverse; gap: 4px; padding: 16px 18px; border-radius: var(--r-lg); background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-sm); }
+  .ir-facts dt { font-size: 0.86rem; font-weight: 700; color: var(--muted); }
+  .ir-facts dd { margin: 0; font-size: clamp(1.9rem, 3.4vw, 2.6rem); font-weight: 800; line-height: 1; letter-spacing: -0.03em; color: var(--g-800); font-variant-numeric: tabular-nums; }
+  .ir-facts dd span { font-size: 0.55em; color: var(--o-600); }
+  @media (max-width: 719px) { .ir-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+  .ir-sec { background: var(--bg); }
+  .ir-other { background: var(--surface); }
+
+  /* Rate finder */
+  .ir-finder { display: grid; gap: 18px; align-items: center; margin-bottom: 22px; padding: clamp(18px, 2.6vw, 28px); border-radius: var(--r-lg); background: var(--green-panel); color: #fff; box-shadow: var(--shadow); }
+  @media (min-width: 860px) { .ir-finder { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); } }
+  .ir-finder__in { display: grid; gap: 10px; }
+  .ir-finder__in label { font-weight: 700; font-size: 1.05rem; }
+  .ir-finder__box { display: inline-flex; align-items: center; gap: 10px; width: fit-content; padding: 6px 18px; border-radius: 12px; background: #fff; color: var(--muted); font-weight: 700; }
+  .ir-finder__box:focus-within { outline: 3px solid var(--gold); }
+  .ir-finder__box input { width: 5.2ch; border: 0; outline: 0; background: transparent; font-size: 1.7rem; font-weight: 800; color: var(--g-900); font-variant-numeric: tabular-nums; }
+  .ir-finder__out { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 2px 16px; align-items: center; padding: 14px 18px; border-radius: 14px; background: rgb(0 40 20 / 0.28); }
+  .ir-finder__label { grid-column: 1 / -1; font-size: 0.92rem; font-weight: 600; }
+  .ir-finder__rate { font-size: 2.8rem; font-weight: 800; line-height: 1; letter-spacing: -0.03em; color: var(--gold); font-variant-numeric: tabular-nums; }
+  .ir-finder__rate span { font-size: 0.55em; }
+  .ir-finder__sp { font-size: 0.9rem; font-weight: 600; }
+  @media (max-width: 559px) {
+    .ir-finder__out { grid-template-columns: auto minmax(0, 1fr); }
+    .ir-finder__out :global(.btn) { grid-column: 1 / -1; margin-top: 10px; }
+  }
+
+  /* Tables: ruled ledger on white */
+  .ir-wrap { overflow-x: auto; border-radius: var(--r-lg); background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow-sm); }
+  .ir-table { width: 100%; border-collapse: collapse; }
+  .ir-table th { padding: 14px 18px; text-align: left; font-size: 0.8rem; font-weight: 800; color: #fff; background: var(--g-800); white-space: nowrap; }
+  .ir-table td { padding: 14px 18px; border-top: 1px solid var(--line-2); font-size: 0.95rem; color: var(--ink-2); vertical-align: middle; }
+  .ir-table td strong { color: var(--g-900); }
+  .ir-table tbody tr { transition: background 0.2s; }
+  .ir-table tbody tr:hover { background: var(--bg); }
+  .ir-rate { font-weight: 800; color: var(--g-800) !important; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .ir-rate--sp { color: var(--o-700) !important; }
+  .ir-go { text-align: right; white-space: nowrap; }
+  .ir-table--fd tbody tr.is-on { background: var(--o-100); box-shadow: inset 4px 0 0 var(--o-500); }
+  .ir-foot { margin-top: 12px; font-size: 0.88rem; color: var(--muted); }
+  .ir-note { margin-top: 22px; padding: 14px 18px; border-radius: 12px; background: #fff; border: 1px dashed var(--o-300); font-size: 0.92rem; font-weight: 600; color: var(--ink-2); }
+  .ir-note :global(a) { color: var(--g-800); font-weight: 800; }
+  /* Phones: each row of the wider tables reads as a small card */
+  @media (max-width: 719px) {
+    .ir-wrap:has(.ir-table:not(.ir-table--fd)) { overflow: visible; background: transparent; border: 0; box-shadow: none; }
+    .ir-table:not(.ir-table--fd) thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+    .ir-table:not(.ir-table--fd), .ir-table:not(.ir-table--fd) tbody, .ir-table:not(.ir-table--fd) tr, .ir-table:not(.ir-table--fd) td { display: block; }
+    .ir-table:not(.ir-table--fd) tr { margin-bottom: 10px; padding: 12px 14px; border-radius: 12px; background: #fff; border: 1px solid var(--line); }
+    .ir-table:not(.ir-table--fd) td { padding: 2px 0; border: 0; }
+    .ir-table:not(.ir-table--fd) .ir-go { text-align: left; padding-top: 6px; }
+    .ir-table--fd th, .ir-table--fd td { padding: 11px 10px; font-size: 0.86rem; }
+    .ir-table--fd th { white-space: normal; }
+  }
+  @media print {
+    :global(header.header), :global(.topbar), :global(.announce), :global(footer), :global(.cta-wrap), :global([data-to-top]), .ir-print, .ir-finder, .ir-go { display: none !important; }
+    .ir-head, .ir-sec, .ir-other { background: #fff !important; padding-block: 8px; }
+    .ir-wrap { box-shadow: none; }
+  }
+</style>

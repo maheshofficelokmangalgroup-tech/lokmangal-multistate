@@ -753,7 +753,7 @@ function initLightbox() {
 }
 
 /* ---------- Site search (Ctrl/⌘ K or "/") ---------- */
-type Entry = { t: string; u: string; g: string; k?: string };
+type Entry = { t: string; u: string; g: string; k?: string; a?: string };
 let searchIndex: Promise<Entry[]> | null = null;
 let searchIndexLang: Lang | null = null;
 const loadIndex = (): Promise<Entry[]> => {
@@ -777,11 +777,14 @@ const GROUP_ICON: Record<string, string> = {
 function score(e: Entry, terms: string[]) {
   const t = norm(e.t);
   const k = norm(e.k ?? '');
+  // The English name of a Marathi entry counts almost as much as its title.
+  const a = norm(e.a ?? '');
   let s = 0;
   for (const term of terms) {
     const i = t.indexOf(term);
     if (i === 0) s += 12;
     else if (i > 0) s += t[i - 1] === ' ' ? 8 : 5;
+    else if (a.startsWith(term)) s += 10;
     else if (k.includes(term)) s += 2;
     else return 0;
   }
@@ -872,7 +875,9 @@ function initSearch() {
     dialog.dataset.bound = '1';
     input.addEventListener('input', render);
     input.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowDown') { e.preventDefault(); setActive(active + 1); }
+      // A search box's own Esc only clears the text; here Esc closes the search, as the hint says.
+      if (e.key === 'Escape') { e.preventDefault(); closeDialog(dialog); }
+      else if (e.key === 'ArrowDown') { e.preventDefault(); setActive(active + 1); }
       else if (e.key === 'ArrowUp') { e.preventDefault(); setActive(active - 1); }
       else if (e.key === 'Enter' && options[active]) { e.preventDefault(); go(options[active].dataset.href!); }
     });
@@ -934,7 +939,9 @@ function initForms() {
     const preset = params.get('scheme') ?? params.get('type');
     if (preset) {
       $$<HTMLSelectElement>('select', form).forEach((sel) => {
-        const opt = Array.from(sel.options).find((o) => o.text.toLowerCase() === preset.toLowerCase());
+        // Links carry the English name; on Marathi pages only the option's value is English.
+        const wanted = preset.toLowerCase();
+        const opt = Array.from(sel.options).find((o) => o.value.toLowerCase() === wanted || o.text.toLowerCase() === wanted);
         if (opt) sel.value = opt.value || opt.text;
       });
     }
