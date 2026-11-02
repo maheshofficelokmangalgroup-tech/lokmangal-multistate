@@ -36,13 +36,16 @@
 		reverse_proxy api:8000
 	}
 	handle {
-		request_header -X-Preview-Release
-		forward_auth api:8000 {
-			uri /api/preview/check
-			copy_headers X-Preview-Release
+		# In this order: Caddy would otherwise pick the folder before the API has named the release.
+		route {
+			request_header -X-Preview-Release
+			forward_auth api:8000 {
+				uri /api/preview/check
+				copy_headers X-Preview-Release
+			}
+			root * /srv/previews/{http.request.header.X-Preview-Release}
+			try_files {path} {path}/index.html
+			file_server
 		}
-		root * /srv/previews/{http.request.header.X-Preview-Release}
-		try_files {path} {path}/index.html
-		file_server
 	}
 }
