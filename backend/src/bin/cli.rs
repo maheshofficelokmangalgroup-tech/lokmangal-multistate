@@ -4,6 +4,7 @@
 //!   lokmangal-cli create-admin --email you@example.com --name "Your Name"
 //!   lokmangal-cli import-seed path/to/snapshot.json [--dry-run]
 //!   lokmangal-cli reset-2fa --email someone@example.com --reason "verified by phone with GM"
+//!   lokmangal-cli allow-all-networks --reason "office address changed"
 //!   lokmangal-cli reconcile
 //!   lokmangal-cli backup-status --ok|--failed [--message "..."]
 //!   lokmangal-cli check-config
@@ -35,7 +36,7 @@ async fn main() -> anyhow::Result<()> {
     let args: Vec<String> = std::env::args().skip(1).collect();
     let Some(cmd) = args.first().cloned() else {
         eprintln!(
-            "usage: lokmangal-cli <migrate|create-admin|import-seed|reset-2fa|reconcile|backup-status|check-config> …"
+            "usage: lokmangal-cli <migrate|create-admin|import-seed|reset-2fa|allow-all-networks|reconcile|backup-status|check-config> …"
         );
         std::process::exit(2);
     };
@@ -132,6 +133,26 @@ async fn main() -> anyhow::Result<()> {
             println!(
                 "Two-factor authentication reset for {email}; they will set it up again at their next sign-in."
             );
+        }
+        // Recovery when the office's address changed and the office-network limit locks everyone out.
+        "allow-all-networks" => {
+            let reason = flag(&args, "--reason").context("--reason is required")?;
+            let mut tx = db.begin().await?;
+            sqlx::query("update app_settings set value = jsonb_set(value, '{officeNetworks}', '[]'::jsonb), updated_at = now() where key = 'access'")
+                .execute(&mut *tx)
+                .await?;
+            audit::record(
+                &mut *tx,
+                &Actor::system("cli"),
+                "settings.updated",
+                "setting",
+                "access",
+                Outcome::Success,
+                json!({ "office_networks": [], "reason": reason, "via": "cli" }),
+            )
+            .await?;
+            tx.commit().await?;
+            println!("Office networks cleared: staff can sign in from any address again.");
         }
         "reconcile" => {
             let state = AppState::new(db, config.clone(), Mailer::from_config(&config)?);

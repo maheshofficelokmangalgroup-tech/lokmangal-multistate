@@ -1375,3 +1375,44 @@ async fn re_import_updates_untouched_items_and_keeps_staff_edits() {
     .unwrap();
     assert_eq!(before, after);
 }
+
+#[tokio::test]
+#[ignore = "needs TEST_DATABASE_URL (PostgreSQL)"]
+async fn branch_managers_need_a_branch_and_no_one_deactivates_themselves() {
+    let _g = SERIAL.lock().await;
+    let t = test_app().await;
+    let pune = t.branch("PUNE").await;
+    let (boss, secret) = t.user("boss@example.com", &["super_admin"], &[]).await;
+    let s = t.login("boss@example.com", &secret).await;
+    let invite = |branches: Vec<Uuid>| {
+        Some(
+            json!({ "email": "bm@example.com", "name": "Branch Manager", "roles": ["branch_manager"], "branch_ids": branches }),
+        )
+    };
+    let (status, body) = t.call(&s, "POST", "/api/admin/users", invite(vec![])).await;
+    assert_eq!(status, StatusCode::UNPROCESSABLE_ENTITY, "{body}");
+    assert!(body["error"]["fields"]["branch_ids"].is_string());
+    let (status, body) = t
+        .call(&s, "POST", "/api/admin/users", invite(vec![pune]))
+        .await;
+    assert_eq!(status, StatusCode::CREATED, "{body}");
+    let id = body["data"]["id"].as_str().unwrap();
+    let (status, _) = t
+        .call(
+            &s,
+            "PATCH",
+            &format!("/api/admin/users/{id}"),
+            Some(json!({ "branch_ids": [] })),
+        )
+        .await;
+    assert_eq!(status, StatusCode::UNPROCESSABLE_ENTITY);
+    let (status, _) = t
+        .call(
+            &s,
+            "POST",
+            &format!("/api/admin/users/{boss}/deactivate"),
+            Some(json!({ "reason": "Leaving" })),
+        )
+        .await;
+    assert_eq!(status, StatusCode::CONFLICT);
+}

@@ -42,7 +42,7 @@ The public site is plain files. **If the API or worker is down, visitors still g
 ## Problems
 
 ### A release failed to build
-The old site is still live. Admin → Publish center → open the release → *Build log* and the error. Common causes: a placeholder for a rate that does not exist (fix the content or the rate set), content that fails validation, an image reference that was retired, the builder out of memory (`dc logs builder`; raise its memory limit in the compose file). Fix and publish again. A stuck build is failed automatically after `BUILD_TIMEOUT_SECONDS` (300 by default).
+The old site is still live. Admin → Publish website → open the release → *Build log* and the error. Common causes: a placeholder for a rate that does not exist (fix the content or the rate set), content that fails validation, an image reference that was retired, the builder out of memory (`dc logs builder`; raise its memory limit in the compose file). Fix and publish again. A stuck build is failed automatically after `BUILD_TIMEOUT_SECONDS` (300 by default).
 
 ### Activation failed or a release is stuck "activating"
 The worker restores the previous release if activation fails. After a crash it reconciles on start by checking what Caddy is really serving (`/release.json`) and either completes or fails the activation. Force it: `dc exec worker lokmangal-cli reconcile`. Look at `dc logs worker`. If Caddy rejected the rendered config, the message is in the release's error; the rendered file is in the `state` volume (`Caddyfile.rendered`).
@@ -61,6 +61,7 @@ Admin → Settings → Operations (failed jobs) and *Send test*. `dc logs worker
 
 ### Locked out
 - Lost phone: use a recovery code at sign-in. No codes left: another Super Admin resets two-step (Users and roles → person → *Reset two-step*), or on the server `dc run --rm --entrypoint lokmangal-cli api reset-2fa --email x --reason "verified by phone"`.
+- Everyone is refused with "only from the society's office network": the office's internet address changed. Clear the limit with `dc run --rm --entrypoint lokmangal-cli api allow-all-networks --reason "office address changed"`, sign in, and enter the new address under Settings → Access.
 - No Super Admin can sign in: `dc run --rm --entrypoint lokmangal-cli api create-admin --email x --name "Name"` prints an invitation link.
 - Login throttling lifts by itself after 15 minutes.
 

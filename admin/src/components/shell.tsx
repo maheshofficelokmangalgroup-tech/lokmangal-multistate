@@ -15,16 +15,15 @@ import {
   ChevronsRight,
   FileText,
   FolderOpen,
-  Globe,
   Home,
   Image,
   Inbox,
   KeyRound,
   Landmark,
+  Languages,
   LayoutDashboard,
   LogOut,
   Menu,
-  Navigation,
   Newspaper,
   Percent,
   PiggyBank,
@@ -52,11 +51,25 @@ function useNav(): NavGroup[] {
   const c = counts.data;
   return [
     {
-      title: 'Workspace',
+      title: 'Daily work',
       items: [
         { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, show: can('dashboard.view') },
-        { to: '/leads', label: 'Leads', icon: Inbox, show: canAny('leads.view.all', 'leads.view.own_branch'), badge: c?.leads?.unhandled },
+        { to: '/leads', label: 'Enquiries', icon: Inbox, show: canAny('leads.view.all', 'leads.view.own_branch'), badge: c?.leads?.unhandled },
         { to: can('applications.view') ? '/careers/applications' : '/careers/jobs', label: 'Careers', icon: Briefcase, show: canAny('applications.view', 'careers.edit'), badge: c?.applications_new },
+        { to: '/approvals', label: 'Approvals', icon: CheckSquare, show: true, badge: c?.approvals_pending },
+      ],
+    },
+    {
+      title: 'Edit the website',
+      items: [
+        { to: '/website/text', label: 'Website text', icon: Languages, show: canAny('content.edit', 'products.edit', 'content.view') },
+        { to: '/website/homepage', label: 'Homepage numbers', icon: Home, show: canAny('content.edit', 'content.view') },
+        { to: '/website/posts', label: 'Blog and news', icon: Newspaper, show: canAny('content.edit', 'content.view') },
+        { to: '/website/notices', label: 'Notices and documents', icon: FolderOpen, show: canAny('content.edit', 'content.view') },
+        { to: '/website/gallery', label: 'Gallery', icon: Image, show: canAny('content.edit', 'content.view') },
+        { to: '/website/branches', label: 'Branches', icon: Building2, show: canAny('branches.edit', 'content.view') },
+        { to: '/website/media', label: 'Photos and files', icon: UploadCloud, show: canAny('media.upload', 'media.manage', 'content.view') },
+        { to: '/website/pages', label: 'More page details', icon: FileText, show: canAny('content.edit', 'content.view') },
       ],
     },
     {
@@ -68,25 +81,8 @@ function useNav(): NavGroup[] {
       ],
     },
     {
-      title: 'Website',
-      items: [
-        { to: '/website/homepage', label: 'Homepage', icon: Home, show: canAny('content.edit', 'content.view') },
-        { to: '/website/pages', label: 'Pages and people', icon: FileText, show: canAny('content.edit', 'content.view') },
-        { to: '/website/posts', label: 'Blog and news', icon: Newspaper, show: canAny('content.edit', 'content.view') },
-        { to: '/website/gallery', label: 'Gallery', icon: Image, show: canAny('content.edit', 'content.view') },
-        { to: '/website/notices', label: 'Notices and documents', icon: FolderOpen, show: canAny('content.edit', 'content.view') },
-        { to: '/website/branches', label: 'Branches', icon: Building2, show: canAny('branches.edit', 'content.view') },
-        { to: '/website/media', label: 'Media library', icon: UploadCloud, show: canAny('media.upload', 'media.manage', 'content.view') },
-        { to: '/website/navigation', label: 'Navigation and footer', icon: Navigation, show: canAny('content.edit', 'content.view') },
-        { to: '/website/redirects', label: 'SEO and redirects', icon: Globe, show: canAny('content.edit', 'content.view') },
-      ],
-    },
-    {
-      title: 'Publishing',
-      items: [
-        { to: '/approvals', label: 'Approvals', icon: CheckSquare, show: true, badge: c?.approvals_pending },
-        { to: '/publish', label: 'Publish center', icon: ShieldCheck, show: canAny('site.publish', 'site.preview'), badge: c?.unreleased_changes },
-      ],
+      title: 'Go live',
+      items: [{ to: '/publish', label: 'Publish website', icon: ShieldCheck, show: canAny('site.publish', 'site.preview'), badge: c?.unreleased_changes }],
     },
     {
       title: 'Administration',
@@ -150,7 +146,7 @@ function Brand({ collapsed }: { collapsed: boolean }) {
       {!collapsed && (
         <span className="leading-tight">
           <span className="block text-[14px] font-semibold">Lokmangal</span>
-          <span className="block text-[11px] text-text-secondary">Admin workspace</span>
+          <span className="block text-[11px] text-text-secondary">Admin panel</span>
         </span>
       )}
     </Link>

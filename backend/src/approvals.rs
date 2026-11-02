@@ -69,15 +69,17 @@ async fn subject(conn: &mut PgConnection, kind: &str, id: Uuid) -> AppResult<Sub
         .and_then(Value::as_str)
         .map(str::to_owned)
         .unwrap_or_else(|| row.get("slug"));
+    let label = def.map(|d| d.label).unwrap_or("Content");
+    let revision = row.get::<i32, _>("revision");
     Ok(Subject {
         kind: kind.into(),
         id,
-        title: format!(
-            "{}: {} (revision {})",
-            def.map(|d| d.label).unwrap_or("Content"),
-            name,
-            row.get::<i32, _>("revision")
-        ),
+        // A one-off page has no name of its own beyond its label.
+        title: if def.is_some_and(|d| d.singleton) {
+            format!("{label} (version {revision})")
+        } else {
+            format!("{label}: {name} (version {revision})")
+        },
         financial: def.is_some_and(|d| d.financial),
         collection: Some(collection),
         item_id: Some(row.get("id")),
@@ -192,6 +194,7 @@ async fn detail(
             sqlx::query_as("select valid_from, valid_until, source_document, change_reason from rate_sets where id = $1").bind(s.id).fetch_one(&mut *conn).await?;
         let contributors: Vec<String> = sqlx::query_scalar("select u.name from rate_set_contributors c join users u on u.id = c.user_id where c.rate_set_id = $1").bind(s.id).fetch_all(&mut *conn).await?;
         let problems = rates::validate_entries(&current);
+        let jumps = rates::big_jumps(&base_entries, &current);
         (
             json!({
                 "kind": "rate_set",
@@ -201,7 +204,7 @@ async fn detail(
                 "changes": rates::entry_diff(&base_entries, &current),
             }),
             contributors,
-            problems.0.into_values().collect::<Vec<_>>(),
+            problems.0.into_values().chain(jumps).collect::<Vec<_>>(),
         )
     } else {
         let (data, item_id): (Value, Uuid) =

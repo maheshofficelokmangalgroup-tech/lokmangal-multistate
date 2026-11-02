@@ -4,6 +4,8 @@
 //
 // Both languages must have exactly the same keys; the build stops if one is missing.
 
+import { writeFileSync } from 'node:fs';
+import { snapshot } from '../lib/content';
 import type { Lang } from './index';
 
 const en = {
@@ -171,6 +173,7 @@ const en = {
   'form.problemsN': 'There are {n} problems with your details',
   'form.failed': "We couldn't send your request right now. Please {email} or call {phone}.",
   'form.failEmail': 'email it to us',
+  'form.pdf': 'Choose a PDF file of 5 MB or less.',
 
   // ---- homepage
   'home.slide1.eyebrow': 'Welcome to Lokmangal Multistate',
@@ -487,6 +490,7 @@ const mr: Record<Key, string> = {
   'form.problemsN': 'तुमच्या माहितीत {n} त्रुटी आहेत',
   'form.failed': 'तुमची विनंती आत्ता पाठवता आली नाही. कृपया {email} किंवा {phone} वर कॉल करा.',
   'form.failEmail': 'आम्हाला ईमेल करा',
+  'form.pdf': '5 MB किंवा त्यापेक्षा लहान PDF फाइल निवडा.',
 
   // ---- homepage
   'home.slide1.eyebrow': 'लोकमंगल मल्टीस्टेटमध्ये आपले स्वागत',
@@ -648,10 +652,56 @@ for (const key of Object.keys(mr)) {
 
 export type T = (key: Key, vars?: Record<string, string | number>) => string;
 
+// Wording staff changed in the admin panel ("Website text"), layered over the text written below and in the pages.
+type TextPair = { en?: string; mr?: string };
+const staffText: Record<string, Record<string, TextPair>> = { ...snapshot.singletons.page_text?.texts, ...snapshot.singletons.product_text?.texts };
+const placeholders = (s: string) => s.match(/\{[A-Za-z0-9_]+\}/g) ?? [];
+
+// Wording that states a rate needs a checker's approval wherever it appears, so it is kept with the product wording.
+// Must match PRODUCT_TEXT_PAGES in backend/src/content/collections.rs.
+const PRODUCT_PAGES = new Set(['deposits', 'deposit-scheme', 'loans', 'interest-rates', 'calculators', 'apply-desk', 'rate-wording']);
+function place(where: string, key: string, english: string): [string, string] {
+  return english.includes('%') && !PRODUCT_PAGES.has(where) ? ['rate-wording', `${where}.${key}`] : [where, key];
+}
+
+/** The staff version of a text. A version that lost a placeholder cannot be used, so the original stays. */
+function edited(where: string, key: string, lang: Lang, original: string, english: string): string {
+  const [page, id] = place(where, key, english);
+  const v = staffText[page]?.[id]?.[lang];
+  return v?.trim() && placeholders(original).every((p) => v.includes(p)) ? v : original;
+}
+
+// `PAGE_TEXT_CATALOG=<file>`: a build also writes every text it used, which is the list the admin editor shows.
+const catalogFile = process.env.PAGE_TEXT_CATALOG;
+const catalog: Record<string, Record<string, TextPair>> = {};
+const varies = new Set<string>();
+function record(where: string, key: string, en: string, mr: string) {
+  if (!catalogFile) return;
+  const [pageName, id] = place(where, key, en);
+  const page = (catalog[pageName] ??= {});
+  const seen = page[id];
+  if (seen && (seen.en !== en || seen.mr !== mr)) varies.add(`${pageName}\n${id}`);
+  page[id] = { en, mr };
+}
+if (catalogFile) {
+  process.on('exit', () => {
+    for (const k of Object.keys(en) as Key[]) record('site', k, en[k], mr[k]);
+    // A text filled in differently per page (a scheme's name written into it) cannot have one replacement.
+    for (const item of varies) {
+      const [page, id] = item.split('\n');
+      delete catalog[page][id];
+    }
+    // Pages keep their own order; this list is filled in whatever order pages were built, so it is sorted to stay stable.
+    if (catalog['rate-wording']) catalog['rate-wording'] = Object.fromEntries(Object.entries(catalog['rate-wording']).sort(([a], [b]) => a.localeCompare(b, 'en')));
+    const sorted = Object.fromEntries(Object.keys(catalog).sort().map((w) => [w, catalog[w]]));
+    writeFileSync(catalogFile, JSON.stringify(sorted, null, 1) + '\n');
+  });
+}
+
 export function useT(lang: Lang): T {
   const dict = dictionaries[lang];
   return (key, vars) => {
-    let s = dict[key];
+    let s = edited('site', key, lang, dict[key], en[key]);
     if (vars) for (const [k, v] of Object.entries(vars)) s = s.replaceAll(`{${k}}`, String(v));
     return s;
   };
@@ -665,7 +715,7 @@ export function runtimeStrings(lang: Lang): Record<string, string> {
     'calc.principal', 'calc.yr', 'calc.mo', 'calc.months', 'calc.perMonth', 'calc.share', 'calc.chartGrow', 'calc.chartIncome', 'calc.chartEmi',
     'calc.year', 'calc.month', 'calc.quarter', 'calc.tipGrow', 'calc.tipIncome', 'calc.tipEmi', 'calc.thousand', 'calc.lakh', 'calc.crore', 'calc.ctaFd', 'calc.ctaRd', 'calc.ctaMonthly', 'calc.ctaEmi', 'calc.paused', 'search.groups', 'search.count',
     'search.none', 'form.checkbox', 'form.email', 'form.phone', 'form.preview', 'form.select', 'form.enter', 'form.check',
-    'form.thisField', 'form.min', 'form.max', 'form.phoneHint', 'form.problems1', 'form.problemsN', 'form.failed', 'form.failEmail',
+    'form.thisField', 'form.min', 'form.max', 'form.phoneHint', 'form.problems1', 'form.problemsN', 'form.failed', 'form.failEmail', 'form.pdf',
   ];
   return Object.fromEntries(keys.map((k) => [k, t(k)]));
 }
@@ -678,9 +728,28 @@ export function pageCopy<K extends string>(lang: Lang, where: string, en: Record
   for (const k of Object.keys(en)) if (!(k in mr)) throw new Error(`${where}: Marathi text is missing for "${k}"`);
   for (const k of Object.keys(mr)) if (!(k in en)) throw new Error(`${where}: "${k}" is in the Marathi text but not the English text`);
   const dict = lang === 'mr' ? mr : en;
+  for (const k of Object.keys(en) as K[]) record(where, k, en[k], mr[k]);
   return (key: K, vars?: Record<string, string | number>) => {
-    let s = dict[key];
+    let s = edited(where, key, lang, dict[key], en[key]);
     if (vars) for (const [k, v] of Object.entries(vars)) s = s.replaceAll(`{${k}}`, String(v));
     return s;
   };
+}
+
+/**
+ * A whole document (privacy policy, terms) in both languages, for pages whose wording is nested. Text that is the
+ * same in both languages (section anchors) is not wording, so it cannot be edited.
+ */
+export function pageDoc<D>(lang: Lang, where: string, en: D, mr: D): D {
+  const walk = (e: unknown, m: unknown, path: string): unknown => {
+    if (typeof e === 'string') {
+      if (e === m) return e;
+      record(where, path, e, String(m));
+      return edited(where, path, lang, lang === 'mr' ? String(m) : e, e);
+    }
+    if (Array.isArray(e)) return e.map((x, i) => walk(x, (m as unknown[])[i], `${path}${path && '.'}${i}`));
+    if (e && typeof e === 'object') return Object.fromEntries(Object.entries(e).map(([k, v]) => [k, walk(v, (m as Record<string, unknown>)[k], `${path}${path && '.'}${k}`)]));
+    return e;
+  };
+  return walk(en, mr, '') as D;
 }

@@ -35,7 +35,8 @@ type Dashboard = {
   activity: { at: string; action: string; entity_type: string | null; entity_id: string | null; actor: string | null }[];
 };
 
-const KIND_COLORS: Record<string, string> = { loan: '#c2410c', deposit: '#ea580c', account: '#9a3412', callback: '#f59e0b', contact: '#52525b', service: '#a1a1aa' };
+// Forest green first, in a fixed order, checked for colour-blind separation. Each kind keeps its colour whatever the filter.
+const KIND_COLORS: Record<string, string> = { account: '#1a7a4c', callback: '#d97706', contact: '#2563c9', deposit: '#8fbf3f', loan: '#7c4fb5', service: '#0e9aa7' };
 
 function Metric({ label, value, hint, to, icon, tone = 'default' }: { label: string; value?: number; hint?: string; to: string; icon: React.ReactNode; tone?: 'default' | 'warning' }) {
   return (
@@ -72,9 +73,9 @@ function LeadsChart({ series }: { series: NonNullable<Dashboard['leads']>['serie
             <XAxis dataKey="day" tickFormatter={(d: string) => fmtDate(d).slice(0, 6)} tick={{ fontSize: 12, fill: '#52525b' }} axisLine={false} tickLine={false} />
             <YAxis allowDecimals={false} tick={{ fontSize: 12, fill: '#52525b' }} axisLine={false} tickLine={false} />
             <Tooltip labelFormatter={(d) => fmtDate(String(d))} formatter={(v, k) => [v as number, leadKinds[String(k)] ?? String(k)]} />
-            <Legend formatter={(k: string) => leadKinds[k] ?? k} wrapperStyle={{ fontSize: 12 }} />
+            <Legend formatter={(k: string) => <span className="text-text-secondary">{leadKinds[k] ?? k}</span>} wrapperStyle={{ fontSize: 12 }} />
             {kinds.map((k) => (
-              <Bar key={k} dataKey={k} stackId="a" fill={KIND_COLORS[k] ?? '#a1a1aa'} radius={[2, 2, 0, 0]} maxBarSize={36} />
+              <Bar key={k} dataKey={k} stackId="a" fill={KIND_COLORS[k] ?? '#a1a1aa'} stroke="#fff" strokeWidth={2} maxBarSize={36} />
             ))}
           </BarChart>
         </ResponsiveContainer>
@@ -163,10 +164,10 @@ export function DashboardPage() {
           Array.from({ length: 4 }, (_, i) => <Skeleton key={i} className="h-[120px]" />)
         ) : (
           <>
-            {d?.leads && <Metric label="New enquiries" value={d.leads.new} hint="Open the leads inbox" to="/leads" icon={<Inbox className="size-5" />} />}
+            {d?.leads && <Metric label="New enquiries" value={d.leads.new} hint="Open enquiries" to="/leads" icon={<Inbox className="size-5" />} />}
             {d?.leads && <Metric label="Follow-ups due" value={d.leads.follow_ups_due} hint="Due today or tomorrow" to="/leads?follow_up_due=true" icon={<CalendarClock className="size-5" />} tone={d.leads.follow_ups_due > 0 ? 'warning' : 'default'} />}
             {d?.approvals_pending !== undefined && <Metric label="Waiting for your review" value={d.approvals_pending} hint="Open approvals" to="/approvals" icon={<CheckSquare className="size-5" />} />}
-            {d?.unreleased_changes !== undefined && <Metric label="Changes not yet live" value={d.unreleased_changes} hint="Open the publish center" to="/publish" icon={<UploadCloud className="size-5" />} />}
+            {d?.unreleased_changes !== undefined && <Metric label="Changes not yet live" value={d.unreleased_changes} hint="Go to publishing" to="/publish" icon={<UploadCloud className="size-5" />} />}
             {d?.applications_new !== undefined && <Metric label="New job applications" value={d.applications_new} hint="Open applications" to="/careers/applications" icon={<Inbox className="size-5" />} />}
           </>
         )}
@@ -193,7 +194,7 @@ export function DashboardPage() {
                         <span className="font-semibold tabular">{b.count}</span>
                       </div>
                       <div className="mt-1 h-2 rounded-full bg-line-subtle" aria-hidden>
-                        <div className="h-2 rounded-full bg-brand-accent" style={{ width: `${(b.count / max) * 100}%` }} />
+                        <div className="h-2 rounded-full bg-brand-primary" style={{ width: `${(b.count / max) * 100}%` }} />
                       </div>
                     </li>
                   );
@@ -228,11 +229,11 @@ export function DashboardPage() {
             )}
           </Card>
         )}
-        <Card title="Website releases">
+        <Card title="Website updates">
           {d ? (
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
-                <span className="text-text-secondary">Live release</span>
+                <span className="text-text-secondary">Website version</span>
                 <span>{d.publishing.live ? `#${d.publishing.live.number} · ${fmtRelative(d.publishing.live.activated_at)}` : 'Nothing published yet'}</span>
               </div>
               <div className="flex justify-between">
@@ -244,7 +245,7 @@ export function DashboardPage() {
                 <span>{d.publishing.last_build ? <StatusBadge status={d.publishing.last_build.status} /> : '—'}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-text-secondary">Scheduled releases</span>
+                <span className="text-text-secondary">Scheduled updates</span>
                 <span className="tabular">{d.publishing.scheduled}</span>
               </div>
               {d.publishing.last_build?.error && <p className="rounded-md bg-danger-soft p-2 text-[12px] text-danger">{d.publishing.last_build.error}</p>}

@@ -1233,6 +1233,12 @@
           }
         ]
       }
+    },
+    "page_text": {
+      "texts": {}
+    },
+    "product_text": {
+      "texts": {}
     }
   },
   "collections": {

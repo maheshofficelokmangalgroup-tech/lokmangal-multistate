@@ -237,6 +237,20 @@ pub async fn load_access(
     Ok((permissions.into_iter().collect(), roles, branches))
 }
 
+/// When office networks are set (Settings → Access), the admin answers only requests from them.
+pub async fn require_office_network(
+    conn: &mut sqlx::PgConnection,
+    ip: Option<std::net::IpAddr>,
+) -> AppResult<()> {
+    if crate::settings::network_allowed(&crate::settings::office_networks(conn).await?, ip) {
+        Ok(())
+    } else {
+        Err(AppError::forbidden(
+            "The admin panel can only be used from the society's office network.",
+        ))
+    }
+}
+
 impl FromRequestParts<AppState> for CurrentUser {
     type Rejection = AppError;
 
@@ -259,9 +273,10 @@ impl FromRequestParts<AppState> for CurrentUser {
                 .execute(&state.db)
                 .await?;
         }
-        let mut conn = state.db.acquire().await?;
-        let (permissions, roles, branch_ids) = load_access(&mut conn, s.user_id).await?;
         let meta = client_meta(parts, state.config.trust_proxy);
+        let mut conn = state.db.acquire().await?;
+        require_office_network(&mut conn, meta.ip).await?;
+        let (permissions, roles, branch_ids) = load_access(&mut conn, s.user_id).await?;
         let user = CurrentUser {
             id: s.user_id,
             email: s.email,
@@ -290,13 +305,15 @@ impl FromRequestParts<AppState> for PendingAuth {
     ) -> Result<Self, Self::Rejection> {
         let s = load_session(state, parts).await?;
         check_csrf(state, parts, &s.csrf_token)?;
+        let meta = client_meta(parts, state.config.trust_proxy);
+        require_office_network(&mut *state.db.acquire().await?, meta.ip).await?;
         Ok(PendingAuth {
             session_id: s.id,
             user_id: s.user_id,
             email: s.email,
             name: s.name,
             stage: s.stage,
-            meta: client_meta(parts, state.config.trust_proxy),
+            meta,
         })
     }
 }

@@ -37,6 +37,8 @@ type Settings = {
 // with an error, and the form then offers email and phone instead. Preview builds never submit (see main.ts), so
 // tests cannot create real enquiries.
 const formEndpoint = isPreview ? '' : (process.env.PUBLIC_FORM_ENDPOINT ?? '/api/v1/enquiries');
+// Job applications go to their own endpoint, the only one that accepts a file (the PDF résumé).
+const applicationEndpoint = formEndpoint.replace(/\/enquiries$/, '/applications');
 
 type Stat = { value: number; prefix: string; suffix: string; label: string; sub: string };
 type Announcement = { enabled: boolean; label: string; text: string; href: string; linkText: string };
@@ -53,7 +55,7 @@ type Album = { title: string; images: { src: string; caption: string }[] };
 type Job = { icon: string; title: string; text: string; location: string; open: boolean };
 
 function build(lang: Lang) {
-  const site = { ...singleton<Settings>('settings', lang), formEndpoint, ratesValidity: ratesValidityFor(lang) };
+  const site = { ...singleton<Settings>('settings', lang), formEndpoint, applicationEndpoint, ratesValidity: ratesValidityFor(lang) };
 
   const home = singleton<{ stats: Stat[]; announcement: Announcement }>('home', lang);
   const navigation = singleton<{ nav: NavItem[]; footerLinks: { quick: Link[]; other: Link[] } }>('navigation', lang);

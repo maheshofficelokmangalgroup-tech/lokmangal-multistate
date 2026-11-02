@@ -14,13 +14,13 @@ You are signed out after 30 minutes without activity (a warning appears two minu
 
 - **Save draft** only saves. The website does not change.
 - Content that involves money (rates, deposit schemes, loans, the deposit and loan page details) must be **approved by a different person** before it can be published.
-- **Publish** (Publish center) builds the whole site from approved content and switches visitors to it once every check passes.
+- **Publish** (Publish website) builds the whole site from approved content and switches visitors to it once every check passes.
 - You can **Preview** drafts privately first, and an earlier release can be restored.
 
 ## Everyday jobs
 
-### Handling an enquiry (Leads)
-Website forms arrive in **Leads** with a reference such as `LMS-2026-00123`. Tabs show *New*, *Contacted*, *In progress*, *Converted*, *Not interested* and *Spam*. Open one to see the details, add notes, set a **follow-up** (IST) and assign a branch or a person. Changing the status of a closed enquiry asks for a reason. A phone number seen twice within 30 days is marked *Possible duplicate*; nothing is merged or rejected automatically.
+### Handling an enquiry (Enquiries)
+Website forms arrive in **Enquiries** with a reference such as `LMS-2026-00123`. Tabs show *New*, *Contacted*, *In progress*, *Converted*, *Not interested* and *Spam*. Open one to see the details, add notes, set a **follow-up** (IST) and assign a branch or a person. Changing the status of a closed enquiry asks for a reason. A phone number seen twice within 30 days is marked *Possible duplicate*; nothing is merged or rejected automatically.
 
 Branch managers see only their own branches' enquiries. Some roles see phone numbers and emails partly hidden (`+91 98xxxxx210`). **Export** (if your role allows it) downloads the filtered list as Excel or CSV, and every export is recorded.
 
@@ -28,10 +28,20 @@ Branch managers see only their own branches' enquiries. Some roles see phone num
 1. **Prepare next rate set**: it starts as a copy of the current one. Choose the name and dates. *Valid until* is exclusive: `2028-04-01` means the rates apply up to 31 March 2028.
 2. Change the rates that move. Cells you changed are marked, and the side panel lists every change against the previous set. The page warns about gaps or overlaps in the FD tenure bands.
 3. Fill in the **source document** (for example the approved leaflet) and the **reason**, then **Submit for approval**.
-4. An approver reviews exactly what changed under **Approvals** and approves or sends it back with a comment. You cannot approve your own work.
+4. An approver reviews exactly what changed under **Approvals** and approves or sends it back with a comment. A rate that moves by more than two percentage points is flagged as a possible typing mistake. You cannot approve your own work.
 5. Once approved, a rate set that starts in the future is built automatically and **goes live at 00:00 IST on its first day**. A rate set that starts today is included in your next publish.
 
 To correct approved rates, use **Create new revision**; the approved one is never edited.
+
+### Changing the wording of a page (Website text)
+
+**Website text** lists every fixed text on the website, page by page, with English and Marathi side by side. Choose the page, or search all the wording, change the text, press **Save changes**, then **Publish website**.
+
+- **Back to the original** undoes a change. A text left empty also shows the original.
+- Keep anything in curly brackets, such as `{phone}`: the website fills in the real value there. A text that loses one cannot be saved.
+- Keep the parts in angle brackets, such as `<strong>`: they make text bold or a link.
+- Text on the deposit, loan, rates and calculator pages, and any text stating a percentage, needs a checker's approval: press **Send for approval** after saving. A percentage cannot be typed into other pages.
+- The name of a deposit, a loan, a post or a branch is not here: change it in its own section.
 
 ### Deposit schemes and loans
 Edit them like any content (New, Save draft, Submit for approval). **Rates are never typed here.** The *Headline rate* field picks a rate from the rate set, and text uses placeholders that the website fills in:
@@ -49,10 +59,10 @@ The **How it will read** panel shows the text with the current rates filled in. 
 ### News, notices, gallery, branches, navigation
 Same pattern: open the item, change it, **Save draft**, then publish. For *Blog and news* the cover image needs a description. For *Branches*, a branch that is no longer active disappears from the website and the enquiry forms with the next release but keeps its history. Pin a notice to show it on the homepage.
 
-### Pictures and PDFs (Media library)
+### Pictures and PDFs (Photos and files)
 Upload JPEG, PNG or WebP images (up to 15 MB) and PDFs (up to 50 MB). Images are converted to three sizes automatically. **Every image needs a description for screen readers**, or must be marked decorative. The *Where used* list shows which content uses a file; files in use cannot be retired. *Upload new version* replaces a file without changing its address; the new version appears on the website only when content that uses it is published.
 
-### Publishing (Publish center)
+### Publishing (Publish website)
 1. **Pending changes** lists what differs from the live site. Items waiting for approval are shown but not selectable.
 2. **Preview all drafts** builds a private copy (about 30 seconds). **Open** it from the *Previews* tab; the link works once and expires, and the preview says it is not public.
 3. **Publish selected**, optionally scheduling a time (IST). Watch the progress: *queued → building → validating → ready → activating → live*.
@@ -65,7 +75,7 @@ If the published rates run out and no approved replacement is ready, the website
 
 - **Users and roles**: invite by email (a single-use link, valid 48 hours), choose roles, and for branch managers choose their branches. People are deactivated, never deleted, so history stays intact; deactivating signs them out immediately. Resetting someone's two-step sign-in needs a reason and a recent password + code confirmation. The system keeps at least one active Super Admin.
 - **Audit log**: every sign-in, change, approval, export, download and release. Read-only.
-- **Settings**: who is emailed for each kind of enquiry, how long enquiries and applications are kept, how many releases are kept for restore, optional office-network restriction, data-subject requests, and an **Operations** page (failed jobs, backup status).
+- **Settings**: who is emailed for each kind of enquiry, how long enquiries and applications are kept, how many releases are kept for restore, optional office-network restriction (once set, sign-in and every admin page work only from those addresses; the panel refuses a list that leaves out your own address), data-subject requests, and an **Operations** page (failed jobs, backup status).
 
 ## If something looks wrong
 

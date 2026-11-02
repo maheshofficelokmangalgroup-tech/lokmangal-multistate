@@ -915,6 +915,9 @@ function fieldLabel(el: HTMLElement) {
 }
 
 function errorFor(el: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement) {
+  // The browser does not check a file's type or size; the server would refuse it, so say so before sending.
+  const file = el instanceof HTMLInputElement && el.type === 'file' ? el.files?.[0] : undefined;
+  if (file && (file.size > 5 * 1024 * 1024 || !/\.pdf$/i.test(file.name))) return ui('form.pdf');
   const v = el.validity;
   if (v.valid) return '';
   if (el instanceof HTMLInputElement && el.type === 'checkbox') return ui('form.checkbox');
@@ -1047,6 +1050,18 @@ function initForms() {
           headers: { Accept: 'application/json', 'Idempotency-Key': form.dataset.idempotencyKey },
         });
         const json = await res.json().catch(() => ({}));
+        // The server found something the browser could not check: show it at the field, not the email fallback.
+        const fields: Record<string, string> | undefined = json?.error?.fields;
+        if (res.status === 422 && fields) {
+          const marked = Object.entries(fields).flatMap(([name, msg]) => {
+            const el = controls.find((c) => c.name === name);
+            if (el) show(el, msg);
+            return el ? [el] : [];
+          });
+          status.textContent = Object.values(fields).join(' ');
+          marked[0]?.focus();
+          return;
+        }
         const reference: string | undefined = json?.data?.reference;
         if (!res.ok || !(reference || json.ok)) throw new Error(json?.error?.message || json.error || 'Request failed');
         const card = form.closest('[data-form-card]')!;
@@ -1064,7 +1079,7 @@ function initForms() {
         }
       } catch {
         const lines = Array.from(data.entries())
-          .filter(([k, v]) => !['website', 'ts', 'consent'].includes(k) && String(v).trim())
+          .filter(([k, v]) => !['website', 'ts', 'consent'].includes(k) && typeof v === 'string' && v.trim())
           .map(([k, v]) => `${k.replace(/_/g, ' ')}: ${v}`);
         const mail = `mailto:emailus@lokmangal.co.in?subject=${encodeURIComponent('Website enquiry')}&body=${encodeURIComponent(lines.join('\n'))}`;
         status.innerHTML = escapeHtml(ui('form.failed'))

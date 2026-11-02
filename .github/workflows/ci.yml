@@ -57,8 +57,9 @@ jobs:
           npm run build -w @lokmangal/admin
       - name: Public website builds from the seed snapshot
         run: |
-          npm run build:site:seed
+          PAGE_TEXT_CATALOG="$PWD/admin/src/generated/page-text.json" npm run build:site:seed
           test "$(find frontend/dist -name '*.html' | wc -l)" -ge 100
+          git diff --exit-code admin/src/generated/page-text.json
           ! grep -rE '\{(rate|rate2|number|calc)(:[^}]*)?\}' frontend/dist --include=*.html
       - run: npm audit --omit=dev --audit-level=high
 

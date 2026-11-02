@@ -150,7 +150,7 @@ const statusMap: Record<string, [Tone, string]> = {
   in_review: ['warning', 'Awaiting approval'],
   changes_requested: ['danger', 'Changes requested'],
   approved: ['success', 'Approved'],
-  released: ['info', 'In a release'],
+  released: ['info', 'Published'],
   superseded: ['neutral', 'Superseded'],
   archived: ['neutral', 'Archived'],
   pending: ['warning', 'Pending'],

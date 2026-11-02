@@ -91,8 +91,8 @@ const ld = [orgLd, ...(jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : []
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@LMCSOfficial" />
 
-    <script type="application/ld+json" set:html={JSON.stringify(ld)} />
-    <script type="application/json" id="i18n" set:html={JSON.stringify(runtimeStrings(lang))} />
+    <script type="application/ld+json" set:html={JSON.stringify(ld).replaceAll('<', '\\u003c')} />
+    <script type="application/json" id="i18n" set:html={JSON.stringify(runtimeStrings(lang)).replaceAll('<', '\\u003c')} />
     <script is:inline>document.documentElement.classList.add('js');</script>
     <ClientRouter />
   </head>

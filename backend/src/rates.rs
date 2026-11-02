@@ -318,6 +318,25 @@ async fn create(
     ))
 }
 
+/// Rates that moved by more than two percentage points: usually a typing slip (95 for 9.5), shown to the approver.
+pub fn big_jumps(base: &[Entry], current: &[Entry]) -> Vec<String> {
+    let old: BTreeMap<&str, &Entry> = base.iter().map(|e| (e.key.as_str(), e)).collect();
+    current
+        .iter()
+        .filter(|e| e.unit == "percent")
+        .filter_map(|e| old.get(e.key.as_str()).map(|o| (o, e)))
+        .filter(|(o, e)| (e.value - o.value).abs() > Decimal::from(2))
+        .map(|(o, e)| {
+            format!(
+                "{}: {}% becomes {}%. Check that this is not a typing mistake.",
+                e.label,
+                o.value.normalize(),
+                e.value.normalize()
+            )
+        })
+        .collect()
+}
+
 pub fn entry_diff(base: &[Entry], current: &[Entry]) -> Vec<Value> {
     let old: BTreeMap<&str, &Entry> = base.iter().map(|e| (e.key.as_str(), e)).collect();
     let new: BTreeMap<&str, &Entry> = current.iter().map(|e| (e.key.as_str(), e)).collect();
@@ -723,6 +742,21 @@ mod tests {
             unit: "percent".into(),
             sort_order: 0,
         }
+    }
+
+    #[test]
+    fn big_rate_jumps_are_flagged() {
+        let base = vec![
+            slab("a.r", "regular", 7, Some(30), "7.5"),
+            slab("b.r", "regular", 31, None, "8"),
+        ];
+        let now = vec![
+            slab("a.r", "regular", 7, Some(30), "75"),
+            slab("b.r", "regular", 31, None, "8.25"),
+        ];
+        let w = big_jumps(&base, &now);
+        assert_eq!(w.len(), 1);
+        assert!(w[0].contains("7.5% becomes 75%"), "{w:?}");
     }
 
     #[test]

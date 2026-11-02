@@ -28,6 +28,7 @@ const content = () => import('./features/content');
 const rates = () => import('./features/rates');
 const approvals = () => import('./features/approvals');
 const publish = () => import('./features/publish');
+const websiteText = () => import('./features/website-text');
 const media = () => import('./features/media');
 const users = () => import('./features/users');
 const audit = () => import('./features/audit');
@@ -74,6 +75,7 @@ const routeTree = rootRoute.addChildren([
     r('/products/rates/$id', rates, 'RateSetPage'),
     r('/products/deposits', content, 'DepositsPage'),
     r('/products/loans', content, 'LoansPage'),
+    r('/website/text', websiteText, 'WebsiteTextPage'),
     r('/website/homepage', content, 'HomepagePage'),
     r('/website/pages', content, 'PagesHubPage'),
     r('/website/posts', content, 'PostsPage'),

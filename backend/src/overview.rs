@@ -19,6 +19,7 @@ use uuid::Uuid;
 use crate::{
     audit::{self, Outcome},
     auth::CurrentUser,
+    content::collections,
     error::{AppError, AppResult},
     rates,
     state::{AppState, PageQuery},
@@ -405,7 +406,11 @@ async fn search(
         .bind(&like)
         .fetch_all(&state.db)
         .await?;
-        results.extend(rows.into_iter().map(|(id, c, slug, t)| json!({ "type": c, "title": t.unwrap_or(slug), "link": format!("/content/{c}/{id}") })));
+        // A one-off page (homepage, loans page) has no title of its own: show its name in the admin.
+        results.extend(rows.into_iter().map(|(id, c, slug, t)| {
+            let page = collections::get(&c).filter(|d| d.singleton).map(|d| d.label.to_owned());
+            json!({ "type": c, "title": page.or(t).unwrap_or(slug), "link": format!("/content/{c}/{id}") })
+        }));
     }
     if user.can("users.manage") {
         let rows: Vec<(Uuid, String, String)> = sqlx::query_as(

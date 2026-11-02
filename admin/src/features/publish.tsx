@@ -80,13 +80,13 @@ export function PublishPage() {
   return (
     <>
       <PageHeader
-        title="Publish center"
-        description="Saving never changes the website. A release freezes approved content, builds the site, checks it and then switches visitors to it."
+        title="Publish website"
+        description="Saved changes stay private until you publish them here. The website is rebuilt and checked, then visitors are switched to the new version."
         actions={
           <>
             {can('site.preview') && (
               <Button icon={<Eye className="size-4" />} loading={preview.isPending} onClick={() => preview.mutate()}>
-                Preview all drafts
+                Preview changes
               </Button>
             )}
             {can('site.publish') && (
@@ -100,7 +100,7 @@ export function PublishPage() {
       {p && (
         <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
           <Card>
-            <p className="text-[13px] text-text-secondary">Live release</p>
+            <p className="text-[13px] text-text-secondary">Website version</p>
             <p className="mt-1 text-lg font-semibold">{p.live ? `#${p.live.number}` : 'Nothing published yet'}</p>
             {p.live && <p className="text-[12px] text-text-secondary">since {fmtDateTime(p.live.activated_at)}</p>}
           </Card>
@@ -112,7 +112,7 @@ export function PublishPage() {
           <Card>
             <p className="text-[13px] text-text-secondary">Rates in force today</p>
             <p className="mt-1 text-lg font-semibold">{p.rates.label ?? <span className="text-danger">None approved</span>}</p>
-            {p.rates.changed && <Badge tone="brand">Will be included in the next release</Badge>}
+            {p.rates.changed && <Badge tone="brand">Goes live with the next publish</Badge>}
           </Card>
         </div>
       )}
@@ -193,12 +193,12 @@ export function PublishPage() {
         ) : releases.isPending ? (
           <TableSkeleton />
         ) : releases.data.length === 0 ? (
-          <EmptyState icon={<History className="size-5" />} title={tab === 'previews' ? 'No previews yet' : 'No releases yet'} />
+          <EmptyState icon={<History className="size-5" />} title={tab === 'previews' ? 'No previews yet' : 'Nothing published yet'} />
         ) : (
           <Table label="Releases">
             <thead>
               <tr>
-                <Th>Release</Th>
+                <Th>Version</Th>
                 <Th>Progress</Th>
                 <Th className="hidden md:table-cell">Requested</Th>
                 <Th />
@@ -289,7 +289,7 @@ export function ReleasePage() {
   return (
     <>
       <Link to="/publish" className="mb-3 inline-flex items-center gap-1 text-[13px] text-text-secondary hover:text-text-primary">
-        <ArrowLeft className="size-4" /> Publish center
+        <ArrowLeft className="size-4" /> Publish website
       </Link>
       <PageHeader
         title={`${r.kind === 'preview' ? 'Preview' : 'Release'} #${r.number}`}

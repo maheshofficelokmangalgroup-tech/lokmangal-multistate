@@ -71,6 +71,22 @@ pub async fn notifications(conn: &mut PgConnection) -> AppResult<Notifications> 
 pub async fn privacy(conn: &mut PgConnection) -> AppResult<Privacy> {
     get_setting(conn, "privacy").await
 }
+
+/// Staff may use the admin from anywhere when the list is empty, otherwise only from these networks.
+pub fn network_allowed(networks: &[String], ip: Option<std::net::IpAddr>) -> bool {
+    networks.is_empty()
+        || ip.is_some_and(|ip| {
+            networks.iter().any(|n| {
+                n.parse::<sqlx::types::ipnetwork::IpNetwork>()
+                    .is_ok_and(|net| net.contains(ip))
+            })
+        })
+}
+
+pub async fn office_networks(conn: &mut PgConnection) -> AppResult<Vec<String>> {
+    Ok(get_setting::<Access>(conn, "access").await?.office_networks)
+}
+
 pub async fn publishing(conn: &mut PgConnection) -> AppResult<Publishing> {
     get_setting(conn, "publishing").await
 }
@@ -176,6 +192,15 @@ async fn update(
                     );
                 }
             }
+            if errors.is_empty() && !network_allowed(&a.office_networks, user.ip) {
+                errors.add(
+                    "officeNetworks",
+                    format!(
+                        "Your own address ({}) is not in this list, so saving it would lock you out.",
+                        user.ip.map(|ip| ip.to_string()).unwrap_or_else(|| "unknown".into())
+                    ),
+                );
+            }
             serde_json::to_value(a)?
         }
         _ => return Err(AppError::not_found()),
@@ -219,6 +244,12 @@ async fn test_email(
     user.require("settings.manage")?;
     if !valid_email(&b.to) {
         return Err(AppError::field("to", "Enter a valid email address."));
+    }
+    if !state.mailer.is_configured() {
+        return Err(AppError::conflict(
+            "smtp_not_configured",
+            "Email is not set up on this server yet, so no test email can be sent.",
+        ));
     }
     let mut tx = state.db.begin().await?;
     let id = jobs::enqueue_email(
@@ -274,4 +305,19 @@ async fn status(State(state): State<AppState>, user: CurrentUser) -> AppResult<J
         "backup": backup,
         "version": { "commit": state.config.source_commit, "builder_image": state.config.builder_image },
     }})))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::network_allowed;
+
+    #[test]
+    fn office_networks_limit_where_staff_sign_in() {
+        let office = vec!["203.0.113.0/24".to_string(), "2001:db8::/32".to_string()];
+        assert!(network_allowed(&[], None));
+        assert!(network_allowed(&office, "203.0.113.9".parse().ok()));
+        assert!(network_allowed(&office, "2001:db8::1".parse().ok()));
+        assert!(!network_allowed(&office, "198.51.100.7".parse().ok()));
+        assert!(!network_allowed(&office, None));
+    }
 }

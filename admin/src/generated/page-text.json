@@ -1,0 +1,4874 @@
+{
+ "about-us": {
+  "metaTitle": {
+   "en": "About Us",
+   "mr": "आमच्याबद्दल"
+  },
+  "metaDescription": {
+   "en": "Lokmangal Multistate Co-operative Society Ltd. was founded in 2004 to empower farmers, small entrepreneurs and weaker sections of society. Learn about our journey, vision and values.",
+   "mr": "लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटी लि.ची स्थापना 2004 मध्ये शेतकरी, लघुउद्योजक आणि समाजातील दुर्बल घटकांना सक्षम करण्यासाठी झाली. आमची वाटचाल, दृष्टी आणि मूल्ये जाणून घ्या."
+  },
+  "eyebrow": {
+   "en": "About Lokmangal",
+   "mr": "लोकमंगलबद्दल"
+  },
+  "title": {
+   "en": "Growing with our members",
+   "mr": "सभासदांसोबत वाटचाल,"
+  },
+  "accent": {
+   "en": "since 2004",
+   "mr": "2004 पासून"
+  },
+  "lead": {
+   "en": "Lokmangal Multistate Co-operative Society works with farmers, small entrepreneurs, young people and families who need fair access to savings and credit.",
+   "mr": "लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटी शेतकरी, लघुउद्योजक, तरुण आणि कुटुंबांसोबत काम करते, ज्यांना बचत आणि कर्जाची योग्य सुविधा हवी आहे."
+  },
+  "findBranch": {
+   "en": "Find a branch",
+   "mr": "शाखा शोधा"
+  },
+  "chairmanMsg": {
+   "en": "Chairman’s message",
+   "mr": "अध्यक्षांचा संदेश"
+  },
+  "factSince": {
+   "en": "Since",
+   "mr": "स्थापना"
+  },
+  "factReg": {
+   "en": "Registration No.",
+   "mr": "नोंदणी क्र."
+  },
+  "factBranches": {
+   "en": "Branches",
+   "mr": "शाखा"
+  },
+  "factArea": {
+   "en": "Serving",
+   "mr": "कार्यक्षेत्र"
+  },
+  "factAreaValue": {
+   "en": "Maharashtra & Karnataka",
+   "mr": "महाराष्ट्र व कर्नाटक"
+  },
+  "whoEyebrow": {
+   "en": "Who we are",
+   "mr": "आम्ही कोण आहोत"
+  },
+  "whoTitle": {
+   "en": "A multi-state co-operative",
+   "mr": "सभासदांच्या मालकीची"
+  },
+  "whoAccent": {
+   "en": "owned by its members",
+   "mr": "बहुराज्य सहकारी संस्था"
+  },
+  "whoP1": {
+   "en": "The idea of empowering people came from our mentor, {mentor}, and a group of like-minded people who joined him. Today Lokmangal Multistate serves members through branches and ATMs in the towns and villages of Maharashtra and Karnataka.",
+   "mr": "लोकांना सक्षम करण्याची कल्पना आमचे मार्गदर्शक {mentor} आणि त्यांच्यासोबत आलेल्या समविचारी लोकांची होती. आज लोकमंगल मल्टीस्टेट महाराष्ट्र आणि कर्नाटकातील शहरे व खेड्यांमधील शाखा आणि एटीएमद्वारे सभासदांची सेवा करते."
+  },
+  "whoP2": {
+   "en": "Our motto is {motto}. We work to bring people from every walk of life into the financial mainstream, with honest dealing, clear and efficient service, trained staff and the leadership of our chairman, {chairman}.",
+   "mr": "{motto} हे आमचे ब्रीद आहे. प्रामाणिक व्यवहार, स्पष्ट आणि कार्यक्षम सेवा, प्रशिक्षित कर्मचारी आणि आमचे अध्यक्ष {chairman} यांच्या नेतृत्वाखाली समाजाच्या प्रत्येक घटकाला आर्थिक प्रवाहात आणण्याचे काम आम्ही करतो."
+  },
+  "motto": {
+   "en": "success through total dedication",
+   "mr": "‘अखंड गतीतून सार्थकता’"
+  },
+  "contact": {
+   "en": "Get in touch",
+   "mr": "संपर्क करा"
+  },
+  "board": {
+   "en": "Board of Directors",
+   "mr": "संचालक मंडळ"
+  },
+  "videoAlt": {
+   "en": "Watch: Lokmangal Multistate introduction video",
+   "mr": "पहा: लोकमंगल मल्टीस्टेट परिचय व्हिडिओ"
+  },
+  "videoPlay": {
+   "en": "Play video",
+   "mr": "व्हिडिओ सुरू करा"
+  },
+  "videoCaption": {
+   "en": "Watch our story",
+   "mr": "आमची कहाणी पहा"
+  },
+  "numbersEyebrow": {
+   "en": "Lokmangal in numbers",
+   "mr": "आकड्यांमध्ये लोकमंगल"
+  },
+  "vision": {
+   "en": "Our vision",
+   "mr": "आमची दृष्टी"
+  },
+  "visionText": {
+   "en": "To be a forward-looking, technology-driven and customer-centric co-operative society that serves every section of society, creating value for members and employees through co-operative wealth, as we move towards a pan-India presence.",
+   "mr": "समाजाच्या प्रत्येक घटकाची सेवा करणारी, भविष्याचा वेध घेणारी, तंत्रज्ञानाधारित आणि ग्राहककेंद्री सहकारी संस्था बनणे; सहकारी संपत्तीतून सभासद आणि कर्मचाऱ्यांसाठी मूल्य निर्माण करत देशभर विस्तार करणे."
+  },
+  "promise": {
+   "en": "Our promise",
+   "mr": "आमचे वचन"
+  },
+  "promiseText": {
+   "en": "We expect more of ourselves than anyone else expects of us. Every day we try to give our members a pleasant, rewarding experience, guided by the principles below.",
+   "mr": "इतर आमच्याकडून जेवढी अपेक्षा करतात, त्याहून अधिक अपेक्षा आम्ही स्वतःकडून ठेवतो. खालील तत्त्वांनुसार आमच्या सभासदांना दररोज सुखद आणि फायदेशीर अनुभव देण्याचा आमचा प्रयत्न असतो."
+  },
+  "valuesEyebrow": {
+   "en": "What we stand for",
+   "mr": "आमची मूल्ये"
+  },
+  "valuesTitle": {
+   "en": "Five principles behind",
+   "mr": "प्रत्येक शाखेमागील"
+  },
+  "valuesAccent": {
+   "en": "every branch",
+   "mr": "पाच तत्त्वे"
+  },
+  "v1": {
+   "en": "Trust and transparency",
+   "mr": "विश्वास आणि पारदर्शकता"
+  },
+  "v1t": {
+   "en": "Every decision is taken collectively by an elected board, and our books are audited every year.",
+   "mr": "प्रत्येक निर्णय निवडून आलेले संचालक मंडळ एकत्रितपणे घेते आणि आमच्या हिशेबांचे दरवर्षी लेखापरीक्षण होते."
+  },
+  "v2": {
+   "en": "Trained staff",
+   "mr": "प्रशिक्षित कर्मचारी"
+  },
+  "v2t": {
+   "en": "Branch teams who know their communities and guide members at every step.",
+   "mr": "आपल्या परिसराची जाण असलेल्या आणि प्रत्येक टप्प्यावर सभासदांना मार्गदर्शन करणाऱ्या शाखा टीम."
+  },
+  "v3": {
+   "en": "Trusted network",
+   "mr": "विश्वासार्ह जाळे"
+  },
+  "v3t": {
+   "en": "Branches and ATMs in the towns and villages of Maharashtra and Karnataka.",
+   "mr": "महाराष्ट्र आणि कर्नाटकातील शहरे व खेड्यांमध्ये शाखा आणि एटीएम."
+  },
+  "v4": {
+   "en": "Digital banking",
+   "mr": "डिजिटल बँकिंग"
+  },
+  "v4t": {
+   "en": "Net banking, mobile banking, UPI, IMPS, NEFT/RTGS and SMS banking.",
+   "mr": "नेट बँकिंग, मोबाइल बँकिंग, यूपीआय, आयएमपीएस, एनईएफटी/आरटीजीएस आणि एसएमएस बँकिंग."
+  },
+  "v5": {
+   "en": "Financial inclusion",
+   "mr": "आर्थिक समावेशन"
+  },
+  "v5t": {
+   "en": "Bringing people from all walks of life into the formal financial system.",
+   "mr": "समाजाच्या सर्व स्तरांतील लोकांना औपचारिक आर्थिक व्यवस्थेत आणणे."
+  },
+  "journeyEyebrow": {
+   "en": "Our journey so far",
+   "mr": "आतापर्यंतची वाटचाल"
+  },
+  "journeyTitle": {
+   "en": "From Solapur to",
+   "mr": "सोलापूरपासून"
+  },
+  "journeyAccent": {
+   "en": "two states",
+   "mr": "दोन राज्यांपर्यंत"
+  },
+  "journeyLead": {
+   "en": "Lokmangal runs on co-operative principles in every part of its business.",
+   "mr": "लोकमंगलच्या व्यवसायाचा प्रत्येक भाग सहकाराच्या तत्त्वांवर चालतो."
+  },
+  "j1y": {
+   "en": "2004",
+   "mr": "2004"
+  },
+  "j1": {
+   "en": "A society is born",
+   "mr": "संस्थेची स्थापना"
+  },
+  "j1t": {
+   "en": "Lokmangal Multistate Co-operative Society Ltd. was registered under the {act} (Registration No. {reg}), inspired by the vision of our mentor {mentor}.",
+   "mr": "आमचे मार्गदर्शक {mentor} यांच्या दूरदृष्टीतून प्रेरणा घेऊन लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटी लि.ची {act} अंतर्गत नोंदणी झाली (नोंदणी क्र. {reg})."
+  },
+  "j2y": {
+   "en": "2008",
+   "mr": "2008"
+  },
+  "j2": {
+   "en": "Full operations begin",
+   "mr": "पूर्ण कार्यास सुरुवात"
+  },
+  "j2t": {
+   "en": "Operations began in Solapur district, where most of our first members came from farming families. Our first aim was simple: give financial support to people who wanted to start or grow something of their own.",
+   "mr": "सोलापूर जिल्ह्यात कामकाज सुरू झाले, जिथे आमचे बहुतेक पहिले सभासद शेतकरी कुटुंबांतील होते. स्वतःचे काही सुरू करू किंवा वाढवू इच्छिणाऱ्या लोकांना आर्थिक आधार देणे, हे आमचे पहिले उद्दिष्ट होते."
+  },
+  "j3y": {
+   "en": "Growth",
+   "mr": "वाढ"
+  },
+  "j3": {
+   "en": "Beyond financial services",
+   "mr": "आर्थिक सेवांच्या पलीकडे"
+  },
+  "j3t": {
+   "en": "Under the leadership of {chairman}, Lokmangal added dairy, with chilling plants at Mangalvedha, Karmala and Sangola, and a fertiliser business that makes biotic and chemical fertilisers and distributes IFFCO products.",
+   "mr": "{chairman} यांच्या नेतृत्वाखाली लोकमंगलने मंगळवेढा, करमाळा आणि सांगोला येथील दूध शीतकरण केंद्रांसह दुग्धव्यवसाय, तसेच जैविक व रासायनिक खते तयार करणारा आणि इफ्को उत्पादनांचे वितरण करणारा खत व्यवसाय सुरू केला."
+  },
+  "j4y": {
+   "en": "Today",
+   "mr": "आज"
+  },
+  "j4": {
+   "en": "Touching lakhs of lives",
+   "mr": "लाखो जीवनांना स्पर्श"
+  },
+  "j4t": {
+   "en": "With {branches} branches in Maharashtra and Karnataka, a growing ATM network and digital channels, Lokmangal serves lakhs of members and plans to reach many more.",
+   "mr": "महाराष्ट्र आणि कर्नाटकातील {branches} शाखा, वाढते एटीएम जाळे आणि डिजिटल सेवांमधून लोकमंगल लाखो सभासदांची सेवा करते आणि आणखी अनेकांपर्यंत पोहोचण्याची योजना आहे."
+  },
+  "welcome": {
+   "en": "You are welcome to join the {family}. Together we can build stronger communities on co-operative principles.",
+   "mr": "{family} सहभागी होण्यासाठी आपले स्वागत आहे. सहकाराच्या तत्त्वांवर आपण मिळून अधिक सक्षम समाज घडवू शकतो."
+  },
+  "family": {
+   "en": "Lokmangal family",
+   "mr": "लोकमंगल परिवारात"
+  },
+  "momentsEyebrow": {
+   "en": "Moments",
+   "mr": "क्षणचित्रे"
+  },
+  "momentsTitle": {
+   "en": "Life at",
+   "mr": "लोकमंगलमधील"
+  },
+  "momentsAccent": {
+   "en": "Lokmangal",
+   "mr": "काही क्षण"
+  },
+  "momentsLink": {
+   "en": "Open the photo gallery",
+   "mr": "छायाचित्र दालन पहा"
+  }
+ },
+ "annual-reports": {
+  "metaTitle": {
+   "en": "Annual Reports",
+   "mr": "वार्षिक अहवाल"
+  },
+  "metaDescription": {
+   "en": "Annual reports of Lokmangal Multistate Co-operative Society Ltd.: performance, audited accounts and disclosures.",
+   "mr": "लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटी लि.चे वार्षिक अहवाल: कामगिरी, लेखापरीक्षित हिशेब आणि माहिती."
+  },
+  "eyebrow": {
+   "en": "Annual reports",
+   "mr": "वार्षिक अहवाल"
+  },
+  "title": {
+   "en": "Our accounts,",
+   "mr": "आमचे हिशेब,"
+  },
+  "accent": {
+   "en": "open to members",
+   "mr": "सभासदांसाठी खुले"
+  },
+  "lead": {
+   "en": "Our books are audited every year and submitted to the Government of India. Members can download or ask for a copy of any annual report on this page.",
+   "mr": "आमच्या हिशेबांचे दरवर्षी लेखापरीक्षण होते आणि ते भारत सरकारकडे सादर केले जातात. सभासद या पानावरील कोणताही वार्षिक अहवाल डाउनलोड करू शकतात किंवा त्याची प्रत मागवू शकतात."
+  },
+  "factAudit": {
+   "en": "Audited",
+   "mr": "लेखापरीक्षण"
+  },
+  "factAuditValue": {
+   "en": "Every year",
+   "mr": "दरवर्षी"
+  },
+  "factSubmitted": {
+   "en": "Submitted to",
+   "mr": "सादर"
+  },
+  "factSubmittedValue": {
+   "en": "Govt. of India",
+   "mr": "भारत सरकारकडे"
+  },
+  "factReports": {
+   "en": "Reports here",
+   "mr": "येथे उपलब्ध अहवाल"
+  },
+  "shelfEyebrow": {
+   "en": "Reports by year",
+   "mr": "वर्षनिहाय अहवाल"
+  },
+  "shelfTitle": {
+   "en": "Read our",
+   "mr": "आमचे"
+  },
+  "shelfAccent": {
+   "en": "annual reports",
+   "mr": "वार्षिक अहवाल"
+  },
+  "fy": {
+   "en": "Financial year",
+   "mr": "आर्थिक वर्ष"
+  },
+  "edition": {
+   "en": "{n} annual report",
+   "mr": "{n} वा वार्षिक अहवाल"
+  },
+  "report": {
+   "en": "Annual Report {year}",
+   "mr": "वार्षिक अहवाल {year}"
+  },
+  "latest": {
+   "en": "Latest",
+   "mr": "नवीनतम"
+  },
+  "download": {
+   "en": "Download PDF",
+   "mr": "PDF डाउनलोड करा"
+  },
+  "request": {
+   "en": "Request a copy",
+   "mr": "प्रत मागवा"
+  },
+  "notOnline": {
+   "en": "Not online yet. Ask us for a copy by email.",
+   "mr": "अजून ऑनलाइन नाही. ईमेलद्वारे प्रत मागवा."
+  },
+  "waysEyebrow": {
+   "en": "Getting a copy",
+   "mr": "प्रत कशी मिळवावी"
+  },
+  "waysTitle": {
+   "en": "Three ways to get",
+   "mr": "प्रत मिळवण्याचे"
+  },
+  "waysAccent": {
+   "en": "a copy",
+   "mr": "तीन मार्ग"
+  },
+  "w1": {
+   "en": "Download",
+   "mr": "डाउनलोड करा"
+  },
+  "w1t": {
+   "en": "Where a report is online, download the PDF from this page.",
+   "mr": "अहवाल ऑनलाइन असल्यास या पानावरून PDF डाउनलोड करा."
+  },
+  "w2": {
+   "en": "Email us",
+   "mr": "ईमेल करा"
+  },
+  "w2t": {
+   "en": "Write to us with the year you need.",
+   "mr": "हवे असलेले वर्ष लिहून आम्हाला ईमेल करा."
+  },
+  "w3": {
+   "en": "Visit a branch",
+   "mr": "शाखेत भेट द्या"
+  },
+  "w3t": {
+   "en": "Members can collect a printed copy at any branch or at the head office in Shelgi, Solapur.",
+   "mr": "सभासदांना कोणत्याही शाखेत किंवा शेळगी, सोलापूर येथील मुख्य कार्यालयात छापील प्रत मिळू शकते."
+  },
+  "w3link": {
+   "en": "Find a branch",
+   "mr": "शाखा शोधा"
+  }
+ },
+ "apply-desk": {
+  "apply": {
+   "en": "Fill in the form",
+   "mr": "फॉर्म भरा"
+  },
+  "call": {
+   "en": "Call {phone}",
+   "mr": "{phone} वर कॉल करा"
+  },
+  "hint": {
+   "en": "Tick what you already have.",
+   "mr": "तुमच्याकडे असलेल्यांवर खूण करा."
+  },
+  "count": {
+   "en": "{n} of {total} ready",
+   "mr": "{total} पैकी {n} तयार"
+  },
+  "done": {
+   "en": "All set for your branch visit",
+   "mr": "शाखेत जाण्याची पूर्ण तयारी झाली"
+  },
+  "talk": {
+   "en": "Prefer to talk?",
+   "mr": "फोनवर बोलायचे आहे?"
+  },
+  "branches": {
+   "en": "Find your nearest branch",
+   "mr": "जवळची शाखा शोधा"
+  }
+ },
+ "blog": {
+  "metaTitle": {
+   "en": "Blog & News",
+   "mr": "बातम्या"
+  },
+  "metaDescription": {
+   "en": "Branch news, felicitations, member meets and social work from the Lokmangal Multistate family.",
+   "mr": "लोकमंगल मल्टीस्टेट परिवारातील शाखांच्या बातम्या, सत्कार, ग्राहक मेळावे आणि सामाजिक उपक्रम."
+  },
+  "crumb": {
+   "en": "Blog",
+   "mr": "बातम्या"
+  },
+  "masthead": {
+   "en": "Lokmangal News",
+   "mr": "लोकमंगल बातम्या"
+  },
+  "title": {
+   "en": "Stories from the",
+   "mr": "लोकमंगल परिवारातील"
+  },
+  "accent": {
+   "en": "Lokmangal family",
+   "mr": "बातम्या"
+  },
+  "lead": {
+   "en": "Branch news, felicitations, member meets and social work from across our network.",
+   "mr": "आमच्या शाखांमधील बातम्या, सत्कार, ग्राहक मेळावे आणि सामाजिक उपक्रम."
+  },
+  "stories": {
+   "en": "{n} stories",
+   "mr": "{n} बातम्या"
+  },
+  "span": {
+   "en": "{from} to {to}",
+   "mr": "{from} ते {to}"
+  },
+  "latest": {
+   "en": "Latest story",
+   "mr": "ताजी बातमी"
+  },
+  "read": {
+   "en": "Read story",
+   "mr": "संपूर्ण बातमी वाचा"
+  },
+  "alsoTitle": {
+   "en": "Also in the news",
+   "mr": "इतर बातम्या"
+  },
+  "archiveEyebrow": {
+   "en": "Archive",
+   "mr": "संग्रह"
+  },
+  "archiveTitle": {
+   "en": "Every story,",
+   "mr": "सर्व बातम्या,"
+  },
+  "archiveAccent": {
+   "en": "by year",
+   "mr": "वर्षानुसार"
+  },
+  "allYears": {
+   "en": "All years",
+   "mr": "सर्व वर्षे"
+  },
+  "searchLabel": {
+   "en": "Search stories",
+   "mr": "बातम्या शोधा"
+  },
+  "searchPh": {
+   "en": "Search a branch or a word",
+   "mr": "शाखा किंवा शब्द शोधा"
+  },
+  "showing": {
+   "en": "Showing {n} of {total}",
+   "mr": "{total} पैकी {n}"
+  },
+  "none": {
+   "en": "No story matches your search.",
+   "mr": "तुमच्या शोधाशी जुळणारी बातमी नाही."
+  },
+  "clear": {
+   "en": "Clear",
+   "mr": "पुसा"
+  },
+  "more": {
+   "en": "Show more stories",
+   "mr": "आणखी बातम्या पाहा"
+  }
+ },
+ "blog-post": {
+  "blog": {
+   "en": "Blog",
+   "mr": "बातम्या"
+  },
+  "masthead": {
+   "en": "Lokmangal News",
+   "mr": "लोकमंगल बातम्या"
+  },
+  "branchNews": {
+   "en": "Branch news",
+   "mr": "शाखा बातमी"
+  },
+  "share": {
+   "en": "Share this story",
+   "mr": "ही बातमी शेअर करा"
+  },
+  "whatsapp": {
+   "en": "WhatsApp",
+   "mr": "व्हॉट्सॲप"
+  },
+  "facebook": {
+   "en": "Facebook",
+   "mr": "फेसबुक"
+  },
+  "copyLink": {
+   "en": "Copy link",
+   "mr": "लिंक कॉपी करा"
+  },
+  "copied": {
+   "en": "Link copied",
+   "mr": "लिंक कॉपी झाली"
+  },
+  "older": {
+   "en": "Older story",
+   "mr": "आधीची बातमी"
+  },
+  "newer": {
+   "en": "Newer story",
+   "mr": "नंतरची बातमी"
+  },
+  "moreEyebrow": {
+   "en": "Keep reading",
+   "mr": "आणखी वाचा"
+  },
+  "moreTitle": {
+   "en": "More",
+   "mr": "इतर"
+  },
+  "moreAccent": {
+   "en": "stories",
+   "mr": "बातम्या"
+  },
+  "all": {
+   "en": "All stories",
+   "mr": "सर्व बातम्या"
+  },
+  "zoom": {
+   "en": "View photo",
+   "mr": "फोटो पाहा"
+  }
+ },
+ "board-of-directors": {
+  "metaTitle": {
+   "en": "Board of Directors",
+   "mr": "संचालक मंडळ"
+  },
+  "metaDescription": {
+   "en": "Meet the Board of Directors of Lokmangal Multistate Co-operative Society Ltd., led by Chairman {name}.",
+   "mr": "अध्यक्ष {name} यांच्या नेतृत्वाखालील लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटी लि.च्या संचालक मंडळाची ओळख."
+  },
+  "eyebrow": {
+   "en": "Board of Directors",
+   "mr": "संचालक मंडळ"
+  },
+  "title": {
+   "en": "The people who",
+   "mr": "लोकमंगलला दिशा देणारे"
+  },
+  "accent": {
+   "en": "guide Lokmangal",
+   "mr": "आमचे नेतृत्व"
+  },
+  "lead": {
+   "en": "Elected by our members, the board sets the direction of the society and reports to the members at every Annual General Meeting.",
+   "mr": "सभासदांनी निवडलेले संचालक मंडळ संस्थेची दिशा ठरवते आणि प्रत्येक वार्षिक सर्वसाधारण सभेत सभासदांना उत्तरदायी असते."
+  },
+  "factMembers": {
+   "en": "Board members",
+   "mr": "संचालक"
+  },
+  "factElected": {
+   "en": "Elected by",
+   "mr": "निवड"
+  },
+  "factElectedValue": {
+   "en": "Members at the AGM",
+   "mr": "सभासदांकडून, वार्षिक सभेत"
+  },
+  "factElection": {
+   "en": "Last election",
+   "mr": "शेवटची निवडणूक"
+  },
+  "chairText": {
+   "en": "Under his leadership Lokmangal has grown beyond financial services into dairy and fertilisers, and across two states.",
+   "mr": "त्यांच्या नेतृत्वाखाली लोकमंगलने आर्थिक सेवांच्या पलीकडे दुग्धव्यवसाय आणि खत व्यवसायात पाऊल टाकले आणि दोन राज्यांत विस्तार केला."
+  },
+  "chairLink": {
+   "en": "Read the chairman’s message",
+   "mr": "अध्यक्षांचा संदेश वाचा"
+  },
+  "dirEyebrow": {
+   "en": "Directors",
+   "mr": "संचालक"
+  },
+  "dirTitle": {
+   "en": "Meet the",
+   "mr": "आमच्या"
+  },
+  "dirAccent": {
+   "en": "board",
+   "mr": "संचालक मंडळाची ओळख"
+  },
+  "howEyebrow": {
+   "en": "How the board works",
+   "mr": "संचालक मंडळ कसे काम करते"
+  },
+  "howTitle": {
+   "en": "A board that answers to",
+   "mr": "सभासदांना"
+  },
+  "howAccent": {
+   "en": "its members",
+   "mr": "उत्तरदायी संचालक मंडळ"
+  },
+  "s1": {
+   "en": "Elected by members",
+   "mr": "सभासदांकडून निवड"
+  },
+  "s1t": {
+   "en": "Members elect the Board of Directors at the Annual General Meeting.",
+   "mr": "वार्षिक सर्वसाधारण सभेत सभासद संचालक मंडळाची निवड करतात."
+  },
+  "s2": {
+   "en": "Decides together",
+   "mr": "एकत्रित निर्णय"
+  },
+  "s2t": {
+   "en": "Decisions are taken collectively and transparently, not by any one person.",
+   "mr": "निर्णय कोणा एका व्यक्तीकडून नव्हे, तर एकत्रितपणे आणि पारदर्शकपणे घेतले जातात."
+  },
+  "s3": {
+   "en": "Checked every year",
+   "mr": "दरवर्षी तपासणी"
+  },
+  "s3t": {
+   "en": "The society’s accounts are audited every year and submitted to the Government of India.",
+   "mr": "संस्थेच्या हिशेबांचे दरवर्षी लेखापरीक्षण होते आणि ते भारत सरकारकडे सादर केले जातात."
+  },
+  "notices": {
+   "en": "See the Election 2025 notices",
+   "mr": "निवडणूक 2025 च्या सूचना पहा"
+  }
+ },
+ "branches": {
+  "metaTitle": {
+   "en": "Branches",
+   "mr": "शाखा"
+  },
+  "metaDescription": {
+   "en": "Find a Lokmangal Multistate branch near you: {n} branches across Pune, Solapur, Dharashiv, Latur, Kolhapur, Parbhani, Belgaum and more in Maharashtra and Karnataka.",
+   "mr": "तुमच्या जवळची लोकमंगल मल्टीस्टेट शाखा शोधा: पुणे, सोलापूर, धाराशिव, लातूर, कोल्हापूर, परभणी, बेळगाव आणि इतर ठिकाणी, महाराष्ट्र व कर्नाटकात {n} शाखा."
+  },
+  "eyebrow": {
+   "en": "Our network",
+   "mr": "आमचे जाळे"
+  },
+  "title": {
+   "en": "Find a branch",
+   "mr": "तुमच्या जवळची"
+  },
+  "accent": {
+   "en": "near you",
+   "mr": "शाखा शोधा"
+  },
+  "lead": {
+   "en": "{n} branches in the towns and villages of Maharashtra and Karnataka. Look up yours by town, address or division.",
+   "mr": "महाराष्ट्र आणि कर्नाटकातील गावे व शहरांत {n} शाखा. गाव, पत्ता किंवा विभागानुसार तुमची शाखा शोधा."
+  },
+  "factBranches": {
+   "en": "branches",
+   "mr": "शाखा"
+  },
+  "factDivisions": {
+   "en": "divisions",
+   "mr": "विभाग"
+  },
+  "factStates": {
+   "en": "states",
+   "mr": "राज्ये"
+  },
+  "findCta": {
+   "en": "Find your branch",
+   "mr": "तुमची शाखा शोधा"
+  },
+  "hoCta": {
+   "en": "Head office",
+   "mr": "मुख्य कार्यालय"
+  },
+  "hoEyebrow": {
+   "en": "Head office",
+   "mr": "मुख्य कार्यालय"
+  },
+  "hoPlace": {
+   "en": "Shelgi, Solapur",
+   "mr": "शेळगी, सोलापूर"
+  },
+  "address": {
+   "en": "Address",
+   "mr": "पत्ता"
+  },
+  "phone": {
+   "en": "Phone",
+   "mr": "फोन"
+  },
+  "email": {
+   "en": "Email",
+   "mr": "ईमेल"
+  },
+  "ifsc": {
+   "en": "IFSC",
+   "mr": "आयएफएससी"
+  },
+  "directions": {
+   "en": "Get directions",
+   "mr": "नकाशावर मार्ग पाहा"
+  },
+  "call": {
+   "en": "Call",
+   "mr": "कॉल करा"
+  },
+  "mapTitle": {
+   "en": "Lokmangal Multistate head office on Google Maps",
+   "mr": "गुगल नकाशावर लोकमंगल मल्टीस्टेट मुख्य कार्यालय"
+  },
+  "netEyebrow": {
+   "en": "Branch network",
+   "mr": "शाखांचे जाळे"
+  },
+  "netTitle": {
+   "en": "{n} branches,",
+   "mr": "{n} शाखा,"
+  },
+  "netAccent": {
+   "en": "{d} divisions",
+   "mr": "{d} विभाग"
+  },
+  "searchLabel": {
+   "en": "Search branches",
+   "mr": "शाखा शोधा"
+  },
+  "searchPh": {
+   "en": "Search your town",
+   "mr": "तुमचे गाव शोधा"
+  },
+  "pickTitle": {
+   "en": "Choose a division",
+   "mr": "विभाग निवडा"
+  },
+  "close": {
+   "en": "Close",
+   "mr": "बंद करा"
+  },
+  "allShort": {
+   "en": "All",
+   "mr": "सर्व"
+  },
+  "matching": {
+   "en": "branches",
+   "mr": "शाखा"
+  },
+  "divisionsLabel": {
+   "en": "Divisions",
+   "mr": "विभाग"
+  },
+  "all": {
+   "en": "All divisions",
+   "mr": "सर्व विभाग"
+  },
+  "countOne": {
+   "en": "{n} branch",
+   "mr": "{n} शाखा"
+  },
+  "countMany": {
+   "en": "{n} branches",
+   "mr": "{n} शाखा"
+  },
+  "code": {
+   "en": "Branch code",
+   "mr": "शाखा कोड"
+  },
+  "dirTo": {
+   "en": "Directions to {name}",
+   "mr": "{name} शाखेचा मार्ग"
+  },
+  "route": {
+   "en": "Directions",
+   "mr": "मार्ग"
+  },
+  "noneTitle": {
+   "en": "No branch matches your search.",
+   "mr": "तुमच्या शोधाशी जुळणारी शाखा नाही."
+  },
+  "noneText": {
+   "en": "Try another town name, or call us on {phone}.",
+   "mr": "दुसऱ्या गावाचे नाव लिहून पाहा, किंवा {phone} वर कॉल करा."
+  },
+  "ctaTitle": {
+   "en": "Visit us at a branch",
+   "mr": "आमच्या शाखेला"
+  },
+  "ctaAccent": {
+   "en": "near you",
+   "mr": "भेट द्या"
+  },
+  "ctaText": {
+   "en": "Open an account, book a deposit or apply for a loan at any Lokmangal branch. Our team will be happy to help.",
+   "mr": "कोणत्याही लोकमंगल शाखेत खाते उघडा, ठेव ठेवा किंवा कर्जासाठी अर्ज करा. आमची टीम मदतीसाठी तयार आहे."
+  }
+ },
+ "calculators": {
+  "metaTitle": {
+   "en": "Calculators",
+   "mr": "कॅल्क्युलेटर"
+  },
+  "metaDescription": {
+   "en": "FD, RD, monthly income and loan EMI calculators: estimate maturity values and repayments with Lokmangal Multistate rates.",
+   "mr": "मुदत ठेव, रिकरिंग ठेव, मासिक व्याज आणि कर्ज ईएमआय कॅल्क्युलेटर: लोकमंगल मल्टीस्टेटच्या दरांनुसार मुदतपूर्ती रक्कम आणि हप्ता काढा."
+  },
+  "eyebrow": {
+   "en": "Plan with confidence",
+   "mr": "आत्मविश्वासाने नियोजन"
+  },
+  "title": {
+   "en": "Work out your",
+   "mr": "तुमची बचत आणि"
+  },
+  "accent": {
+   "en": "savings and EMI",
+   "mr": "ईएमआय काढा"
+  },
+  "lead": {
+   "en": "See what your deposit will grow to, how much it pays every month, or what a loan will cost, using our current rates.",
+   "mr": "तुमची ठेव किती वाढेल, दरमहा किती व्याज मिळेल किंवा कर्जाचा हप्ता किती येईल, ते आमच्या सध्याच्या दरांनुसार पाहा."
+  },
+  "pick": {
+   "en": "Choose a calculator",
+   "mr": "कॅल्क्युलेटर निवडा"
+  },
+  "upTo": {
+   "en": "up to",
+   "mr": "पर्यंत"
+  },
+  "from": {
+   "en": "from",
+   "mr": "पासून"
+  },
+  "pa": {
+   "en": "% p.a.",
+   "mr": "% वार्षिक"
+  },
+  "fd": {
+   "en": "Fixed deposit",
+   "mr": "मुदत ठेव"
+  },
+  "fdText": {
+   "en": "What your deposit grows to",
+   "mr": "तुमची ठेव किती वाढेल"
+  },
+  "rd": {
+   "en": "Recurring deposit",
+   "mr": "रिकरिंग ठेव"
+  },
+  "rdText": {
+   "en": "Saving a fixed amount every month",
+   "mr": "दरमहा ठरावीक रकमेची बचत"
+  },
+  "monthly": {
+   "en": "Monthly income",
+   "mr": "मासिक व्याज"
+  },
+  "monthlyText": {
+   "en": "Interest paid to you every month",
+   "mr": "दरमहा तुम्हाला मिळणारे व्याज"
+  },
+  "emi": {
+   "en": "Loan EMI",
+   "mr": "कर्ज ईएमआय"
+  },
+  "emiText": {
+   "en": "Your monthly instalment",
+   "mr": "तुमचा मासिक हप्ता"
+  },
+  "open": {
+   "en": "Open",
+   "mr": "उघडा"
+  },
+  "calcEyebrow": {
+   "en": "Calculator",
+   "mr": "कॅल्क्युलेटर"
+  },
+  "calcTitle": {
+   "en": "Move the sliders,",
+   "mr": "स्लायडर सरकवा,"
+  },
+  "calcAccent": {
+   "en": "see the result",
+   "mr": "निकाल पाहा"
+  },
+  "calcLead": {
+   "en": "Type an amount or drag the sliders. The chart shows how your money or loan changes over time.",
+   "mr": "रक्कम लिहा किंवा स्लायडर सरकवा. आलेखात तुमचे पैसे किंवा कर्ज कालानुसार कसे बदलते ते दिसते."
+  },
+  "howEyebrow": {
+   "en": "How we calculate",
+   "mr": "हिशेब कसा केला जातो"
+  },
+  "howTitle": {
+   "en": "The same method",
+   "mr": "आमच्या शाखा वापरतात"
+  },
+  "howAccent": {
+   "en": "our branches use",
+   "mr": "तीच पद्धत"
+  },
+  "h1": {
+   "en": "Fixed deposit",
+   "mr": "मुदत ठेव"
+  },
+  "h1t": {
+   "en": "Up to 12 months, simple interest. Beyond 12 months, interest is added to the deposit every six months (half-yearly compounding).",
+   "mr": "12 महिन्यांपर्यंत साधे व्याज. 12 महिन्यांपेक्षा जास्त मुदतीसाठी दर सहा महिन्यांनी व्याज ठेवेत जोडले जाते (सहामाही चक्रवाढ)."
+  },
+  "h2": {
+   "en": "Recurring deposit",
+   "mr": "रिकरिंग ठेव"
+  },
+  "h2t": {
+   "en": "Each monthly instalment earns interest, added every six months until maturity. This matches our Lakshadish maturity values.",
+   "mr": "प्रत्येक मासिक हप्त्यावर व्याज मिळते, जे मुदतपूर्तीपर्यंत दर सहा महिन्यांनी जोडले जाते. हे आमच्या लक्षदिश मुदतपूर्ती रकमांशी जुळते."
+  },
+  "h3": {
+   "en": "Monthly income",
+   "mr": "मासिक व्याज"
+  },
+  "h3t": {
+   "en": "Interest is paid to you every month, and your full deposit is returned at maturity.",
+   "mr": "व्याज दरमहा तुम्हाला दिले जाते आणि मुदतपूर्तीला तुमची संपूर्ण ठेव परत मिळते."
+  },
+  "h4": {
+   "en": "Loan EMI",
+   "mr": "कर्ज ईएमआय"
+  },
+  "h4t": {
+   "en": "Equal monthly instalments on a reducing balance: interest is charged only on the amount you still owe.",
+   "mr": "कमी होत जाणाऱ्या रकमेवर समान मासिक हप्ते: व्याज फक्त शिल्लक कर्जावरच आकारले जाते."
+  },
+  "disclaimer": {
+   "en": "All figures are indicative. Actual returns depend on the scheme, exact tenure and applicable TDS. Please confirm with your branch before investing.",
+   "mr": "सर्व आकडे अंदाजे आहेत. प्रत्यक्ष परतावा योजना, नेमकी मुदत आणि लागू टीडीएसवर अवलंबून असतो. गुंतवणूक करण्यापूर्वी तुमच्या शाखेत खात्री करा."
+  },
+  "ctaTitle": {
+   "en": "Like what you see?",
+   "mr": "पुढचे पाऊल"
+  },
+  "ctaAccent": {
+   "en": "Let’s get started",
+   "mr": "उचलूया"
+  },
+  "ctaText": {
+   "en": "Book a deposit or apply for a loan online. Our team will help you with the rest.",
+   "mr": "ऑनलाइन ठेव ठेवा किंवा कर्जासाठी अर्ज करा. पुढील सर्व मदत आमची टीम करेल."
+  }
+ },
+ "careers": {
+  "metaTitle": {
+   "en": "Careers",
+   "mr": "करिअर"
+  },
+  "metaDescription": {
+   "en": "Build your career with Lokmangal Multistate Co-operative Society: roles in business development, account management, relationship management and IT across Maharashtra and Karnataka.",
+   "mr": "लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटीत करिअर घडवा: महाराष्ट्र आणि कर्नाटकात बिझनेस डेव्हलपमेंट, अकाउंट मॅनेजमेंट, रिलेशनशिप मॅनेजमेंट आणि आयटी क्षेत्रातील संधी."
+  },
+  "eyebrow": {
+   "en": "Careers at Lokmangal",
+   "mr": "लोकमंगलमध्ये करिअर"
+  },
+  "title": {
+   "en": "Build a career",
+   "mr": "अर्थपूर्ण"
+  },
+  "accent": {
+   "en": "that matters",
+   "mr": "करिअर घडवा"
+  },
+  "lead": {
+   "en": "Looking for work that motivates you, challenges you and helps you grow? Join the team that serves farmers, families and small businesses across Maharashtra and Karnataka.",
+   "mr": "तुम्हाला प्रेरणा देणारे, आव्हान देणारे आणि पुढे नेणारे काम हवे आहे? महाराष्ट्र आणि कर्नाटकातील शेतकरी, कुटुंबे आणि लघु व्यवसायांची सेवा करणाऱ्या आमच्या टीममध्ये सामील व्हा."
+  },
+  "seeRoles": {
+   "en": "See open roles",
+   "mr": "उपलब्ध पदे पाहा"
+  },
+  "emailCv": {
+   "en": "Email your résumé",
+   "mr": "तुमचा बायोडेटा ईमेल करा"
+  },
+  "factRoles": {
+   "en": "roles open",
+   "mr": "पदे उपलब्ध"
+  },
+  "factBranches": {
+   "en": "branches",
+   "mr": "शाखा"
+  },
+  "factDivisions": {
+   "en": "divisions",
+   "mr": "विभाग"
+  },
+  "whyEyebrow": {
+   "en": "Why join us",
+   "mr": "आमच्यासोबत का?"
+  },
+  "whyTitle": {
+   "en": "More than a job,",
+   "mr": "फक्त नोकरी नाही,"
+  },
+  "whyAccent": {
+   "en": "a purpose",
+   "mr": "एक ध्येय"
+  },
+  "w1": {
+   "en": "Learn from the best",
+   "mr": "अनुभवी लोकांकडून शिका"
+  },
+  "w1t": {
+   "en": "Work alongside experienced people in the co-operative sector and learn on the job.",
+   "mr": "सहकार क्षेत्रातील अनुभवी लोकांसोबत काम करा आणि कामातूनच शिका."
+  },
+  "w2": {
+   "en": "Grow with us",
+   "mr": "आमच्यासोबत प्रगती करा"
+  },
+  "w2t": {
+   "en": "A growing network of branches means real chances to take on more responsibility.",
+   "mr": "वाढत्या शाखांच्या जाळ्यामुळे जास्त जबाबदारी घेण्याच्या खऱ्या संधी."
+  },
+  "w3": {
+   "en": "Make a difference",
+   "mr": "बदल घडवा"
+  },
+  "w3t": {
+   "en": "Your work directly supports farmers, families and small businesses.",
+   "mr": "तुमचे काम थेट शेतकरी, कुटुंबे आणि लघु व्यवसायांना आधार देते."
+  },
+  "w4": {
+   "en": "A lively team",
+   "mr": "उत्साही टीम"
+  },
+  "w4t": {
+   "en": "A warm, close-knit team that celebrates its successes together.",
+   "mr": "यश एकत्र साजरे करणारी आपुलकीची, जवळची टीम."
+  },
+  "rolesEyebrow": {
+   "en": "Roles we hire for",
+   "mr": "आम्ही भरती करतो ती पदे"
+  },
+  "rolesTitle": {
+   "en": "Find your",
+   "mr": "आमच्यासोबत"
+  },
+  "rolesAccent": {
+   "en": "place with us",
+   "mr": "तुमची जागा शोधा"
+  },
+  "rolesLead": {
+   "en": "Openings are announced on this page and at our branches. You are welcome to apply for any of these roles at any time.",
+   "mr": "रिक्त पदे या पानावर आणि आमच्या शाखांमध्ये जाहीर केली जातात. यापैकी कोणत्याही पदासाठी तुम्ही केव्हाही अर्ज करू शकता."
+  },
+  "applyRole": {
+   "en": "Apply for this role",
+   "mr": "या पदासाठी अर्ज करा"
+  },
+  "lifeEyebrow": {
+   "en": "Life at Lokmangal",
+   "mr": "लोकमंगलमधील दिवस"
+  },
+  "lifeTitle": {
+   "en": "Days we",
+   "mr": "आम्ही एकत्र"
+  },
+  "lifeAccent": {
+   "en": "spend together",
+   "mr": "घालवलेले क्षण"
+  },
+  "stepsEyebrow": {
+   "en": "How to apply",
+   "mr": "अर्ज कसा करावा"
+  },
+  "stepsTitle": {
+   "en": "Three simple",
+   "mr": "फक्त तीन"
+  },
+  "stepsAccent": {
+   "en": "steps",
+   "mr": "पायऱ्या"
+  },
+  "s1": {
+   "en": "Fill in the form",
+   "mr": "फॉर्म भरा"
+  },
+  "s1t": {
+   "en": "Tell us about yourself and the role you want, using the form below.",
+   "mr": "खालील फॉर्ममध्ये तुमची माहिती आणि हवे असलेले पद सांगा."
+  },
+  "s2": {
+   "en": "Attach your résumé",
+   "mr": "बायोडेटा जोडा"
+  },
+  "s2t": {
+   "en": "Add your résumé to the form as a PDF, or email it to {email} with the role in the subject line.",
+   "mr": "फॉर्ममध्ये तुमचा बायोडेटा PDF म्हणून जोडा, किंवा विषयात पदाचे नाव लिहून {email} वर ईमेल करा."
+  },
+  "s3": {
+   "en": "Hear from HR",
+   "mr": "एचआरकडून संपर्क"
+  },
+  "s3t": {
+   "en": "Our HR team will get in touch if your profile matches an opening.",
+   "mr": "तुमची माहिती एखाद्या रिक्त पदाशी जुळल्यास आमची एचआर टीम तुमच्याशी संपर्क करेल."
+  },
+  "formEyebrow": {
+   "en": "Apply now",
+   "mr": "आत्ताच अर्ज करा"
+  },
+  "formTitle": {
+   "en": "Send us your",
+   "mr": "तुमचा"
+  },
+  "formAccent": {
+   "en": "application",
+   "mr": "अर्ज पाठवा"
+  },
+  "formLead": {
+   "en": "Fill in the form and attach your résumé as a PDF. You can also email it to {email}.",
+   "mr": "फॉर्म भरा आणि तुमचा बायोडेटा PDF म्हणून जोडा. तो {email} वर ईमेलही करू शकता."
+  },
+  "good1": {
+   "en": "Experience in a financial institution is an advantage",
+   "mr": "वित्तीय संस्थेतील अनुभव असल्यास प्राधान्य"
+  },
+  "good2": {
+   "en": "Openings across divisions in Maharashtra and Karnataka",
+   "mr": "महाराष्ट्र आणि कर्नाटकातील विभागांमध्ये संधी"
+  },
+  "good3": {
+   "en": "Head office: {address}",
+   "mr": "मुख्य कार्यालय: {address}"
+  },
+  "copy": {
+   "en": "Copy",
+   "mr": "कॉपी"
+  },
+  "copied": {
+   "en": "Copied",
+   "mr": "कॉपी झाले"
+  },
+  "formCard": {
+   "en": "Job application",
+   "mr": "नोकरीसाठी अर्ज"
+  },
+  "formSubmit": {
+   "en": "Submit application",
+   "mr": "अर्ज पाठवा"
+  }
+ },
+ "chairman-message": {
+  "metaTitle": {
+   "en": "Chairman's Message",
+   "mr": "अध्यक्षांचा संदेश"
+  },
+  "metaDescription": {
+   "en": "A message from {name}, Chairman of Lokmangal Multistate Co-operative Society Ltd.",
+   "mr": "लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटी लि.चे अध्यक्ष {name} यांचा संदेश."
+  },
+  "eyebrow": {
+   "en": "Chairman’s message",
+   "mr": "अध्यक्षांचा संदेश"
+  },
+  "quote": {
+   "en": "Never give up on something simply because it seems difficult.",
+   "mr": "एखादी गोष्ट अवघड वाटते म्हणून ती कधीही सोडून देऊ नका."
+  },
+  "read": {
+   "en": "Read the message",
+   "mr": "संदेश वाचा"
+  },
+  "letterKicker": {
+   "en": "A message to our members",
+   "mr": "सभासदांना संदेश"
+  },
+  "p1": {
+   "en": "At Lokmangal Multistate, we believe in {motto}. It is what sets us apart in Maharashtra’s co-operative sector, and it is why inclusive development has always been a priority for us, socially and as a business.",
+   "mr": "लोकमंगल मल्टीस्टेटमध्ये आमचा {motto} यावर विश्वास आहे. यामुळेच महाराष्ट्राच्या सहकार क्षेत्रात आम्ही वेगळे ठरतो, आणि म्हणूनच सामाजिक तसेच व्यावसायिक दृष्ट्या सर्वसमावेशक विकास ही नेहमीच आमची प्राथमिकता राहिली आहे."
+  },
+  "motto": {
+   "en": "‘Success through Total Dedication’",
+   "mr": "‘अखंड गतीतून सार्थकता’"
+  },
+  "p2": {
+   "en": "Our journey has taught us never to give up on something simply because it seems difficult. We work every day to build an inclusive economy that empowers people to prosper, and we seek to engage, partner with and uplift people from every walk of life.",
+   "mr": "एखादी गोष्ट अवघड वाटते म्हणून ती सोडून द्यायची नाही, हे आमच्या वाटचालीने आम्हाला शिकवले आहे. लोकांना समृद्ध होण्यासाठी सक्षम करणारी सर्वसमावेशक अर्थव्यवस्था उभारण्यासाठी आम्ही दररोज काम करतो, आणि समाजाच्या प्रत्येक स्तरातील लोकांशी जोडले जाणे, त्यांच्यासोबत भागीदारी करणे आणि त्यांची प्रगती साधणे हा आमचा प्रयत्न असतो."
+  },
+  "pull": {
+   "en": "Equal access to opportunity should reach every section of society.",
+   "mr": "संधीची समान उपलब्धता समाजाच्या प्रत्येक घटकापर्यंत पोहोचली पाहिजे."
+  },
+  "p3": {
+   "en": "Today Lokmangal is one of the leading multi-state co-operative societies in Maharashtra, with an exceptional track record and a network that continues to grow. These milestones belong to our members, employees, stakeholders and well-wishers. I thank each of you for your trust and support.",
+   "mr": "आज लोकमंगल ही महाराष्ट्रातील आघाडीच्या बहुराज्य सहकारी संस्थांपैकी एक आहे; उत्कृष्ट कामगिरी आणि सतत वाढणारे जाळे ही तिची ओळख आहे. हे सर्व टप्पे आमचे सभासद, कर्मचारी, भागधारक आणि हितचिंतकांचे आहेत. तुमच्या विश्वासाबद्दल आणि पाठिंब्याबद्दल मी तुम्हा प्रत्येकाचे आभार मानतो."
+  },
+  "p4": {
+   "en": "We understand the strength of the co-operative movement, and I believe equal access to opportunity should reach every section of society. Lokmangal will remain committed to inclusive growth, providing services, skills and access to credit that change the face and fate of rural India.",
+   "mr": "सहकार चळवळीची ताकद आम्ही जाणतो, आणि संधीची समान उपलब्धता समाजाच्या प्रत्येक घटकापर्यंत पोहोचली पाहिजे, असा माझा विश्वास आहे. सेवा, कौशल्ये आणि कर्जाची सुविधा देऊन ग्रामीण भारताचा चेहरामोहरा आणि भविष्य बदलणाऱ्या सर्वसमावेशक विकासासाठी लोकमंगल कटिबद्ध राहील."
+  },
+  "closing": {
+   "en": "With gratitude,",
+   "mr": "कृतज्ञतेसह,"
+  },
+  "today": {
+   "en": "Lokmangal today",
+   "mr": "आजचे लोकमंगल"
+  }
+ },
+ "contact-us": {
+  "metaTitle": {
+   "en": "Contact Us",
+   "mr": "संपर्क"
+  },
+  "metaDescription": {
+   "en": "Contact Lokmangal Multistate Co-operative Society Ltd.: head office at Shelgi, Solapur. Call {phone} or email {email}.",
+   "mr": "लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटी लि. शी संपर्क साधा: मुख्य कार्यालय शेळगी, सोलापूर. {phone} वर कॉल करा किंवा {email} वर ईमेल करा."
+  },
+  "eyebrow": {
+   "en": "Contact us",
+   "mr": "संपर्क"
+  },
+  "title": {
+   "en": "We would love to",
+   "mr": "आम्हाला तुमच्याशी"
+  },
+  "accent": {
+   "en": "hear from you",
+   "mr": "बोलायला आवडेल"
+  },
+  "lead": {
+   "en": "Questions about deposits, loans or your account? Call us, write to us, or visit the head office. Our team is here to help.",
+   "mr": "ठेवी, कर्ज किंवा तुमच्या खात्याबद्दल प्रश्न आहे? कॉल करा, लिहा किंवा मुख्य कार्यालयाला भेट द्या. आमची टीम मदतीसाठी तयार आहे."
+  },
+  "callCta": {
+   "en": "Call {phone}",
+   "mr": "{phone} वर कॉल करा"
+  },
+  "writeCta": {
+   "en": "Send a message",
+   "mr": "संदेश पाठवा"
+  },
+  "reachEyebrow": {
+   "en": "Reach us",
+   "mr": "संपर्क साधा"
+  },
+  "reachTitle": {
+   "en": "Three quick ways",
+   "mr": "संपर्काचे"
+  },
+  "reachAccent": {
+   "en": "to get in touch",
+   "mr": "तीन सोपे मार्ग"
+  },
+  "callTitle": {
+   "en": "Call us",
+   "mr": "कॉल करा"
+  },
+  "callNote": {
+   "en": "Head office",
+   "mr": "मुख्य कार्यालय"
+  },
+  "branchPhones": {
+   "en": "Your branch",
+   "mr": "तुमची शाखा"
+  },
+  "branchPhonesLink": {
+   "en": "Branch phone numbers",
+   "mr": "शाखांचे फोन नंबर"
+  },
+  "emailGeneral": {
+   "en": "General enquiries",
+   "mr": "सर्वसाधारण चौकशी"
+  },
+  "emailTitle": {
+   "en": "Email us",
+   "mr": "ईमेल करा"
+  },
+  "emailNote": {
+   "en": "Careers",
+   "mr": "नोकरीसाठी"
+  },
+  "bankTitle": {
+   "en": "Bank details",
+   "mr": "बँक तपशील"
+  },
+  "ifsc": {
+   "en": "IFSC",
+   "mr": "आयएफएससी"
+  },
+  "regNo": {
+   "en": "Registration No.",
+   "mr": "नोंदणी क्र."
+  },
+  "copy": {
+   "en": "Copy",
+   "mr": "कॉपी"
+  },
+  "copied": {
+   "en": "Copied",
+   "mr": "कॉपी झाले"
+  },
+  "copyLabel": {
+   "en": "Copy {what}",
+   "mr": "{what} कॉपी करा"
+  },
+  "visitEyebrow": {
+   "en": "Visit or write to us",
+   "mr": "भेट द्या किंवा पत्र पाठवा"
+  },
+  "visitTitle": {
+   "en": "Our head office",
+   "mr": "आमचे मुख्य कार्यालय,"
+  },
+  "visitAccent": {
+   "en": "in Solapur",
+   "mr": "सोलापूर"
+  },
+  "to": {
+   "en": "To",
+   "mr": "प्रति"
+  },
+  "pin": {
+   "en": "PIN",
+   "mr": "पिन"
+  },
+  "directions": {
+   "en": "Get directions",
+   "mr": "नकाशावर मार्ग पाहा"
+  },
+  "branches": {
+   "en": "All branches",
+   "mr": "सर्व शाखा"
+  },
+  "mapTitle": {
+   "en": "Lokmangal Multistate head office on Google Maps",
+   "mr": "गुगल नकाशावर लोकमंगल मल्टीस्टेट मुख्य कार्यालय"
+  },
+  "routeEyebrow": {
+   "en": "Find the right help",
+   "mr": "योग्य मदत शोधा"
+  },
+  "routeTitle": {
+   "en": "I would like",
+   "mr": "मला"
+  },
+  "routeAccent": {
+   "en": "to…",
+   "mr": "हे करायचे आहे…"
+  },
+  "r1": {
+   "en": "Open a savings account",
+   "mr": "बचत खाते उघडायचे आहे"
+  },
+  "r1t": {
+   "en": "Opening an account",
+   "mr": "खाते उघडणे"
+  },
+  "r2": {
+   "en": "Book a fixed or recurring deposit",
+   "mr": "मुदत किंवा रिकरिंग ठेव ठेवायची आहे"
+  },
+  "r2t": {
+   "en": "Deposit schemes",
+   "mr": "ठेव योजना"
+  },
+  "r3": {
+   "en": "Apply for a loan",
+   "mr": "कर्जासाठी अर्ज करायचा आहे"
+  },
+  "r3t": {
+   "en": "Loan application",
+   "mr": "कर्ज अर्ज"
+  },
+  "r4": {
+   "en": "Visit a branch near me",
+   "mr": "जवळच्या शाखेत जायचे आहे"
+  },
+  "r4t": {
+   "en": "{n} branches",
+   "mr": "{n} शाखा"
+  },
+  "r5": {
+   "en": "Get help with mobile banking",
+   "mr": "मोबाइल बँकिंगसाठी मदत हवी आहे"
+  },
+  "r5t": {
+   "en": "Other services",
+   "mr": "इतर सेवा"
+  },
+  "r6": {
+   "en": "Work with Lokmangal",
+   "mr": "लोकमंगलमध्ये काम करायचे आहे"
+  },
+  "r6t": {
+   "en": "Careers",
+   "mr": "नोकरीच्या संधी"
+  },
+  "r7": {
+   "en": "Read common questions",
+   "mr": "नेहमीचे प्रश्न वाचायचे आहेत"
+  },
+  "r7t": {
+   "en": "FAQ",
+   "mr": "प्रश्नोत्तरे"
+  },
+  "formEyebrow": {
+   "en": "Write to us",
+   "mr": "आम्हाला लिहा"
+  },
+  "formTitle": {
+   "en": "Send us",
+   "mr": "आम्हाला"
+  },
+  "formAccent": {
+   "en": "a message",
+   "mr": "संदेश पाठवा"
+  },
+  "formLead": {
+   "en": "We usually respond within one working day.",
+   "mr": "आम्ही साधारणपणे एका कामकाजाच्या दिवसात उत्तर देतो."
+  },
+  "formCard": {
+   "en": "Send us a message",
+   "mr": "आम्हाला संदेश पाठवा"
+  },
+  "formSubmit": {
+   "en": "Send message",
+   "mr": "संदेश पाठवा"
+  },
+  "follow": {
+   "en": "Follow us",
+   "mr": "आम्हाला फॉलो करा"
+  }
+ },
+ "deposit-scheme": {
+  "metaDescription": {
+   "en": "{name}: {pitch} {kind} from Lokmangal Multistate Co-operative Society.",
+   "mr": "{name}: {pitch} लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटीची {kind}."
+  },
+  "book": {
+   "en": "Book this deposit",
+   "mr": "ही ठेव करा"
+  },
+  "calculate": {
+   "en": "Calculate returns",
+   "mr": "परतावा मोजा"
+  },
+  "keyEyebrow": {
+   "en": "Key information",
+   "mr": "महत्त्वाची माहिती"
+  },
+  "keyTitle": {
+   "en": "The scheme",
+   "mr": "योजना"
+  },
+  "keyAccent": {
+   "en": "at a glance",
+   "mr": "एका नजरेत"
+  },
+  "example": {
+   "en": "Example",
+   "mr": "उदाहरण"
+  },
+  "exFd": {
+   "en": "Deposit {amount} for {months} months",
+   "mr": "{amount} ची ठेव, {months} महिन्यांसाठी"
+  },
+  "exRd": {
+   "en": "Save {amount} a month for {months} months",
+   "mr": "दरमहा {amount}, {months} महिने"
+  },
+  "exMonthly": {
+   "en": "Deposit {amount} for {months} months or more",
+   "mr": "{amount} ची ठेव, {months} महिने किंवा अधिक"
+  },
+  "exDouble": {
+   "en": "Deposit {amount} once",
+   "mr": "{amount} ची एकदाच ठेव"
+  },
+  "atMaturity": {
+   "en": "at maturity",
+   "mr": "मुदतपूर्तीला"
+  },
+  "everyMonth": {
+   "en": "every month",
+   "mr": "दरमहा"
+  },
+  "inMonths": {
+   "en": "in {months} months",
+   "mr": "{months} महिन्यांत"
+  },
+  "interest": {
+   "en": "Interest earned",
+   "mr": "मिळणारे व्याज"
+  },
+  "invested": {
+   "en": "You put in",
+   "mr": "तुमची गुंतवणूक"
+  },
+  "exNote": {
+   "en": "Worked out with the current approved rate. Figures are indicative; TDS may apply.",
+   "mr": "सध्याच्या मंजूर दराने मोजलेले. आकडे अंदाजे आहेत; टीडीएस लागू होऊ शकतो."
+  },
+  "ladder": {
+   "en": "Rate by tenure",
+   "mr": "मुदतीनुसार व्याजदर"
+  },
+  "regular": {
+   "en": "Regular",
+   "mr": "सर्वसाधारण"
+  },
+  "special": {
+   "en": "Special categories",
+   "mr": "विशेष गट"
+  },
+  "specialWho": {
+   "en": "Special categories:",
+   "mr": "विशेष गट:"
+  },
+  "featEyebrow": {
+   "en": "Features",
+   "mr": "वैशिष्ट्ये"
+  },
+  "featTitle": {
+   "en": "What you",
+   "mr": "तुम्हाला काय"
+  },
+  "featAccent": {
+   "en": "get",
+   "mr": "मिळते"
+  },
+  "who": {
+   "en": "Who can invest?",
+   "mr": "कोण गुंतवणूक करू शकते?"
+  },
+  "docs": {
+   "en": "Documents required",
+   "mr": "आवश्यक कागदपत्रे"
+  },
+  "calcEyebrow": {
+   "en": "Calculator",
+   "mr": "कॅल्क्युलेटर"
+  },
+  "calcTitle": {
+   "en": "Estimate your",
+   "mr": "तुमचा परतावा"
+  },
+  "calcAccent": {
+   "en": "returns",
+   "mr": "मोजा"
+  },
+  "bookEyebrow": {
+   "en": "Book this deposit",
+   "mr": "ही ठेव करा"
+  },
+  "bookTitle": {
+   "en": "We will",
+   "mr": "आम्ही तुम्हाला"
+  },
+  "bookAccent": {
+   "en": "call you back",
+   "mr": "कॉल करू"
+  },
+  "bookText": {
+   "en": "Share your details and our team will call you to book {name}. You can also visit any branch.",
+   "mr": "तुमची माहिती द्या; {name} साठी आमची टीम तुम्हाला कॉल करेल. तुम्ही कोणत्याही शाखेतही येऊ शकता."
+  },
+  "formTitle": {
+   "en": "Request a callback",
+   "mr": "कॉल करण्याची विनंती"
+  },
+  "formSubmit": {
+   "en": "Request a callback",
+   "mr": "विनंती पाठवा"
+  },
+  "applyOnline": {
+   "en": "Prefer the full application?",
+   "mr": "पूर्ण अर्ज भरायचा आहे?"
+  },
+  "applyLink": {
+   "en": "Fill the deposit form",
+   "mr": "ठेव अर्ज भरा"
+  },
+  "othersEyebrow": {
+   "en": "Other plans",
+   "mr": "इतर योजना"
+  },
+  "othersTitle": {
+   "en": "Compare with",
+   "mr": "इतर ठेवींशी"
+  },
+  "othersAccent": {
+   "en": "other deposits",
+   "mr": "तुलना करा"
+  },
+  "allSchemes": {
+   "en": "All schemes",
+   "mr": "सर्व योजना"
+  }
+ },
+ "deposits": {
+  "metaTitle": {
+   "en": "Deposit Schemes",
+   "mr": "ठेव योजना"
+  },
+  "metaDescription": {
+   "en": "Fixed deposits up to {top}% p.a., monthly income, recurring deposits, Lakshadish RD and the Daam Duppat doubling scheme from Lokmangal Multistate. Rates valid from {validity}.",
+   "mr": "लोकमंगल मल्टीस्टेटच्या ठेव योजना: वार्षिक {top}% पर्यंत मुदत ठेव, मासिक उत्पन्न, रिकरिंग ठेव, लक्षदिश आणि दाम दुप्पट योजना. दर {validity} या कालावधीसाठी लागू."
+  },
+  "eyebrow": {
+   "en": "Deposit schemes",
+   "mr": "ठेव योजना"
+  },
+  "title": {
+   "en": "Save for the future,",
+   "mr": "भविष्यासाठी बचत,"
+  },
+  "accent": {
+   "en": "up to {top}% a year",
+   "mr": "वार्षिक {top}% पर्यंत"
+  },
+  "lead": {
+   "en": "Fixed, recurring, monthly income and doubling deposits for every goal. Rates valid from {validity}.",
+   "mr": "प्रत्येक उद्दिष्टासाठी मुदत, रिकरिंग, मासिक उत्पन्न आणि दाम दुप्पट ठेवी. दर {validity} या कालावधीसाठी लागू."
+  },
+  "apply": {
+   "en": "Apply for a deposit",
+   "mr": "ठेवीसाठी अर्ज करा"
+  },
+  "rates": {
+   "en": "Interest rate chart",
+   "mr": "व्याजदर तक्ता"
+  },
+  "pause": {
+   "en": "Pause the changing pictures",
+   "mr": "बदलणारी चित्रे थांबवा"
+  },
+  "play": {
+   "en": "Play the changing pictures",
+   "mr": "बदलणारी चित्रे सुरू करा"
+  },
+  "chipFd": {
+   "en": "Fixed deposit",
+   "mr": "मुदत ठेव"
+  },
+  "chipMonthly": {
+   "en": "Monthly income",
+   "mr": "मासिक उत्पन्न"
+  },
+  "chipRd": {
+   "en": "Recurring",
+   "mr": "रिकरिंग"
+  },
+  "chipLakshadish": {
+   "en": "Lakshadish",
+   "mr": "लक्षदिश"
+  },
+  "chipDouble": {
+   "en": "Daam Duppat",
+   "mr": "दाम दुप्पट"
+  },
+  "allEyebrow": {
+   "en": "All schemes",
+   "mr": "सर्व योजना"
+  },
+  "allTitle": {
+   "en": "Choose the plan that",
+   "mr": "तुमच्या उद्दिष्टाला"
+  },
+  "allAccent": {
+   "en": "fits your goal",
+   "mr": "साजेशी योजना निवडा"
+  },
+  "filterLabel": {
+   "en": "Filter schemes",
+   "mr": "योजना निवडा"
+  },
+  "filterAll": {
+   "en": "All schemes",
+   "mr": "सर्व योजना"
+  },
+  "count": {
+   "en": "{n} schemes",
+   "mr": "{n} योजना"
+  },
+  "fdEyebrow": {
+   "en": "Vishwamangal Fixed Deposit",
+   "mr": "विश्वमंगल मुदत ठेव"
+  },
+  "fdTitle": {
+   "en": "Fixed deposit rates",
+   "mr": "मुदतीनुसार"
+  },
+  "fdAccent": {
+   "en": "by tenure",
+   "mr": "मुदत ठेव दर"
+  },
+  "fdLead": {
+   "en": "Rates valid from {validity}.",
+   "mr": "दर {validity} या कालावधीसाठी लागू."
+  },
+  "tenure": {
+   "en": "Tenure",
+   "mr": "मुदत"
+  },
+  "regular": {
+   "en": "Regular",
+   "mr": "सर्वसाधारण"
+  },
+  "special": {
+   "en": "Special categories",
+   "mr": "विशेष गट"
+  },
+  "specialWho": {
+   "en": "Special categories:",
+   "mr": "विशेष गट:"
+  },
+  "tds": {
+   "en": "TDS is applicable on interest earned, except for society members.",
+   "mr": "संस्थेच्या सभासदांना वगळून, मिळणाऱ्या व्याजावर टीडीएस लागू."
+  },
+  "fdLink": {
+   "en": "See the Fixed Deposit scheme",
+   "mr": "मुदत ठेव योजना पहा"
+  },
+  "who": {
+   "en": "Who can invest?",
+   "mr": "कोण गुंतवणूक करू शकते?"
+  },
+  "whoText": {
+   "en": "Any resident Indian individual or entity, including senior citizens, HUFs, minors through guardians, associations, trusts and institutions.",
+   "mr": "ज्येष्ठ नागरिक, एचयूएफ, पालकांमार्फत अज्ञान, संघटना, ट्रस्ट आणि संस्थांसह कोणतीही निवासी भारतीय व्यक्ती किंवा संस्था."
+  },
+  "docs": {
+   "en": "Documents required",
+   "mr": "आवश्यक कागदपत्रे"
+  },
+  "docsText": {
+   "en": "Bring these to your nearest branch:",
+   "mr": "जवळच्या शाखेत ही कागदपत्रे घेऊन या:"
+  },
+  "branch": {
+   "en": "Find your nearest branch",
+   "mr": "जवळची शाखा शोधा"
+  },
+  "calcEyebrow": {
+   "en": "Deposit calculator",
+   "mr": "ठेव कॅल्क्युलेटर"
+  },
+  "calcTitle": {
+   "en": "Watch your money",
+   "mr": "तुमचे पैसे"
+  },
+  "calcAccent": {
+   "en": "grow",
+   "mr": "वाढताना पहा"
+  },
+  "ctaTitle": {
+   "en": "Ready to start",
+   "mr": "बचतीला"
+  },
+  "ctaAccent": {
+   "en": "saving?",
+   "mr": "सुरुवात करूया?"
+  },
+  "ctaText": {
+   "en": "Visit any of our branches with your KYC documents, or apply online and our team will help you open your deposit.",
+   "mr": "केवायसी कागदपत्रांसह आमच्या कोणत्याही शाखेत या, किंवा ऑनलाइन अर्ज करा; ठेव उघडण्यासाठी आमची टीम मदत करेल."
+  }
+ },
+ "enquiry-form": {
+  "submit": {
+   "en": "Submit",
+   "mr": "पाठवा"
+  },
+  "firstName": {
+   "en": "First name",
+   "mr": "पहिले नाव"
+  },
+  "middleName": {
+   "en": "Middle name",
+   "mr": "मधले नाव"
+  },
+  "lastName": {
+   "en": "Last name",
+   "mr": "आडनाव"
+  },
+  "contactNumber": {
+   "en": "Contact number",
+   "mr": "संपर्क क्रमांक"
+  },
+  "email": {
+   "en": "Email",
+   "mr": "ईमेल"
+  },
+  "city": {
+   "en": "City",
+   "mr": "शहर / गाव"
+  },
+  "accountType": {
+   "en": "Account type you would like to open",
+   "mr": "कोणते खाते उघडायचे आहे?"
+  },
+  "depositType": {
+   "en": "Which deposit would you like to open?",
+   "mr": "कोणती ठेव उघडायची आहे?"
+  },
+  "message": {
+   "en": "Message",
+   "mr": "संदेश"
+  },
+  "fullName": {
+   "en": "Full name",
+   "mr": "पूर्ण नाव"
+  },
+  "residentCity": {
+   "en": "Resident city",
+   "mr": "राहण्याचे शहर / गाव"
+  },
+  "loanType": {
+   "en": "Loan type",
+   "mr": "कर्जाचा प्रकार"
+  },
+  "chooseLoan": {
+   "en": "Choose loan type",
+   "mr": "कर्जाचा प्रकार निवडा"
+  },
+  "loanAmount": {
+   "en": "Required loan amount (₹)",
+   "mr": "हवी असलेली कर्ज रक्कम (₹)"
+  },
+  "phone": {
+   "en": "Phone number",
+   "mr": "फोन क्रमांक"
+  },
+  "location": {
+   "en": "Location",
+   "mr": "ठिकाण"
+  },
+  "help": {
+   "en": "How can we help?",
+   "mr": "आम्ही कशी मदत करू?"
+  },
+  "yourLocation": {
+   "en": "Your location",
+   "mr": "तुमचे ठिकाण"
+  },
+  "position": {
+   "en": "Position",
+   "mr": "पद"
+  },
+  "other": {
+   "en": "Other",
+   "mr": "इतर"
+  },
+  "experience": {
+   "en": "Experience (years)",
+   "mr": "अनुभव (वर्षे)"
+  },
+  "currentCity": {
+   "en": "Current city",
+   "mr": "सध्याचे शहर"
+  },
+  "about": {
+   "en": "Tell us about yourself",
+   "mr": "तुमच्याबद्दल सांगा"
+  },
+  "resume": {
+   "en": "Résumé (PDF, up to 5 MB)",
+   "mr": "बायोडेटा (PDF, 5 MB पर्यंत)"
+  },
+  "resumeHint": {
+   "en": "You can also email it to",
+   "mr": "हवा असल्यास या पत्त्यावर ईमेलही करू शकता:"
+  },
+  "consent": {
+   "en": "I agree to be contacted by Lokmangal Multistate about my enquiry.",
+   "mr": "माझ्या चौकशीबाबत लोकमंगल मल्टीस्टेटने माझ्याशी संपर्क साधण्यास माझी संमती आहे."
+  },
+  "thanks": {
+   "en": "Thank you!",
+   "mr": "धन्यवाद!"
+  },
+  "received": {
+   "en": "We have received your details. Our team will get in touch with you shortly.",
+   "mr": "तुमची माहिती आम्हाला मिळाली आहे. आमची टीम लवकरच तुमच्याशी संपर्क साधेल."
+  },
+  "refBefore": {
+   "en": "Your reference number is",
+   "mr": "तुमचा संदर्भ क्रमांक"
+  },
+  "refAfter": {
+   "en": "Please keep it for your records.",
+   "mr": "कृपया तो जपून ठेवा."
+  },
+  "callNow": {
+   "en": "Need help right away? Call {phone}",
+   "mr": "लगेच मदत हवी आहे? {phone} वर कॉल करा"
+  },
+  "savings": {
+   "en": "Savings Account",
+   "mr": "बचत खाते"
+  },
+  "current": {
+   "en": "Current Account",
+   "mr": "चालू खाते"
+  },
+  "rd": {
+   "en": "Recurring Deposit",
+   "mr": "रिकरिंग ठेव"
+  }
+ },
+ "faq": {
+  "metaTitle": {
+   "en": "FAQ",
+   "mr": "प्रश्नोत्तरे"
+  },
+  "metaDescription": {
+   "en": "Frequently asked questions about Lokmangal Multistate Co-operative Society: registration, safety of deposits, interest rates and who can invest.",
+   "mr": "लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटीबद्दल नेहमी विचारले जाणारे प्रश्न: नोंदणी, ठेवींची सुरक्षितता, व्याजदर आणि कोण गुंतवणूक करू शकते."
+  },
+  "eyebrow": {
+   "en": "Help centre",
+   "mr": "मदत केंद्र"
+  },
+  "title": {
+   "en": "Questions,",
+   "mr": "तुमचे प्रश्न,"
+  },
+  "accent": {
+   "en": "answered simply",
+   "mr": "सोपी उत्तरे"
+  },
+  "lead": {
+   "en": "Everything you need to know about Lokmangal Multistate, registered under the {act}, Registration No. {reg}.",
+   "mr": "लोकमंगल मल्टीस्टेटबद्दल तुम्हाला हवी ती माहिती. संस्था {act} अंतर्गत नोंदणीकृत आहे, नोंदणी क्र. {reg}."
+  },
+  "searchLabel": {
+   "en": "Search the questions",
+   "mr": "प्रश्न शोधा"
+  },
+  "searchPh": {
+   "en": "Type a word: deposit, TDS, senior",
+   "mr": "शब्द लिहा: ठेव, टीडीएस, ज्येष्ठ"
+  },
+  "count": {
+   "en": "{n} of {total} questions",
+   "mr": "{total} पैकी {n} प्रश्न"
+  },
+  "none": {
+   "en": "No question matches “{q}”. Call {phone} and we will help.",
+   "mr": "“{q}” शी जुळणारा प्रश्न नाही. {phone} वर कॉल करा, आम्ही मदत करू."
+  },
+  "clear": {
+   "en": "Clear search",
+   "mr": "शोध पुसा"
+  },
+  "listLabel": {
+   "en": "Questions and answers",
+   "mr": "प्रश्न आणि उत्तरे"
+  },
+  "helpEyebrow": {
+   "en": "Helpline",
+   "mr": "हेल्पलाइन"
+  },
+  "helpTitle": {
+   "en": "Still have a question?",
+   "mr": "अजून काही प्रश्न आहे?"
+  },
+  "helpText": {
+   "en": "Our team is happy to help. Call us, write to us, or ask for a callback.",
+   "mr": "आमची टीम मदतीसाठी तयार आहे. कॉल करा, ईमेल करा किंवा कॉलबॅकची विनंती करा."
+  },
+  "emailUs": {
+   "en": "Email us",
+   "mr": "ईमेल करा"
+  },
+  "formTitle": {
+   "en": "Request a callback",
+   "mr": "कॉलबॅकची विनंती"
+  }
+ },
+ "gallery": {
+  "metaTitle": {
+   "en": "Photo Gallery",
+   "mr": "छायाचित्रे"
+  },
+  "metaDescription": {
+   "en": "Moments from Lokmangal Multistate: celebrations, community programmes and social initiatives.",
+   "mr": "लोकमंगल मल्टीस्टेटमधील क्षणचित्रे: उत्सव, सामाजिक कार्यक्रम आणि उपक्रम."
+  },
+  "eyebrow": {
+   "en": "Photo gallery",
+   "mr": "छायाचित्र दालन"
+  },
+  "title": {
+   "en": "Moments from",
+   "mr": "आमच्या वाटचालीतील"
+  },
+  "accent": {
+   "en": "our journey",
+   "mr": "क्षणचित्रे"
+  },
+  "lead": {
+   "en": "Celebrations, community programmes and social work from across the Lokmangal family.",
+   "mr": "लोकमंगल परिवारातील उत्सव, सामाजिक कार्यक्रम आणि उपक्रमांचे क्षण."
+  },
+  "factPhotos": {
+   "en": "Photos",
+   "mr": "छायाचित्रे"
+  },
+  "factYears": {
+   "en": "Years",
+   "mr": "वर्षे"
+  },
+  "gridEyebrow": {
+   "en": "All photos",
+   "mr": "सर्व छायाचित्रे"
+  },
+  "gridTitle": {
+   "en": "Life at",
+   "mr": "लोकमंगलमधील"
+  },
+  "gridAccent": {
+   "en": "Lokmangal",
+   "mr": "काही क्षण"
+  },
+  "gridHint": {
+   "en": "Tap a photo to see it larger.",
+   "mr": "मोठे पाहण्यासाठी छायाचित्रावर टॅप करा."
+  },
+  "open": {
+   "en": "Open photo: {caption}",
+   "mr": "छायाचित्र उघडा: {caption}"
+  },
+  "followTitle": {
+   "en": "More photos on",
+   "mr": "अधिक छायाचित्रे"
+  },
+  "followAccent": {
+   "en": "our social pages",
+   "mr": "आमच्या सोशल मीडियावर"
+  },
+  "followText": {
+   "en": "Branch events, programmes and news are shared on our social media pages.",
+   "mr": "शाखांमधील कार्यक्रम, उपक्रम आणि बातम्या आमच्या सोशल मीडिया पानांवर प्रसिद्ध केल्या जातात."
+  },
+  "csr": {
+   "en": "See our social work",
+   "mr": "आमचे सामाजिक काम पहा"
+  }
+ },
+ "interest-rates": {
+  "metaTitle": {
+   "en": "Interest Rates",
+   "mr": "व्याजदर"
+  },
+  "metaDescription": {
+   "en": "Lokmangal Multistate interest rates: fixed deposits up to {top}% p.a., special categories up to 0.50% extra, recurring deposits and loans. Valid {validity}.",
+   "mr": "लोकमंगल मल्टीस्टेटचे व्याजदर: मुदत ठेवींवर वार्षिक {top}% पर्यंत, विशेष गटांना 0.50% पर्यंत अधिक, रिकरिंग ठेवी आणि कर्ज. {validity} साठी लागू."
+  },
+  "deposits": {
+   "en": "Deposits",
+   "mr": "ठेवी"
+  },
+  "eyebrow": {
+   "en": "Rate chart",
+   "mr": "व्याजदर तक्ता"
+  },
+  "title": {
+   "en": "Interest rates on",
+   "mr": "ठेवी आणि कर्जावरील"
+  },
+  "accent": {
+   "en": "deposits and loans",
+   "mr": "व्याजदर"
+  },
+  "lead": {
+   "en": "Current rates on our deposit schemes and loan products. Deposit rates are valid {validity}.",
+   "mr": "आमच्या ठेव योजना आणि कर्जावरील सध्याचे व्याजदर. ठेवींचे दर {validity} साठी लागू आहेत."
+  },
+  "print": {
+   "en": "Print or save as PDF",
+   "mr": "प्रिंट करा किंवा पीडीएफ जतन करा"
+  },
+  "topFd": {
+   "en": "Fixed deposit, up to",
+   "mr": "मुदत ठेव, पर्यंत"
+  },
+  "topRd": {
+   "en": "Recurring deposit",
+   "mr": "रिकरिंग ठेव"
+  },
+  "topMonthly": {
+   "en": "Monthly interest",
+   "mr": "मासिक व्याज"
+  },
+  "loanFrom": {
+   "en": "Loans, from",
+   "mr": "कर्ज, पासून"
+  },
+  "fdEyebrow": {
+   "en": "Vishwamangal Fixed Deposit",
+   "mr": "विश्वमंगल मुदत ठेव"
+  },
+  "fdTitle": {
+   "en": "Fixed deposit",
+   "mr": "मुदत ठेवीचे"
+  },
+  "fdAccent": {
+   "en": "rates",
+   "mr": "दर"
+  },
+  "finderLabel": {
+   "en": "How many days do you want to deposit for?",
+   "mr": "किती दिवसांसाठी ठेव ठेवायची आहे?"
+  },
+  "finderUnit": {
+   "en": "days",
+   "mr": "दिवस"
+  },
+  "finderYou": {
+   "en": "For {days} days you earn",
+   "mr": "{days} दिवसांसाठी तुम्हाला मिळेल"
+  },
+  "finderSpecial": {
+   "en": "Special categories",
+   "mr": "विशेष गट"
+  },
+  "finderMin": {
+   "en": "Fixed deposits start from {min} days.",
+   "mr": "मुदत ठेव {min} दिवसांपासून सुरू होते."
+  },
+  "finderApply": {
+   "en": "Book this deposit",
+   "mr": "ही ठेव करा"
+  },
+  "sr": {
+   "en": "Sr.",
+   "mr": "क्र."
+  },
+  "tenure": {
+   "en": "Tenure",
+   "mr": "मुदत"
+  },
+  "regular": {
+   "en": "Regular depositors",
+   "mr": "सर्वसाधारण ठेवीदार"
+  },
+  "special": {
+   "en": "Special categories*",
+   "mr": "विशेष गट*"
+  },
+  "otherEyebrow": {
+   "en": "Other deposit schemes",
+   "mr": "इतर ठेव योजना"
+  },
+  "otherTitle": {
+   "en": "Recurring, monthly and",
+   "mr": "रिकरिंग, मासिक आणि"
+  },
+  "otherAccent": {
+   "en": "doubling schemes",
+   "mr": "दाम दुप्पट योजना"
+  },
+  "scheme": {
+   "en": "Scheme",
+   "mr": "योजना"
+  },
+  "type": {
+   "en": "Type",
+   "mr": "प्रकार"
+  },
+  "rate": {
+   "en": "Rate",
+   "mr": "दर"
+  },
+  "term": {
+   "en": "Tenure / term",
+   "mr": "मुदत"
+  },
+  "doubles": {
+   "en": "Doubles",
+   "mr": "दुप्पट"
+  },
+  "details": {
+   "en": "Details",
+   "mr": "तपशील"
+  },
+  "loansEyebrow": {
+   "en": "Loans",
+   "mr": "कर्ज"
+  },
+  "loansTitle": {
+   "en": "Loan",
+   "mr": "कर्जाचे"
+  },
+  "loansAccent": {
+   "en": "interest rates",
+   "mr": "व्याजदर"
+  },
+  "loan": {
+   "en": "Loan",
+   "mr": "कर्ज"
+  },
+  "roi": {
+   "en": "Rate of interest",
+   "mr": "व्याजदर"
+  },
+  "amount": {
+   "en": "Loan amount",
+   "mr": "कर्ज रक्कम"
+  },
+  "noteTds": {
+   "en": "TDS is applicable on interest earned on deposits, except for society members. Rates are subject to change. Please confirm the latest rate at your branch or call {phone} before investing.",
+   "mr": "ठेवींवरील व्याजावर टीडीएस लागू होतो, मात्र संस्थेच्या सभासदांना तो लागू होत नाही. दर बदलू शकतात. गुंतवणूक करण्यापूर्वी तुमच्या शाखेत खात्री करा किंवा {phone} वर कॉल करा."
+  },
+  "ctaTitle": {
+   "en": "Lock in today’s",
+   "mr": "आजचे"
+  },
+  "ctaAccent": {
+   "en": "best rates",
+   "mr": "सर्वोत्तम दर मिळवा"
+  },
+  "ctaText": {
+   "en": "Book a deposit at any of our {n} branches, or apply online and our team will guide you.",
+   "mr": "आमच्या {n} शाखांपैकी कोणत्याही शाखेत ठेव करा, किंवा ऑनलाइन अर्ज करा, आमची टीम मार्गदर्शन करेल."
+  }
+ },
+ "legal-doc": {
+  "eyebrow": {
+   "en": "Legal",
+   "mr": "कायदेशीर"
+  },
+  "contents": {
+   "en": "Contents",
+   "mr": "अनुक्रमणिका"
+  },
+  "short": {
+   "en": "In short",
+   "mr": "थोडक्यात"
+  },
+  "print": {
+   "en": "Print or save as PDF",
+   "mr": "प्रिंट करा किंवा पीडीएफ जतन करा"
+  },
+  "read": {
+   "en": "Read next",
+   "mr": "पुढे वाचा"
+  },
+  "top": {
+   "en": "Back to top",
+   "mr": "वर जा"
+  },
+  "sections": {
+   "en": "{n} sections",
+   "mr": "{n} विभाग"
+  }
+ },
+ "list-of-members": {
+  "metaTitle": {
+   "en": "List of Members",
+   "mr": "सभासदांची यादी"
+  },
+  "metaDescription": {
+   "en": "Provisional list of members / delegates eligible to vote: Lokmangal Multistate Board of Directors election 2025, district-wise PDFs.",
+   "mr": "मतदानास पात्र सभासदांची / प्रतिनिधींची तात्पुरती यादी: लोकमंगल मल्टीस्टेट संचालक मंडळ निवडणूक 2025, जिल्हानिहाय पीडीएफ."
+  },
+  "notices": {
+   "en": "Notices",
+   "mr": "सूचना"
+  },
+  "eyebrow": {
+   "en": "Election 2025",
+   "mr": "निवडणूक 2025"
+  },
+  "title": {
+   "en": "List of",
+   "mr": "सभासदांची"
+  },
+  "accent": {
+   "en": "members",
+   "mr": "यादी"
+  },
+  "lead": {
+   "en": "Provisional list of members / delegates eligible to vote, published district-wise.",
+   "mr": "मतदानास पात्र सभासदांची / प्रतिनिधींची तात्पुरती यादी, जिल्हानिहाय प्रसिद्ध."
+  },
+  "districts": {
+   "en": "districts",
+   "mr": "जिल्हे"
+  },
+  "total": {
+   "en": "in all",
+   "mr": "एकूण"
+  },
+  "searchLabel": {
+   "en": "Search districts",
+   "mr": "जिल्हा शोधा"
+  },
+  "searchPh": {
+   "en": "Type your district",
+   "mr": "तुमचा जिल्हा लिहा"
+  },
+  "sort": {
+   "en": "Sort",
+   "mr": "क्रम"
+  },
+  "sortOrder": {
+   "en": "As published",
+   "mr": "प्रसिद्ध क्रमाने"
+  },
+  "sortName": {
+   "en": "A to Z",
+   "mr": "अ ते ज्ञ"
+  },
+  "sortSize": {
+   "en": "Smallest file first",
+   "mr": "लहान फाइल आधी"
+  },
+  "district": {
+   "en": "District",
+   "mr": "जिल्हा"
+  },
+  "size": {
+   "en": "File size",
+   "mr": "फाइलचा आकार"
+  },
+  "big": {
+   "en": "Large file: use Wi-Fi",
+   "mr": "मोठी फाइल: वाय-फाय वापरा"
+  },
+  "download": {
+   "en": "Download PDF",
+   "mr": "पीडीएफ डाउनलोड करा"
+  },
+  "none": {
+   "en": "No district matches your search.",
+   "mr": "तुमच्या शोधाशी जुळणारा जिल्हा नाही."
+  },
+  "howTitle": {
+   "en": "How to find your name",
+   "mr": "यादीत तुमचे नाव कसे शोधावे"
+  },
+  "h1": {
+   "en": "Download your district",
+   "mr": "तुमचा जिल्हा डाउनलोड करा"
+  },
+  "h1t": {
+   "en": "Choose the district where your branch is, and download its PDF.",
+   "mr": "तुमची शाखा ज्या जिल्ह्यात आहे तो जिल्हा निवडा आणि त्याची पीडीएफ डाउनलोड करा."
+  },
+  "h2": {
+   "en": "Search inside the file",
+   "mr": "फाइलमध्ये शोधा"
+  },
+  "h2t": {
+   "en": "Open the PDF and search for your name or member number. On a phone, use “Find in page”.",
+   "mr": "पीडीएफ उघडा आणि तुमचे नाव किंवा सभासद क्रमांक शोधा. फोनवर ब्राउझरच्या मेनूतील “पानावर शोधा” वापरा."
+  },
+  "h3": {
+   "en": "Not on the list?",
+   "mr": "यादीत नाव नाही?"
+  },
+  "h3t": {
+   "en": "Call {phone} or visit your branch with your passbook.",
+   "mr": "{phone} वर कॉल करा किंवा पासबुक घेऊन तुमच्या शाखेत जा."
+  },
+  "finalTitle": {
+   "en": "Looking for the final list?",
+   "mr": "अंतिम यादी हवी आहे?"
+  },
+  "finalText": {
+   "en": "The final list of members eligible to vote is on the Notices page.",
+   "mr": "मतदानास पात्र सभासदांची अंतिम यादी सूचना पानावर आहे."
+  },
+  "finalLink": {
+   "en": "Go to Notices",
+   "mr": "सूचना पान पाहा"
+  },
+  "note": {
+   "en": "These are scanned documents and some files are large (up to {max} MB). Download them over Wi-Fi where you can.",
+   "mr": "ही स्कॅन केलेली कागदपत्रे आहेत आणि काही फाइल मोठ्या आहेत ({max} MB पर्यंत). शक्य असल्यास वाय-फायवर डाउनलोड करा."
+  }
+ },
+ "loans": {
+  "metaTitle": {
+   "en": "Loans",
+   "mr": "कर्ज"
+  },
+  "metaDescription": {
+   "en": "Agriculture, housing, vehicle, personal, warehouse, cash credit, hypothecation, mortgage, microfinance and bachat gat loans from Lokmangal Multistate, with quick approval and little paperwork.",
+   "mr": "लोकमंगल मल्टीस्टेटकडून शेती, गृह, वाहन, वैयक्तिक, वखार, कॅश क्रेडिट, हायपोथिकेशन, तारण, सूक्ष्म वित्त आणि बचत गट कर्ज; जलद मंजुरी आणि कमी कागदपत्रे."
+  },
+  "eyebrow": {
+   "en": "Loans",
+   "mr": "कर्ज"
+  },
+  "title": {
+   "en": "A loan for your",
+   "mr": "कर्ज तुमच्या"
+  },
+  "accent": {
+   "en": "farm, home or business",
+   "mr": "शेती, घर किंवा व्यवसायासाठी"
+  },
+  "lead": {
+   "en": "Quick processing, little paperwork and easy repayment, from a branch team that knows your town.",
+   "mr": "जलद प्रक्रिया, कमी कागदपत्रे आणि सोपी परतफेड; तुमच्या गावाची जाण असलेल्या शाखा टीमकडून."
+  },
+  "apply": {
+   "en": "Apply for a loan",
+   "mr": "कर्जासाठी अर्ज करा"
+  },
+  "emi": {
+   "en": "EMI calculator",
+   "mr": "हप्ता (EMI) कॅल्क्युलेटर"
+  },
+  "pause": {
+   "en": "Pause the changing pictures",
+   "mr": "बदलणारी चित्रे थांबवा"
+  },
+  "play": {
+   "en": "Play the changing pictures",
+   "mr": "बदलणारी चित्रे सुरू करा"
+  },
+  "from": {
+   "en": "from {rate}%",
+   "mr": "{rate}% पासून"
+  },
+  "catAll": {
+   "en": "All loans",
+   "mr": "सर्व कर्ज"
+  },
+  "catAgri": {
+   "en": "Farm",
+   "mr": "शेती"
+  },
+  "catHome": {
+   "en": "Home & property",
+   "mr": "घर व मालमत्ता"
+  },
+  "catBusiness": {
+   "en": "Business",
+   "mr": "व्यवसाय"
+  },
+  "catPersonal": {
+   "en": "Personal & vehicle",
+   "mr": "वैयक्तिक व वाहन"
+  },
+  "allEyebrow": {
+   "en": "Our loan products",
+   "mr": "आमच्या कर्ज योजना"
+  },
+  "allTitle": {
+   "en": "Find the loan that",
+   "mr": "तुमच्यासाठी योग्य"
+  },
+  "allAccent": {
+   "en": "fits you",
+   "mr": "कर्ज शोधा"
+  },
+  "filterLabel": {
+   "en": "Filter loans",
+   "mr": "कर्ज निवडा"
+  },
+  "interest": {
+   "en": "Interest",
+   "mr": "व्याज"
+  },
+  "amount": {
+   "en": "Amount",
+   "mr": "रक्कम"
+  },
+  "details": {
+   "en": "Eligibility & documents",
+   "mr": "पात्रता व कागदपत्रे"
+  },
+  "applyFor": {
+   "en": "Apply",
+   "mr": "अर्ज करा"
+  },
+  "viewDetails": {
+   "en": "View details",
+   "mr": "तपशील पहा"
+  },
+  "fromWord": {
+   "en": "from",
+   "mr": "पासून"
+  },
+  "pa": {
+   "en": "p.a.",
+   "mr": "वार्षिक"
+  },
+  "guarantors": {
+   "en": "Guarantors",
+   "mr": "जामीनदार"
+  },
+  "period": {
+   "en": "Period",
+   "mr": "कालावधी"
+  },
+  "security": {
+   "en": "Security",
+   "mr": "तारण"
+  },
+  "close": {
+   "en": "Close",
+   "mr": "बंद करा"
+  },
+  "sheetLead": {
+   "en": "Interest and amount",
+   "mr": "व्याज आणि रक्कम"
+  },
+  "emiExample": {
+   "en": "Borrow {amount} for {years} years and pay about",
+   "mr": "{amount} कर्ज {years} वर्षांसाठी घेतल्यास हप्ता सुमारे"
+  },
+  "emiPer": {
+   "en": "a month at {rate}%",
+   "mr": "दरमहा, {rate}% दराने"
+  },
+  "emiNote": {
+   "en": "Indicative, at the lowest rate for this loan.",
+   "mr": "अंदाजे, या कर्जाच्या सर्वात कमी दराने."
+  },
+  "calcThis": {
+   "en": "Work out your EMI",
+   "mr": "तुमचा हप्ता मोजा"
+  },
+  "emiEyebrow": {
+   "en": "EMI calculator",
+   "mr": "हप्ता कॅल्क्युलेटर"
+  },
+  "emiTitle": {
+   "en": "Plan your",
+   "mr": "तुमच्या परतफेडीचे"
+  },
+  "emiAccent": {
+   "en": "repayments",
+   "mr": "नियोजन करा"
+  },
+  "helpEyebrow": {
+   "en": "Talk to us",
+   "mr": "आमच्याशी बोला"
+  },
+  "helpTitle": {
+   "en": "Not sure which loan is",
+   "mr": "कोणते कर्ज योग्य आहे"
+  },
+  "helpAccent": {
+   "en": "right for you?",
+   "mr": "हे ठरत नाही?"
+  },
+  "helpText": {
+   "en": "Tell us what you need and a loan officer from your nearest branch will call you with options, eligibility and the documents you need.",
+   "mr": "तुमची गरज सांगा; जवळच्या शाखेतील कर्ज अधिकारी पर्याय, पात्रता आणि आवश्यक कागदपत्रांसह तुम्हाला कॉल करतील."
+  },
+  "help1": {
+   "en": "Personal guidance from a local branch team",
+   "mr": "स्थानिक शाखा टीमकडून वैयक्तिक मार्गदर्शन"
+  },
+  "help2": {
+   "en": "Clear rates with no hidden charges",
+   "mr": "छुपे शुल्क नसलेले स्पष्ट दर"
+  },
+  "help3": {
+   "en": "Quick processing and disbursal",
+   "mr": "जलद प्रक्रिया आणि वितरण"
+  },
+  "formTitle": {
+   "en": "Get a callback",
+   "mr": "कॉल करण्याची विनंती"
+  },
+  "formSubtitle": {
+   "en": "About any loan.",
+   "mr": "कोणत्याही कर्जाबाबत."
+  },
+  "ctaTitle": {
+   "en": "Turn your plans into",
+   "mr": "तुमची स्वप्ने"
+  },
+  "ctaAccent": {
+   "en": "reality",
+   "mr": "प्रत्यक्षात आणा"
+  },
+  "ctaText": {
+   "en": "Apply online in minutes or visit any of our {branches} branches. Our team will help you every step of the way.",
+   "mr": "काही मिनिटांत ऑनलाइन अर्ज करा किंवा आमच्या {branches} पैकी कोणत्याही शाखेत या. प्रत्येक टप्प्यावर आमची टीम मदत करेल."
+  }
+ },
+ "notices": {
+  "metaTitle": {
+   "en": "Notices",
+   "mr": "सूचना"
+  },
+  "metaDescription": {
+   "en": "Official notices of Lokmangal Multistate Co-operative Society: Board of Directors and Office Bearers Election 2025 documents and voter lists.",
+   "mr": "लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटीच्या अधिकृत सूचना: संचालक मंडळ व पदाधिकारी निवडणूक 2025 ची कागदपत्रे आणि मतदार याद्या."
+  },
+  "eyebrow": {
+   "en": "Official",
+   "mr": "अधिकृत"
+  },
+  "title": {
+   "en": "Notices &",
+   "mr": "सूचना आणि"
+  },
+  "accent": {
+   "en": "announcements",
+   "mr": "घोषणा"
+  },
+  "lead": {
+   "en": "Official notices for members, with every document to read or download.",
+   "mr": "सभासदांसाठी अधिकृत सूचना, वाचण्यासाठी किंवा डाउनलोड करण्यासाठी सर्व कागदपत्रांसह."
+  },
+  "docs": {
+   "en": "{n} documents",
+   "mr": "{n} कागदपत्रे"
+  },
+  "updated": {
+   "en": "Updated {date}",
+   "mr": "{date} रोजी अद्ययावत"
+  },
+  "officialNotice": {
+   "en": "Official notice",
+   "mr": "अधिकृत सूचना"
+  },
+  "pinned": {
+   "en": "Pinned",
+   "mr": "महत्त्वाची"
+  },
+  "issued": {
+   "en": "Dated",
+   "mr": "दिनांक"
+  },
+  "regd": {
+   "en": "Regd. No.",
+   "mr": "नोंदणी क्र."
+  },
+  "filter": {
+   "en": "Show",
+   "mr": "दाखवा"
+  },
+  "all": {
+   "en": "All",
+   "mr": "सर्व"
+  },
+  "pdf": {
+   "en": "PDF",
+   "mr": "पीडीएफ"
+  },
+  "drive": {
+   "en": "Google Drive",
+   "mr": "गुगल ड्राइव्ह"
+  },
+  "page": {
+   "en": "Web page",
+   "mr": "वेब पान"
+  },
+  "open": {
+   "en": "Open",
+   "mr": "उघडा"
+  },
+  "download": {
+   "en": "Download",
+   "mr": "डाउनलोड"
+  },
+  "view": {
+   "en": "View",
+   "mr": "पाहा"
+  },
+  "no": {
+   "en": "No.",
+   "mr": "क्र."
+  },
+  "doc": {
+   "en": "Document",
+   "mr": "कागदपत्र"
+  },
+  "type": {
+   "en": "Type",
+   "mr": "प्रकार"
+  },
+  "helpTitle": {
+   "en": "Need help with a notice?",
+   "mr": "सूचनेबद्दल मदत हवी आहे?"
+  },
+  "helpText": {
+   "en": "Call the head office or visit your branch, and our team will guide you.",
+   "mr": "मुख्य कार्यालयाला कॉल करा किंवा तुमच्या शाखेला भेट द्या, आमची टीम मार्गदर्शन करेल."
+  },
+  "members": {
+   "en": "List of members",
+   "mr": "सभासदांची यादी"
+  },
+  "membersText": {
+   "en": "District-wise lists of members and delegates.",
+   "mr": "जिल्हानिहाय सभासद व प्रतिनिधींच्या याद्या."
+  },
+  "pdfNote": {
+   "en": "PDF files open in a new tab. They can be large on mobile data.",
+   "mr": "पीडीएफ फाइल नवीन टॅबमध्ये उघडतात. मोबाइल डेटावर त्या मोठ्या असू शकतात."
+  }
+ },
+ "open-an-account": {
+  "metaTitle": {
+   "en": "Open an Account",
+   "mr": "खाते उघडा"
+  },
+  "metaDescription": {
+   "en": "Open a savings account, current account or recurring deposit with Lokmangal Multistate. Apply online and our team will call you back.",
+   "mr": "लोकमंगल मल्टीस्टेटमध्ये बचत खाते, चालू खाते किंवा रिकरिंग ठेव उघडा. ऑनलाइन अर्ज करा, आमची टीम तुम्हाला कॉल करेल."
+  },
+  "eyebrow": {
+   "en": "Open an account",
+   "mr": "खाते उघडा"
+  },
+  "title": {
+   "en": "Your account,",
+   "mr": "तुमचे खाते,"
+  },
+  "accent": {
+   "en": "in four easy steps",
+   "mr": "चार सोप्या पायऱ्यांत"
+  },
+  "lead": {
+   "en": "Savings, current and recurring deposit accounts, with a wide branch network, mobile banking and a team that calls you back.",
+   "mr": "बचत, चालू आणि रिकरिंग ठेव खाती, शाखांचे मोठे जाळे, मोबाइल बँकिंग आणि तुम्हाला परत कॉल करणारी टीम."
+  },
+  "start": {
+   "en": "Start your application",
+   "mr": "अर्ज सुरू करा"
+  },
+  "call": {
+   "en": "Call {phone}",
+   "mr": "{phone} वर कॉल करा"
+  },
+  "pickEyebrow": {
+   "en": "Step 1",
+   "mr": "पायरी 1"
+  },
+  "pickTitle": {
+   "en": "Choose",
+   "mr": "तुमचे"
+  },
+  "pickAccent": {
+   "en": "your account",
+   "mr": "खाते निवडा"
+  },
+  "pickLead": {
+   "en": "Pick one and we will fill it in on the form below. You can change it at any time.",
+   "mr": "एक खाते निवडा, आम्ही ते खालील फॉर्ममध्ये भरू. तुम्ही ते कधीही बदलू शकता."
+  },
+  "passbook": {
+   "en": "Passbook",
+   "mr": "पासबुक"
+  },
+  "choose": {
+   "en": "Choose this account",
+   "mr": "हे खाते निवडा"
+  },
+  "chosen": {
+   "en": "Chosen",
+   "mr": "निवडले"
+  },
+  "savings": {
+   "en": "Savings Account",
+   "mr": "बचत खाते"
+  },
+  "savingsFor": {
+   "en": "For your everyday money",
+   "mr": "रोजच्या पैशांसाठी"
+  },
+  "savingsText": {
+   "en": "Deposit and withdraw at any branch, and keep track of your money on your phone.",
+   "mr": "कोणत्याही शाखेत पैसे भरा व काढा आणि फोनवरून तुमच्या पैशांचा हिशेब ठेवा."
+  },
+  "savings1": {
+   "en": "Mobile and net banking",
+   "mr": "मोबाइल व नेट बँकिंग"
+  },
+  "savings2": {
+   "en": "SMS banking",
+   "mr": "एसएमएस बँकिंग"
+  },
+  "savings3": {
+   "en": "Nomination facility",
+   "mr": "वारसदार सुविधा"
+  },
+  "current": {
+   "en": "Current Account",
+   "mr": "चालू खाते"
+  },
+  "currentFor": {
+   "en": "For shops and businesses",
+   "mr": "दुकाने व व्यवसायांसाठी"
+  },
+  "currentText": {
+   "en": "For businesses that pay and receive money many times a day.",
+   "mr": "दिवसातून अनेक वेळा पैसे देणाऱ्या व घेणाऱ्या व्यवसायांसाठी."
+  },
+  "current1": {
+   "en": "NEFT and RTGS transfers",
+   "mr": "एनईएफटी व आरटीजीएस"
+  },
+  "current2": {
+   "en": "Utility bill payments",
+   "mr": "वीज व इतर बिल भरणा"
+  },
+  "current3": {
+   "en": "Service at any branch",
+   "mr": "कोणत्याही शाखेत सेवा"
+  },
+  "rd": {
+   "en": "Recurring Deposit",
+   "mr": "रिकरिंग ठेव"
+  },
+  "rdFor": {
+   "en": "For saving every month",
+   "mr": "दरमहा बचतीसाठी"
+  },
+  "rdText": {
+   "en": "Put aside a fixed amount every month and earn interest on all of it.",
+   "mr": "दरमहा ठरावीक रक्कम बाजूला ठेवा आणि संपूर्ण रकमेवर व्याज मिळवा."
+  },
+  "rd1plain": {
+   "en": "Monthly savings plan",
+   "mr": "मासिक बचत योजना"
+  },
+  "rd2": {
+   "en": "Small monthly amounts",
+   "mr": "दरमहा छोटी रक्कम"
+  },
+  "rd3": {
+   "en": "Nomination facility",
+   "mr": "वारसदार सुविधा"
+  },
+  "rdLink": {
+   "en": "See RD details",
+   "mr": "रिकरिंग ठेवेची माहिती"
+  },
+  "applyEyebrow": {
+   "en": "Step 2",
+   "mr": "पायरी 2"
+  },
+  "applyTitle": {
+   "en": "Tell us",
+   "mr": "तुमची"
+  },
+  "applyAccent": {
+   "en": "about you",
+   "mr": "माहिती द्या"
+  },
+  "formTitle": {
+   "en": "Apply now",
+   "mr": "आत्ताच अर्ज करा"
+  },
+  "formSub": {
+   "en": "Fields marked * are required.",
+   "mr": "* असलेली माहिती आवश्यक आहे."
+  },
+  "formSubmit": {
+   "en": "Submit application",
+   "mr": "अर्ज पाठवा"
+  },
+  "howTitle": {
+   "en": "What happens next",
+   "mr": "पुढे काय होते"
+  },
+  "s1": {
+   "en": "Fill in the form",
+   "mr": "फॉर्म भरा"
+  },
+  "s1t": {
+   "en": "Tell us which account you would like to open. It takes under a minute.",
+   "mr": "कोणते खाते उघडायचे आहे ते सांगा. एक मिनिटही लागत नाही."
+  },
+  "s2": {
+   "en": "We call you back",
+   "mr": "आम्ही कॉल करतो"
+  },
+  "s2t": {
+   "en": "Our branch team confirms your details and answers your questions.",
+   "mr": "आमची शाखा टीम तुमची माहिती तपासते आणि प्रश्नांची उत्तरे देते."
+  },
+  "s3": {
+   "en": "Visit with your KYC",
+   "mr": "केवायसीसह शाखेत या"
+  },
+  "s3t": {
+   "en": "Bring your documents to the nearest branch to complete the process.",
+   "mr": "प्रक्रिया पूर्ण करण्यासाठी कागदपत्रे घेऊन जवळच्या शाखेत या."
+  },
+  "s4": {
+   "en": "Start banking",
+   "mr": "बँकिंग सुरू करा"
+  },
+  "s4t": {
+   "en": "Use your account at any branch, online or on our mobile app.",
+   "mr": "कोणत्याही शाखेत, ऑनलाइन किंवा मोबाइल ॲपवरून खाते वापरा."
+  },
+  "docsTitle": {
+   "en": "Keep these documents ready",
+   "mr": "ही कागदपत्रे तयार ठेवा"
+  },
+  "docsHint": {
+   "en": "Tick what you already have.",
+   "mr": "तुमच्याकडे असलेल्यांवर खूण करा."
+  },
+  "docsCount": {
+   "en": "{n} of {total} ready",
+   "mr": "{total} पैकी {n} तयार"
+  },
+  "docsDone": {
+   "en": "All set for your branch visit",
+   "mr": "शाखेत जाण्याची पूर्ण तयारी झाली"
+  },
+  "talk": {
+   "en": "Prefer to talk?",
+   "mr": "फोनवर बोलायचे आहे?"
+  },
+  "branches": {
+   "en": "Find your nearest branch",
+   "mr": "जवळची शाखा शोधा"
+  }
+ },
+ "other-services": {
+  "metaTitle": {
+   "en": "Other Services",
+   "mr": "इतर सेवा"
+  },
+  "metaDescription": {
+   "en": "Net banking, mobile banking, IMPS & UPI, NEFT/RTGS, SMS banking, safe deposit lockers and utility bill payments at Lokmangal Multistate.",
+   "mr": "लोकमंगल मल्टीस्टेटच्या सेवा: नेट बँकिंग, मोबाइल बँकिंग, आयएमपीएस व यूपीआय, एनईएफटी/आरटीजीएस, एसएमएस बँकिंग, लॉकर आणि बिल भरणा."
+  },
+  "eyebrow": {
+   "en": "Other services",
+   "mr": "इतर सेवा"
+  },
+  "title": {
+   "en": "Banking that",
+   "mr": "तुमचा वेळ"
+  },
+  "accent": {
+   "en": "saves your time",
+   "mr": "वाचवणारे बँकिंग"
+  },
+  "lead": {
+   "en": "Use your account from your phone or computer, send money in seconds, and keep valuables safe at the branch.",
+   "mr": "फोन किंवा संगणकावरून खाते वापरा, काही सेकंदांत पैसे पाठवा आणि मौल्यवान वस्तू शाखेत सुरक्षित ठेवा."
+  },
+  "getApp": {
+   "en": "Get it on",
+   "mr": "डाउनलोड करा"
+  },
+  "store": {
+   "en": "Google Play",
+   "mr": "गुगल प्ले"
+  },
+  "enquire": {
+   "en": "Make an enquiry",
+   "mr": "चौकशी करा"
+  },
+  "jump": {
+   "en": "Jump to a service",
+   "mr": "सेवेवर थेट जा"
+  },
+  "appEyebrow": {
+   "en": "Mobile banking",
+   "mr": "मोबाइल बँकिंग"
+  },
+  "appTitle": {
+   "en": "Your account,",
+   "mr": "तुमचे खाते,"
+  },
+  "appAccent": {
+   "en": "on your phone",
+   "mr": "तुमच्या फोनवर"
+  },
+  "secure": {
+   "en": "Works only on your registered phone and SIM",
+   "mr": "फक्त तुमच्या नोंदणीकृत मोबाइल व सिमवर चालते"
+  },
+  "canTitle": {
+   "en": "What you can do without visiting a branch",
+   "mr": "शाखेत न जाता तुम्ही काय करू शकता"
+  },
+  "f1": {
+   "en": "Balance and statements",
+   "mr": "शिल्लक व स्टेटमेंट"
+  },
+  "f1t": {
+   "en": "Check your balance and view statements whenever you like.",
+   "mr": "हवे तेव्हा शिल्लक पाहा आणि स्टेटमेंट तपासा."
+  },
+  "f2": {
+   "en": "Send money in seconds",
+   "mr": "काही सेकंदांत पैसे पाठवा"
+  },
+  "f2t": {
+   "en": "IMPS and UPI to any bank account, no long account numbers needed.",
+   "mr": "आयएमपीएस व यूपीआयने कोणत्याही बँक खात्यात, लांब खाते क्रमांकाशिवाय."
+  },
+  "f3": {
+   "en": "Pay bills from home",
+   "mr": "घरबसल्या बिल भरा"
+  },
+  "f3t": {
+   "en": "Electricity, mobile and other utility bills, without standing in a queue.",
+   "mr": "वीज, मोबाइल व इतर बिले, रांगेत न थांबता."
+  },
+  "waysEyebrow": {
+   "en": "More ways to bank",
+   "mr": "बँकिंगचे आणखी मार्ग"
+  },
+  "waysTitle": {
+   "en": "Pick the way",
+   "mr": "तुमच्या सोयीचा"
+  },
+  "waysAccent": {
+   "en": "that suits you",
+   "mr": "मार्ग निवडा"
+  },
+  "branchEyebrow": {
+   "en": "At your branch",
+   "mr": "तुमच्या शाखेत"
+  },
+  "branchTitle": {
+   "en": "Help you can",
+   "mr": "शाखेत मिळणाऱ्या"
+  },
+  "branchAccent": {
+   "en": "walk in for",
+   "mr": "सुविधा"
+  },
+  "appLink": {
+   "en": "Download the app",
+   "mr": "ॲप डाउनलोड करा"
+  },
+  "branchLink": {
+   "en": "Find your branch",
+   "mr": "तुमची शाखा शोधा"
+  },
+  "stepsEyebrow": {
+   "en": "Getting started",
+   "mr": "सुरुवात कशी करावी"
+  },
+  "stepsTitle": {
+   "en": "Start in",
+   "mr": "फक्त"
+  },
+  "stepsAccent": {
+   "en": "three steps",
+   "mr": "तीन पायऱ्या"
+  },
+  "s1": {
+   "en": "Visit your branch",
+   "mr": "शाखेत या"
+  },
+  "s1t": {
+   "en": "Bring your KYC documents and fill a short form to switch on the services you want.",
+   "mr": "केवायसी कागदपत्रे घेऊन या आणि हव्या त्या सेवा सुरू करण्यासाठी छोटा फॉर्म भरा."
+  },
+  "s2": {
+   "en": "Install the app",
+   "mr": "ॲप डाउनलोड करा"
+  },
+  "s2t": {
+   "en": "Download the Lokmangal app and register with the mobile number linked to your account.",
+   "mr": "लोकमंगल ॲप डाउनलोड करा आणि खात्याशी जोडलेल्या मोबाइल क्रमांकाने नोंदणी करा."
+  },
+  "s3": {
+   "en": "Bank from anywhere",
+   "mr": "कुठूनही बँकिंग"
+  },
+  "s3t": {
+   "en": "Check balances, send money and pay bills any time, from your own phone.",
+   "mr": "कधीही, तुमच्या स्वतःच्या फोनवरून शिल्लक पाहा, पैसे पाठवा आणि बिले भरा."
+  },
+  "safety": {
+   "en": "Lokmangal will never ask for your PIN, password or OTP. Do not share them with anyone.",
+   "mr": "लोकमंगल कधीही तुमचा पिन, पासवर्ड किंवा ओटीपी विचारत नाही. तो कोणालाही सांगू नका."
+  },
+  "formEyebrow": {
+   "en": "Get in touch",
+   "mr": "संपर्क"
+  },
+  "formTitle": {
+   "en": "An enquiry or a",
+   "mr": "चौकशी असो किंवा"
+  },
+  "formAccent": {
+   "en": "service request?",
+   "mr": "सेवेची विनंती"
+  },
+  "formLead": {
+   "en": "Write to us and we will get back to you. You can also call {phone} or email {email}.",
+   "mr": "आम्हाला लिहा, आम्ही तुम्हाला उत्तर देऊ. तुम्ही {phone} वर कॉल करू शकता किंवा {email} वर ईमेल करू शकता."
+  },
+  "formCard": {
+   "en": "Service enquiry",
+   "mr": "सेवा चौकशी"
+  }
+ },
+ "privacy-policy": {
+  "metaTitle": {
+   "en": "Privacy Policy",
+   "mr": "गोपनीयता धोरण"
+  },
+  "metaDescription": {
+   "en": "How Lokmangal Multistate Co-operative Society collects, uses and protects your personal information.",
+   "mr": "लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटी तुमची वैयक्तिक माहिती कशी गोळा करते, वापरते आणि सुरक्षित ठेवते."
+  },
+  "title": {
+   "en": "Privacy",
+   "mr": "गोपनीयता"
+  },
+  "accent": {
+   "en": "policy",
+   "mr": "धोरण"
+  },
+  "lead": {
+   "en": "What information we collect through this website, how we use it, and the choices you have.",
+   "mr": "या संकेतस्थळावरून आम्ही कोणती माहिती गोळा करतो, ती कशी वापरतो आणि तुमच्याकडे कोणते पर्याय आहेत."
+  },
+  "summary.0": {
+   "en": "We collect only the details you type into our forms.",
+   "mr": "तुम्ही आमच्या फॉर्ममध्ये लिहिता तेवढीच माहिती आम्ही गोळा करतो."
+  },
+  "summary.1": {
+   "en": "We never ask for your PIN, password, OTP or card details. Do not share them with anyone.",
+   "mr": "आम्ही कधीही तुमचा पिन, पासवर्ड, ओटीपी किंवा कार्डचा तपशील विचारत नाही. तो कोणालाही सांगू नका."
+  },
+  "summary.2": {
+   "en": "We do not sell your information.",
+   "mr": "आम्ही तुमची माहिती विकत नाही."
+  },
+  "related": {
+   "en": "Terms of Use",
+   "mr": "वापराच्या अटी"
+  },
+  "sections.0.1": {
+   "en": "About this policy",
+   "mr": "या धोरणाबद्दल"
+  },
+  "sections.1.1": {
+   "en": "Information we collect",
+   "mr": "आम्ही गोळा करतो ती माहिती"
+  },
+  "sections.1.2": {
+   "en": "<p>When you submit a form, such as an account, deposit, loan, callback, contact or job application, we collect the details you provide, for example your name, phone number, email address, city and message. We do not ask for passwords, PINs or card details on this website, and you should never share them with anyone.</p>",
+   "mr": "<p>खाते, ठेव, कर्ज, कॉलबॅक, संपर्क किंवा नोकरीचा अर्ज असा कोणताही फॉर्म पाठवताना तुम्ही दिलेली माहिती आम्ही गोळा करतो, उदा. तुमचे नाव, फोन नंबर, ईमेल, शहर आणि संदेश. या संकेतस्थळावर आम्ही पासवर्ड, पिन किंवा कार्डचा तपशील विचारत नाही आणि तो तुम्ही कोणालाही सांगू नये.</p>"
+  },
+  "sections.2.1": {
+   "en": "How we use it",
+   "mr": "आम्ही ती कशी वापरतो"
+  },
+  "sections.2.2": {
+   "en": "<ul><li>To contact you about your enquiry or application.</li><li>To help you open an account, deposit or loan at a branch.</li><li>To respond to service requests and improve our services.</li></ul>",
+   "mr": "<ul><li>तुमच्या चौकशी किंवा अर्जाबद्दल तुमच्याशी संपर्क करण्यासाठी.</li><li>शाखेत खाते, ठेव किंवा कर्ज सुरू करण्यास मदत करण्यासाठी.</li><li>सेवेच्या विनंत्यांना उत्तर देण्यासाठी आणि सेवा सुधारण्यासाठी.</li></ul>"
+  },
+  "sections.3.1": {
+   "en": "Sharing",
+   "mr": "माहिती कोणाला दिली जाते"
+  },
+  "sections.3.2": {
+   "en": "<p>We do not sell your personal information. We share it only with our own staff and branches who need it to serve you, or where required by law or a regulator.</p>",
+   "mr": "<p>आम्ही तुमची वैयक्तिक माहिती विकत नाही. तुमची सेवा करण्यासाठी गरज असलेल्या आमच्या कर्मचारी व शाखांनाच ती दिली जाते, किंवा कायद्याने अथवा नियामकाने आवश्यक असल्यास.</p>"
+  },
+  "sections.4.1": {
+   "en": "Security and retention",
+   "mr": "सुरक्षा आणि माहिती जतन"
+  },
+  "sections.4.2": {
+   "en": "<p>We take reasonable steps to protect the information you share and keep it only for as long as needed to serve you or to meet legal requirements.</p>",
+   "mr": "<p>तुम्ही दिलेली माहिती सुरक्षित ठेवण्यासाठी आम्ही योग्य काळजी घेतो आणि तुमची सेवा करण्यासाठी किंवा कायदेशीर गरजांसाठी आवश्यक तेवढाच काळ ती ठेवतो.</p>"
+  },
+  "sections.5.1": {
+   "en": "Cookies",
+   "mr": "कुकीज"
+  },
+  "sections.5.2": {
+   "en": "<p>This website stores only small, temporary preferences in your browser (for example, whether you dismissed an announcement). Embedded services such as Google Maps or YouTube may set their own cookies when you use them.</p>",
+   "mr": "<p>हे संकेतस्थळ तुमच्या ब्राउझरमध्ये फक्त छोट्या, तात्पुरत्या पसंती जतन करते (उदा. तुम्ही एखादी घोषणा बंद केली आहे का). गुगल मॅप्स किंवा यूट्यूबसारख्या जोडलेल्या सेवा तुम्ही वापरता तेव्हा त्या स्वतःच्या कुकीज ठेवू शकतात.</p>"
+  },
+  "sections.6.1": {
+   "en": "Your choices",
+   "mr": "तुमचे पर्याय"
+  },
+  "sections.6.2": {
+   "en": "<p>You may ask us to update or delete the details you submitted by writing to <a href=\"mailto:emailus@lokmangal.co.in\">emailus@lokmangal.co.in</a>.</p>",
+   "mr": "<p>तुम्ही पाठवलेली माहिती बदलण्यास किंवा काढून टाकण्यास <a href=\"mailto:emailus@lokmangal.co.in\">emailus@lokmangal.co.in</a> वर लिहून सांगू शकता.</p>"
+  },
+  "sections.7.1": {
+   "en": "Contact",
+   "mr": "संपर्क"
+  }
+ },
+ "rate-wording": {
+  "open-an-account.rd1": {
+   "en": "Interest up to {rate}% p.a.",
+   "mr": "वार्षिक {rate}% पर्यंत व्याज"
+  },
+  "site.home.dep.special": {
+   "en": "Special categories get +{rate}%",
+   "mr": "विशेष गटांना +{rate}% अधिक"
+  },
+  "site.home.quick.tagFd": {
+   "en": "Up to {rate}% a year",
+   "mr": "वार्षिक {rate}% पर्यंत"
+  },
+  "site.home.slide2.accent": {
+   "en": "10% a year",
+   "mr": "10% पर्यंत व्याज"
+  },
+  "site.mega.extra": {
+   "en": "Special categories +0.50%",
+   "mr": "विशेष गटांना +0.50%"
+  },
+  "site.mega.unitDeposit": {
+   "en": "% p.a.",
+   "mr": "% वार्षिक"
+  },
+  "site.mega.unitLoan": {
+   "en": "from, % p.a.",
+   "mr": "% वार्षिक पासून"
+  },
+  "site.title.home": {
+   "en": "{name}, Co-operative Society in Solapur | Deposits up to 10% & Loans",
+   "mr": "{name}, सोलापूर येथील सहकारी संस्था | 10% पर्यंत व्याजाच्या ठेवी आणि कर्ज"
+  }
+ },
+ "rural-wealth-manager": {
+  "metaTitle": {
+   "en": "Rural Wealth Manager",
+   "mr": "ग्रामीण संपत्ती व्यवस्थापन सुविधा"
+  },
+  "metaDescription": {
+   "en": "Lokmangal Rural Wealth Manager: investments, loans, demat and trading, gold and silver, and insurance for rural families, all in one place.",
+   "mr": "लोकमंगल ग्रामीण संपत्ती व्यवस्थापन सुविधा: गुंतवणूक, कर्ज, डीमॅट व ट्रेडिंग, सोने-चांदी आणि इन्शुरन्स, ग्रामीण कुटुंबांसाठी एकाच ठिकाणी."
+  },
+  "eyebrow": {
+   "en": "Rural Wealth Manager",
+   "mr": "ग्रामीण संपत्ती व्यवस्थापन सुविधा"
+  },
+  "title": {
+   "en": "Wealth services,",
+   "mr": "संपत्तीच्या सेवा,"
+  },
+  "accent": {
+   "en": "right in your village",
+   "mr": "आता तुमच्या गावात"
+  },
+  "lead": {
+   "en": "Investments, loans, shares, gold and insurance. A Lokmangal Rural Wealth Manager brings them to villages and small towns, with personal guidance for your family.",
+   "mr": "गुंतवणूक, कर्ज, शेअर्स, सोने आणि इन्शुरन्स. लोकमंगलचे ग्रामीण संपत्ती व्यवस्थापक या सेवा गावे व लहान शहरांपर्यंत आणतात आणि तुमच्या कुटुंबाला वैयक्तिक मार्गदर्शन करतात."
+  },
+  "call": {
+   "en": "Call {phone}",
+   "mr": "{phone} वर कॉल करा"
+  },
+  "callback": {
+   "en": "Request a callback",
+   "mr": "कॉलबॅकची विनंती करा"
+  },
+  "factAreas": {
+   "en": "service areas",
+   "mr": "सेवा क्षेत्रे"
+  },
+  "factProducts": {
+   "en": "products",
+   "mr": "उत्पादने"
+  },
+  "factOne": {
+   "en": "person to call for all of it",
+   "mr": "सर्व सेवांसाठी एकच व्यक्ती"
+  },
+  "svcEyebrow": {
+   "en": "{n} services, one relationship",
+   "mr": "{n} सेवा, एकच नाते"
+  },
+  "svcTitle": {
+   "en": "Everything your family needs to",
+   "mr": "कुटुंबाची संपत्ती वाढवण्यासाठी"
+  },
+  "svcAccent": {
+   "en": "grow wealth",
+   "mr": "सर्व काही एकाच ठिकाणी"
+  },
+  "tabsLabel": {
+   "en": "Rural Wealth Manager services",
+   "mr": "ग्रामीण संपत्ती व्यवस्थापन सेवा"
+  },
+  "options": {
+   "en": "{n} options",
+   "mr": "{n} पर्याय"
+  },
+  "ask": {
+   "en": "Ask about this",
+   "mr": "याबद्दल विचारा"
+  },
+  "d_invest": {
+   "en": "Grow your savings steadily with fixed deposits, investment plans and pension schemes.",
+   "mr": "मुदत ठेव, गुंतवणूक योजना आणि पेन्शन योजनांद्वारे तुमची बचत सातत्याने वाढवा."
+  },
+  "d_loans": {
+   "en": "Credit when your family or business needs it, from instant gold loans to micro-finance.",
+   "mr": "कुटुंब किंवा व्यवसायाच्या गरजेच्या वेळी कर्ज, झटपट सोने तारण कर्जापासून सूक्ष्म वित्त कर्जापर्यंत."
+  },
+  "d_equity": {
+   "en": "Take part in the share market with a demat account, share trading and mutual funds.",
+   "mr": "डीमॅट खाते, शेअर्स ट्रेडिंग आणि म्युच्युअल फंडाद्वारे शेअर बाजारात सहभागी व्हा."
+  },
+  "d_gold": {
+   "en": "Buy gold and silver online, without a trip to the city.",
+   "mr": "शहरात न जाता ऑनलाइन सोने व चांदी खरेदी करा."
+  },
+  "d_insurance": {
+   "en": "Protect your family with life, health, general and micro insurance.",
+   "mr": "लाइफ, हेल्थ, जनरल आणि मायक्रो इन्शुरन्सद्वारे कुटुंबाचे संरक्षण करा."
+  },
+  "slogan": {
+   "en": "Now the rural economy becomes",
+   "mr": "आता होईल ग्रामीण अर्थव्यवस्था"
+  },
+  "sloganAccent": {
+   "en": "even stronger",
+   "mr": "अधिक सक्षम"
+  },
+  "sloganBy": {
+   "en": "Lokmangal Rural Wealth Manager",
+   "mr": "लोकमंगल ग्रामीण संपत्ती व्यवस्थापन सुविधा"
+  },
+  "whyEyebrow": {
+   "en": "Why a Rural Wealth Manager",
+   "mr": "ग्रामीण संपत्ती व्यवस्थापक का?"
+  },
+  "whyTitle": {
+   "en": "City-level services,",
+   "mr": "शहरातील सुविधा,"
+  },
+  "whyAccent": {
+   "en": "at your doorstep",
+   "mr": "तुमच्या दारात"
+  },
+  "w1": {
+   "en": "Comes to your village",
+   "mr": "तुमच्या गावात"
+  },
+  "w1t": {
+   "en": "Products once found only in cities, now in villages and small towns.",
+   "mr": "पूर्वी फक्त शहरात मिळणाऱ्या सेवा आता गावे व लहान शहरांत."
+  },
+  "w2": {
+   "en": "Personal guidance",
+   "mr": "वैयक्तिक मार्गदर्शन"
+  },
+  "w2t": {
+   "en": "Advice on investments, insurance and loans that fit your family.",
+   "mr": "तुमच्या कुटुंबाला साजेशी गुंतवणूक, इन्शुरन्स आणि कर्जाबाबत सल्ला."
+  },
+  "w3": {
+   "en": "One call away",
+   "mr": "फक्त एक कॉल"
+  },
+  "w3t": {
+   "en": "Call {phone} or request a callback, and we will reach you.",
+   "mr": "{phone} वर कॉल करा किंवा कॉलबॅकची विनंती करा, आम्ही तुमच्याशी संपर्क करू."
+  },
+  "formEyebrow": {
+   "en": "Request a callback",
+   "mr": "कॉलबॅक"
+  },
+  "formTitle": {
+   "en": "Talk to a",
+   "mr": "ग्रामीण संपत्ती व्यवस्थापकाशी"
+  },
+  "formAccent": {
+   "en": "Rural Wealth Manager",
+   "mr": "बोला"
+  },
+  "formLead": {
+   "en": "Tell us what you are looking for and a Rural Wealth Manager will contact you. You can also call {phone}.",
+   "mr": "तुम्हाला काय हवे आहे ते सांगा, ग्रामीण संपत्ती व्यवस्थापक तुमच्याशी संपर्क करतील. तुम्ही {phone} वर कॉलही करू शकता."
+  },
+  "formCard": {
+   "en": "Request a callback",
+   "mr": "कॉलबॅकची विनंती"
+  }
+ },
+ "site": {
+  "skip": {
+   "en": "Skip to content",
+   "mr": "मजकुराकडे जा"
+  },
+  "home": {
+   "en": "Home",
+   "mr": "मुख्यपृष्ठ"
+  },
+  "search": {
+   "en": "Search",
+   "mr": "शोधा"
+  },
+  "search.site": {
+   "en": "Search the website",
+   "mr": "वेबसाइटवर शोधा"
+  },
+  "search.placeholder": {
+   "en": "Search schemes, loans, branches, FAQs…",
+   "mr": "योजना, कर्ज, शाखा, प्रश्नोत्तरे शोधा…"
+  },
+  "search.drawer": {
+   "en": "Search schemes, loans, branches…",
+   "mr": "योजना, कर्ज, शाखा शोधा…"
+  },
+  "search.quick": {
+   "en": "Quick links",
+   "mr": "जलद दुवे"
+  },
+  "search.close": {
+   "en": "Close search",
+   "mr": "शोध बंद करा"
+  },
+  "search.results": {
+   "en": "Search results",
+   "mr": "शोधाचे निकाल"
+  },
+  "search.empty": {
+   "en": "No results. Try a town name, a scheme like “Lakshadish”, or call",
+   "mr": "निकाल मिळाला नाही. गावाचे नाव किंवा “लक्षाधीश” सारखी योजना शोधून पहा, किंवा कॉल करा"
+  },
+  "search.move": {
+   "en": "to move",
+   "mr": "हलवण्यासाठी"
+  },
+  "search.open": {
+   "en": "to open",
+   "mr": "उघडण्यासाठी"
+  },
+  "search.esc": {
+   "en": "to close",
+   "mr": "बंद करण्यासाठी"
+  },
+  "search.q.account": {
+   "en": "Open an account",
+   "mr": "खाते उघडा"
+  },
+  "search.q.fd": {
+   "en": "Book a fixed deposit",
+   "mr": "मुदत ठेव करा"
+  },
+  "search.q.rates": {
+   "en": "Interest rates",
+   "mr": "व्याजदर"
+  },
+  "search.q.loan": {
+   "en": "Apply for a loan",
+   "mr": "कर्जासाठी अर्ज करा"
+  },
+  "search.q.branch": {
+   "en": "Find a branch",
+   "mr": "शाखा शोधा"
+  },
+  "search.q.calc": {
+   "en": "Calculators",
+   "mr": "कॅल्क्युलेटर"
+  },
+  "nav.contact": {
+   "en": "Contact Us",
+   "mr": "संपर्क"
+  },
+  "nav.careers": {
+   "en": "Careers",
+   "mr": "करिअर"
+  },
+  "nav.blog": {
+   "en": "Blog",
+   "mr": "ब्लॉग"
+  },
+  "nav.about": {
+   "en": "About Us",
+   "mr": "आमच्याबद्दल"
+  },
+  "nav.deposits": {
+   "en": "Deposits",
+   "mr": "ठेवी"
+  },
+  "nav.loans": {
+   "en": "Loans",
+   "mr": "कर्ज"
+  },
+  "nav.services": {
+   "en": "Other Services",
+   "mr": "इतर सेवा"
+  },
+  "nav.rwm": {
+   "en": "Rural Wealth Manager",
+   "mr": "रुरल वेल्थ मॅनेजर"
+  },
+  "nav.calculators": {
+   "en": "Calculators",
+   "mr": "कॅल्क्युलेटर"
+  },
+  "nav.faq": {
+   "en": "FAQ",
+   "mr": "प्रश्नोत्तरे"
+  },
+  "nav.branches": {
+   "en": "Branches",
+   "mr": "शाखा"
+  },
+  "nav.allDeposits": {
+   "en": "All deposit schemes",
+   "mr": "सर्व ठेव योजना"
+  },
+  "nav.allLoans": {
+   "en": "All loans",
+   "mr": "सर्व कर्ज"
+  },
+  "nav.rates": {
+   "en": "Interest rates",
+   "mr": "व्याजदर"
+  },
+  "nav.applyLoan": {
+   "en": "Apply for a loan",
+   "mr": "कर्जासाठी अर्ज करा"
+  },
+  "nav.menu": {
+   "en": "Open menu",
+   "mr": "मेनू उघडा"
+  },
+  "nav.menuClose": {
+   "en": "Close menu",
+   "mr": "मेनू बंद करा"
+  },
+  "nav.main": {
+   "en": "Main",
+   "mr": "मुख्य"
+  },
+  "nav.mobile": {
+   "en": "Mobile",
+   "mr": "मोबाइल"
+  },
+  "brand.home": {
+   "en": "Lokmangal Multistate home",
+   "mr": "लोकमंगल मल्टीस्टेट मुख्यपृष्ठ"
+  },
+  "brand.logo": {
+   "en": "Lokmangal, success through total dedication",
+   "mr": "लोकमंगल, अखंड गतीतून सार्थकता"
+  },
+  "lang.switch": {
+   "en": "Language",
+   "mr": "भाषा"
+  },
+  "lang.to": {
+   "en": "मराठी",
+   "mr": "English"
+  },
+  "lang.toLabel": {
+   "en": "Read this page in Marathi",
+   "mr": "हे पान इंग्रजीत वाचा"
+  },
+  "announce.dismiss": {
+   "en": "Dismiss announcement",
+   "mr": "सूचना बंद करा"
+  },
+  "login": {
+   "en": "Login",
+   "mr": "लॉगिन"
+  },
+  "login.app": {
+   "en": "Mobile Banking App",
+   "mr": "मोबाइल बँकिंग ॲप"
+  },
+  "login.appSub": {
+   "en": "Download on Google Play",
+   "mr": "गुगल प्लेवरून डाउनलोड करा"
+  },
+  "login.net": {
+   "en": "Net Banking",
+   "mr": "नेट बँकिंग"
+  },
+  "login.netSub": {
+   "en": "Activate at your branch",
+   "mr": "आपल्या शाखेत सुरू करा"
+  },
+  "cta.openAccount": {
+   "en": "Open Account",
+   "mr": "खाते उघडा"
+  },
+  "cta.openAnAccount": {
+   "en": "Open an Account",
+   "mr": "खाते उघडा"
+  },
+  "mega.fd": {
+   "en": "Vishwamangal FD 2026",
+   "mr": "विश्वमंगल मुदत ठेव 2026"
+  },
+  "mega.bookFd": {
+   "en": "Book an FD",
+   "mr": "मुदत ठेव करा"
+  },
+  "mega.depositsHead": {
+   "en": "Deposits",
+   "mr": "ठेवी"
+  },
+  "mega.loansHead": {
+   "en": "Loans",
+   "mr": "कर्ज"
+  },
+  "mega.handle": {
+   "en": "lokmangal_multistate",
+   "mr": "lokmangal_multistate"
+  },
+  "mega.place": {
+   "en": "Solapur",
+   "mr": "सोलापूर"
+  },
+  "mega.pa": {
+   "en": "p.a.",
+   "mr": "वार्षिक"
+  },
+  "mega.fdNote": {
+   "en": "On fixed deposits of 365 days and above",
+   "mr": "365 दिवस व त्याहून अधिक मुदतीच्या ठेवींवर"
+  },
+  "mega.rd": {
+   "en": "Vishwamangal RD",
+   "mr": "विश्वमंगल रिकरिंग ठेव"
+  },
+  "mega.rdNote": {
+   "en": "Save a little every month, earn on all of it",
+   "mr": "दरमहा थोडी बचत, संपूर्ण रकमेवर व्याज"
+  },
+  "mega.startRd": {
+   "en": "Start an RD",
+   "mr": "रिकरिंग ठेव सुरू करा"
+  },
+  "mega.loansTag": {
+   "en": "Lokmangal loans",
+   "mr": "लोकमंगल कर्ज"
+  },
+  "mega.loanNote": {
+   "en": "For home, farm, vehicle and business",
+   "mr": "घर, शेती, वाहन आणि व्यवसायासाठी"
+  },
+  "mega.from": {
+   "en": "from",
+   "mr": "पासून"
+  },
+  "mega.applyLoan": {
+   "en": "Apply for a loan",
+   "mr": "कर्जासाठी अर्ज करा"
+  },
+  "mega.storyLabel": {
+   "en": "Lokmangal offers",
+   "mr": "लोकमंगलच्या ऑफर"
+  },
+  "footer.about": {
+   "en": "A multi-state co-operative society registered under the {act}, Registration No. {reg}. Serving farmers, families and entrepreneurs since {year}.",
+   "mr": "{act} अंतर्गत नोंदणीकृत संस्था, नोंदणी क्र. {reg}. {year} पासून शेतकरी, कुटुंबे आणि उद्योजकांच्या सेवेत."
+  },
+  "footer.quick": {
+   "en": "Quick links",
+   "mr": "जलद दुवे"
+  },
+  "footer.other": {
+   "en": "Other links",
+   "mr": "इतर दुवे"
+  },
+  "footer.head": {
+   "en": "Head office",
+   "mr": "मुख्य कार्यालय"
+  },
+  "footer.ifsc": {
+   "en": "IFSC",
+   "mr": "आयएफएससी"
+  },
+  "footer.getApp": {
+   "en": "Get our app on",
+   "mr": "आमचे ॲप मिळवा"
+  },
+  "footer.rights": {
+   "en": "© {year} {name} All rights reserved.",
+   "mr": "© {year} {name} सर्व हक्क राखीव."
+  },
+  "footer.terms": {
+   "en": "Terms of Use",
+   "mr": "वापराच्या अटी"
+  },
+  "footer.privacy": {
+   "en": "Privacy Policy",
+   "mr": "गोपनीयता धोरण"
+  },
+  "footer.sitemap": {
+   "en": "Sitemap",
+   "mr": "साइटमॅप"
+  },
+  "footer.nameSub": {
+   "en": "Multistate Co-op. Society Ltd.",
+   "mr": "मल्टीस्टेट को-ऑप. सोसायटी लि."
+  },
+  "fab.call": {
+   "en": "Call {phone}",
+   "mr": "{phone} वर कॉल करा"
+  },
+  "fab.top": {
+   "en": "Back to top",
+   "mr": "वर जा"
+  },
+  "lightbox": {
+   "en": "Image viewer",
+   "mr": "प्रतिमा दर्शक"
+  },
+  "lightbox.close": {
+   "en": "Close",
+   "mr": "बंद करा"
+  },
+  "lightbox.prev": {
+   "en": "Previous image",
+   "mr": "मागील प्रतिमा"
+  },
+  "lightbox.next": {
+   "en": "Next image",
+   "mr": "पुढील प्रतिमा"
+  },
+  "preview": {
+   "en": "Preview, not public. Forms are switched off on this page.",
+   "mr": "ही केवळ पूर्वावलोकन प्रत आहे, सार्वजनिक नाही. या पानावरील फॉर्म बंद आहेत."
+  },
+  "rates.expired": {
+   "en": "The interest rates on this website were valid until {date}. Please contact your branch or call {phone} for current rates.",
+   "mr": "या वेबसाइटवरील व्याजदर {date} पर्यंत लागू होते. सध्याच्या दरांसाठी कृपया आपल्या शाखेशी संपर्क साधा किंवा {phone} वर कॉल करा."
+  },
+  "breadcrumb": {
+   "en": "Breadcrumb",
+   "mr": "मार्ग"
+  },
+  "btn.apply": {
+   "en": "Apply now",
+   "mr": "आत्ताच अर्ज करा"
+  },
+  "btn.details": {
+   "en": "View details",
+   "mr": "तपशील पहा"
+  },
+  "btn.readStory": {
+   "en": "Read story",
+   "mr": "बातमी वाचा"
+  },
+  "cta.title": {
+   "en": "Become part of the",
+   "mr": "सामील व्हा"
+  },
+  "cta.accent": {
+   "en": "Lokmangal family",
+   "mr": "लोकमंगल परिवारात"
+  },
+  "cta.text": {
+   "en": "Open an account in minutes at any of our 60 branches, or let our team call you back with the right plan for your savings and goals.",
+   "mr": "आमच्या 60 पैकी कोणत्याही शाखेत काही मिनिटांत खाते उघडा, किंवा तुमच्या बचतीला आणि ध्येयांना योग्य योजना सांगण्यासाठी आमच्या टीमला तुम्हाला कॉल करू द्या."
+  },
+  "kind.fd": {
+   "en": "Fixed Deposit",
+   "mr": "मुदत ठेव"
+  },
+  "kind.rd": {
+   "en": "Recurring Deposit",
+   "mr": "रिकरिंग ठेव"
+  },
+  "kind.monthly": {
+   "en": "Monthly Income",
+   "mr": "मासिक उत्पन्न"
+  },
+  "kind.double": {
+   "en": "Doubling Scheme",
+   "mr": "दामदुप्पट योजना"
+  },
+  "calc.fd": {
+   "en": "Fixed Deposit",
+   "mr": "मुदत ठेव"
+  },
+  "calc.rd": {
+   "en": "Recurring Deposit",
+   "mr": "रिकरिंग ठेव"
+  },
+  "calc.monthly": {
+   "en": "Monthly Income",
+   "mr": "मासिक उत्पन्न"
+  },
+  "calc.emi": {
+   "en": "Loan EMI",
+   "mr": "कर्जाचा हप्ता"
+  },
+  "calc.type": {
+   "en": "Calculator type",
+   "mr": "कॅल्क्युलेटरचा प्रकार"
+  },
+  "calc.depositAmount": {
+   "en": "Deposit amount",
+   "mr": "ठेव रक्कम"
+  },
+  "calc.instalment": {
+   "en": "Monthly instalment",
+   "mr": "मासिक हप्ता"
+  },
+  "calc.loanAmount": {
+   "en": "Loan amount",
+   "mr": "कर्जाची रक्कम"
+  },
+  "calc.rate": {
+   "en": "Interest rate (p.a.)",
+   "mr": "व्याजदर (वार्षिक)"
+  },
+  "calc.tenure": {
+   "en": "Tenure",
+   "mr": "कालावधी"
+  },
+  "calc.note": {
+   "en": "Figures are indicative. Actual returns depend on the scheme, tenure and applicable TDS. Please confirm at your branch.",
+   "mr": "आकडे अंदाजे आहेत. प्रत्यक्ष परतावा योजना, कालावधी आणि लागू टीडीएसवर अवलंबून असतो. कृपया आपल्या शाखेत खात्री करा."
+  },
+  "calc.maturity": {
+   "en": "Maturity value",
+   "mr": "मुदतपूर्ती रक्कम"
+  },
+  "calc.invested": {
+   "en": "Total invested",
+   "mr": "एकूण गुंतवणूक"
+  },
+  "calc.interest": {
+   "en": "Interest earned",
+   "mr": "मिळालेले व्याज"
+  },
+  "calc.start": {
+   "en": "Start investing",
+   "mr": "गुंतवणूक सुरू करा"
+  },
+  "calc.monthlyIncome": {
+   "en": "Monthly income",
+   "mr": "मासिक उत्पन्न"
+  },
+  "calc.deposit": {
+   "en": "Deposit (returned)",
+   "mr": "ठेव (परत मिळणारी)"
+  },
+  "calc.totalInterest": {
+   "en": "Total interest",
+   "mr": "एकूण व्याज"
+  },
+  "calc.emiLabel": {
+   "en": "Monthly EMI",
+   "mr": "मासिक हप्ता (EMI)"
+  },
+  "calc.principal": {
+   "en": "Principal",
+   "mr": "मुद्दल"
+  },
+  "calc.ctaFd": {
+   "en": "Book a fixed deposit",
+   "mr": "मुदत ठेव करा"
+  },
+  "calc.ctaRd": {
+   "en": "Start a recurring deposit",
+   "mr": "रिकरिंग ठेव सुरू करा"
+  },
+  "calc.ctaMonthly": {
+   "en": "Open a monthly income plan",
+   "mr": "मासिक उत्पन्न योजना सुरू करा"
+  },
+  "calc.ctaEmi": {
+   "en": "Apply for a loan",
+   "mr": "कर्जासाठी अर्ज करा"
+  },
+  "calc.paused": {
+   "en": "Calculators are paused until the new interest rates are published.",
+   "mr": "नवीन व्याजदर जाहीर होईपर्यंत कॅल्क्युलेटर बंद आहेत."
+  },
+  "calc.yr": {
+   "en": "yr",
+   "mr": "वर्ष"
+  },
+  "calc.mo": {
+   "en": "mo",
+   "mr": "महिने"
+  },
+  "calc.months": {
+   "en": "months",
+   "mr": "महिने"
+  },
+  "calc.perMonth": {
+   "en": "per month",
+   "mr": "दरमहा"
+  },
+  "calc.share": {
+   "en": "interest",
+   "mr": "व्याज"
+  },
+  "calc.chartGrow": {
+   "en": "Your money over time",
+   "mr": "कालानुसार तुमचे पैसे"
+  },
+  "calc.chartIncome": {
+   "en": "Interest received over time",
+   "mr": "कालानुसार मिळालेले व्याज"
+  },
+  "calc.chartEmi": {
+   "en": "What your instalments pay",
+   "mr": "हप्त्यांचे मुद्दल व व्याजात विभाजन"
+  },
+  "calc.year": {
+   "en": "Year",
+   "mr": "वर्ष"
+  },
+  "calc.month": {
+   "en": "Month",
+   "mr": "महिना"
+  },
+  "calc.quarter": {
+   "en": "Quarter",
+   "mr": "तिमाही"
+  },
+  "calc.tipGrow": {
+   "en": "{p}: {a} invested, {b} interest, {t} in all",
+   "mr": "{p}: गुंतवणूक {a}, व्याज {b}, एकूण {t}"
+  },
+  "calc.tipIncome": {
+   "en": "{p}: {b} interest received so far",
+   "mr": "{p}: आतापर्यंत मिळालेले व्याज {b}"
+  },
+  "calc.tipEmi": {
+   "en": "{p}: {a} principal, {b} interest",
+   "mr": "{p}: मुद्दल {a}, व्याज {b}"
+  },
+  "calc.thousand": {
+   "en": "K",
+   "mr": " हजार"
+  },
+  "calc.lakh": {
+   "en": "L",
+   "mr": " लाख"
+  },
+  "calc.crore": {
+   "en": "Cr",
+   "mr": " कोटी"
+  },
+  "search.groups": {
+   "en": "Pages|Deposits|Loans|Services|Branches|FAQ|Stories",
+   "mr": "पाने|ठेवी|कर्ज|सेवा|शाखा|प्रश्नोत्तरे|बातम्या"
+  },
+  "search.count": {
+   "en": "{n} results",
+   "mr": "{n} निकाल"
+  },
+  "search.none": {
+   "en": "No results",
+   "mr": "निकाल नाही"
+  },
+  "form.checkbox": {
+   "en": "Please tick this box so we can contact you about your enquiry.",
+   "mr": "कृपया हा चौकोन निवडा, म्हणजे आम्ही तुमच्या चौकशीबाबत तुमच्याशी संपर्क साधू शकू."
+  },
+  "form.email": {
+   "en": "Enter a valid email address, like name@example.com.",
+   "mr": "योग्य ईमेल पत्ता लिहा, उदा. name@example.com."
+  },
+  "form.phone": {
+   "en": "Enter a 10-digit mobile number, like 99232 03322.",
+   "mr": "दहा अंकी मोबाइल क्रमांक लिहा, उदा. 99232 03322."
+  },
+  "form.preview": {
+   "en": "Forms are switched off in this preview.",
+   "mr": "या पूर्वावलोकनात फॉर्म बंद आहेत."
+  },
+  "form.select": {
+   "en": "Select your {field}.",
+   "mr": "{field} निवडा."
+  },
+  "form.enter": {
+   "en": "Enter your {field}.",
+   "mr": "{field} लिहा."
+  },
+  "form.check": {
+   "en": "Check your {field}.",
+   "mr": "{field} तपासा."
+  },
+  "form.thisField": {
+   "en": "this field",
+   "mr": "ही माहिती"
+  },
+  "form.min": {
+   "en": "Enter at least {n}.",
+   "mr": "किमान {n} लिहा."
+  },
+  "form.max": {
+   "en": "Enter no more than {n}.",
+   "mr": "{n} पेक्षा जास्त लिहू नका."
+  },
+  "form.phoneHint": {
+   "en": "10-digit mobile number",
+   "mr": "दहा अंकी मोबाइल क्रमांक"
+  },
+  "form.problems1": {
+   "en": "There is 1 problem with your details",
+   "mr": "तुमच्या माहितीत 1 त्रुटी आहे"
+  },
+  "form.problemsN": {
+   "en": "There are {n} problems with your details",
+   "mr": "तुमच्या माहितीत {n} त्रुटी आहेत"
+  },
+  "form.failed": {
+   "en": "We couldn't send your request right now. Please {email} or call {phone}.",
+   "mr": "तुमची विनंती आत्ता पाठवता आली नाही. कृपया {email} किंवा {phone} वर कॉल करा."
+  },
+  "form.failEmail": {
+   "en": "email it to us",
+   "mr": "आम्हाला ईमेल करा"
+  },
+  "form.pdf": {
+   "en": "Choose a PDF file of 5 MB or less.",
+   "mr": "5 MB किंवा त्यापेक्षा लहान PDF फाइल निवडा."
+  },
+  "home.slide1.eyebrow": {
+   "en": "Welcome to Lokmangal Multistate",
+   "mr": "लोकमंगल मल्टीस्टेटमध्ये आपले स्वागत"
+  },
+  "home.slide1.title": {
+   "en": "Savings and loans,",
+   "mr": "बचत आणि कर्ज,"
+  },
+  "home.slide1.accent": {
+   "en": "close to home",
+   "mr": "आपल्या घराजवळ"
+  },
+  "home.slide1.text": {
+   "en": "Deposits, savings accounts and loans for families, farmers and small businesses. We have been serving our members since 2004.",
+   "mr": "कुटुंबे, शेतकरी आणि लघुउद्योजकांसाठी ठेवी, बचत खाती आणि कर्ज. आम्ही 2004 पासून आमच्या सभासदांच्या सेवेत आहोत."
+  },
+  "home.slide1.cta": {
+   "en": "Open an account",
+   "mr": "खाते उघडा"
+  },
+  "home.slide1.cta2": {
+   "en": "Explore deposits",
+   "mr": "ठेवी पहा"
+  },
+  "home.slide2.eyebrow": {
+   "en": "Deposits",
+   "mr": "ठेवी"
+  },
+  "home.slide2.title": {
+   "en": "Earn up to",
+   "mr": "वर्षाला"
+  },
+  "home.slide2.text": {
+   "en": "Choose a fixed, recurring, monthly income or doubling deposit. Even a small amount each month adds up.",
+   "mr": "मुदत, रिकरिंग, मासिक उत्पन्न किंवा दामदुप्पट ठेव निवडा. दर महिन्याची छोटी रक्कमही मोठी बचत ठरते."
+  },
+  "home.slide2.cta": {
+   "en": "Start investing",
+   "mr": "गुंतवणूक सुरू करा"
+  },
+  "home.slide2.cta2": {
+   "en": "See interest rates",
+   "mr": "व्याजदर पहा"
+  },
+  "home.slide3.eyebrow": {
+   "en": "Loans",
+   "mr": "कर्ज"
+  },
+  "home.slide3.title": {
+   "en": "A loan for your",
+   "mr": "कर्ज तुमच्या"
+  },
+  "home.slide3.accent": {
+   "en": "farm, home or shop",
+   "mr": "शेती, घर किंवा दुकानासाठी"
+  },
+  "home.slide3.text": {
+   "en": "Agriculture, housing, vehicle, business and personal loans, with little paperwork and quick approval.",
+   "mr": "शेती, गृह, वाहन, व्यवसाय आणि वैयक्तिक कर्ज, कमी कागदपत्रांत आणि जलद मंजुरीसह."
+  },
+  "home.slide3.cta": {
+   "en": "Get a loan",
+   "mr": "कर्ज घ्या"
+  },
+  "home.slide3.cta2": {
+   "en": "View all loans",
+   "mr": "सर्व कर्ज पहा"
+  },
+  "home.hero.pause": {
+   "en": "Pause slideshow",
+   "mr": "स्लाइडशो थांबवा"
+  },
+  "home.hero.prev": {
+   "en": "Previous slide",
+   "mr": "मागील स्लाइड"
+  },
+  "home.hero.next": {
+   "en": "Next slide",
+   "mr": "पुढील स्लाइड"
+  },
+  "home.hero.show": {
+   "en": "Show slide {n}: {title}",
+   "mr": "स्लाइड {n} दाखवा: {title}"
+  },
+  "home.trust.title": {
+   "en": "Why your savings are safe with Lokmangal",
+   "mr": "तुमची बचत लोकमंगलमध्ये सुरक्षित का आहे"
+  },
+  "home.trust.reg": {
+   "en": "Govt. registered",
+   "mr": "शासन नोंदणीकृत"
+  },
+  "home.trust.regText": {
+   "en": "{act} · {reg}",
+   "mr": "{act} · {reg}"
+  },
+  "home.trust.audit": {
+   "en": "Audited every year",
+   "mr": "दरवर्षी लेखापरीक्षण"
+  },
+  "home.trust.auditText": {
+   "en": "Accounts submitted to the Govt. of India",
+   "mr": "हिशेब भारत सरकारकडे सादर"
+  },
+  "home.trust.owned": {
+   "en": "Member-owned",
+   "mr": "सभासदांच्या मालकीची"
+  },
+  "home.trust.ownedText": {
+   "en": "Board elected by members at the AGM",
+   "mr": "वार्षिक सर्वसाधारण सभेत सभासदांनी निवडलेले संचालक मंडळ"
+  },
+  "home.trust.secure": {
+   "en": "Secure banking",
+   "mr": "सुरक्षित बँकिंग"
+  },
+  "home.trust.secureText": {
+   "en": "Device-bound app · IMPS · UPI · NEFT/RTGS",
+   "mr": "मोबाइलशी जोडलेले ॲप · आयएमपीएस · यूपीआय · एनईएफटी/आरटीजीएस"
+  },
+  "home.trust.more": {
+   "en": "How we keep deposits safe",
+   "mr": "ठेवी सुरक्षित कशा राहतात"
+  },
+  "home.quick.eyebrow": {
+   "en": "How can we help you today?",
+   "mr": "आज आम्ही तुम्हाला कशी मदत करू?"
+  },
+  "home.quick.h2a": {
+   "en": "Open an account, save or",
+   "mr": "खाते उघडा, बचत करा किंवा"
+  },
+  "home.quick.h2b": {
+   "en": "borrow",
+   "mr": "कर्ज घ्या"
+  },
+  "home.quick.account": {
+   "en": "Open an account",
+   "mr": "खाते उघडा"
+  },
+  "home.quick.accountText": {
+   "en": "Savings and current accounts at any of our branches.",
+   "mr": "आमच्या कोणत्याही शाखेत बचत आणि चालू खाते."
+  },
+  "home.quick.savings": {
+   "en": "Savings account",
+   "mr": "बचत खाते"
+  },
+  "home.quick.current": {
+   "en": "Current account",
+   "mr": "चालू खाते"
+  },
+  "home.quick.fd": {
+   "en": "Fixed deposits",
+   "mr": "मुदत ठेवी"
+  },
+  "home.quick.fdText": {
+   "en": "Choose a period from 7 days upward and earn a fixed return.",
+   "mr": "7 दिवसांपासून पुढे मुदत निवडा आणि निश्चित परतावा मिळवा."
+  },
+  "home.quick.rd": {
+   "en": "Recurring deposits",
+   "mr": "रिकरिंग ठेवी"
+  },
+  "home.quick.rdText": {
+   "en": "Put aside a fixed amount every month and collect it with interest.",
+   "mr": "दर महिन्याला ठराविक रक्कम बाजूला ठेवा आणि व्याजासह परत मिळवा."
+  },
+  "home.quick.loan": {
+   "en": "Get a loan",
+   "mr": "कर्ज घ्या"
+  },
+  "home.quick.loanText": {
+   "en": "Farm, home, vehicle, business and personal loans.",
+   "mr": "शेती, गृह, वाहन, व्यवसाय आणि वैयक्तिक कर्ज."
+  },
+  "home.quick.tagAccount": {
+   "en": "Savings · Current",
+   "mr": "बचत · चालू"
+  },
+  "home.quick.tagRd": {
+   "en": "From ₹100 a month",
+   "mr": "दरमहा ₹100 पासून"
+  },
+  "home.quick.tagLoan": {
+   "en": "Quick approval",
+   "mr": "जलद मंजुरी"
+  },
+  "home.intro.alt": {
+   "en": "A Lokmangal branch officer helping a member",
+   "mr": "सभासदाला मदत करताना लोकमंगल शाखेतील अधिकारी"
+  },
+  "home.intro.years": {
+   "en": "20+",
+   "mr": "20+"
+  },
+  "home.intro.yearsText": {
+   "en": "years of trusted service",
+   "mr": "वर्षांची विश्वासार्ह सेवा"
+  },
+  "home.intro.eyebrow": {
+   "en": "About Lokmangal",
+   "mr": "लोकमंगलबद्दल"
+  },
+  "home.intro.h2a": {
+   "en": "A co-operative owned by",
+   "mr": "ज्यांच्यासाठी आहे, त्यांच्याच"
+  },
+  "home.intro.h2b": {
+   "en": "the people it serves",
+   "mr": "मालकीची सहकारी संस्था"
+  },
+  "home.intro.lead": {
+   "en": "Lokmangal is a multi-state co-operative society based in Solapur. Through 60 branches in Maharashtra and Karnataka we offer deposits, loans, net banking, mobile banking and UPI to towns and villages.",
+   "mr": "लोकमंगल ही सोलापूर येथील बहुराज्य सहकारी संस्था आहे. महाराष्ट्र आणि कर्नाटकातील 60 शाखांमधून आम्ही शहरे आणि खेड्यांना ठेवी, कर्ज, नेट बँकिंग, मोबाइल बँकिंग आणि यूपीआय सेवा देतो."
+  },
+  "home.intro.c1": {
+   "en": "Government registered society",
+   "mr": "शासन नोंदणीकृत संस्था"
+  },
+  "home.intro.c2": {
+   "en": "Accounts audited every year",
+   "mr": "दरवर्षी लेखापरीक्षण"
+  },
+  "home.intro.c3": {
+   "en": "Board elected by members",
+   "mr": "सभासदांनी निवडलेले संचालक मंडळ"
+  },
+  "home.intro.c4": {
+   "en": "Branches in two states",
+   "mr": "दोन राज्यांत शाखा"
+  },
+  "home.intro.c5": {
+   "en": "Net banking, app and UPI",
+   "mr": "नेट बँकिंग, ॲप आणि यूपीआय"
+  },
+  "home.intro.c6": {
+   "en": "Trained staff at every branch",
+   "mr": "प्रत्येक शाखेत प्रशिक्षित कर्मचारी"
+  },
+  "home.intro.more": {
+   "en": "More about us",
+   "mr": "आमच्याबद्दल अधिक"
+  },
+  "home.intro.touch": {
+   "en": "Get in touch",
+   "mr": "संपर्क करा"
+  },
+  "home.dep.eyebrow": {
+   "en": "Deposits",
+   "mr": "ठेवी"
+  },
+  "home.dep.h2a": {
+   "en": "Choose a deposit that",
+   "mr": "तुमच्या नियोजनाला साजेशी"
+  },
+  "home.dep.h2b": {
+   "en": "fits your plan",
+   "mr": "ठेव निवडा"
+  },
+  "home.dep.lead": {
+   "en": "Fixed, recurring, monthly income and doubling deposits. Rates shown are valid from {validity}.",
+   "mr": "मुदत, रिकरिंग, मासिक उत्पन्न आणि दामदुप्पट ठेवी. दाखवलेले दर {validity} या कालावधीसाठी लागू आहेत."
+  },
+  "home.dep.all": {
+   "en": "View all schemes",
+   "mr": "सर्व योजना पहा"
+  },
+  "home.dep.chart": {
+   "en": "FD rate by tenure",
+   "mr": "मुदतीनुसार एफडी व्याजदर"
+  },
+  "home.dep.days": {
+   "en": "Tenure in days",
+   "mr": "मुदत (दिवस)"
+  },
+  "home.dep.chartLabel": {
+   "en": "Fixed deposit rates by tenure: {list}",
+   "mr": "मुदतीनुसार मुदत ठेव व्याजदर: {list}"
+  },
+  "home.dep.allTile": {
+   "en": "Deposit schemes to choose from",
+   "mr": "निवडण्यासाठी ठेव योजना"
+  },
+  "home.dep.example": {
+   "en": "Example: {amount} for {months} months",
+   "mr": "उदाहरण: {amount}, {months} महिन्यांसाठी"
+  },
+  "home.dep.maturity": {
+   "en": "at maturity",
+   "mr": "मुदतपूर्तीला"
+  },
+  "btn.applyShort": {
+   "en": "Apply",
+   "mr": "अर्ज करा"
+  },
+  "home.dep.allSub": {
+   "en": "Compare rates, tenures and maturity amounts",
+   "mr": "दर, मुदत आणि मुदतपूर्ती रक्कम यांची तुलना करा"
+  },
+  "home.calc.eyebrow": {
+   "en": "Calculator",
+   "mr": "कॅल्क्युलेटर"
+  },
+  "home.calc.h2a": {
+   "en": "Work out what you will",
+   "mr": "तुम्हाला किती"
+  },
+  "home.calc.h2b": {
+   "en": "get back",
+   "mr": "परतावा मिळेल"
+  },
+  "home.calc.lead": {
+   "en": "Slide to set the amount and period. See the maturity value, monthly income or loan EMI.",
+   "mr": "रक्कम आणि कालावधी सरकवून ठरवा. मुदतपूर्ती रक्कम, मासिक उत्पन्न किंवा कर्जाचा हप्ता (EMI) पहा."
+  },
+  "home.story.eyebrow": {
+   "en": "Our story",
+   "mr": "आमची वाटचाल"
+  },
+  "home.story.h2a": {
+   "en": "Growing with the",
+   "mr": "2004 पासून"
+  },
+  "home.story.h2b": {
+   "en": "rural economy",
+   "mr": "ग्रामीण अर्थव्यवस्थेसोबत"
+  },
+  "home.story.h2c": {
+   "en": "since 2004",
+   "mr": "वाढत आहोत"
+  },
+  "home.story.lead": {
+   "en": "Lokmangal was registered in 2004 and began full operations in Solapur district in 2008. Today it runs 60 branches in Maharashtra and Karnataka, and has added dairy and fertiliser businesses to support rural families.",
+   "mr": "लोकमंगलची नोंदणी 2004 मध्ये झाली आणि 2008 मध्ये सोलापूर जिल्ह्यात पूर्ण कार्यास सुरुवात झाली. आज महाराष्ट्र आणि कर्नाटकात 60 शाखा आहेत; ग्रामीण कुटुंबांना आधार देण्यासाठी दुग्धव्यवसाय आणि खत व्यवसायही सुरू केला आहे."
+  },
+  "home.story.about": {
+   "en": "About us",
+   "mr": "आमच्याबद्दल"
+  },
+  "home.story.csr": {
+   "en": "Social responsibility",
+   "mr": "सामाजिक बांधिलकी"
+  },
+  "home.story.branches": {
+   "en": "Branch locations",
+   "mr": "शाखा"
+  },
+  "home.story.careers": {
+   "en": "Careers",
+   "mr": "करिअर"
+  },
+  "home.j1.year": {
+   "en": "2004",
+   "mr": "2004"
+  },
+  "home.j1.title": {
+   "en": "Registered",
+   "mr": "नोंदणी"
+  },
+  "home.j1.text": {
+   "en": "Registered under the {act} (No. {reg}) to empower farmers, consumers and entrepreneurs.",
+   "mr": "{act} अंतर्गत (क्र. {reg}) नोंदणी, शेतकरी, ग्राहक आणि उद्योजकांना सक्षम करण्यासाठी."
+  },
+  "home.j2.year": {
+   "en": "2008",
+   "mr": "2008"
+  },
+  "home.j2.title": {
+   "en": "Full operations",
+   "mr": "पूर्ण कार्यास सुरुवात"
+  },
+  "home.j2.text": {
+   "en": "Began full operations in Solapur district, giving financial support to people from farming backgrounds.",
+   "mr": "सोलापूर जिल्ह्यात पूर्ण कार्यास सुरुवात; शेतकरी कुटुंबांतील लोकांना आर्थिक आधार."
+  },
+  "home.j3.year": {
+   "en": "Growth",
+   "mr": "वाढ"
+  },
+  "home.j3.title": {
+   "en": "Beyond banking",
+   "mr": "बँकिंगच्या पलीकडे"
+  },
+  "home.j3.text": {
+   "en": "Added dairy, with chilling plants at Mangalvedha, Karmala and Sangola, and fertilisers, including IFFCO distribution.",
+   "mr": "मंगळवेढा, करमाळा आणि सांगोला येथे दूध शीतकरण केंद्रांसह दुग्धव्यवसाय, तसेच इफ्को वितरणासह खतांचा व्यवसाय."
+  },
+  "home.j4.year": {
+   "en": "Today",
+   "mr": "आज"
+  },
+  "home.j4.title": {
+   "en": "60 branches, two states",
+   "mr": "60 शाखा, दोन राज्ये"
+  },
+  "home.j4.text": {
+   "en": "₹751+ crore in deposits and ₹1195+ crore of total business across Maharashtra and Karnataka, with net, mobile and UPI banking.",
+   "mr": "महाराष्ट्र आणि कर्नाटकात ₹751+ कोटींच्या ठेवी आणि ₹1195+ कोटींचा एकूण व्यवसाय; नेट, मोबाइल आणि यूपीआय बँकिंगसह."
+  },
+  "home.loans.eyebrow": {
+   "en": "Loans",
+   "mr": "कर्ज"
+  },
+  "home.loans.h2a": {
+   "en": "A loan for",
+   "mr": "प्रत्येक गरजेसाठी"
+  },
+  "home.loans.h2b": {
+   "en": "every need",
+   "mr": "कर्ज"
+  },
+  "home.loans.lead": {
+   "en": "Farm, home, vehicle, business, personal and more. Swipe to see them all.",
+   "mr": "शेती, गृह, वाहन, व्यवसाय, वैयक्तिक आणि बरेच काही. सर्व पाहण्यासाठी बाजूला सरकवा."
+  },
+  "home.loans.left": {
+   "en": "Scroll loans left",
+   "mr": "कर्ज डावीकडे सरकवा"
+  },
+  "home.loans.right": {
+   "en": "Scroll loans right",
+   "mr": "कर्ज उजवीकडे सरकवा"
+  },
+  "home.loans.pause": {
+   "en": "Pause the moving loans",
+   "mr": "सरकणारी कर्जे थांबवा"
+  },
+  "home.loans.play": {
+   "en": "Play the moving loans",
+   "mr": "सरकणारी कर्जे सुरू करा"
+  },
+  "home.loans.interest": {
+   "en": "Interest",
+   "mr": "व्याज"
+  },
+  "home.loans.amount": {
+   "en": "Amount",
+   "mr": "रक्कम"
+  },
+  "home.loans.apply": {
+   "en": "Apply for a loan",
+   "mr": "कर्जासाठी अर्ज करा"
+  },
+  "home.csr.name": {
+   "en": "Lokmangal Group",
+   "mr": "लोकमंगल समूह"
+  },
+  "home.csr.nameOther": {
+   "en": "लोकमंगल समूह",
+   "mr": "Lokmangal Group"
+  },
+  "home.csr.h2a": {
+   "en": "Giving back to the",
+   "mr": "समाजाला"
+  },
+  "home.csr.h2b": {
+   "en": "community",
+   "mr": "परत देताना"
+  },
+  "home.csr.lead": {
+   "en": "Alongside its business, the Lokmangal group runs welfare work in the community: free meals for the elderly, community weddings, health camps, tree plantation and more.",
+   "mr": "व्यवसायासोबतच लोकमंगल समूह समाजासाठी कल्याणकारी कामे करतो: वृद्धांना मोफत जेवण, सामूहिक विवाह सोहळे, आरोग्य शिबिरे, वृक्षारोपण आणि बरेच काही."
+  },
+  "home.csr.stat": {
+   "en": "weddings supported through community marriage events",
+   "mr": "सामूहिक विवाह सोहळ्यांतून झालेले विवाह"
+  },
+  "home.csr.more": {
+   "en": "Learn more",
+   "mr": "अधिक जाणून घ्या"
+  },
+  "home.csr.involved": {
+   "en": "Get involved",
+   "mr": "सहभागी व्हा"
+  },
+  "home.csr.alt1": {
+   "en": "Tree plantation drive",
+   "mr": "वृक्षारोपण मोहीम"
+  },
+  "home.csr.alt2": {
+   "en": "Cleaning drive near a branch",
+   "mr": "शाखेजवळ स्वच्छता मोहीम"
+  },
+  "home.csr.alt3": {
+   "en": "District level youth festival",
+   "mr": "जिल्हास्तरीय युवा महोत्सव"
+  },
+  "home.digital.eyebrow": {
+   "en": "Mobile banking",
+   "mr": "मोबाइल बँकिंग"
+  },
+  "home.digital.h2a": {
+   "en": "Your account on",
+   "mr": "तुमचे खाते"
+  },
+  "home.digital.h2b": {
+   "en": "your phone",
+   "mr": "तुमच्या मोबाइलवर"
+  },
+  "home.digital.lead": {
+   "en": "Check your balance, send money and pay bills on the Lokmangal app. It works only on your registered phone and SIM. SMS banking is there too if you prefer it.",
+   "mr": "लोकमंगल ॲपवर शिल्लक पाहा, पैसे पाठवा आणि बिले भरा. हे फक्त तुमच्या नोंदणीकृत फोन आणि सिमवर चालते. आवडत असल्यास एसएमएस बँकिंगही उपलब्ध आहे."
+  },
+  "home.digital.play": {
+   "en": "Get it on Google Play",
+   "mr": "गुगल प्लेवर मिळवा"
+  },
+  "home.digital.getOn": {
+   "en": "Get it on",
+   "mr": "डाउनलोड करा"
+  },
+  "home.digital.store": {
+   "en": "Google Play",
+   "mr": "गुगल प्ले"
+  },
+  "home.digital.all": {
+   "en": "All services",
+   "mr": "सर्व सेवा"
+  },
+  "home.digital.alt": {
+   "en": "A member checking her account on the Lokmangal mobile app",
+   "mr": "लोकमंगल मोबाइल ॲपवर आपले खाते पाहणारी सभासद"
+  },
+  "home.notices.eyebrow": {
+   "en": "Notices",
+   "mr": "सूचना"
+  },
+  "home.notices.all": {
+   "en": "All notices",
+   "mr": "सर्व सूचना"
+  },
+  "home.notices.type.pdf": {
+   "en": "PDF",
+   "mr": "PDF"
+  },
+  "home.notices.type.page": {
+   "en": "Page",
+   "mr": "पान"
+  },
+  "home.notices.type.drive": {
+   "en": "Drive",
+   "mr": "ड्राइव्ह"
+  },
+  "home.news.eyebrow": {
+   "en": "News",
+   "mr": "बातम्या"
+  },
+  "home.news.h2a": {
+   "en": "Latest from",
+   "mr": "लोकमंगलकडून"
+  },
+  "home.news.h2b": {
+   "en": "Lokmangal",
+   "mr": "ताज्या घडामोडी"
+  },
+  "home.news.lead": {
+   "en": "Branch news, programmes and updates.",
+   "mr": "शाखांच्या बातम्या, कार्यक्रम आणि अद्यतने."
+  },
+  "home.news.all": {
+   "en": "All stories",
+   "mr": "सर्व बातम्या"
+  },
+  "home.title": {
+   "en": "Lokmangal Multistate Co-operative Society Ltd., Solapur",
+   "mr": "लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटी लि., सोलापूर"
+  }
+ },
+ "sitemap": {
+  "metaTitle": {
+   "en": "Sitemap",
+   "mr": "साइटमॅप"
+  },
+  "metaDescription": {
+   "en": "All pages on the Lokmangal Multistate website.",
+   "mr": "लोकमंगल मल्टीस्टेट संकेतस्थळावरील सर्व पाने."
+  },
+  "eyebrow": {
+   "en": "All pages",
+   "mr": "सर्व पाने"
+  },
+  "title": {
+   "en": "Every page,",
+   "mr": "संपूर्ण संकेतस्थळ,"
+  },
+  "accent": {
+   "en": "in one map",
+   "mr": "एका नकाशात"
+  },
+  "lead": {
+   "en": "The whole website at a glance. Search for a page, or follow a branch of the map.",
+   "mr": "संपूर्ण संकेतस्थळ एका नजरेत. पान शोधा, किंवा नकाशाच्या फांदीवरून पुढे जा."
+  },
+  "pages": {
+   "en": "pages",
+   "mr": "पाने"
+  },
+  "groups": {
+   "en": "sections",
+   "mr": "विभाग"
+  },
+  "searchLabel": {
+   "en": "Search pages",
+   "mr": "पान शोधा"
+  },
+  "searchPh": {
+   "en": "Search a page, like loans or FAQ",
+   "mr": "पान शोधा, उदा. कर्ज किंवा प्रश्नोत्तरे"
+  },
+  "none": {
+   "en": "No page matches your search.",
+   "mr": "तुमच्या शोधाशी जुळणारे पान नाही."
+  }
+ },
+ "social-responsibility": {
+  "metaTitle": {
+   "en": "Social Responsibility",
+   "mr": "सामाजिक बांधिलकी"
+  },
+  "metaDescription": {
+   "en": "How the Lokmangal group gives back: Lokmangal Annapoorna Yojana, community weddings, water conservation, health camps, tree plantation, cleaning drives and youth festivals.",
+   "mr": "लोकमंगल समूहाचे सामाजिक उपक्रम: लोकमंगल अन्नपूर्णा योजना, सामुदायिक विवाह, जलसंधारण, आरोग्य शिबिरे, वृक्षारोपण, स्वच्छता मोहीम आणि युवा महोत्सव."
+  },
+  "eyebrow": {
+   "en": "Social responsibility",
+   "mr": "सामाजिक बांधिलकी"
+  },
+  "title": {
+   "en": "Our work",
+   "mr": "बँकिंगच्या पलीकडचे"
+  },
+  "accent": {
+   "en": "beyond banking",
+   "mr": "आमचे काम"
+  },
+  "lead": {
+   "en": "Alongside its business, the Lokmangal group runs welfare work across rural Maharashtra, with members, employees and the wider community taking part.",
+   "mr": "व्यवसायासोबतच लोकमंगल समूह ग्रामीण महाराष्ट्रात कल्याणकारी उपक्रम राबवतो, ज्यात सभासद, कर्मचारी आणि समाज सहभागी होतात."
+  },
+  "factInitiatives": {
+   "en": "Initiatives",
+   "mr": "उपक्रम"
+  },
+  "introEyebrow": {
+   "en": "An enduring commitment",
+   "mr": "कायमची बांधिलकी"
+  },
+  "introTitle": {
+   "en": "Social good is part of",
+   "mr": "सामाजिक हित हा"
+  },
+  "introAccent": {
+   "en": "who we are",
+   "mr": "आमचा स्वभाव"
+  },
+  "introP1": {
+   "en": "Social responsibility is part of everything Lokmangal Multistate does. The Lokmangal group’s work for social development is carried out with people from across the group and the wider community.",
+   "mr": "सामाजिक बांधिलकी हा लोकमंगल मल्टीस्टेटच्या प्रत्येक कामाचा भाग आहे. लोकमंगल समूहाचे सामाजिक विकासाचे काम समूहातील आणि समाजातील लोकांच्या सहभागातून होते."
+  },
+  "introP2": {
+   "en": "Our aim is to support real socio-economic growth in rural India, and to help more people take part in, and benefit from, economic progress.",
+   "mr": "ग्रामीण भारतात खरी सामाजिक-आर्थिक प्रगती घडवून आणणे आणि अधिकाधिक लोकांना आर्थिक प्रगतीत सहभागी होऊन तिचा लाभ घेता यावा, हे आमचे उद्दिष्ट आहे."
+  },
+  "pillarsTitle": {
+   "en": "What guides this work",
+   "mr": "या कामामागील सूत्रे"
+  },
+  "initEyebrow": {
+   "en": "Our initiatives",
+   "mr": "आमचे उपक्रम"
+  },
+  "initTitle": {
+   "en": "Work that",
+   "mr": "आयुष्य बदलणारे"
+  },
+  "initAccent": {
+   "en": "changes lives",
+   "mr": "उपक्रम"
+  },
+  "involveTitle": {
+   "en": "Want to",
+   "mr": "सहभागी"
+  },
+  "involveAccent": {
+   "en": "take part?",
+   "mr": "व्हायचे आहे?"
+  },
+  "involveText": {
+   "en": "If you would like to support or take part in our community programmes, get in touch with our team.",
+   "mr": "आमच्या सामाजिक उपक्रमांना पाठिंबा द्यायचा असेल किंवा त्यात सहभागी व्हायचे असेल, तर आमच्या टीमशी संपर्क साधा."
+  },
+  "involveBtn": {
+   "en": "Get in touch",
+   "mr": "संपर्क करा"
+  },
+  "storiesEyebrow": {
+   "en": "Stories",
+   "mr": "बातम्या"
+  },
+  "storiesTitle": {
+   "en": "News from our",
+   "mr": "आमच्या शाखांमधील"
+  },
+  "storiesAccent": {
+   "en": "branches",
+   "mr": "घडामोडी"
+  },
+  "storiesAll": {
+   "en": "All stories",
+   "mr": "सर्व बातम्या"
+  }
+ },
+ "terms-of-use": {
+  "metaTitle": {
+   "en": "Terms of Use",
+   "mr": "वापराच्या अटी"
+  },
+  "metaDescription": {
+   "en": "Terms of use for the Lokmangal Multistate Co-operative Society website.",
+   "mr": "लोकमंगल मल्टीस्टेट को-ऑपरेटिव्ह सोसायटीच्या संकेतस्थळाच्या वापराच्या अटी."
+  },
+  "title": {
+   "en": "Terms of",
+   "mr": "वापराच्या"
+  },
+  "accent": {
+   "en": "use",
+   "mr": "अटी"
+  },
+  "lead": {
+   "en": "The terms that apply when you use this website. Please read them before relying on any information here.",
+   "mr": "हे संकेतस्थळ वापरताना लागू होणाऱ्या अटी. येथील माहितीवर अवलंबून राहण्यापूर्वी त्या वाचा."
+  },
+  "summary.0": {
+   "en": "Rates and scheme details on this site are for information. Confirm them at your branch before you decide.",
+   "mr": "येथील व्याजदर आणि योजनांची माहिती फक्त माहितीसाठी आहे. निर्णय घेण्यापूर्वी तुमच्या शाखेत खात्री करा."
+  },
+  "summary.1": {
+   "en": "Calculator results are estimates, not an offer.",
+   "mr": "कॅल्क्युलेटरचे निकाल अंदाजे आहेत, ती ऑफर नाही."
+  },
+  "summary.2": {
+   "en": "Sending a form does not open an account, deposit or loan. Our team will contact you.",
+   "mr": "फॉर्म पाठवल्याने खाते, ठेव किंवा कर्ज सुरू होत नाही. आमची टीम तुमच्याशी संपर्क करेल."
+  },
+  "related": {
+   "en": "Privacy Policy",
+   "mr": "गोपनीयता धोरण"
+  },
+  "sections.0.1": {
+   "en": "Using this website",
+   "mr": "संकेतस्थळाचा वापर"
+  },
+  "sections.1.1": {
+   "en": "Information on this website",
+   "mr": "संकेतस्थळावरील माहिती"
+  },
+  "sections.1.2": {
+   "en": "<p>The information on this website, including interest rates, scheme details and loan terms, is provided for general information only. Rates and terms may change without prior notice. Please confirm current details at your branch before making any financial decision. The final terms of any product are those set out in the account-opening or loan documents you sign.</p>",
+   "mr": "<p>व्याजदर, योजनांचा तपशील आणि कर्जाच्या अटींसह या संकेतस्थळावरील माहिती केवळ सर्वसाधारण माहितीसाठी दिली आहे. दर आणि अटी पूर्वसूचनेशिवाय बदलू शकतात. कोणताही आर्थिक निर्णय घेण्यापूर्वी तुमच्या शाखेत सध्याची माहिती तपासा. कोणत्याही उत्पादनाच्या अंतिम अटी म्हणजे तुम्ही सही करता त्या खाते उघडण्याच्या किंवा कर्जाच्या कागदपत्रांतील अटी.</p>"
+  },
+  "sections.2.1": {
+   "en": "Calculators",
+   "mr": "कॅल्क्युलेटर"
+  },
+  "sections.2.2": {
+   "en": "<p>Calculators are provided for illustration. Results are indicative and do not constitute an offer. Actual returns or repayments may differ because of exact tenure, compounding, taxes (including TDS) and scheme rules.</p>",
+   "mr": "<p>कॅल्क्युलेटर उदाहरणासाठी दिले आहेत. त्यांचे निकाल अंदाजे असून ती ऑफर नाही. नेमकी मुदत, चक्रवाढ, कर (टीडीएससह) आणि योजनेचे नियम यांमुळे प्रत्यक्ष परतावा किंवा हप्ता वेगळा असू शकतो.</p>"
+  },
+  "sections.3.1": {
+   "en": "Membership",
+   "mr": "सभासदत्व"
+  },
+  "sections.4.1": {
+   "en": "Enquiries submitted online",
+   "mr": "ऑनलाइन पाठवलेल्या चौकशा"
+  },
+  "sections.4.2": {
+   "en": "<p>Submitting a form on this website does not open an account, deposit or loan. Our team will contact you to complete the process at a branch, including KYC verification.</p>",
+   "mr": "<p>या संकेतस्थळावर फॉर्म पाठवल्याने खाते, ठेव किंवा कर्ज सुरू होत नाही. केवायसी तपासणीसह प्रक्रिया शाखेत पूर्ण करण्यासाठी आमची टीम तुमच्याशी संपर्क करेल.</p>"
+  },
+  "sections.5.1": {
+   "en": "Intellectual property",
+   "mr": "बौद्धिक संपदा"
+  },
+  "sections.5.2": {
+   "en": "<p>The Lokmangal name, logo and content on this website belong to Lokmangal and may not be used without permission.</p>",
+   "mr": "<p>लोकमंगल हे नाव, बोधचिन्ह आणि या संकेतस्थळावरील मजकूर लोकमंगलच्या मालकीचा असून परवानगीशिवाय वापरता येणार नाही.</p>"
+  },
+  "sections.6.1": {
+   "en": "Links to other websites",
+   "mr": "इतर संकेतस्थळांच्या लिंक"
+  },
+  "sections.6.2": {
+   "en": "<p>This website may link to external sites, such as app stores or social media. We are not responsible for the content or privacy practices of those sites.</p>",
+   "mr": "<p>या संकेतस्थळावर ॲप स्टोअर किंवा सोशल मीडियासारख्या बाहेरील संकेतस्थळांच्या लिंक असू शकतात. त्या संकेतस्थळांवरील मजकूर किंवा गोपनीयतेच्या पद्धतींसाठी आम्ही जबाबदार नाही.</p>"
+  },
+  "sections.7.1": {
+   "en": "Contact",
+   "mr": "संपर्क"
+  },
+  "sections.7.2": {
+   "en": "<p>Questions about these terms? Email <a href=\"mailto:emailus@lokmangal.co.in\">emailus@lokmangal.co.in</a> or call <a href=\"tel:+919923203322\">+91 99232 03322</a>.</p>",
+   "mr": "<p>या अटींबद्दल प्रश्न आहे? <a href=\"mailto:emailus@lokmangal.co.in\">emailus@lokmangal.co.in</a> वर ईमेल करा किंवा <a href=\"tel:+919923203322\">+91 99232 03322</a> वर कॉल करा.</p>"
+  }
+ }
+}

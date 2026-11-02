@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import LegalDoc from '../../components/LegalDoc.astro';
 import { siteData } from '../../data/site';
 import { getLang, langPaths, localePath } from '../../i18n';
+import { pageDoc } from '../../i18n/ui';
 
 export function getStaticPaths() {
   return langPaths();
@@ -61,7 +62,7 @@ const mr = {
   ],
 };
 
-const d = lang === 'mr' ? mr : en;
+const d = pageDoc(lang, 'terms-of-use', en, mr);
 const sections = d.sections.map(([id, title, html]) => ({ id, title, html }));
 ---
 

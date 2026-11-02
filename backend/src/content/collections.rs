@@ -47,14 +47,37 @@ pub static COLLECTIONS: &[CollectionDef] = &[
         false,
         "settings.manage",
     ),
-    def("home", "Homepage", true, false, false, "content.edit"),
     def(
-        "navigation",
-        "Navigation & footer",
+        "home",
+        "Homepage numbers",
         true,
         false,
         false,
         "content.edit",
+    ),
+    def(
+        "navigation",
+        "Menu and footer",
+        true,
+        false,
+        false,
+        "content.edit",
+    ),
+    def(
+        "page_text",
+        "Website text",
+        true,
+        false,
+        false,
+        "content.edit",
+    ),
+    def(
+        "product_text",
+        "Website text on product pages",
+        true,
+        true,
+        true,
+        "products.edit",
     ),
     def("people", "People", true, false, false, "content.edit"),
     def("faq", "FAQ", true, false, false, "content.edit"),
@@ -119,7 +142,14 @@ pub static COLLECTIONS: &[CollectionDef] = &[
         false,
         "careers.edit",
     ),
-    def("redirect", "Redirects", false, false, false, "content.edit"),
+    def(
+        "redirect",
+        "Old web addresses",
+        false,
+        false,
+        false,
+        "content.edit",
+    ),
 ];
 
 pub fn get(name: &str) -> Option<&'static CollectionDef> {
@@ -240,6 +270,100 @@ trait Check {
     fn check(&mut self, cx: &mut Ctx<'_>);
 }
 
+/// Pages whose wording talks about money: their text goes through a checker, like the product pages themselves.
+/// Must match PRODUCT_PAGES in admin/src/features/website-text.tsx and frontend/src/i18n/ui.ts.
+pub const PRODUCT_TEXT_PAGES: [&str; 7] = [
+    "deposits",
+    "deposit-scheme",
+    "loans",
+    "interest-rates",
+    "calculators",
+    "apply-desk",
+    "rate-wording",
+];
+
+/// One text staff changed; a language left out keeps the wording built into the site.
+#[derive(Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct TextPair {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    en: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    mr: Option<String>,
+}
+
+/// Staff changes to the website's fixed wording: texts.<page>.<key>. Only changed texts are stored.
+#[derive(Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+struct PageText {
+    #[serde(default)]
+    texts: std::collections::BTreeMap<String, std::collections::BTreeMap<String, TextPair>>,
+}
+
+static TEXT_KEY: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"^[A-Za-z0-9._-]{1,80}$").expect("regex"));
+static PERCENTAGE: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"\d\s*%").expect("regex"));
+
+impl Check for PageText {
+    fn check(&mut self, cx: &mut Ctx<'_>) {
+        for (page, texts) in &mut self.texts {
+            for (key, pair) in texts {
+                let field = format!("texts.{page}.{key}");
+                if !TEXT_KEY.is_match(page) || !TEXT_KEY.is_match(key) {
+                    cx.errors.add(field.clone(), "This text is not recognised.");
+                }
+                for value in [&mut pair.en, &mut pair.mr].into_iter().flatten() {
+                    if value.chars().count() > 20_000 {
+                        cx.errors.add(field.clone(), "This text is too long.");
+                    }
+                    if ["{rate:", "{rate2:", "{number:", "{calc"]
+                        .iter()
+                        .any(|t| value.contains(t))
+                    {
+                        cx.errors.add(
+                            field.clone(),
+                            "Rate placeholders only work in schemes, loans and product pages.",
+                        );
+                    }
+                    // Some of this wording is shown as HTML on the page.
+                    if value.contains('<') {
+                        *value = sanitize_html(value);
+                    }
+                }
+            }
+        }
+    }
+}
+
+/// Product wording cannot be changed through the collection that needs no approval, or the other way round.
+fn check_text_pages(collection: &str, value: &Value, errors: &mut FieldErrors) {
+    let product = collection == "product_text";
+    for (page, texts) in value["texts"].as_object().into_iter().flatten() {
+        if PRODUCT_TEXT_PAGES.contains(&page.as_str()) != product {
+            errors.add(
+                format!("texts.{page}"),
+                "This page's text belongs to the other website text section.",
+            );
+        }
+        if product {
+            continue;
+        }
+        for (key, pair) in texts.as_object().into_iter().flatten() {
+            if pair
+                .as_object()
+                .into_iter()
+                .flatten()
+                .any(|(_, v)| PERCENTAGE.is_match(v.as_str().unwrap_or_default()))
+            {
+                errors.add(
+                    format!("texts.{page}.{key}"),
+                    "A percentage needs a checker's approval, so it can only be written on the rate and product pages.",
+                );
+            }
+        }
+    }
+}
+
 fn validated<T: DeserializeOwned + Serialize + Check>(
     data: Value,
     errors: &mut FieldErrors,
@@ -268,6 +392,9 @@ pub fn validate(collection: &str, mut data: Value) -> Result<Value, FieldErrors>
         "settings" => validated::<SiteSettings>(data, &mut errors),
         "home" => validated::<Home>(data, &mut errors),
         "navigation" => validated::<Navigation>(data, &mut errors),
+        "page_text" | "product_text" => validated::<PageText>(data, &mut errors).inspect(|v| {
+            check_text_pages(collection, v, &mut errors);
+        }),
         "people" => validated::<People>(data, &mut errors),
         "faq" => validated::<Faq>(data, &mut errors),
         "services" => validated::<Services>(data, &mut errors),
@@ -297,7 +424,11 @@ pub fn validate(collection: &str, mut data: Value) -> Result<Value, FieldErrors>
         }
         (out, _) => out,
     };
-    let tokens = out.as_ref().map(super::tokens::scan);
+    // Website text has its own {name} placeholders, checked by check_text_pages and the editor.
+    let tokens = out
+        .as_ref()
+        .filter(|_| !matches!(collection, "page_text" | "product_text"))
+        .map(super::tokens::scan);
     if let Some(t) = &tokens {
         if !t.malformed.is_empty() {
             errors.add(
@@ -1324,6 +1455,37 @@ impl Check for Redirect {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn website_text_is_cleaned_and_kept_in_its_own_section() {
+        let cleaned = validate(
+            "page_text",
+            json!({ "texts": { "about-us": { "whoP2": { "en": "A & B <script>x()</script><strong>{motto}</strong>", "mr": "अ & ब" } } } }),
+        )
+        .unwrap();
+        let pair = &cleaned["texts"]["about-us"]["whoP2"];
+        assert!(!pair["en"].as_str().unwrap().contains("script"));
+        assert!(pair["en"].as_str().unwrap().contains("{motto}"));
+        assert_eq!(pair["mr"], "अ & ब", "plain text is stored as typed");
+
+        let wrong = json!({ "texts": { "deposits": { "a": { "en": "b" } } } });
+        assert!(validate("page_text", wrong.clone()).is_err());
+        assert!(validate("product_text", wrong).is_ok());
+        assert!(
+            validate(
+                "page_text",
+                json!({ "texts": { "faq": { "a": { "en": "{rate:fd}" } } } })
+            )
+            .is_err()
+        );
+        assert!(
+            validate(
+                "page_text",
+                json!({ "texts": { "faq": { "a": { "mr": "१२ %" } } } })
+            )
+            .is_err()
+        );
+    }
     use serde_json::json;
 
     #[test]

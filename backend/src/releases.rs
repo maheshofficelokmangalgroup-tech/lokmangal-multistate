@@ -453,7 +453,7 @@ async fn pending(State(state): State<AppState>, user: CurrentUser) -> AppResult<
         let slug: String = r.get("slug");
         data.push(json!({
             "item_id": r.get::<Uuid, _>("id"), "collection": collection, "collection_label": def.label, "slug": slug,
-            "title": d.get("name").or_else(|| d.get("title")).and_then(Value::as_str).unwrap_or(&slug),
+            "title": if def.singleton { def.label } else { d.get("name").or_else(|| d.get("title")).and_then(Value::as_str).unwrap_or(&slug) },
             "draft_revision": r.get::<i32, _>("draft_revision"), "draft_status": draft_status,
             "live_revision": r.get::<Option<i32>, _>("live_revision"), "approved_revision": r.get::<Option<i32>, _>("approved_revision"),
             "candidate_revision_id": candidate, "eligible": eligible && validation.is_none(), "reason": reason,

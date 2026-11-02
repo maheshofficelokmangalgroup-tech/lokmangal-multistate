@@ -90,7 +90,7 @@ export function LeadsPage() {
   return (
     <>
       <PageHeader
-        title="Leads"
+        title="Enquiries"
         description="Enquiries from the website forms."
         meta={list.data && <Badge tone="neutral">{list.data.meta.scope === 'all' ? 'All branches' : 'Your branches only'}</Badge>}
         actions={
@@ -334,7 +334,7 @@ export function LeadDetailPage() {
   return (
     <>
       <Link to="/leads" className="mb-3 inline-flex items-center gap-1 text-[13px] text-text-secondary hover:text-text-primary">
-        <ArrowLeft className="size-4" /> Leads
+        <ArrowLeft className="size-4" /> Enquiries
       </Link>
       <PageHeader
         title={<span className="tabular">{l.reference}</span>}

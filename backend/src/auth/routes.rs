@@ -61,6 +61,7 @@ async fn login(
 ) -> AppResult<Response> {
     let email = body.email.trim().to_lowercase();
     let ip = ip_network(meta.ip);
+    super::require_office_network(&mut *state.db.acquire().await?, meta.ip).await?;
 
     // Throttling: 5 failures per account or 30 per address in 15 minutes.
     let recent: (i64, i64) = sqlx::query_as(

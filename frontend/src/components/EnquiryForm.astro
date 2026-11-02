@@ -26,7 +26,7 @@ const f = pageCopy(
     message: 'Message', fullName: 'Full name', residentCity: 'Resident city', loanType: 'Loan type', chooseLoan: 'Choose loan type',
     loanAmount: 'Required loan amount (₹)', phone: 'Phone number', location: 'Location', help: 'How can we help?', yourLocation: 'Your location',
     position: 'Position', other: 'Other', experience: 'Experience (years)', currentCity: 'Current city', about: 'Tell us about yourself',
-    resume: 'Please also email your résumé to', consent: 'I agree to be contacted by Lokmangal Multistate about my enquiry.',
+    resume: 'Résumé (PDF, up to 5 MB)', resumeHint: 'You can also email it to', consent: 'I agree to be contacted by Lokmangal Multistate about my enquiry.',
     thanks: 'Thank you!', received: 'We have received your details. Our team will get in touch with you shortly.',
     refBefore: 'Your reference number is', refAfter: 'Please keep it for your records.', callNow: 'Need help right away? Call {phone}',
     savings: 'Savings Account', current: 'Current Account', rd: 'Recurring Deposit',
@@ -37,7 +37,7 @@ const f = pageCopy(
     message: 'संदेश', fullName: 'पूर्ण नाव', residentCity: 'राहण्याचे शहर / गाव', loanType: 'कर्जाचा प्रकार', chooseLoan: 'कर्जाचा प्रकार निवडा',
     loanAmount: 'हवी असलेली कर्ज रक्कम (₹)', phone: 'फोन क्रमांक', location: 'ठिकाण', help: 'आम्ही कशी मदत करू?', yourLocation: 'तुमचे ठिकाण',
     position: 'पद', other: 'इतर', experience: 'अनुभव (वर्षे)', currentCity: 'सध्याचे शहर', about: 'तुमच्याबद्दल सांगा',
-    resume: 'कृपया तुमचा बायोडेटा या पत्त्यावरही ईमेल करा:', consent: 'माझ्या चौकशीबाबत लोकमंगल मल्टीस्टेटने माझ्याशी संपर्क साधण्यास माझी संमती आहे.',
+    resume: 'बायोडेटा (PDF, 5 MB पर्यंत)', resumeHint: 'हवा असल्यास या पत्त्यावर ईमेलही करू शकता:', consent: 'माझ्या चौकशीबाबत लोकमंगल मल्टीस्टेटने माझ्याशी संपर्क साधण्यास माझी संमती आहे.',
     thanks: 'धन्यवाद!', received: 'तुमची माहिती आम्हाला मिळाली आहे. आमची टीम लवकरच तुमच्याशी संपर्क साधेल.',
     refBefore: 'तुमचा संदर्भ क्रमांक', refAfter: 'कृपया तो जपून ठेवा.', callNow: 'लगेच मदत हवी आहे? {phone} वर कॉल करा',
     savings: 'बचत खाते', current: 'चालू खाते', rd: 'रिकरिंग ठेव',
@@ -59,7 +59,14 @@ const jobOptions = siteData(lang).jobOpenings.map((j, i) => ({ value: jobOpening
     </div>
   )}
 
-  <form class="form" action={site.formEndpoint || undefined} method="post" data-enquiry novalidate={false}>
+  <form
+    class="form"
+    action={(variant === 'career' ? site.applicationEndpoint : site.formEndpoint) || undefined}
+    method="post"
+    enctype={variant === 'career' ? 'multipart/form-data' : undefined}
+    data-enquiry
+    novalidate={false}
+  >
     <input type="hidden" name="form" value={variant} />
     <input type="hidden" name="page" value={Astro.url.pathname} />
     <input type="hidden" name="ts" value="" data-ts />
@@ -169,7 +176,11 @@ const jobOptions = siteData(lang).jobOpenings.map((j, i) => ({ value: jobOpening
           <div class="field"><label for={`${id}-ct`}>{f('currentCity')} <span class="req">*</span></label><input id={`${id}-ct`} name="city" required autocomplete="address-level2" /></div>
         </div>
         <div class="field"><label for={`${id}-msg`}>{f('about')}</label><textarea id={`${id}-msg`} name="message" rows="4"></textarea></div>
-        <p class="form__note">{f('resume')} <a href={`mailto:${site.hrEmail}`}>{site.hrEmail}</a>.</p>
+        <div class="field">
+          <label for={`${id}-cv`}>{f('resume')}</label>
+          <input id={`${id}-cv`} name="resume" type="file" accept=".pdf,application/pdf" aria-describedby={`${id}-cv-hint`} />
+          <p class="field__hint" id={`${id}-cv-hint`}>{f('resumeHint')} <a href={`mailto:${site.hrEmail}`}>{site.hrEmail}</a></p>
+        </div>
       </>
     )}
 

@@ -72,7 +72,7 @@ export function ApprovalPage() {
     onSuccess: (r) => {
       qc.invalidateQueries({ queryKey: ['approvals'] });
       qc.invalidateQueries({ queryKey: ['approval', id] });
-      toast('success', r.data.status === 'approved' ? (r.data.prepared_future_release ? 'Approved. A release is being prepared for the start date.' : 'Approved. It can now be published from the Publish center.') : 'Sent back with your comments.');
+      toast('success', r.data.status === 'approved' ? (r.data.prepared_future_release ? 'Approved. A release is being prepared for the start date.' : 'Approved. It can now be published from Publish website.') : 'Sent back with your comments.');
       navigate({ to: '/approvals' });
     },
     onError: () => qc.invalidateQueries({ queryKey: ['approval', id] }),

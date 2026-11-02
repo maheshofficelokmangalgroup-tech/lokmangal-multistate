@@ -5,7 +5,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
 import { Badge, Button, Card, ErrorState, ErrorSummary, Field, InlineAlert, Input, KeyValue, PageHeader, PermissionMessage, Select, StatusBadge, Tabs, TabPanel, Textarea, TableSkeleton, useToast } from '../components/ui';
-import { api, type Data } from '../lib/api';
+import { api, ApiError, type Data } from '../lib/api';
 import { fmtDateTime, leadKinds } from '../lib/format';
 import { useSession } from '../lib/session';
 
@@ -66,7 +66,7 @@ function NotificationsTab({ v }: { v: Values['notifications'] }) {
         </Button>
         <div className="flex flex-wrap items-end gap-2 border-t border-line pt-4">
           <Field label="Send a test email to" className="min-w-[240px] flex-1">{({ id }) => <Input id={id} type="email" value={test} onChange={(e) => setTest(e.target.value)} />}</Field>
-          <Button onClick={() => api.post('/settings/test-email', { to: test }).then(() => toast('success', 'Test email queued. Check the inbox and Settings → Operations if it does not arrive.')).catch(() => toast('danger', 'Could not queue the test email.'))}>Send test</Button>
+          <Button onClick={() => api.post('/settings/test-email', { to: test }).then(() => toast('success', 'Test email queued. Check the inbox and Settings → Operations if it does not arrive.')).catch((e) => toast('danger', e instanceof ApiError ? e.message : 'Could not queue the test email.'))}>Send test</Button>
         </div>
       </div>
     </Card>

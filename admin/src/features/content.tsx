@@ -2,7 +2,7 @@
 // submission and a resolved-rate preview (M06–M13, M15–M16, M21 organisation settings).
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Link, useNavigate, useParams, useSearch } from '@tanstack/react-router';
+import { Link, Navigate, useNavigate, useParams, useSearch } from '@tanstack/react-router';
 import { resolveDeep } from '@lokmangal/finance/tokens';
 import { Archive, ArchiveRestore, ArrowLeft, FileText, History, Plus, Search, Send } from 'lucide-react';
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
@@ -231,13 +231,14 @@ export const LoansPage = () => <CollectionPage collection="loan" title="Loans" /
 export const PostsPage = () => <CollectionPage collection="post" title="Blog and news" />;
 export const GalleryPage = () => <CollectionPage collection="gallery_album" title="Gallery" />;
 export const BranchesPage = () => <CollectionPage collection="branch" title="Branches" />;
-export const RedirectsPage = () => <CollectionPage collection="redirect" title="SEO and redirects" />;
-export const HomepagePage = () => <CollectionPage collection="home" title="Homepage" />;
-export const NavigationPage = () => <CollectionPage collection="navigation" title="Navigation and footer" />;
+export const RedirectsPage = () => <CollectionPage collection="redirect" title="Old web addresses" />;
+export const HomepagePage = () => <CollectionPage collection="home" title="Homepage numbers" />;
+export const NavigationPage = () => <CollectionPage collection="navigation" title="Menu and footer" />;
 export const JobsPage = () => <CollectionPage collection="job_opening" title="Careers" description="Open positions appear on the careers page and in the application form." header={<CareersTabs current="jobs" />} />;
 
 export function CollectionRoutePage() {
   const { collection } = useParams({ strict: false }) as { collection: string };
+  if (collection === 'page_text' || collection === 'product_text') return <Navigate to="/website/text" />;
   if (!COLLECTION_UI[collection]) return <EmptyState title="Unknown content type" />;
   return <CollectionPage key={collection} collection={collection} />;
 }
@@ -255,6 +256,8 @@ export function NoticesPage() {
 }
 
 const HUB: { collection: string; title: string; text: string }[] = [
+  { collection: 'navigation', title: 'Menu and footer', text: 'The links in the main menu and the footer.' },
+  { collection: 'redirect', title: 'Old web addresses', text: 'Send visitors from an old address to the right page.' },
   { collection: 'people', title: 'People', text: 'Chairman, mentor and the Board of Directors.' },
   { collection: 'faq', title: 'FAQ', text: 'Questions and answers on the FAQ page.' },
   { collection: 'services', title: 'Other services and Rural Wealth Manager', text: 'Service cards and wealth manager categories.' },
@@ -268,7 +271,18 @@ export function PagesHubPage() {
   const { canAny } = useSession();
   return (
     <>
-      <PageHeader title="Pages and people" description="Structured page content. Long-form page text (About, Chairman's message, Terms, Privacy) is part of the reviewed site templates." />
+      <PageHeader
+        title="More page details"
+        description={
+          <>
+            Lists and details used on the website. To change the wording of any page, use{' '}
+            <Link to="/website/text" className="text-brand-primary underline">
+              Website text
+            </Link>
+            .
+          </>
+        }
+      />
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
         {HUB.filter((h) => h.collection !== 'settings' || canAny('settings.manage', 'content.view')).map((h) => (
           <Link key={h.collection} to="/content/$collection" params={{ collection: h.collection }} className="rounded-[var(--radius-panel)] border border-line bg-surface p-5 hover:border-brand-primary/40">
@@ -332,7 +346,7 @@ function RevisionsDrawer({ collection, item, open, onOpenChange, onRestore, canR
   const [viewing, setViewing] = useState<number | null>(null);
   const rev = useQuery({ queryKey: ['revision', item.id, viewing], queryFn: () => api.get<Data<{ data: Record<string, unknown> }>>(`/content/${collection}/${item.id}/revisions/${viewing}`).then((r) => r.data), enabled: viewing !== null });
   return (
-    <Drawer open={open} onOpenChange={onOpenChange} title="Revision history">
+    <Drawer open={open} onOpenChange={onOpenChange} title="Earlier versions">
       {list.isPending ? (
         <Spinner />
       ) : (
@@ -340,7 +354,7 @@ function RevisionsDrawer({ collection, item, open, onOpenChange, onRestore, canR
           {list.data?.map((r) => (
             <li key={r.id} className="rounded-[var(--radius-control)] border border-line p-3">
               <div className="flex items-center justify-between gap-2">
-                <span className="text-sm font-medium">Revision {r.revision}</span>
+                <span className="text-sm font-medium">Version {r.revision}</span>
                 <span className="flex gap-1">
                   {r.is_live && <Badge tone="success">Live</Badge>}
                   {r.is_draft && <Badge tone="brand">Current draft</Badge>}
@@ -357,7 +371,7 @@ function RevisionsDrawer({ collection, item, open, onOpenChange, onRestore, canR
                 </Button>
                 {canRestore && !r.is_draft && (
                   <Button size="sm" onClick={() => onRestore(r.revision)}>
-                    Restore as new draft
+                    Use this version
                   </Button>
                 )}
               </div>
@@ -414,7 +428,7 @@ export function ContentEditorPage() {
     mutationFn: () => api.patch<Data<ContentDetail>>(`/content/${collection}/${id}`, { data, revision_id: base!.revision_id, lock_version: base!.lock_version }),
     onSuccess: (r) => {
       applyServer(r.data);
-      toast('success', `Draft saved (revision ${r.data.draft.revision}). The website changes only after publishing.`);
+      toast('success', 'Saved. Visitors see this after you publish the website.');
     },
     onError: async (e) => {
       if (e instanceof ApiError && e.code === 'edit_conflict') {
@@ -437,7 +451,7 @@ export function ContentEditorPage() {
     onSuccess: (r) => {
       applyServer(r.data);
       setArchiveOpen(false);
-      toast('success', r.data.archived ? 'Archived. It disappears from the website with the next release.' : 'Restored from the archive.');
+      toast('success', r.data.archived ? 'Archived. It disappears from the website the next time you publish.' : 'Restored from the archive.');
     },
   });
   const restore = useMutation({
@@ -445,17 +459,18 @@ export function ContentEditorPage() {
     onSuccess: (r) => {
       applyServer(r.data);
       setHistoryOpen(false);
-      toast('success', `Restored into a new draft (revision ${r.data.draft.revision}).`);
+      toast('success', 'That version is back in your draft. Publish the website to make it live.');
     },
   });
 
+  // Website text has its own screen; approvals and the publish list link here by content type.
+  if (collection === 'page_text' || collection === 'product_text') return <Navigate to="/website/text" />;
   if (!ui) return <EmptyState title="Unknown content type" />;
   if (item.isError) return <ErrorState error={item.error} onRetry={() => item.refetch()} />;
   if (item.isPending || !data) return <TableSkeleton rows={10} />;
   const d = item.data;
   const canEdit = d.allowed.edit && !d.archived;
   const status = d.draft.status;
-  const frozen = status === 'in_review' || status === 'approved' || status === 'released';
   const errors = save.error instanceof ApiError ? save.error.fields : submit.error instanceof ApiError ? submit.error.fields : {};
   const sinceLive = diff(d.live?.data, data);
   const progress = translationProgress(ui.fields, data, data.mr);
@@ -464,18 +479,25 @@ export function ContentEditorPage() {
   return (
     <>
       <button onClick={() => navigate({ to: backTo })} className="mb-3 inline-flex items-center gap-1 text-[13px] text-text-secondary hover:text-text-primary">
-        <ArrowLeft className="size-4" /> {d.collection_info.singleton ? 'Pages and people' : d.collection_info.label}
+        <ArrowLeft className="size-4" /> {d.collection_info.singleton ? 'More page details' : d.collection_info.label}
       </button>
       <PageHeader
         title={d.collection_info.singleton ? d.collection_info.label : d.title || d.slug}
         description={d.collection_info.singleton ? COLLECTION_UI[collection]?.description : `${d.collection_info.label} · ${d.slug}`}
         meta={
           <>
-            <StatusBadge status={status} />
-            <Badge>Revision {d.draft.revision}</Badge>
-            {d.live ? d.unreleased ? <Badge tone="brand">Live is revision {d.live.revision}</Badge> : <Badge tone="success">This is what's live</Badge> : <Badge tone="info">Never published</Badge>}
+            {dirty ? (
+              <Badge tone="warning">Unsaved changes</Badge>
+            ) : status === 'in_review' || status === 'changes_requested' ? (
+              <StatusBadge status={status} />
+            ) : d.live && !d.unreleased ? (
+              <Badge tone="success">Live on the website</Badge>
+            ) : d.live ? (
+              <Badge tone="brand">Saved, not live yet</Badge>
+            ) : (
+              <Badge tone="info">Not published yet</Badge>
+            )}
             {d.archived && <Badge>Archived</Badge>}
-            {dirty && <Badge tone="warning">Unsaved changes</Badge>}
           </>
         }
         actions={
@@ -495,7 +517,7 @@ export function ContentEditorPage() {
             )}
             {canEdit && (
               <Button variant="primary" disabled={!dirty} loading={save.isPending} onClick={() => save.mutate()}>
-                {frozen ? 'Save as new draft' : 'Save draft'}
+                Save changes
               </Button>
             )}
           </>
@@ -551,7 +573,7 @@ export function ContentEditorPage() {
               </div>
             }
           >
-            Revision {conflict.draft.revision} by {conflict.draft.updated_by ?? 'another user'} ({fmtRelative(conflict.draft.updated_at)}). Differences between their version and yours:
+            Saved by {conflict.draft.updated_by ?? 'another user'} ({fmtRelative(conflict.draft.updated_at)}). Differences between their version and yours:
             <div className="mt-2">
               <FieldDiff changes={diff(conflict.draft.data, data)} />
             </div>
@@ -613,13 +635,13 @@ export function ContentEditorPage() {
               <ResolvedPreview collection={collection} data={data} />
             </Card>
           )}
-          <Card title="Publishing">
+          <Card title="Go live">
             <p className="text-[13px] text-text-secondary">
-              Saved drafts stay private.{' '}
-              {d.collection_info.requires_approval ? 'After approval, publish from the Publish center.' : 'Publish from the Publish center when ready.'}
+              Saved changes stay private.{' '}
+              {d.collection_info.requires_approval ? 'After a checker approves them, publish the website.' : 'Publish the website when you are ready.'}
             </p>
-            <Link to="/publish" className="mt-2 inline-block text-[13px] text-brand-primary underline">
-              Open the Publish center
+            <Link to="/publish" className="mt-3 inline-flex h-9 items-center rounded-[var(--radius-control)] bg-brand-primary px-3 text-[13px] font-medium text-white hover:bg-brand-hover">
+              Publish website
             </Link>
           </Card>
         </aside>
@@ -656,7 +678,7 @@ export function ContentEditorPage() {
         open={archiveOpen}
         onOpenChange={setArchiveOpen}
         title="Archive this item?"
-        description="It stays on the website until the next release, then disappears. History is kept and it can be unarchived."
+        description="It stays on the website until the next publish, then disappears. History is kept and it can be unarchived."
         confirmLabel="Archive"
         danger
         loading={archive.isPending}

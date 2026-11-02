@@ -7,8 +7,9 @@
 //
 // How it signs in: it creates a one-off Super Admin through the same command-line tool a real installation
 // uses, accepts the invitation with a random password and authenticator secret that exist only in this
-// process, publishes through the normal API (so the usual checks run), and then deactivates that account.
-// Nobody can sign in with it afterwards. It refuses to run against anything but a local database.
+// process, publishes through the normal API (so the usual checks run), and signs out. Nobody can sign in with
+// that account afterwards; nobody may deactivate their own account, so each run deactivates the previous runs'.
+// It refuses to run against anything but a local database.
 
 import { createHmac, randomBytes } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
@@ -94,9 +95,11 @@ try {
   console.log(`\nrelease #${release?.number}: ${release?.status}${release?.page_count ? `, ${release.page_count} pages` : ''}${release?.error ? `, error: ${release.error}` : ''}`);
   if (release?.status !== 'live') exitCode = 1;
 } finally {
-  if (myId) {
-    const d = await call('POST', `/api/admin/users/${myId}/deactivate`, { reason: 'Temporary account for the local development helper' });
-    if (d.status >= 300) console.log(`(could not deactivate ${email}: ${JSON.stringify(d.json)}; its password and key were never saved, so it cannot be used)`);
+  const users = (await call('GET', '/api/admin/users')).json?.data ?? [];
+  for (const u of users.filter((x) => x.id !== myId && x.status === 'active' && x.email.startsWith('local-publisher-'))) {
+    const d = await call('POST', `/api/admin/users/${u.id}/deactivate`, { reason: 'Temporary account for the local development helper' });
+    if (d.status >= 300) console.log(`(could not deactivate ${u.email}: ${JSON.stringify(d.json)})`);
   }
+  await call('POST', '/api/admin/auth/logout');
 }
 process.exit(exitCode);

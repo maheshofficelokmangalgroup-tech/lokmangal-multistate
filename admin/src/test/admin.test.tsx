@@ -22,7 +22,8 @@ function editableKeys(specs: FieldSpec[]): Set<string> {
 
 describe('content forms cover the published data', () => {
   const collections: [string, Record<string, unknown>][] = [
-    ...Object.entries(seed.singletons as Record<string, Record<string, unknown>>),
+    // Website text has its own screen, with its own test.
+    ...Object.entries(seed.singletons as Record<string, Record<string, unknown>>).filter(([k]) => k !== 'page_text' && k !== 'product_text'),
     ...Object.entries(seed.collections as Record<string, { data: Record<string, unknown> }[]>).map(([k, v]) => [k, v[0].data] as [string, Record<string, unknown>]),
   ];
   it.each(collections)('%s has a form for every field', (name, data) => {

@@ -153,6 +153,27 @@ async fn set_scopes(conn: &mut PgConnection, user_id: Uuid, branch_ids: &[Uuid])
     Ok(())
 }
 
+/// A person who sees only their own branches' enquiries is useless without a branch, so refuse that.
+async fn require_branch_if_scoped(conn: &mut PgConnection, user_id: Uuid) -> AppResult<()> {
+    let missing: bool = sqlx::query_scalar(
+        "select exists(select 1 from user_roles ur join role_permissions rp on rp.role_id = ur.role_id
+                       where ur.user_id = $1 and rp.permission = 'leads.view.own_branch')
+            and not exists(select 1 from user_roles ur join role_permissions rp on rp.role_id = ur.role_id
+                           where ur.user_id = $1 and rp.permission = 'leads.view.all')
+            and not exists(select 1 from user_branch_scopes where user_id = $1)",
+    )
+    .bind(user_id)
+    .fetch_one(&mut *conn)
+    .await?;
+    if missing {
+        return Err(AppError::field(
+            "branch_ids",
+            "Choose at least one branch for this role.",
+        ));
+    }
+    Ok(())
+}
+
 async fn invite(
     State(state): State<AppState>,
     user: CurrentUser,
@@ -193,6 +214,7 @@ async fn invite(
             .await?;
     }
     set_scopes(&mut tx, id, &b.branch_ids).await?;
+    require_branch_if_scoped(&mut tx, id).await?;
     let link = issue_invitation(&state, &mut tx, id, Some(user.id)).await?;
     jobs::enqueue_email(&mut tx, &OutgoingEmail {
         to: vec![email.clone()],
@@ -289,6 +311,7 @@ async fn update(
     if let Some(branches) = &b.branch_ids {
         set_scopes(&mut tx, id, branches).await?;
     }
+    require_branch_if_scoped(&mut tx, id).await?;
     let after = user_json(&mut tx, id).await?;
     audit::record(&mut *tx, &user.actor(), "user.updated", "user", id, Outcome::Success, json!({
         "reason": b.reason,
@@ -326,6 +349,12 @@ async fn deactivate(
     user.require("users.manage")?;
     user.require_recent_auth()?;
     let reason = require_reason(&b.reason)?;
+    if id == user.id {
+        return Err(AppError::conflict(
+            "own_account",
+            "You cannot deactivate your own account. Ask another administrator.",
+        ));
+    }
     let mut tx = state.db.begin().await?;
     let is_super: bool = sqlx::query_scalar("select exists(select 1 from user_roles ur join roles r on r.id = ur.role_id where ur.user_id = $1 and r.code = 'super_admin')")
         .bind(id)

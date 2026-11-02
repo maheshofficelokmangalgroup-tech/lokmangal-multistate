@@ -96,7 +96,7 @@ export const COLLECTION_UI: Record<string, CollectionUi> = {
     ],
   },
   home: {
-    description: 'Statistics and the announcement bar shown on every page.',
+    description: 'The four numbers on the homepage and the announcement bar on every page. The homepage wording is in Website text.',
     fields: [
       { type: 'list', key: 'stats', label: 'Statistics (exactly four)', itemTitle: 'label', max: 4, of: [
         { type: 'number', key: 'value', label: 'Number', required: true, min: 0 },
@@ -147,7 +147,7 @@ export const COLLECTION_UI: Record<string, CollectionUi> = {
       ] },
       { type: 'group', key: 'mentor', label: 'Mentor', fields: [
         { type: 'text', key: 'name', label: 'Name', required: true },
-        { type: 'text', key: 'role', label: 'Designation', required: true },
+        { type: 'text', key: 'role', label: 'Designation', required: true, help: 'For your records. The website shows only the name.' },
         { type: 'asset', key: 'photo', label: 'Portrait', optional: true, accept: 'image' },
       ] },
       { type: 'list', key: 'board', label: 'Board of Directors', itemTitle: 'name', addLabel: 'Add director', of: [
@@ -355,9 +355,9 @@ export const COLLECTION_UI: Record<string, CollectionUi> = {
     listColumns: [{ label: 'Photos', value: (s) => String(s.images ?? 0) }],
     blank: () => ({ title: '', date: null, description: '', images: [], order: 99 }),
     fields: [
-      { type: 'text', key: 'title', label: 'Album title', required: true, max: 120 },
-      { type: 'date', key: 'date', label: 'Date', optional: true },
-      { type: 'textarea', key: 'description', label: 'Description', max: 600, rows: 2 },
+      { type: 'text', key: 'title', label: 'Album title', required: true, max: 120, help: 'For staff only. Visitors see the photos and their captions.' },
+      { type: 'date', key: 'date', label: 'Date', optional: true, help: 'For staff only.' },
+      { type: 'textarea', key: 'description', label: 'Description', max: 600, rows: 2, help: 'For staff only.' },
       { type: 'list', key: 'images', label: 'Photos', itemTitle: 'caption', addLabel: 'Add photo', of: [
         { type: 'asset', key: 'src', label: 'Photo', required: true, accept: 'image' },
         { type: 'text', key: 'caption', label: 'Caption', max: 200 },
