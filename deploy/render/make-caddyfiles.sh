@@ -18,6 +18,8 @@ convert() {
 		-e 's|^http://:8088 {|http://:8088 {\n\tbind 127.0.0.1|' \
 		-e 's|^\(\s*\)reverse_proxy api:8000$|\1import api|' \
 		-e 's|forward_auth api:8000|forward_auth 127.0.0.1:8000|' \
+		-e 's|/srv/releases/|{$RELEASES_ROOT}/|g' \
+		-e 's|/srv/previews/|{$PREVIEWS_ROOT}/|g' \
 		-e 's|^\(\s*\)reverse_proxy admin:8080$|\1root * /srv/admin\n\1header /assets/* Cache-Control "public, max-age=31536000, immutable"\n\1header /index.html Cache-Control "no-store"\n\1try_files {path} /index.html\n\1file_server|' \
 		"$1"
 }
