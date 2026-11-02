@@ -1,0 +1,10 @@
+#!/bin/bash
+# Creates a Super Admin and prints their invitation link. In the Render Shell:
+#   first-admin you@example.com "Your Name"
+set -euo pipefail
+if [ $# -ne 2 ]; then
+	echo 'usage: first-admin <email> "<name>"' >&2
+	exit 2
+fi
+. /usr/local/lib/lokmangal/env.sh
+exec lokmangal-cli create-admin --email "$1" --name "$2"

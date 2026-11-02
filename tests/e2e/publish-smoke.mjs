@@ -4,7 +4,8 @@
 //
 //   node tests/e2e/publish-smoke.mjs <invitation-link>
 //
-// Environment: API (default http://127.0.0.1:8000), SITE (http://127.0.0.1:4400), PREVIEW (http://127.0.0.1:4401)
+// Environment: API (default http://127.0.0.1:8000), SITE (http://127.0.0.1:4400), PREVIEW (http://127.0.0.1:4401),
+// ORIGIN (the admin origin, for a production-mode stack)
 import { createHmac } from 'node:crypto';
 
 const API = process.env.API ?? 'http://127.0.0.1:8000';
@@ -45,7 +46,7 @@ async function call(method, path, body, { retry = 3 } = {}) {
     try {
       const res = await fetch(API + path, {
         method,
-        headers: { 'Content-Type': 'application/json', ...(cookie && { Cookie: cookie }), ...(csrf && method !== 'GET' && { 'X-CSRF-Token': csrf }) },
+        headers: { 'Content-Type': 'application/json', ...(process.env.ORIGIN && { Origin: process.env.ORIGIN }), ...(cookie && { Cookie: cookie }), ...(csrf && method !== 'GET' && { 'X-CSRF-Token': csrf }) },
         body: body === undefined ? undefined : JSON.stringify(body),
       });
       const set = res.headers.get('set-cookie');

@@ -1,0 +1,59 @@
+# Render Blueprint for the full system: website, admin panel, API and database.
+# In Render: New + → Blueprint → this repository → Blueprint path: deploy/render/render.yaml
+# Render shows the plans and their price before anything is created. Steps: docs/render-deploy.md
+#
+# This is separate from the root render.yaml, which only hosts the static design preview.
+services:
+  - type: web
+    name: lokmangal-app
+    runtime: docker
+    dockerfilePath: ./deploy/render/Dockerfile
+    dockerContext: .
+    # Building the 179-page website needs about 370 MB on top of the API, so 512 MB is too small.
+    plan: 1c-2g
+    # The closest region to India; Render has none in India.
+    region: singapore
+    healthCheckPath: /api/v1/health
+    # Only after GitHub's checks pass. A service with a disk has a short outage on each deploy.
+    autoDeployTrigger: checksPass
+    domains:
+      - new.lokmangalmultistate.com
+      - preview.lokmangalmultistate.com
+    disk:
+      name: lokmangal-data
+      mountPath: /var/data
+      sizeGB: 10
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: lokmangal-db
+          property: connectionString
+      - key: PUBLIC_HOST
+        value: new.lokmangalmultistate.com
+      - key: PREVIEW_HOST
+        value: preview.lokmangalmultistate.com
+      - key: SESSION_KEY
+        generateValue: true
+      # Encrypts sign-in secrets. Copy it somewhere safe and offline after the first deploy.
+      - key: DATA_ENCRYPTION_KEY
+        generateValue: true
+      - key: DATA_ENCRYPTION_KEY_VERSION
+        value: "1"
+      - key: BUILD_SERVICE_TOKEN
+        generateValue: true
+      - key: MAIL_FROM
+        value: Lokmangal Website <no-reply@lokmangalmultistate.com>
+      - key: JOB_CONCURRENCY
+        value: "1"
+      - key: RUST_LOG
+        value: info
+
+databases:
+  - name: lokmangal-db
+    databaseName: lokmangal
+    user: lokmangal
+    plan: 0.1c-256mb
+    region: singapore
+    postgresMajorVersion: "17"
+    # Reachable only from services in this Render account.
+    ipAllowList: []

@@ -4,7 +4,10 @@
 use std::{env, net::SocketAddr, path::PathBuf};
 
 use anyhow::{Context, anyhow, bail};
-use base64::{Engine, engine::general_purpose::STANDARD};
+use base64::{
+    Engine,
+    engine::general_purpose::{STANDARD, STANDARD_NO_PAD, URL_SAFE, URL_SAFE_NO_PAD},
+};
 use url::Url;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -95,8 +98,12 @@ fn url(name: &str, default: Option<&str>) -> anyhow::Result<Url> {
 fn secret_bytes(name: &str, min_len: usize, env: AppEnv) -> anyhow::Result<Vec<u8>> {
     match var(name) {
         Some(v) => {
+            // Hosting panels generate either alphabet, with or without padding.
             let bytes = STANDARD
                 .decode(&v)
+                .or_else(|_| URL_SAFE.decode(&v))
+                .or_else(|_| STANDARD_NO_PAD.decode(&v))
+                .or_else(|_| URL_SAFE_NO_PAD.decode(&v))
                 .with_context(|| format!("{name} must be base64"))?;
             if bytes.len() < min_len {
                 bail!("{name} must decode to at least {min_len} bytes");

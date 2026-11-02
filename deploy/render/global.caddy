@@ -1,0 +1,30 @@
+# Render ends HTTPS and forwards plain HTTP to one port, with the visitor's Host header.
+{
+	auto_https off
+	# Inside the container only.
+	admin 127.0.0.1:2019
+	servers {
+		trusted_proxies static private_ranges
+	}
+}
+
+# Render's traffic comes through Cloudflare, which overwrites this header, so a visitor cannot fake their address
+# (a forwarded address the visitor sent themselves would get around sign-in throttling and office network limits).
+(api) {
+	reverse_proxy 127.0.0.1:8000 {
+		header_up X-Forwarded-For {http.request.header.CF-Connecting-IP}
+	}
+}
+
+# Render's health check, whichever host name it uses.
+(health) {
+	handle /api/v1/health {
+		import api
+	}
+}
+
+http://:{$PORT} {
+	import health
+	respond 404
+}
+
