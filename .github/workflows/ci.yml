@@ -140,12 +140,6 @@ jobs:
             -e DATA_ENCRYPTION_KEY_VERSION=1 -e BUILD_SERVICE_TOKEN="$(openssl rand -hex 32)" -e JOB_CONCURRENCY=1 \
             lokmangal-render
           for i in $(seq 1 60); do curl -fsS http://admin.test/api/v1/health && break || sleep 2; done
-      - name: Hosts stay apart
-        run: |
-          test "$(curl -s -o /dev/null -w '%{http_code}' http://site.test/api/admin/auth/me)" = 404
-          test "$(curl -s -o /dev/null -w '%{http_code}' http://admin.test/api/v1/enquiries)" = 404
-          curl -fsS http://admin.test/ | grep -q 'id="root"'
-          curl -fsS http://localhost/api/v1/health
       - name: Publish end to end
         env:
           API: http://admin.test
@@ -153,6 +147,12 @@ jobs:
           PREVIEW: http://preview.test
           ORIGIN: https://admin.test
         run: node tests/e2e/publish-smoke.mjs "$(docker exec app first-admin ci@example.com 'CI Admin' | tail -1)"
+      - name: Hosts stay apart once a release is live
+        run: |
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://site.test/api/admin/auth/me)" = 404
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://admin.test/api/v1/enquiries)" = 404
+          curl -fsS http://admin.test/ | grep -q 'id="root"'
+          curl -fsS http://localhost/api/v1/health
       - name: The live release survives a restart
         run: |
           id="$(curl -fsS http://site.test/release.json)"
