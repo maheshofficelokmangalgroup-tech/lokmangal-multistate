@@ -181,6 +181,18 @@ mod tests {
     use super::*;
 
     #[test]
+    fn the_template_has_placeholders_only_where_they_can_be_filled() {
+        // Redirects span several lines: a placeholder in a comment would spill them outside the site block.
+        let template = include_str!("../../deploy/caddy/Caddyfile.template");
+        assert!(
+            !template
+                .lines()
+                .any(|l| l.trim_start().starts_with('#') && l.contains("{{"))
+        );
+        assert_eq!(template.matches("{{REDIRECTS}}").count(), 1);
+    }
+
+    #[test]
     fn renders_http_redirects_and_skips_unsafe_rules() {
         let rules = vec![
             RedirectRule {

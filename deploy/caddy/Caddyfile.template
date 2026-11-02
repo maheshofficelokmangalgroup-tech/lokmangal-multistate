@@ -1,4 +1,4 @@
-# Rendered by the release controller for each activation ({{RELEASE_ID}}, {{REDIRECTS}}) and loaded
+# Rendered by the release controller for each activation (the release id and its redirects) and loaded
 # through Caddy's admin API. Caddy validates the whole file before switching, so a bad render leaves the
 # previous release serving. Hosts come from the caddy container's environment.
 
